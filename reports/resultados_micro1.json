@@ -1,0 +1,2878 @@
+{
+ "tests/micro1/test_01_presupuesto.py::TestLibro::test_interceptos_y_pendiente": {
+  "doc": "Fig. 1.10 (p. 20): interceptos M/p1 y M/p2, pendiente −p1/p2. Con la recta del ej. 3 sem. 2 (3x + 2y = 45): 15, 22.5 y −1.5.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestLibro::test_aumento_de_M_desplaza_paralela": {
+  "doc": "Fig. 1.11 (p. 21): si M aumenta con precios fijos, la recta se desplaza paralelamente hacia arriba.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestLibro::test_aumento_de_p2_rota_sobre_eje_x": {
+  "doc": "Fig. 1.12 (p. 21): si sube p2 la recta gira manteniendo M/p1 fijo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestLibro::test_aumento_de_p1_quita_canastas": {
+  "doc": "Fig. 1.13-1.14 (p. 22): subir p1 vuelve inasequibles canastas (área gris) y no crea nuevas. Ej. 3 sem. 2: p1 3 → 3.6.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_M_cero_conjunto_es_el_origen": {
+  "doc": "M = 0: el conjunto presupuestal se reduce a la canasta (0, 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[0-1-10]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[-1-1-10]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[1-0-10]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[1-1--5]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[nan-1-1]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_parametros_invalidos_dan_mensaje[inf-1-1]": {
+  "doc": "Precios ≤ 0, M < 0, NaN o infinito: el simulador debe rechazarlos con un mensaje en español, no fallar en silencio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_precio_casi_cero_intercepto_enorme": {
+  "doc": "p1 → 0: el intercepto en x crece sin límite pero sigue siendo finito (la gráfica debe reescalar).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_cambio_proporcional_no_cambia_nada": {
+  "doc": "Duplicar p1, p2 y M deja la recta idéntica (ausencia de ilusión monetaria, p. 24).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_cambio_combinado_rectas_que_se_cruzan": {
+  "doc": "Suben p1 y baja p2: se ganan y pierden canastas a la vez (rectas cruzadas).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestExtremos::test_clasificacion_canasta": {
+  "doc": "Canastas dentro, sobre y fuera de la recta.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[0]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[1]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[2]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[3]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[4]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[5]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[6]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[7]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[8]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[9]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[10]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[11]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[12]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[13]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[14]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[15]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[16]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[17]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[18]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_homogeneidad_grado_cero[19]": {
+  "doc": "La recta es homogénea de grado 0 en (p1, p2, M): multiplicar todo por t > 0 no la cambia.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[0]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[1]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[2]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[3]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[4]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[5]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[6]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[7]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[8]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[9]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[10]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[11]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[12]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[13]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[14]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[15]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[16]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[17]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[18]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_area_neta_coincide_con_formula[19]": {
+  "doc": "Área ganada − área perdida = M'²/(2p1'p2') − M²/(2p1p2) para cualquier cambio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[0]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[1]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[2]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[3]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[4]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[5]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[6]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[7]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[8]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_01_presupuesto.py::TestTeoria::test_puntos_de_la_recta_gastan_M[9]": {
+  "doc": "Todo punto (x, y(x)) con 0 ≤ x ≤ M/p1 cumple p1x + p2y = M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_cd_hiperbolas": {
+  "doc": "Ej. 2a (p. 16): U = xy = U0 ⇒ y = U0/x. Con U0 = 2 y x = 4, y = 0.5.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_leontief_escuadra": {
+  "doc": "Ej. 2b (p. 16-17): Mín{x, y} = 1 contiene (1,1), (1,2), (1,3), (2,1), (3,1)…",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_lineal_rectas": {
+  "doc": "Ej. 2c (p. 17): U = x + y ⇒ y = U0 − x.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_cuasilineal_parabolas": {
+  "doc": "Ej. 2d (p. 17): √x + y = U0 ⇒ y = U0 − √x.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_separable": {
+  "doc": "Ej. 2e (p. 17-18): √x + √y = U0 ⇒ y = (U0 − √x)².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_elasticidad_utilidad_cd": {
+  "doc": "Ej. 6 sem. 3 (p. 78): en x^α y^β, α y β son las elasticidades de la utilidad.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_tms_cobb_douglas": {
+  "doc": "Ej. 6 (p. 30): TMS de x^α y^β = αy/(βx).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestLibro::test_monotonia_leontief_solo_debil": {
+  "doc": "Nota 6 (p. 18): la Leontief no es estrictamente monótona en cada argumento.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_nivel_cero_cd_son_los_ejes": {
+  "doc": "Ej. 2a: U0 = 0 en Cobb-Douglas son los ejes; la curva no se dibuja en el interior.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_nivel_cero_lineal_es_el_origen": {
+  "doc": "Ej. 2c: la 'curva' U0 = 0 de x + y es sólo (0, 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_tms_en_los_ejes": {
+  "doc": "TMS en x → 0 con Cobb-Douglas crece sin límite; en cuasilineal √x también.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_leontief_no_diferenciable": {
+  "doc": "Leontief: la TMS no existe (el simulador debe mostrar 'no definida').",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_parametros_invalidos[CobbDouglas-args0]": {
+  "doc": "Parámetros no positivos se rechazan con ErrorParametro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_parametros_invalidos[CobbDouglas-args1]": {
+  "doc": "Parámetros no positivos se rechazan con ErrorParametro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_parametros_invalidos[Leontief-args2]": {
+  "doc": "Parámetros no positivos se rechazan con ErrorParametro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_parametros_invalidos[Lineal-args3]": {
+  "doc": "Parámetros no positivos se rechazan con ErrorParametro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_parametros_invalidos[StoneGeary-args4]": {
+  "doc": "Parámetros no positivos se rechazan con ErrorParametro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_giffen_fuera_de_dominio": {
+  "doc": "U = ln(x−1) − 2 ln(2−y) no está definida para x ≤ 1 o y ≥ 2 (utilidad −∞).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestExtremos::test_cd_alpha_muy_pequeno": {
+  "doc": "α → 0: las curvas se vuelven casi horizontales (x casi no aporta).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Cobb-Douglas0]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Cobb-Douglas1]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Cuasilineal a\\u221ax + y]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Stone-Geary]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_curva_consistente_con_U[Lineal (sustitutos perfectos)]": {
+  "doc": "Cada punto de la curva de indiferencia dibujada tiene exactamente la utilidad U0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Cobb-Douglas0]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Cobb-Douglas1]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Cuasilineal a\\u221ax + y]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Stone-Geary]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_pendiente_curva_es_menos_tms[Lineal (sustitutos perfectos)]": {
+  "doc": "dy/dx sobre la curva = −TMS (definición de TMS, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[cobb_douglas]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[lineal]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[cuasilineal_raiz]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[separable_raiz]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[stone_geary]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_propiedad_monotonia_declarada[leontief]": {
+  "doc": "La propiedad 'monótona' declarada coincide con la verificación numérica (estricta en cada argumento).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Cobb-Douglas0]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Cobb-Douglas1]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Cuasilineal a\\u221ax + y]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Stone-Geary]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Lineal (sustitutos perfectos)]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_convexidad_dieta_balanceada[Leontief (complementarios perfectos)]": {
+  "doc": "Hipótesis iv (p. 19): la combinación λA + (1−λ)B de dos canastas indiferentes es al menos tan buena.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_homotetica_tms_constante_en_rayos[Cobb-Douglas]": {
+  "doc": "Preferencias homotéticas (sección 3.6): la TMS es constante a lo largo de un rayo y/x = k.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_homotetica_tms_constante_en_rayos[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Preferencias homotéticas (sección 3.6): la TMS es constante a lo largo de un rayo y/x = k.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_homotetica_tms_constante_en_rayos[Lineal (sustitutos perfectos)]": {
+  "doc": "Preferencias homotéticas (sección 3.6): la TMS es constante a lo largo de un rayo y/x = k.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_cuasilineal_tms_depende_solo_de_x": {
+  "doc": "Cuasilineal: la TMS no depende de y (curvas paralelas verticalmente; p. 33).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_02_preferencias.py::TestTeoria::test_transformacion_monotona_no_cambia_tms": {
+  "doc": "Sección 2.3 (p. 56): ln U y U representan las mismas preferencias (misma TMS).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej3_cobb_douglas_xy": {
+  "doc": "Ej. 3 (p. 23-24): max xy s.a. p1x + p2y = M ⇒ x* = M/2p1, y* = M/2p2.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej3_sem2_numerico": {
+  "doc": "Ej. 3 sem. 2 (p. 49): 3x + 2y = 45 ⇒ x* = 7.5, y* = 11.25, U = 84.375.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej4_leontief": {
+  "doc": "Ej. 4 (p. 25): Mín{x, y} ⇒ x* = y* = M/(p1 + p2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej6_sem2_leontief_3x_2y": {
+  "doc": "Ej. 6 sem. 2 (p. 54): Mín{3x, 2y} ⇒ x* = 2M/(2p1+3p2), y* = 3M/(2p1+3p2), V = 6M/(2p1+3p2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej5_lineal_especializa": {
+  "doc": "Ej. 5 (p. 26): con x + y, si p2 > p1 todo se gasta en x; si p1 > p2, todo en y.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej6_cd_generalizada": {
+  "doc": "Ej. 6 (p. 30): x^α y^β ⇒ x* = αM/((α+β)p1), y* = βM/((α+β)p2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej7_separable": {
+  "doc": "Ej. 7 (p. 31): √x + √y ⇒ x* = Mp2/(p1p2 + p1²), y* = Mp1/(p1p2 + p2²).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_cuasilineal_raiz_demanda": {
+  "doc": "Sección 1.7 (p. 34): √x + y con p2 = 1 ⇒ x* = 1/(4p²), independiente de M.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej4_sem2_cuasilineal_numerico": {
+  "doc": "Ej. 4 sem. 2 (p. 52): M = 200, p1 = 5, p2 = 7 ⇒ x* = 0.49, y* = 28.22, U = 28.92.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_cuasilineal_cuadratica_demanda_lineal": {
+  "doc": "P. 34: U = ax − (b/2)x² + y ⇒ p = a − bx (demanda lineal, saciedad en a/b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej5_sem2_stone_geary": {
+  "doc": "Ej. 5 sem. 2 (p. 53): (x−1)²(y−3)⁴ ⇒ x* = 1 + (M−p1−3p2)/(3p1), y* = 3 + 2(M−p1−3p2)/(3p2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestLibro::test_ej5_sem3_giffen_demandas": {
+  "doc": "Ej. 5 sem. 3 (p. 76): x* = 2 + (2p2 − M)/p1, y* = 2(M − p1)/p2 − 2.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_lineal_precios_relativos_iguales": {
+  "doc": "Ej. 5 (p. 26): si p1/a = p2/b cualquier canasta de la recta es óptima; el simulador lo marca 'indeterminado'.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_cuasilineal_presupuesto_bajo_esquina": {
+  "doc": "Nota 16 y fig. 2.4 (p. 33, 51): si M < p2²/(4p1) la solución es de esquina x = M/p1, y = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_cuasilineal_continuidad_en_el_umbral": {
+  "doc": "La demanda no salta en el umbral de ingreso (la gráfica no debe tener un brinco).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_cuasilineal_cuadratica_precio_sobre_maximo": {
+  "doc": "Si p1/p2 ≥ a, la demanda de x es cero (precio mayor que la disposición máxima a pagar).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_stone_geary_sin_subsistencia": {
+  "doc": "M ≤ p1x0 + p2y0: no se alcanza el consumo mínimo; el simulador debe avisar (nota 7, p. 53).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_giffen_fuera_de_region": {
+  "doc": "Fuera de p1 + p2 < M < p1 + 2p2 las fórmulas del ej. 5 no son válidas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_M_cero": {
+  "doc": "M = 0: la canasta óptima es (0, 0) en Cobb-Douglas, Leontief y lineal.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_M_cero_eleccion_optima_sin_division_por_cero": {
+  "doc": "Hallado con la pantalla: con M = 0 la canasta es (0, 0) y la TMS se reporta como no definida (antes: división por cero).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_precio_extremo": {
+  "doc": "p1 = 10⁶: la demanda de x es casi cero pero se sigue cumpliendo el presupuesto.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestExtremos::test_alpha_extremo": {
+  "doc": "α ≫ β: casi todo el gasto se va a x (participación α/(α+β)).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-3-2-45]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-1.2-5-80]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Stone-Geary-2-1-20]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Lineal (sustitutos perfectos)-1-3-30]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Lineal (sustitutos perfectos)-1-1-12]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_optimizador_numerico_confirma[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "Tercer testigo: un optimizador numérico que sólo conoce U(x,y) llega a la misma utilidad máxima.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Cobb-Douglas-3-2-45]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Cobb-Douglas-1.2-5-80]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Stone-Geary-2-1-20]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Lineal (sustitutos perfectos)-1-3-30]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Lineal (sustitutos perfectos)-1-1-12]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ley_de_walras[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "El consumidor gasta todo el presupuesto: p1x* + p2y* = M (nota 8, p. 20).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Cobb-Douglas-3-2-45]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Cobb-Douglas-1.2-5-80]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Stone-Geary-2-1-20]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Lineal (sustitutos perfectos)-1-3-30]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Lineal (sustitutos perfectos)-1-1-12]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[0.5-Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Cobb-Douglas-3-2-45]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Cobb-Douglas-1.2-5-80]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Stone-Geary-2-1-20]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Lineal (sustitutos perfectos)-1-3-30]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Lineal (sustitutos perfectos)-1-1-12]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[3.0-Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Cobb-Douglas-3-2-45]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Cobb-Douglas-1.2-5-80]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Stone-Geary-2-1-20]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Lineal (sustitutos perfectos)-1-3-30]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Lineal (sustitutos perfectos)-1-1-12]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_sin_ilusion_monetaria[17.0-Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "P. 24: las demandas marshallianas son homogéneas de grado 0 en (p1, p2, M).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Cobb-Douglas-3-2-45]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Cobb-Douglas-1.2-5-80]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Separable a\\u221ax + b\\u221ay-2-5-70]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Separable a\\u221ax + b\\u221ay-1-1-10]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Cuasilineal a\\u221ax + y-5-7-200]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Cuasilineal a\\u221ax + y-0.5-2-1.0]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Cuasilineal cuadr\\xe1tica-4-1-100]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Stone-Geary-2-1-20]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_ecuacion_de_jevons[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "Solución interior: TMS = p1/p2 (ecuación de equilibrio de Jevons, p. 29).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[0]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[1]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[2]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[3]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[4]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[5]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[6]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[7]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[8]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[9]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[10]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[11]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[12]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[13]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[14]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[15]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[16]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[17]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[18]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[19]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[20]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[21]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[22]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[23]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_aleatorio_cd_vs_numerico[24]": {
+  "doc": "25 combinaciones aleatorias de (α, β, p1, p2, M): fórmula = optimizador.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_dualidad_V_y_e": {
+  "doc": "Dualidad (p. 47): e(p, V(p, M)) = M y V(p, e(p, U0)) = U0 en todas las familias.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_gasto_minimo_confirmado_numericamente[Cobb-Douglas-3.6-2-84.375]": {
+  "doc": "Tercer testigo del problema dual (semana 2): e(p, U0) = mín p1x + p2y s.a. U(x, y) ≥ U0, calculado sin fórmulas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_gasto_minimo_confirmado_numericamente[Cobb-Douglas-3.6-2-750]": {
+  "doc": "Tercer testigo del problema dual (semana 2): e(p, U0) = mín p1x + p2y s.a. U(x, y) ≥ U0, calculado sin fórmulas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_gasto_minimo_confirmado_numericamente[Separable a\\u221ax + b\\u221ay-2-3-8]": {
+  "doc": "Tercer testigo del problema dual (semana 2): e(p, U0) = mín p1x + p2y s.a. U(x, y) ≥ U0, calculado sin fórmulas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_gasto_minimo_confirmado_numericamente[Stone-Geary-2-1-50]": {
+  "doc": "Tercer testigo del problema dual (semana 2): e(p, U0) = mín p1x + p2y s.a. U(x, y) ≥ U0, calculado sin fórmulas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_03_eleccion.py::TestTeoria::test_gasto_minimo_confirmado_numericamente[Cuasilineal a\\u221ax + y-5.3-7-28.92]": {
+  "doc": "Tercer testigo del problema dual (semana 2): e(p, U0) = mín p1x + p2y s.a. U(x, y) ≥ U0, calculado sin fórmulas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_ej1_sem4_x2y": {
+  "doc": "Ej. 1 sem. 4 (p. 102-103): x²y, 3x+2y=45, p1 sube 20 %. M comp. = 50.816; EP = (−1.67, 0); EI = (−1.08, −0.97); ES = (−0.59, 0.97).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_ej3_sem2_compensacion_hicks": {
+  "doc": "Ej. 3 sem. 2 (p. 49-50): xy, p1 3 → 3.6; e = 49.295; h1 = 6.8465, h2 = 12.3237; U(h) = 84.375.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_ej4_sem2_cuasilineal_compensacion": {
+  "doc": "Ej. 4 sem. 2 (p. 52): √x + y, M = 200, p1 5 → 5.3, p2 = 7: hay que agregar ≈ $0.14.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_seccion43_cd_formulas_diferenciales": {
+  "doc": "Sección 4.3a (p. 103-104): con xy, EP = −M/2p1², ES = −M/4p1², EI = −M/4p1².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_seccion43_leontief_sin_sustitucion": {
+  "doc": "Sección 4.3b (fig. 4.3, p. 105): en Leontief el efecto sustitución es nulo; todo es efecto ingreso.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_seccion44_cuasilineal_sin_efecto_ingreso": {
+  "doc": "Sección 4.4 (p. 107): con U(x) + y el efecto ingreso sobre x es nulo (interior).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestLibro::test_giffen_ej5_sem3": {
+  "doc": "Ej. 5 sem. 3 (p. 76): en la región M > 2p2 el bien x es Giffen: sube p1 y sube x.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestExtremos::test_sin_cambio_de_precio": {
+  "doc": "Δp1 = 0: todos los efectos son cero y la compensación es nula.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestExtremos::test_bajada_de_precio": {
+  "doc": "Si p1 baja, la compensación es negativa (hay que quitar ingreso) y ES_x > 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestExtremos::test_lineal_salto_de_esquina": {
+  "doc": "Sustitutos perfectos: al cruzar p1/a = p2/b el consumidor salta de esquina; ES = efecto total.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestExtremos::test_precio_se_multiplica_por_100": {
+  "doc": "Choque enorme (p1 × 100): la descomposición sigue sumando exactamente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestExtremos::test_metodo_invalido": {
+  "doc": "",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Cobb-Douglas0]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Cobb-Douglas1]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Stone-Geary]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Cuasilineal a\\u221ax + y]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_ecuacion_de_slutsky_se_cumple[Bien Giffen (Monsalve, ej. 3.5)]": {
+  "doc": "Ecuación (4.1): ∂x/∂p1 = ∂h1/∂p1 − x·∂x/∂M (residuo numérico ≈ 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Cobb-Douglas0]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Cobb-Douglas1]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Stone-Geary]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Cuasilineal a\\u221ax + y]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_matriz_simetrica_y_seminegativa[Bien Giffen (Monsalve, ej. 3.5)]": {
+  "doc": "Sección 4.7: la matriz de sustitución es simétrica y semidefinida negativa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Cobb-Douglas0]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Cobb-Douglas1]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Stone-Geary]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Cuasilineal a\\u221ax + y]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_efecto_sustitucion_propio_no_positivo[Bien Giffen (Monsalve, ej. 3.5)]": {
+  "doc": "Ley de la demanda compensada: ante un alza de p1, ES_x ≤ 0 (siempre, incluso con Giffen).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Cobb-Douglas0]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Cobb-Douglas1]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Stone-Geary]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Cuasilineal a\\u221ax + y]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_slutsky_compensa_mas_que_hicks[Bien Giffen (Monsalve, ej. 3.5)]": {
+  "doc": "Compensar el poder de compra (Slutsky) deja al consumidor igual o mejor que U0 (Hicks).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Cobb-Douglas0]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Cobb-Douglas1]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Stone-Geary]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Cuasilineal a\\u221ax + y]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_y_slutsky_convergen_con_cambios_pequenos[Bien Giffen (Monsalve, ej. 3.5)]": {
+  "doc": "Para Δp → 0 ambas compensaciones dan el mismo efecto sustitución (diferencia de 2.º orden).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[0]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[1]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[2]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[3]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[4]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[5]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[6]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[7]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[8]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[9]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[10]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[11]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[12]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[13]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[14]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[15]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[16]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[17]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[18]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_identidad_total_igual_a_suma[19]": {
+  "doc": "Efecto precio = efecto sustitución + efecto ingreso (p. 103), con parámetros aleatorios.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_04_slutsky.py::TestTeoria::test_hicks_compensado_mantiene_utilidad": {
+  "doc": "La canasta compensada de Hicks (punto B) está en la curva de indiferencia original.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_elasticidades_cobb_douglas": {
+  "doc": "Sección 3.3.3 (p. 85): en Cobb-Douglas, ε_propia = −1, ε_ingreso = 1 y ε_cruzada = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_elasticidad_leontief": {
+  "doc": "P. 86: en Mín{x, y}, ε_ingreso = 1 y ε_propia = −p1/(p1 + p2) (inelástica).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej4_sem3_cuasilineal": {
+  "doc": "Ej. 4 sem. 3 (p. 75-76): en √x + y, x no depende de M y los bienes son sustitutos brutos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej9_sem1_separable_sustitutos": {
+  "doc": "Ej. 9 sem. 1 (p. 36): en √x + √y, subir p2 aumenta la demanda de x.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej5_sem3_giffen": {
+  "doc": "Ej. 5 sem. 3 (p. 76): x es Giffen (∂x/∂p1 > 0) en la región M > 2p2.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej7_tramo_elastico": {
+  "doc": "Ej. 7 (p. 81-82): x = a − bp es elástica si p > a/2b; unitaria en (a/2, a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej8_elasticidad_constante": {
+  "doc": "Ej. 8 (p. 82): X = A p^(−α) tiene elasticidad −α en toda la curva.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej9_estimar_recta": {
+  "doc": "Ej. 9 (p. 82-83): p = 12, x = 3, ε = −0.04 ⇒ x = 3.12 − 0.01p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej5_sem4_excedente": {
+  "doc": "Ej. 5 sem. 4 (p. 116): x = 10 − 2p, p = 3 ⇒ compra 4 y EC = $4.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej6_sem4_excedente_cuasilineal": {
+  "doc": "Ej. 6 sem. 4 (p. 117): con √x + y, EC = √x0 − P·x0 con x0 = 1/(4P²).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestLibro::test_ej4_sem2_vc_cuasilineal": {
+  "doc": "Ej. 4 sem. 2 (p. 52): la compensación (VC) ≈ $0.14 cuando p1 pasa de 5 a 5.3.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_lineal_precio_cero": {
+  "doc": "p = 0: elasticidad 0 (perfectamente inelástica en ese punto), gasto 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_lineal_precio_maximo": {
+  "doc": "p ≥ a/b: cantidad 0 y elasticidad −∞; el excedente del consumidor es 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_estimacion_con_elasticidad_positiva": {
+  "doc": "Una elasticidad ≥ 0 no define una recta de demanda decreciente: se rechaza.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_elasticidad_en_esquina": {
+  "doc": "Cuasilineal en esquina (M bajo): x = M/p1 ⇒ ε_ingreso = 1 y ε_propia = −1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_saciedad_cuadratica": {
+  "doc": "U = ax − (b/2)x² + y: si p ≥ a no compra; la elasticidad no está definida (x = 0).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_variaciones_sin_cambio": {
+  "doc": "p1' = p1: VC = VE = ΔEC = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestExtremos::test_clasificar_elasticidad_infinita": {
+  "doc": "",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Cobb-Douglas-2-5-100]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Separable a\\u221ax + b\\u221ay-2-3-50]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Stone-Geary-2-1-20]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Cuasilineal a\\u221ax + y-2-3-50]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_engel[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "Agregación de Engel (programa del curso): s1·η1 + s2·η2 = 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Cobb-Douglas-2-5-100]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Separable a\\u221ax + b\\u221ay-2-3-50]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Stone-Geary-2-1-20]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Cuasilineal a\\u221ax + y-2-3-50]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_agregacion_de_cournot[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "Agregación de Cournot: s1·ε11 + s2·ε21 = −s1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Cobb-Douglas-2-5-100]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Separable a\\u221ax + b\\u221ay-2-3-50]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Stone-Geary-2-1-20]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Leontief (complementarios perfectos)-1.5-4-70]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Cuasilineal a\\u221ax + y-2-3-50]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_euler_homogeneidad[Bien Giffen (Monsalve, ej. 3.5)-2-1-3.5]": {
+  "doc": "Homogeneidad de grado 0 ⇒ ε_x,p1 + ε_x,p2 + ε_x,M = 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_orden_VE_EC_VC_bien_normal[Cobb-Douglas]": {
+  "doc": "Bien normal y alza de precio: VE ≤ pérdida de EC ≤ VC (sección 4.8 y programa).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_orden_VE_EC_VC_bien_normal[Separable a\\u221ax + b\\u221ay]": {
+  "doc": "Bien normal y alza de precio: VE ≤ pérdida de EC ≤ VC (sección 4.8 y programa).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_orden_VE_EC_VC_bien_normal[Stone-Geary]": {
+  "doc": "Bien normal y alza de precio: VE ≤ pérdida de EC ≤ VC (sección 4.8 y programa).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_cuasilineal_VC_igual_VE_igual_EC[2.5]": {
+  "doc": "Sin efecto ingreso (cuasilineal interior): VC = VE = ΔEC — por eso Marshall usaba el excedente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_cuasilineal_VC_igual_VE_igual_EC[4.0]": {
+  "doc": "Sin efecto ingreso (cuasilineal interior): VC = VE = ΔEC — por eso Marshall usaba el excedente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_cuasilineal_VC_igual_VE_igual_EC[1.2]": {
+  "doc": "Sin efecto ingreso (cuasilineal interior): VC = VE = ΔEC — por eso Marshall usaba el excedente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[0]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[1]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[2]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[3]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[4]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[5]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[6]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[7]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[8]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[9]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[10]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[11]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[12]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[13]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_ingreso_total_maximo_en_elasticidad_unitaria[14]": {
+  "doc": "En x = a − bp el gasto p·x es máximo exactamente donde |ε| = 1 (p = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_excedente_lineal_igual_a_integral": {
+  "doc": "EC = ∫_p^{a/b} x(q) dq (definición marshalliana).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_05_demanda.py::TestTeoria::test_excedente_cuasilineal_igual_area_bajo_demanda": {
+  "doc": "Fig. 4.10: EC = ∫_0^{x0}(U′(x) − P)dx = área entre la demanda inversa y P.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Leontief (proporciones fijas)-constantes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Separable \\u221ax + \\u221ay-decrecientes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Cobb-Douglas-decrecientes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Cobb-Douglas-constantes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Cobb-Douglas-crecientes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[CES-constantes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2_rendimientos_a_escala[Lineal (sustitutos perfectos)-constantes]": {
+  "doc": "Ej. 2 (p. 131-133): clasificación de rendimientos a escala de Leontief, separable, Cobb-Douglas y CES.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2a_c_una_variable": {
+  "doc": "Ej. 2a-c (p. 131-132): √x decrecientes, Ax constantes, x² crecientes.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej2f_intensidad_factorial": {
+  "doc": "Ej. 2f (p. 133): F = L^½K^¼ es más intensiva en trabajo (elasticidad-insumo ½ > ¼).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej3_productividad_marginal_igual_salario_real": {
+  "doc": "Ej. 3 (p. 139): en el óptimo f′(L*) = w/p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej4_L_alfa[0.5]": {
+  "doc": "Ej. 4 (p. 140-141): α = 2/3, w = 1 ⇒ L* = (8/27)p³, y* = (4/9)p², Π* = (4/27)p³.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej4_L_alfa[1]": {
+  "doc": "Ej. 4 (p. 140-141): α = 2/3, w = 1 ⇒ L* = (8/27)p³, y* = (4/9)p², Π* = (4/27)p³.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej4_L_alfa[2]": {
+  "doc": "Ej. 4 (p. 140-141): α = 2/3, w = 1 ⇒ L* = (8/27)p³, y* = (4/9)p², Π* = (4/27)p³.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej4_L_alfa[3.7]": {
+  "doc": "Ej. 4 (p. 140-141): α = 2/3, w = 1 ⇒ L* = (8/27)p³, y* = (4/9)p², Π* = (4/27)p³.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej5_cobb_douglas_dos_insumos[1]": {
+  "doc": "Ej. 5 (p. 145): α = ½, β = ¼, w1 = 2, w2 = 3 ⇒ x* = p⁴/768, y* = p⁴/2304, z* = p³/192, Π* = p⁴/768.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej5_cobb_douglas_dos_insumos[2]": {
+  "doc": "Ej. 5 (p. 145): α = ½, β = ¼, w1 = 2, w2 = 3 ⇒ x* = p⁴/768, y* = p⁴/2304, z* = p³/192, Π* = p⁴/768.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej5_cobb_douglas_dos_insumos[5]": {
+  "doc": "Ej. 5 (p. 145): α = ½, β = ¼, w1 = 2, w2 = 3 ⇒ x* = p⁴/768, y* = p⁴/2304, z* = p³/192, Π* = p⁴/768.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej5_proporcion_de_factores": {
+  "doc": "Nota 22 (p. 144): y/x = βw1/(αw2) en el óptimo, sin importar p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej6_separable": {
+  "doc": "Ej. 6 (p. 145-146): √x + √y ⇒ x* = p²/(2w1)², y* = p²/(2w2)², z* = (1/2w1 + 1/2w2)p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestLibro::test_ej3_sem7_cubica": {
+  "doc": "Ej. 3 sem. 7 (p. 184-185): x³ − 3x² + 3x = (x−1)³ + 1; rendimientos decrecientes y luego crecientes (inflexión en x = 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_sin_maximo_con_rendimientos_no_decrecientes[0.5-0.5]": {
+  "doc": "Ej. 5 (p. 143): se requiere α + β < 1; con α + β ≥ 1 el simulador informa que no hay máximo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_sin_maximo_con_rendimientos_no_decrecientes[0.7-0.6]": {
+  "doc": "Ej. 5 (p. 143): se requiere α + β < 1; con α + β ≥ 1 el simulador informa que no hay máximo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_crecientes_beneficio_ilimitado": {
+  "doc": "α + β > 1: al escalar insumos el beneficio crece sin cota (justifica el aviso).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_un_insumo_alpha_invalido": {
+  "doc": "f(L) = L^α con α ≥ 1 no tiene máximo de beneficio: se rechaza.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_insumo_cero": {
+  "doc": "Con x = 0, Cobb-Douglas produce 0 (insumos esenciales); lineal no.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_leontief_sin_pmg": {
+  "doc": "Leontief no es diferenciable en el vértice: PMg y TMST no definidas.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_ces_parametros_invalidos": {
+  "doc": "CES exige ρ < 1, ρ ≠ 0 y 0 < δ < 1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_ces_limites": {
+  "doc": "ρ → 0 se acerca a Cobb-Douglas; ρ → −∞ a Leontief; ρ → 1 a lineal.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_precio_muy_alto": {
+  "doc": "p → grande: la empresa contrata mucho pero la solución sigue siendo finita.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestExtremos::test_etapas_cubica_sin_pmg_cero": {
+  "doc": "(x−1)³ + 1 siempre tiene PMg ≥ 0: no hay etapa III (PMg negativo).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-3-2-3]": {
+  "doc": "Tercer testigo: Nelder-Mead sobre Π = pF − w1x − w2y da el mismo beneficio y los mismos insumos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-1-0.5-0.8]": {
+  "doc": "Tercer testigo: Nelder-Mead sobre Π = pF − w1x − w2y da el mismo beneficio y los mismos insumos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_optimizador_numerico_confirma[Separable \\u221ax + \\u221ay-6-2-3]": {
+  "doc": "Tercer testigo: Nelder-Mead sobre Π = pF − w1x − w2y da el mismo beneficio y los mismos insumos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_optimizador_numerico_confirma[Separable \\u221ax + \\u221ay-1-0.3-4]": {
+  "doc": "Tercer testigo: Nelder-Mead sobre Π = pF − w1x − w2y da el mismo beneficio y los mismos insumos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_lema_de_hotelling[Cobb-Douglas-3-2-3]": {
+  "doc": "Lema de Hotelling: ∂Π*/∂p = z* y ∂Π*/∂w1 = −x*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_lema_de_hotelling[Cobb-Douglas-1-0.5-0.8]": {
+  "doc": "Lema de Hotelling: ∂Π*/∂p = z* y ∂Π*/∂w1 = −x*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_lema_de_hotelling[Separable \\u221ax + \\u221ay-6-2-3]": {
+  "doc": "Lema de Hotelling: ∂Π*/∂p = z* y ∂Π*/∂w1 = −x*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_lema_de_hotelling[Separable \\u221ax + \\u221ay-1-0.3-4]": {
+  "doc": "Lema de Hotelling: ∂Π*/∂p = z* y ∂Π*/∂w1 = −x*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_homogeneidad[Cobb-Douglas-3-2-3]": {
+  "doc": "Π*(tp, tw) = t·Π*(p, w) y las demandas de insumos son homogéneas de grado 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_homogeneidad[Cobb-Douglas-1-0.5-0.8]": {
+  "doc": "Π*(tp, tw) = t·Π*(p, w) y las demandas de insumos son homogéneas de grado 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_homogeneidad[Separable \\u221ax + \\u221ay-6-2-3]": {
+  "doc": "Π*(tp, tw) = t·Π*(p, w) y las demandas de insumos son homogéneas de grado 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_homogeneidad[Separable \\u221ax + \\u221ay-1-0.3-4]": {
+  "doc": "Π*(tp, tw) = t·Π*(p, w) y las demandas de insumos son homogéneas de grado 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_demanda_de_insumo_decreciente_y_oferta_creciente[Cobb-Douglas-3-2-3]": {
+  "doc": "Ley de la oferta y de la demanda de factores: ∂x*/∂w1 < 0 y ∂z*/∂p > 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_demanda_de_insumo_decreciente_y_oferta_creciente[Cobb-Douglas-1-0.5-0.8]": {
+  "doc": "Ley de la oferta y de la demanda de factores: ∂x*/∂w1 < 0 y ∂z*/∂p > 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_demanda_de_insumo_decreciente_y_oferta_creciente[Separable \\u221ax + \\u221ay-6-2-3]": {
+  "doc": "Ley de la oferta y de la demanda de factores: ∂x*/∂w1 < 0 y ∂z*/∂p > 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_demanda_de_insumo_decreciente_y_oferta_creciente[Separable \\u221ax + \\u221ay-1-0.3-4]": {
+  "doc": "Ley de la oferta y de la demanda de factores: ∂x*/∂w1 < 0 y ∂z*/∂p > 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_teorema_de_euler[Cobb-Douglas0]": {
+  "doc": "Sección A.10: para F homogénea de grado k, x·F_x + y·F_y = k·F.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_teorema_de_euler[CES0]": {
+  "doc": "Sección A.10: para F homogénea de grado k, x·F_x + y·F_y = k·F.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_teorema_de_euler[CES1]": {
+  "doc": "Sección A.10: para F homogénea de grado k, x·F_x + y·F_y = k·F.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_teorema_de_euler[Cobb-Douglas1]": {
+  "doc": "Sección A.10: para F homogénea de grado k, x·F_x + y·F_y = k·F.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_elasticidad_sustitucion_ces_numerica[-2.0]": {
+  "doc": "σ = d ln(y/x) / d ln(TMST) = 1/(1 − ρ), calculada numéricamente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_elasticidad_sustitucion_ces_numerica[-0.5]": {
+  "doc": "σ = d ln(y/x) / d ln(TMST) = 1/(1 − ρ), calculada numéricamente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_elasticidad_sustitucion_ces_numerica[0.3]": {
+  "doc": "σ = d ln(y/x) / d ln(TMST) = 1/(1 − ρ), calculada numéricamente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_elasticidad_sustitucion_ces_numerica[0.8]": {
+  "doc": "σ = d ln(y/x) / d ln(TMST) = 1/(1 − ρ), calculada numéricamente.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[0]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[1]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[2]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[3]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[4]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[5]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[6]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[7]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[8]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[9]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[10]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[11]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[12]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[13]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_pmg_decreciente_con_concavidad[14]": {
+  "doc": "Cobb-Douglas con α < 1: el PMg de x decrece al aumentar x (ley de rendimientos marginales decrecientes).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_06_produccion.py::TestTeoria::test_etapas_de_produccion": {
+  "doc": "Etapas: el PMe es máximo donde PMg = PMe (con f(L) = 10L² − L³: L = 5; PMg = 0 en L = 20/3).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej1_cobb_douglas_condicionadas": {
+  "doc": "Ej. 1 sem. 6 (p. 157-158): x* = (αw2/βw1)^{β/(α+β)} z^{1/(α+β)}, y* = (βw1/αw2)^{α/(α+β)} z^{1/(α+β)}, C = B z^{1/(α+β)}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej2_separable": {
+  "doc": "Ej. 2 sem. 6 (p. 159-160): √x + √y ⇒ C(z) = Bz² con B = w1w2/(w1 + w2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej3_leontief": {
+  "doc": "Ej. 3 sem. 6 (p. 160-161): Mín{x, y} ⇒ x* = y* = z, C(z) = (w1 + w2)z.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej4_rendimientos_crecientes": {
+  "doc": "Ej. 4 sem. 6 (p. 161): F = ye^x ⇒ x* = ln(w2z/w1), y* = w1/w2, C = w1 ln(w2z/w1) + w1.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej6a_dos_plantas_decrecientes": {
+  "doc": "Ej. 6a sem. 6 (p. 165-166): 3y1² + 2y2² s.a. y1 + y2 = Y ⇒ (2Y/5, 3Y/5).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej6b_dos_plantas_crecientes": {
+  "doc": "Ej. 6b sem. 6 (p. 166): 3√y1 + 2√y2 ⇒ todo en la planta 2 (monopolio natural).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej7_oferta_cd_lineal_si_suma_medio": {
+  "doc": "Ej. 7 sem. 6 (p. 167): con α + β = ½ la oferta de largo plazo es una recta por el origen.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej7_sem7_y_ej5_sem8_oferta_p_igual_4z": {
+  "doc": "Ej. 7 sem. 7 (p. 199) y ej. 5 sem. 8 (p. 227): x^¼y^¼ con w1 = w2 = 1 ⇒ C = 2z², oferta p = 4z.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej8_oferta_separable": {
+  "doc": "Ej. 8 sem. 6 (p. 168): C = Bz² ⇒ p = 2Bz.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej12_dos_caminos": {
+  "doc": "Ej. 12 sem. 6 (p. 170): la oferta por maximización directa (sem. 5) = la oferta vía p = C′(z).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej11_errata_cambio_tecnico": {
+  "doc": "Ej. 11 sem. 6 (p. 169) — ERRATA: con F = A·x^α y^β la oferta es z = A(sAp/B)^{s/(1−s)}; el libro omite la A interior. Se verifica contra la maximización directa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej1_sem7_corto_plazo_cd": {
+  "doc": "Ej. 1 sem. 7 (p. 182): x = y^{1/α}/k^{β/α}; C = (w1/k^{β/α}) y^{1/α} + w2k; CMg = (w1/(αk^{β/α})) y^{(1−α)/α}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej2_sem7_separable_corto_plazo": {
+  "doc": "Ej. 2 sem. 7 (p. 183-184): C(y) = w1(y − √k)² + w2k, CMg = 2w1(y − √k).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_ej3_sem7_cubica": {
+  "doc": "Ej. 3 sem. 7 (p. 185): C(y) = w1(y − 1)^{1/3} + w2k + w1; CMg = (w1/3)(y − 1)^{−2/3}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestLibro::test_seccion76_minimo_cme": {
+  "doc": "Sección 7.6 (p. 194): C = (w1/k)y² + w2k ⇒ CMe mínimo en y* = √(w2/w1)·k con valor 2√(w1w2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_produccion_cero": {
+  "doc": "z = 0: costo de largo plazo 0; en el corto plazo queda sólo el costo fijo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_separable_cp_bajo_minimo": {
+  "doc": "Ej. 2 sem. 7: con k fijo no se puede producir menos de √k (el deslizador debe impedirlo).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_cubica_cmg_infinito_en_inflexion": {
+  "doc": "Ej. 3 sem. 7 (fig. 7.4): en y = 1 la pendiente del costo es infinita.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_ej4_fuera_de_dominio": {
+  "doc": "Ej. 4 sem. 6: la solución interior exige z > w1/w2.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_lineal_insumos_indiferentes": {
+  "doc": "Insumos sustitutos perfectos con w1/a = w2/b: cualquier combinación minimiza (se reporta 'indeterminado').",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_oferta_lp_rendimientos_constantes": {
+  "doc": "Con α + β = 1 el costo es lineal y no hay oferta bien definida (sección 7.7).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_costo_cubico_invalido": {
+  "doc": "C = CF + aq − bq² + cq³ con b² ≥ 3ac tendría CMg negativo: se rechaza.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_costo_cubico_sin_costo_fijo": {
+  "doc": "CF = 0: el mínimo del CMe coincide con el del CVMe (cierre = nivelación).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestExtremos::test_dos_plantas_costos_iguales": {
+  "doc": "Plantas idénticas con k > 1: se reparte mitad y mitad.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-2-3-4]": {
+  "doc": "Tercer testigo: minimización numérica de w1x + w2y s.a. F = z da el mismo costo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_optimizador_numerico_confirma[Cobb-Douglas-1-4-2]": {
+  "doc": "Tercer testigo: minimización numérica de w1x + w2y s.a. F = z da el mismo costo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_optimizador_numerico_confirma[Separable \\u221ax + \\u221ay-2-5-3]": {
+  "doc": "Tercer testigo: minimización numérica de w1x + w2y s.a. F = z da el mismo costo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_optimizador_numerico_confirma[Leontief (proporciones fijas)-3-1-2]": {
+  "doc": "Tercer testigo: minimización numérica de w1x + w2y s.a. F = z da el mismo costo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_lema_de_shephard[Cobb-Douglas0]": {
+  "doc": "Lema de Shephard (productor): ∂C/∂w1 = x*(w, z).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_lema_de_shephard[Separable \\u221ax + \\u221ay]": {
+  "doc": "Lema de Shephard (productor): ∂C/∂w1 = x*(w, z).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_lema_de_shephard[Cobb-Douglas1]": {
+  "doc": "Lema de Shephard (productor): ∂C/∂w1 = x*(w, z).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[0]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[1]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[2]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[3]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[4]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[5]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[6]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[7]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[8]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[9]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[10]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[11]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[12]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[13]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_homogeneidad_y_concavidad_en_precios[14]": {
+  "doc": "C(tw, z) = tC(w, z) y C es cóncava en w (promedio de costos ≤ costo del promedio).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_fig63_forma_del_costo_segun_rendimientos[0.3-0.3-convexa]": {
+  "doc": "Fig. 6.3 (p. 159): decrecientes ⇒ C convexa; constantes ⇒ lineal; crecientes ⇒ cóncava.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_fig63_forma_del_costo_segun_rendimientos[0.5-0.5-lineal]": {
+  "doc": "Fig. 6.3 (p. 159): decrecientes ⇒ C convexa; constantes ⇒ lineal; crecientes ⇒ cóncava.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_fig63_forma_del_costo_segun_rendimientos[0.8-0.7-concava]": {
+  "doc": "Fig. 6.3 (p. 159): decrecientes ⇒ C convexa; constantes ⇒ lineal; crecientes ⇒ cóncava.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_cmg_corta_cvme_y_cme_en_sus_minimos[20-10-2-0.5]": {
+  "doc": "El CMg corta al CVMe y al CMe en sus mínimos (curvas en U).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_cmg_corta_cvme_y_cme_en_sus_minimos[5-8-1-0.2]": {
+  "doc": "El CMg corta al CVMe y al CMe en sus mínimos (curvas en U).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_cmg_corta_cvme_y_cme_en_sus_minimos[100-3-0.5-0.05]": {
+  "doc": "El CMg corta al CVMe y al CMe en sus mínimos (curvas en U).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_envolvente_corto_largo_plazo[0.5]": {
+  "doc": "Sección 7.4: C_cp(y; k) ≥ C_lp(y) y se igualan cuando k es el óptimo de largo plazo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_envolvente_corto_largo_plazo[2]": {
+  "doc": "Sección 7.4: C_cp(y; k) ≥ C_lp(y) y se igualan cuando k es el óptimo de largo plazo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_envolvente_corto_largo_plazo[6]": {
+  "doc": "Sección 7.4: C_cp(y; k) ≥ C_lp(y) y se igualan cuando k es el óptimo de largo plazo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_envolvente_corto_largo_plazo[15]": {
+  "doc": "Sección 7.4: C_cp(y; k) ≥ C_lp(y) y se igualan cuando k es el óptimo de largo plazo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_07_costos.py::TestTeoria::test_le_chatelier": {
+  "doc": "Ej. 7 sem. 7 (p. 199-200): la oferta de corto plazo es menos elástica que la de largo plazo (principio de LeChatelier).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej1_tijera_de_marshall": {
+  "doc": "Ej. 1 sem. 8 (p. 214): X = 90 − p, Y = p/2 ⇒ p* = 60, X* = Y* = 30.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej2_caso_general": {
+  "doc": "Ej. 2 sem. 8 (p. 214-215): X = a − bp, Y = c + dp ⇒ p* = (a−c)/(b+d), X* = (ad+bc)/(b+d).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej6_elasticidades_en_equilibrio": {
+  "doc": "Ej. 6 sem. 8 (p. 232-233): ε1 = (bc − ab)/(ad + bc) y ε2 = (ad − cd)/(ad + bc).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej3_ej4_agentes_representativos[1-1]": {
+  "doc": "Ej. 3-4 sem. 8 (p. 219-221): p* = (w/2A²)^{1/3}, x* = (A/2√w)^{4/3}, Π = 2^{−8/3}(A²/w)^{1/3}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej3_ej4_agentes_representativos[2-3]": {
+  "doc": "Ej. 3-4 sem. 8 (p. 219-221): p* = (w/2A²)^{1/3}, x* = (A/2√w)^{4/3}, Π = 2^{−8/3}(A²/w)^{1/3}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej3_ej4_agentes_representativos[0.5-10]": {
+  "doc": "Ej. 3-4 sem. 8 (p. 219-221): p* = (w/2A²)^{1/3}, x* = (A/2√w)^{4/3}, Π = 2^{−8/3}(A²/w)^{1/3}.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej4_ceteris_paribus_A": {
+  "doc": "Ej. 4 sem. 8 (fig. 8.8): si A crece, p* baja, x* sube y el beneficio sube.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej5_cien_empresas": {
+  "doc": "Ej. 5 sem. 8 (p. 227): 100 empresas con oferta p = 4z frente a 80 − 2p ⇒ p* = 2.96, z* = 0.74 por empresa, 74 en total.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_seccion76_oferta_discontinua": {
+  "doc": "Sección 7.6 (p. 194, fig. 7.16): y = 0 si p < 2√(w1w2); y = kp/2w1 si p ≥ 2√(w1w2).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej2_sem10_caso_competitivo": {
+  "doc": "Ej. 2 sem. 10 (p. 278-279): C = y² + a, demanda y = 12 − p ⇒ p* = 8, y* = 4 si a < 16.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_ej6_telarana_estable": {
+  "doc": "Ej. 6 sem. 8 (p. 232): P_t = (−d/b)^t (P0 − p*) + p*; si d < b converge a p*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestLibro::test_seccion78_elasticidad_oferta_constante": {
+  "doc": "Sección 7.8 (p. 198): z = Bp^α tiene elasticidad α (con √x + √y, z = Bp y ε = 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_sin_equilibrio_positivo": {
+  "doc": "Ej. 2: si ad + bc ≤ 0 la oferta arranca por encima del precio máximo: no hay mercado.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_telarana_oscilacion_perpetua": {
+  "doc": "Fig. 8.20: si d = b el precio oscila sin acercarse ni alejarse (estable no asintóticamente).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_telarana_inestable": {
+  "doc": "Si d > b la telaraña diverge: el simulador debe advertir y acotar el gráfico.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_telarana_arranca_en_equilibrio": {
+  "doc": "P0 = p*: el precio no se mueve aunque la telaraña sea inestable.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_empresa_bajo_cierre": {
+  "doc": "p < mín CVMe: la empresa cierra (q = 0) y pierde sólo el costo fijo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_empresa_entre_cierre_y_nivelacion": {
+  "doc": "mín CVMe ≤ p < mín CMe: produce con pérdidas menores que el costo fijo.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_empresa_largo_plazo_cierra_bajo_nivelacion": {
+  "doc": "Largo plazo: bajo el mín CMe no produce (todos los costos son evitables).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_empresa_en_el_umbral": {
+  "doc": "En p = mín CVMe exacto la empresa es indiferente; el simulador produce q = argmin CVMe.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_impuesto_prohibitivo": {
+  "doc": "Un impuesto mayor que la brecha entre precios máximo y mínimo elimina el mercado.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_n_entero_de_empresas": {
+  "doc": "Problema del número entero (Pignol, p. 196): n de libre entrada casi nunca es entero.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestExtremos::test_n_invalido": {
+  "doc": "",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[0]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[1]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[2]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[3]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[4]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[5]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[6]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[7]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[8]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[9]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[10]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[11]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[12]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[13]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_equilibrio_maximiza_excedente_total[14]": {
+  "doc": "Primer teorema en equilibrio parcial (sección 9.2): ninguna otra cantidad da más EC + EP.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_incidencia_del_impuesto[1-0.5]": {
+  "doc": "La parte del impuesto que paga el consumidor es d/(b + d); la pérdida de eficiencia es ½·t·Δq.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_incidencia_del_impuesto[2-3]": {
+  "doc": "La parte del impuesto que paga el consumidor es d/(b + d); la pérdida de eficiencia es ½·t·Δq.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_incidencia_del_impuesto[0.5-4]": {
+  "doc": "La parte del impuesto que paga el consumidor es d/(b + d); la pérdida de eficiencia es ½·t·Δq.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_oferta_empresa_maximiza_beneficio[9.0]": {
+  "doc": "Tercer testigo: la q de la oferta (p = CMg) coincide con el máximo numérico de pq − C(q).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_oferta_empresa_maximiza_beneficio[12.0]": {
+  "doc": "Tercer testigo: la q de la oferta (p = CMg) coincide con el máximo numérico de pq − C(q).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_oferta_empresa_maximiza_beneficio[20.0]": {
+  "doc": "Tercer testigo: la q de la oferta (p = CMg) coincide con el máximo numérico de pq − C(q).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_oferta_empresa_maximiza_beneficio[35.0]": {
+  "doc": "Tercer testigo: la q de la oferta (p = CMg) coincide con el máximo numérico de pq − C(q).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_oferta_creciente_sobre_cierre": {
+  "doc": "La curva de oferta de corto plazo es creciente por encima del punto de cierre.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_mas_empresas_menor_precio": {
+  "doc": "Con más empresas (corto plazo) el precio baja y el beneficio por empresa cae.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_libre_entrada_beneficio_cero": {
+  "doc": "Largo plazo con libre entrada: p = mín CMe y cada empresa tiene beneficio 0.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_teorema_de_la_telarana[3-2]": {
+  "doc": "Estabilidad ⇔ |ε_demanda| > ε_oferta ⇔ b > d (p. 233).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_teorema_de_la_telarana[2-3]": {
+  "doc": "Estabilidad ⇔ |ε_demanda| > ε_oferta ⇔ b > d (p. 233).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_08_competencia.py::TestTeoria::test_teorema_de_la_telarana[2-2]": {
+  "doc": "Estabilidad ⇔ |ε_demanda| > ε_oferta ⇔ b > d (p. 233).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej1_monopolio_vs_competencia": {
+  "doc": "Ej. 1 sem. 10 (p. 276-277): C = y², y = 12 − p ⇒ monopolio y* = 3, p* = 9, Π = 18; competencia y = 4, p = 8, Π = 16.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej1_elasticidad_en_tramo_elastico": {
+  "doc": "Ej. 1: el punto (3, 9) está en la parte elástica: ε = −3.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej1_fig105_excedentes": {
+  "doc": "Fig. 10.5 (p. 277): monopolio EC = 4.5, EP = 18, PEI = 1.5; competencia EC = 8, EP = 16.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej2_costos_fijos[10-1]": {
+  "doc": "Ej. 2 sem. 10 (p. 277-278): con C = y² + a, (y*, p*) = (3, 9) siempre; Π = 18 − a (pérdidas si a > 18).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej2_costos_fijos[18-0]": {
+  "doc": "Ej. 2 sem. 10 (p. 277-278): con C = y² + a, (y*, p*) = (3, 9) siempre; Π = 18 − a (pérdidas si a > 18).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej2_costos_fijos[25--1]": {
+  "doc": "Ej. 2 sem. 10 (p. 277-278): con C = y² + a, (y*, p*) = (3, 9) siempre; Π = 18 − a (pérdidas si a > 18).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej4_impuesto_libro": {
+  "doc": "Ej. 4 sem. 10 (p. 285): CMg = c y p = a − by + t ⇒ p* = (a + c)/2 + t/2 (el precio sube la mitad del impuesto).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_lerner_elasticidad_constante": {
+  "doc": "Sección 10.5 (p. 285-286): y = p^{−α} ⇒ p = c/(1 − 1/α); índice de Lerner = 1/α.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej5_discriminacion": {
+  "doc": "Ej. 5 sem. 10 (p. 289): y1* = 5/22, y2* = 2/22, p1* = 29/22, p2* = 18/22, Π = 0.2727; ε1 = −29/15, ε2 = −9/2.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_ej5_errata_precio_uniforme": {
+  "doc": "Ej. 5 sem. 10 — ERRATA: el libro obtiene p = 22.4/22 ≈ 1.018 con la demanda 7/6 − 5p/6, válida sólo si p < 1. A ese precio el grupo 2 ya no compra. El óptimo correcto es p = 1.25, y = 0.25, Π = 0.25 (sigue siendo < 0.2727: la conclusión del libro se mantiene).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestLibro::test_fig1010_precio_ramsey": {
+  "doc": "Sección 10.4: regulación por costo medio — precio donde la demanda corta al CMe (beneficio cero), con más producción que el monopolio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_costo_marginal_sobre_precio_maximo": {
+  "doc": "c ≥ a: no existe producción rentable; el simulador avisa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_demanda_inelastica_sin_optimo": {
+  "doc": "y = p^{−α} con α ≤ 1: IMg ≤ 0, no hay precio óptimo finito.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_elasticidad_casi_infinita": {
+  "doc": "α → ∞: el precio del monopolista tiende al costo marginal (competencia).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_ramsey_sin_solucion": {
+  "doc": "Fig. 10.10: si el monopolista tiene pérdidas (CF > 18 aquí), la demanda nunca alcanza el CMe; un precio de beneficio cero sólo es posible con subsidio, como advierte el libro.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_costo_marginal_cero": {
+  "doc": "CMg = 0: el monopolista maximiza el ingreso (ε = −1, y = a/2b).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_impuesto_que_cierra_el_mercado": {
+  "doc": "c + t ≥ a: el monopolista deja de producir.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_discriminacion_mercado_sin_demanda_rentable": {
+  "doc": "Si un mercado tiene a_i menor que el CMg, se atiende sólo el otro (solución de esquina).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestExtremos::test_mercados_identicos_no_conviene_discriminar": {
+  "doc": "Dos mercados idénticos: discriminar no aumenta el beneficio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[0]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[1]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[2]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[3]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[4]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[5]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[6]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[7]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[8]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[9]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[10]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[11]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[12]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[13]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[14]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[15]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[16]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[17]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[18]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_optimizador_numerico_confirma[19]": {
+  "doc": "Tercer testigo: max de (a − by)y − C(y) numérico = solución IMg = CMg.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[0]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[1]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[2]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[3]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[4]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[5]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[6]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[7]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[8]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[9]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[10]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[11]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[12]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[13]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[14]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[15]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[16]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[17]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[18]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_monopolio_vs_competencia[19]": {
+  "doc": "Monopolio: menor cantidad, mayor precio, PEI > 0 y opera en el tramo elástico (|ε| ≥ 1).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[0]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[1]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[2]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[3]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[4]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[5]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[6]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[7]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[8]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[9]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[10]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[11]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[12]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[13]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_regla_de_lerner[14]": {
+  "doc": "Índice de Lerner: (p − CMg)/p = −1/ε en el óptimo del monopolista.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[0]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[1]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[2]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[3]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[4]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[5]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[6]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[7]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[8]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_pei_igual_a_integral[9]": {
+  "doc": "PEI = ∫_{ym}^{yc} [p(y) − CMg(y)] dy.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_traslado_del_impuesto_lineal": {
+  "doc": "Con demanda lineal y CMg constante, el monopolista traslada exactamente la mitad del impuesto.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_mayor_precio_al_menos_elastico": {
+  "doc": "Discriminación de 3er grado: se cobra más en el mercado menos elástico (p. 289).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[0]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[1]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[2]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[3]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[4]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[5]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[6]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[7]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[8]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_discriminar_nunca_da_menos[9]": {
+  "doc": "Discriminar (más instrumentos) nunca da menor beneficio que el precio uniforme.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_confirmado_numericamente": {
+  "doc": "El precio uniforme sobre la demanda quebrada coincide con una búsqueda numérica en p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[0]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[1]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[2]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[3]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[4]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[5]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[6]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[7]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[8]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[9]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[10]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_09_monopolio.py::TestTeoria::test_uniforme_aleatorio_vs_busqueda_numerica[11]": {
+  "doc": "Precio uniforme con demanda quebrada y parámetros aleatorios = máximo numérico sobre p.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_tabla113_cartel_cournot_stackelberg": {
+  "doc": "Tabla 11.3 (p. 309): precios (a+c)/2, (a+2c)/3, (a+3c)/4; cantidades y beneficios de las tres estructuras.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_fig114_orden_de_precios": {
+  "doc": "Fig. 11.4 (p. 309-310): p_cartel > p_Cournot > p_Stackelberg > p_competitivo = c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_cournot_n_empresas[1]": {
+  "doc": "Sección 11.2.4 (p. 310): y_i = (a−c)/(n+1), p = (a + nc)/(n+1), Π_i = ((a−c)/(n+1))².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_cournot_n_empresas[2]": {
+  "doc": "Sección 11.2.4 (p. 310): y_i = (a−c)/(n+1), p = (a + nc)/(n+1), Π_i = ((a−c)/(n+1))².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_cournot_n_empresas[3]": {
+  "doc": "Sección 11.2.4 (p. 310): y_i = (a−c)/(n+1), p = (a + nc)/(n+1), Π_i = ((a−c)/(n+1))².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_cournot_n_empresas[10]": {
+  "doc": "Sección 11.2.4 (p. 310): y_i = (a−c)/(n+1), p = (a + nc)/(n+1), Π_i = ((a−c)/(n+1))².",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_cantidades[2]": {
+  "doc": "Ej. 1 sem. 11 (p. 311): q_i = 950/(21+n), Q = 950n/(21+n), p = 100 − 95n/(21+n).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_cantidades[5]": {
+  "doc": "Ej. 1 sem. 11 (p. 311): q_i = 950/(21+n), Q = 950n/(21+n), p = 100 − 95n/(21+n).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_cantidades[20]": {
+  "doc": "Ej. 1 sem. 11 (p. 311): q_i = 950/(21+n), Q = 950n/(21+n), p = 100 − 95n/(21+n).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_errata_beneficio[2]": {
+  "doc": "Ej. 1 sem. 11 — ERRATA: el beneficio es 1.1·q² − a = 110·[95/(21+n)]² − a; el libro imprime 11·[…]² (10 veces menor). Por lo mismo, la cota de entrada es n < 950√(1.1/a) − 21 ≈ 996/√a − 21, no 315/√a − 21.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_errata_beneficio[5]": {
+  "doc": "Ej. 1 sem. 11 — ERRATA: el beneficio es 1.1·q² − a = 110·[95/(21+n)]² − a; el libro imprime 11·[…]² (10 veces menor). Por lo mismo, la cota de entrada es n < 950√(1.1/a) − 21 ≈ 996/√a − 21, no 315/√a − 21.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_errata_beneficio[20]": {
+  "doc": "Ej. 1 sem. 11 — ERRATA: el beneficio es 1.1·q² − a = 110·[95/(21+n)]² − a; el libro imprime 11·[…]² (10 veces menor). Por lo mismo, la cota de entrada es n < 950√(1.1/a) − 21 ≈ 996/√a − 21, no 315/√a − 21.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_cota_de_entrada": {
+  "doc": "Con la fórmula corregida, en n_max el beneficio es exactamente cero.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej1_friedman_n_infinito": {
+  "doc": "Ej. 1: si n → ∞, q_i → 0, Q → 950 y p → 5.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej2_competencia_monopolistica": {
+  "doc": "Ej. 2 sem. 11 (p. 313): Q = 20 − P, CT = Q² − 4Q + 5 ⇒ Q* = 6, P* = 14, CMe = 17/6, Π = 67.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_bertrand_diferenciado": {
+  "doc": "Sección 11.3.3 (p. 317): p* = (a + c)/(2 + ε(1 − n)), y* = a + (ε(n−1) − 1)p*.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej3_hhi": {
+  "doc": "Ej. 3 sem. 11 (p. 320): HHI mercado 1 = 0.3912; mercado 2 = 0.1676.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestLibro::test_ej4_cr_errata": {
+  "doc": "Ej. 4 sem. 11 (p. 321) — ERRATA: CR(4) del mercado 1 = 0.87 ✓, pero el del mercado 2 es 0.75 (0.2 + 0.2 + 0.19 + 0.16), no 0.74: el libro sumó s4 = 0.15 en lugar de la 4.ª cuota más grande. CR(8) = 1 en ambos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_costo_mayor_que_precio_maximo": {
+  "doc": "c ≥ a: nadie produce; el simulador avisa.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_cournot_una_empresa_es_monopolio": {
+  "doc": "n = 1: Cournot coincide con el monopolio (cartel).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_cournot_n_muy_grande": {
+  "doc": "n → ∞: p → c y el beneficio individual → 0 (p. 310).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_cournot_n_no_entero": {
+  "doc": "",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_cournot_asimetrico_esquina": {
+  "doc": "Si una empresa es mucho más costosa, sale del mercado y la otra actúa como monopolio.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_paradoja_de_bertrand": {
+  "doc": "Paradoja de Bertrand (p. 316-317): con dos empresas idénticas, p = c y beneficio cero.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_bertrand_costos_distintos": {
+  "doc": "Con c1 < c2, la empresa 1 fija p apenas por debajo de c2 y se lleva todo el mercado.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_bertrand_diferenciado_sin_equilibrio": {
+  "doc": "Si 2 + ε(1 − n) ≤ 0 el precio sería negativo: no hay equilibrio (advertencia de Edgeworth).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_hhi_monopolio_y_escala": {
+  "doc": "Monopolio: HHI = 1 (10 000 en la escala tradicional); cuotas en % también se aceptan.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_hhi_cuotas_invalidas": {
+  "doc": "Cuotas que no suman 1 (ni 100) o negativas se rechazan.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestExtremos::test_umbrales_hhi": {
+  "doc": "P. 320: 1 500–2 500 moderadamente concentrado; > 2 500 altamente concentrado.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[0]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[1]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[2]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[3]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[4]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[5]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[6]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[7]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[8]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[9]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[10]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[11]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[12]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[13]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_es_equilibrio_de_nash[14]": {
+  "doc": "Tercer testigo: dado y_j*, la mejor respuesta numérica de i es y_i* (nadie quiere desviarse).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[0]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[1]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[2]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[3]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[4]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[5]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[6]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[7]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[8]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_stackelberg_lider_anticipa[9]": {
+  "doc": "El líder maximiza sabiendo la reacción del seguidor; gana más que en Cournot y el seguidor menos.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[1]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[2]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[3]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[5]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[10]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cournot_converge_a_competencia[50]": {
+  "doc": "Al aumentar n, el precio baja monótonamente hacia c y la cantidad total sube hacia a − c.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_lerner_igual_hhi_sobre_elasticidad[2]": {
+  "doc": "En Cournot: (p − c)/p = HHI/|ε| (relación entre poder de mercado y concentración).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_lerner_igual_hhi_sobre_elasticidad[3]": {
+  "doc": "En Cournot: (p − c)/p = HHI/|ε| (relación entre poder de mercado y concentración).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_lerner_igual_hhi_sobre_elasticidad[7]": {
+  "doc": "En Cournot: (p − c)/p = HHI/|ε| (relación entre poder de mercado y concentración).",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_cartel_incentivo_a_desviarse": {
+  "doc": "El cartel no es estable: dado que la otra produce (a−c)/4, a cada empresa le conviene producir más.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[0]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[1]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[2]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[3]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[4]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[5]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[6]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[7]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[8]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ },
+ "tests/micro1/test_10_oligopolio.py::TestTeoria::test_hhi_entre_1_sobre_n_y_1[9]": {
+  "doc": "1/n ≤ HHI ≤ 1, con igualdad inferior sólo si las cuotas son iguales.",
+  "resultado": "passed"
+ }
+}

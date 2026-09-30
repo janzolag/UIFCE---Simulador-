@@ -1,0 +1,187 @@
+<title>Sustentación Micro 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F7FA; --surface:#FFFFFF; --ink:#0B1D3A; --muted:#51607A; --line:#DCE2EC;
+  --accent:#1F4E8C; --accent-soft:#E6EEF8; --ok:#1E7A52; --ok-soft:#E3F3EA;
+  --warn:#A55F00; --warn-soft:#FBF0DC; --bad:#B3261E;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1322; --surface:#121D33; --ink:#E4EAF4; --muted:#9AA8C0; --line:#24324D;
+    --accent:#8DB8F2; --accent-soft:#18284A; --ok:#6FD3A2; --ok-soft:#12302A;
+    --warn:#F2B35A; --warn-soft:#33260F; --bad:#FF8A80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1322; --surface:#121D33; --ink:#E4EAF4; --muted:#9AA8C0; --line:#24324D;
+  --accent:#8DB8F2; --accent-soft:#18284A; --ok:#6FD3A2; --ok-soft:#12302A;
+  --warn:#F2B35A; --warn-soft:#33260F; --bad:#FF8A80; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans);padding-inline:16px;padding-block:32px 64px}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--serif);font-weight:650;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px)}
+h2{font-size:24px}
+h3{font-size:18px}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+a{color:var(--accent)}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{display:flex;flex-direction:column;gap:14px}
+.cifras{display:flex;flex-wrap:wrap;gap:28px;margin-top:6px;font-variant-numeric:tabular-nums}
+.cifra b{display:block;font:600 30px/1.1 var(--serif);color:var(--accent)}
+.cifra span{font-size:13px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:14px}
+.tres{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.tres div{border-top:3px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:4px}
+.tres div.libro{border-color:var(--accent)} .tres div.extremos{border-color:var(--warn)} .tres div.teoria{border-color:var(--ok)}
+.tres h3{font-size:16px} .tres p{font-size:14px;color:var(--muted)}
+.tabla{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);color:var(--muted);width:2.5em}
+td .ref{display:block;font-size:12px;color:var(--muted)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.num small{color:var(--muted)}
+.pill{display:inline-block;font:500 12px/1 var(--mono);padding:4px 8px;border-radius:99px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.fallo{background:#fde8e6;color:var(--bad)}
+.errata{display:grid;gap:12px}
+.errata article{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.errata .loc{font:500 12px/1.4 var(--mono);color:var(--warn)}
+.errata .cmp{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:14px}
+.errata .cmp dt{color:var(--muted)} .errata .cmp dd{margin:0;font-family:var(--mono);font-size:13px}
+ul.guia{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;max-width:75ch}
+ul.guia li::marker{color:var(--warn)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px}
+details+details{margin-top:-28px}
+summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;padding:14px 16px}
+summary::-webkit-details-marker{display:none}
+summary .n{font:500 13px var(--mono);color:var(--muted)}
+summary .t{font:600 17px/1.3 var(--serif)}
+summary .meta{font-size:13px;color:var(--muted);margin-left:auto}
+summary::after{content:"+";font:500 18px var(--mono);color:var(--muted)}
+details[open] summary::after{content:"–"}
+.cuerpo{border-top:1px solid var(--line);padding:6px 16px 16px;display:flex;flex-direction:column;gap:14px}
+.bloque h4{margin:10px 0 6px;font:500 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.bloque.libro h4{color:var(--accent)} .bloque.extremos h4{color:var(--warn)} .bloque.teoria h4{color:var(--ok)}
+.bloque ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.bloque li{display:grid;grid-template-columns:1.4em 1fr;gap:4px;font-size:14px;line-height:1.5}
+.mark.ok{color:var(--ok);font-weight:600} .mark.fallo{color:var(--bad)}
+.casos{font:12px var(--mono);color:var(--muted);white-space:nowrap}
+.tag.err{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;background:var(--warn-soft);color:var(--warn);padding:2px 6px;border-radius:4px}
+pre{font:13px/1.5 var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;overflow-x:auto;margin:0}
+footer{font-size:13px;color:var(--muted)}
+@media (max-width:560px){summary .meta{margin-left:0;flex-basis:100%}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">UIFCE · Simulador económico · Microeconomía 1</span>
+  <h1>Sustentación teórica y práctica de los simuladores de Micro 1</h1>
+  <p>Cada simulador del curso tiene tres baterías de pruebas automáticas. Contrastan el motor de cálculo con los ejemplos de Monsalve (2017), con los casos límite que un profesor puede provocar en clase y con las propiedades que la teoría exige. Todas se ejecutan con <code>pytest</code>.</p>
+  <div class="cifras">
+    <div class="cifra"><b>{{OK}}/{{TOTAL}}</b><span>pruebas aprobadas</span></div>
+    <div class="cifra"><b>10</b><span>simuladores (9 del catálogo + oligopolio)</span></div>
+    <div class="cifra"><b>4</b><span>erratas del libro detectadas</span></div>
+    <div class="cifra"><b>14/14</b><span>errores inyectados que las pruebas detectan</span></div>
+  </div>
+</header>
+
+<section>
+  <h2>Las tres baterías</h2>
+  <div class="tres">
+    <div class="libro"><h3>1 · Ejemplos del libro</h3><p>Reproducen, con la página citada, los resultados numéricos y las fórmulas de Monsalve, <em>Competencia bajo equilibrio parcial</em>, Vol. I, 2.ª ed. (texto guía del programa de Micro 1).</p></div>
+    <div class="extremos"><h3>2 · Casos extremos</h3><p>Precios en cero o enormes, soluciones de esquina, presupuestos que no alcanzan, parámetros fuera del dominio. Garantizan que el simulador responde con un mensaje claro en lugar de fallar o dibujar algo falso.</p></div>
+    <div class="teoria"><h3>3 · Teoría y tercer testigo</h3><p>Identidades (Walras, Slutsky, Shephard, Hotelling, Euler, dualidad) sobre parámetros aleatorios, más un optimizador numérico independiente que sólo conoce la función objetivo y debe llegar al mismo resultado.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Resumen por simulador</h2>
+  <p style="font-size:14px;color:var(--muted)">Cada celda indica pruebas distintas · casos ejecutados (algunas pruebas se repiten con varios parámetros).</p>
+  <div class="tabla"><table>
+    <thead><tr><th>#</th><th>Simulador</th><th class="num">Libro</th><th class="num">Extremos</th><th class="num">Teoría</th><th class="num">Estado</th></tr></thead>
+    <tbody>
+{{FILAS}}
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Erratas del libro que el simulador corrige</h2>
+  <p>El simulador no reproduce estos resultados impresos. Cada uno tiene una prueba que demuestra el valor correcto con dos cálculos independientes. Conviene mencionarlas en clase: son buenos ejercicios de verificación.</p>
+  <div class="errata">
+    <article>
+      <span class="loc">Semana 10 · Ejemplo 5 · Discriminación de tercer grado (p. 289–290)</span>
+      <h3>El precio uniforme ignora que un grupo deja de comprar</h3>
+      <p>El libro maximiza sobre la demanda agregada 7/6 − 5p/6, que sólo vale si p &lt; 1. Su resultado, p = 22.4/22 ≈ 1.018, cae fuera de ese tramo: a ese precio el grupo 2 no compra. La demanda agregada está quebrada y hay que optimizar por tramos.</p>
+      <dl class="cmp"><dt>Libro</dt><dd>p = 1.018 · y = 0.318 · Π = 0.223</dd><dt>Correcto</dt><dd>p = 1.25 · y = 0.25 · Π = 0.25</dd></dl>
+      <p style="font-size:14px;color:var(--muted)">La conclusión se mantiene: discriminar (Π = 0.2727) sigue siendo mejor.</p>
+    </article>
+    <article>
+      <span class="loc">Semana 11 · Ejemplo 1 · Cournot de Friedman (p. 311–312)</span>
+      <h3>El beneficio está dividido por 10</h3>
+      <p>Con c<sub>i</sub> = a + 5q + q² y p = 100 − 0.1Q, la condición de primer orden da p − 5 = 2.1q, así que Π<sub>i</sub> = 1.1q² − a. La cota de entrada cambia en la misma proporción.</p>
+      <dl class="cmp"><dt>Libro</dt><dd>Π = 11·[95/(21+n)]² − a · n &lt; 315/√a − 21</dd><dt>Correcto</dt><dd>Π = 110·[95/(21+n)]² − a · n &lt; 996.4/√a − 21</dd></dl>
+    </article>
+    <article>
+      <span class="loc">Semana 11 · Ejemplo 4 · Razón de concentración (p. 321)</span>
+      <h3>CR(4) del mercado 2</h3>
+      <p>La razón suma las cuatro cuotas más grandes. El libro sumó s<sub>4</sub> = 0.15 en lugar de s<sub>5</sub> = 0.16, que es la cuarta más grande.</p>
+      <dl class="cmp"><dt>Libro</dt><dd>CR(4) = 0.2 + 0.2 + 0.19 + 0.15 = 0.74</dd><dt>Correcto</dt><dd>CR(4) = 0.2 + 0.2 + 0.19 + 0.16 = 0.75</dd></dl>
+    </article>
+    <article>
+      <span class="loc">Semana 6 · Ejemplo 11 · Oferta con cambio técnico (p. 169)</span>
+      <h3>Falta un factor A dentro del paréntesis</h3>
+      <p>Si C(z) = B(z/A)<sup>1/s</sup>, la regla de la cadena en C′(z) = p deja un A adicional. La fórmula corregida coincide con la maximización directa del beneficio (el “segundo camino” del ejemplo 12). Lo cualitativo se mantiene: la oferta gira a la derecha cuando A &gt; 1.</p>
+      <dl class="cmp"><dt>Libro</dt><dd>z = A·(s·p/B)<sup>s/(1−s)</sup></dd><dt>Correcto</dt><dd>z = A·(s·A·p/B)<sup>s/(1−s)</sup></dd></dl>
+    </article>
+  </div>
+</section>
+
+<section>
+  <h2>Notas para quien presenta</h2>
+  <ul class="guia">
+    <li><b>Punto de cierre (sección 7.6).</b> Para C = (w₁/k)y² + w₂k, el libro sitúa el salto de la oferta en el mínimo del <em>costo medio</em>, 2√(w₁w₂). El criterio estándar de corto plazo usa el mínimo del costo variable medio. El simulador de competencia muestra los dos umbrales, cierre y nivelación, con el costo cúbico.</li>
+    <li><b>Precio Ramsey (fig. 10.10).</b> Si el monopolista tiene pérdidas en su óptimo, la demanda nunca alcanza al costo medio. Un precio de beneficio cero sólo existe con subsidio, como dice el texto. El simulador lo reporta como “sin solución” en vez de inventar un punto.</li>
+    <li><b>Bien Giffen (ej. 5, sem. 3).</b> Las demandas del libro sólo valen para p₁ + p₂ &lt; M &lt; p₁ + 2p₂, y x es Giffen si además M &gt; 2p₂. Ejemplo listo para clase: p₁ = 2, p₂ = 1, M = 3.5. Si p₁ sube a 2.2, x pasa de 1.25 a 1.32, aunque el efecto sustitución sigue siendo negativo.</li>
+    <li><b>Cuasilineal con presupuesto bajo (nota 16).</b> Si M &lt; p₂²/4p₁, la solución es de esquina (y = 0). El simulador cambia de régimen sin saltos en la gráfica.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Comportamiento esperado de la interfaz en casos extremos</h2>
+  <ul class="guia">
+    <li>Precios ≤ 0, presupuesto negativo, NaN o infinito: el motor lanza <code>ErrorParametro</code> con un mensaje en español. El callback debe mostrarlo junto al deslizador.</li>
+    <li>Sustitutos perfectos con p₁/a = p₂/b: <code>tipo = "indeterminado"</code>. Resaltar todo el segmento óptimo de la recta, no un punto.</li>
+    <li>Stone-Geary con M ≤ p₁x₀ + p₂y₀ y Giffen fuera de su región: mensaje de dominio. Conviene limitar el rango de los deslizadores con <code>region()</code> y <code>gasto_subsistencia()</code>.</li>
+    <li>Cobb-Douglas con α + β ≥ 1 en maximización de beneficio: <code>existe = False</code> y un motivo. Mostrar el texto, sin gráfica de óptimo.</li>
+    <li>Telaraña con d ≥ b: <code>tipo</code> “oscilacion_perpetua” o “inestable”. Acotar el eje de precios para que la divergencia no aplaste el gráfico.</li>
+    <li>Monopolio con elasticidad constante α ≤ 1, Bertrand diferenciado con 2 + ε(1 − n) ≤ 0 y precio Ramsey imposible: <code>existe = False</code>.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Detalle de cada prueba</h2>
+{{SECCIONES}}
+</section>
+
+<section>
+  <h2>Cómo ejecutar las pruebas</h2>
+<pre>pip install numpy scipy pytest
+python -m pytest tests/micro1 -q          # ~720 pruebas, ~4 s
+python tools/generar_sustentacion.py      # regenera esta página</pre>
+  <p style="font-size:14px;color:var(--muted)">Motor: <code>simuladores/micro1/modelos/</code> (Python puro, sin Dash). Los callbacks sólo importan estas funciones, así que lo que prueban estas baterías es lo mismo que ve el estudiante.</p>
+</section>
+
+<footer>Unidad de Informática FCE · Universidad Nacional de Colombia · Referencia: Monsalve, S. (2017). <em>Competencia bajo equilibrio parcial</em>, Vol. I, 2.ª ed. Las páginas citadas son las de la paginación impresa de esa edición.</footer>
+</div>
