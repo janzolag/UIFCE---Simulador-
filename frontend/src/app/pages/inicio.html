@@ -6,11 +6,6 @@
       Modelos de Fundamentos, Microeconomía 1 y Macroeconomía 1 en gráficas interactivas: mueve un parámetro y observa,
       en vivo, cómo se desplazan las curvas y el equilibrio.
     </p>
-    <div class="heroe-cifras">
-      <div><strong>{{ materias.length }}</strong><span>materias</span></div>
-      <div><strong>{{ total }}</strong><span>simuladores planeados</span></div>
-      <div><strong>100 %</strong><span>en español</span></div>
-    </div>
   </div>
   <div class="panel heroe-grafica">
     <app-plotly-chart [fig]="fig()" [alto]="330" />
@@ -30,24 +25,12 @@
       <h3>{{ m.nombre }}</h3>
       <p class="texto-suave">{{ m.descripcion }}</p>
       <div class="tarjeta-pie">
-        <span>{{ m.simuladores.length }} simuladores planeados</span>
+        <span>{{ m.simuladores.length }} simuladores</span>
         <span class="tarjeta-flecha">Entrar →</span>
       </div>
     </a>
   }
 </div>
-
-<section class="panel tutorial">
-  <div class="tutorial-mascota" title="Espacio para la imagen de UIFCITO">UIFCITO</div>
-  <div>
-    <h3>¿Primera vez? UIFCITO te guía</h3>
-    <p class="texto-suave">
-      Aquí vivirá el tutorial de uso con UIFCITO, la mascota de la Unidad Informática: un recorrido corto por la barra
-      lateral, los parámetros y cómo proyectar un modelo en clase.
-    </p>
-  </div>
-  <button type="button" class="boton-secundario" disabled>Tutorial · próximamente</button>
-</section>
 
 <footer class="pie-pagina">
   <span>{{ creador }}</span>

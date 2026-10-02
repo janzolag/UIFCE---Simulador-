@@ -27,6 +27,20 @@
   background: linear-gradient(135deg, #5b9bff, #3dd6b5);
 }
 
+.boton-tutorial {
+  flex: none; margin-left: auto; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 6px;
+  font: inherit; font-size: 0.85rem; color: var(--texto); cursor: pointer;
+  background: transparent; border: 1px solid var(--borde); border-radius: 999px;
+  transition: background 0.15s, border-color 0.15s;
+  &:hover { background: var(--panel-hover); border-color: var(--acento); }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  .interrogacion {
+    width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 800; font-size: 0.85rem; color: #07142b; background: var(--acento);
+  }
+}
+
+.ubicacion ~ .boton-tutorial { margin-left: 0; }
 .ubicacion {
   margin-left: auto; min-width: 0; display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--texto-suave);
   .sim { color: var(--texto); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -43,5 +57,6 @@
   .marca-titulo { display: none; }
   .ubicacion .materia, .ubicacion .sep { display: none; }
   .ubicacion { margin-left: 0; flex: 1; }
+  .boton-tutorial { padding: 0 6px; .etiqueta { display: none; } }
   .contenido { padding: 18px 14px 32px; }
 }

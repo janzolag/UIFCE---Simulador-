@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CREADOR, MATERIAS, TITULO_APP, VERSION, totalSimuladores } from '../core/catalogo';
+import { CREADOR, MATERIAS, TITULO_APP, VERSION } from '../core/catalogo';
 import { Figura } from '../core/tipos';
 import { ACENTO, COLORES, layoutBase } from '../core/tema';
 import { linspace } from '../core/numerico';
@@ -41,7 +41,6 @@ export class Inicio {
   protected readonly creador = CREADOR;
   protected readonly version = VERSION;
   protected readonly materias = MATERIAS;
-  protected readonly total = totalSimuladores();
 
   protected readonly desplazamiento = signal(0);
   protected readonly fig = computed(() => figuraPortada(this.desplazamiento()));

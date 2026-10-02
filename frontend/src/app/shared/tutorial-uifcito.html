@@ -1,0 +1,43 @@
+@if (t.paso(); as p) {
+  <div class="capa" role="dialog" aria-modal="true" aria-labelledby="tut-titulo" aria-describedby="tut-texto">
+    @if (!p.centro && t.hueco(); as h) {
+      <div
+        class="foco"
+        [style.top.px]="h.top - 6"
+        [style.left.px]="h.left - 6"
+        [style.width.px]="h.width + 12"
+        [style.height.px]="h.height + 12"
+      ></div>
+    } @else {
+      <div class="fondo"></div>
+    }
+
+    <div class="escena" [class.centro]="p.centro" [attr.data-dock]="p.centro ? null : (p.dock ?? 'br')">
+      <img class="mascota" [src]="'uifcito/' + p.pose + '.png'" alt="" [attr.data-pose]="p.pose" />
+
+      <div class="globo">
+        <h2 id="tut-titulo">{{ p.titulo }}</h2>
+        <p id="tut-texto">{{ p.texto }}</p>
+
+        <div class="pie">
+          <span class="progreso" aria-label="Paso {{ (t.indice() ?? 0) + 1 }} de {{ t.total }}">
+            @for (n of puntos; track $index) {
+              <i [class.hecho]="$index <= (t.indice() ?? 0)"></i>
+            }
+          </span>
+          <span class="botones">
+            @if ((t.indice() ?? 0) < t.total - 1) {
+              <button type="button" class="enlace" (click)="t.terminar()">{{ p.saltar ?? 'Saltar' }}</button>
+            }
+            @if ((t.indice() ?? 0) > 0) {
+              <button type="button" class="secundario" (click)="t.anterior()">Atrás</button>
+            }
+            <button #principal type="button" class="primario" (click)="t.siguiente()">
+              {{ p.siguiente ?? 'Siguiente' }}
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+}

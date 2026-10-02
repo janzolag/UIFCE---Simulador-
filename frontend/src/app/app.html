@@ -2,8 +2,8 @@
   <button
     type="button"
     class="boton-menu"
-    (click)="menuAbierto.set(!menuAbierto())"
-    [attr.aria-expanded]="menuAbierto()"
+    (click)="menu.abierto.set(!menu.abierto())"
+    [attr.aria-expanded]="menu.abierto()"
     aria-controls="menu-lateral"
     aria-label="Abrir o cerrar el menú de materias y simuladores"
   >
@@ -22,8 +22,14 @@
       }
     </div>
   }
+  <button type="button" class="boton-tutorial" (click)="tutorial.iniciar()" title="Ver el tutorial de UIFCITO">
+    <span class="interrogacion" aria-hidden="true">?</span>
+    <span class="etiqueta">Tutorial</span>
+  </button>
 </header>
 
-<app-sidebar [abierta]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
+<app-sidebar [abierta]="menu.abierto()" (cerrar)="menu.abierto.set(false)" />
 
 <main class="contenido"><router-outlet /></main>
+
+<app-tutorial-uifcito />
