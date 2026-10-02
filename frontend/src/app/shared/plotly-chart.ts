@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, ElementRef, OnDestroy, effect, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, effect, input, viewChild } from '@angular/core';
 import { Figura } from '../core/tipos';
 
 const CONFIG = {
@@ -15,21 +15,24 @@ function cargarPlotly(): Promise<any> {
   return plotlyPromise;
 }
 
-/** Gráfica Plotly. Carga plotly.js bajo demanda y redibuja con Plotly.react. */
+/** Gráfica Plotly. Carga plotly.js bajo demanda, redibuja con Plotly.react y sigue el tamaño de su contenedor. */
 @Component({
   selector: 'app-plotly-chart',
   template: `<div #cont class="grafica" [style.height.px]="alto()"></div>`,
   styles: `
+    :host { display: block; min-width: 0; }
     .grafica { width: 100%; }
   `,
 })
-export class PlotlyChart implements OnDestroy {
+export class PlotlyChart implements AfterViewInit, OnDestroy {
   readonly fig = input.required<Figura>();
   readonly alto = input(460);
 
   private readonly cont = viewChild.required<ElementRef<HTMLDivElement>>('cont');
   private Plotly: any = null;
   private destruido = false;
+  private observador?: ResizeObserver;
+  private cuadro = 0;
 
   constructor() {
     effect(() => {
@@ -44,8 +47,22 @@ export class PlotlyChart implements OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    // Al ocultar/mostrar el panel de parámetros cambia el ancho del contenedor: se reajusta el gráfico.
+    const el = this.cont().nativeElement;
+    this.observador = new ResizeObserver(() => {
+      cancelAnimationFrame(this.cuadro);
+      this.cuadro = requestAnimationFrame(() => {
+        if (this.Plotly && el.offsetWidth > 0 && el.querySelector('.plotly')) this.Plotly.Plots.resize(el);
+      });
+    });
+    this.observador.observe(el);
+  }
+
   ngOnDestroy(): void {
     this.destruido = true;
+    cancelAnimationFrame(this.cuadro);
+    this.observador?.disconnect();
     if (this.Plotly) this.Plotly.purge(this.cont().nativeElement);
   }
 }

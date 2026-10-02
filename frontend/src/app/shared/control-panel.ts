@@ -23,6 +23,14 @@ export class ControlPanel {
     return fmt(this.params()[c.id] as number, 3);
   }
 
+  /** Posición del valor dentro del rango, para rellenar la pista del deslizador. */
+  protected porcentaje(c: Control): string {
+    const min = c.min ?? 0;
+    const max = c.max ?? 1;
+    const v = Number(this.params()[c.id]);
+    return `${Math.min(100, Math.max(0, ((v - min) / (max - min)) * 100))}%`;
+  }
+
   protected alSlider(c: Control, ev: Event): void {
     const v = Number((ev.target as HTMLInputElement).value);
     if (Number.isFinite(v)) this.cambio.emit({ id: c.id, valor: v });

@@ -69,13 +69,29 @@ export class SimuladorPage {
     });
   }
 
+  /** Panel de parámetros visible (se puede ocultar para dar todo el ancho a la gráfica). */
+  protected readonly panelAbierto = signal(true);
+
+  private pendiente: Params | null = null;
+  private cuadro = 0;
+
+  /**
+   * Arrastrar un deslizador dispara decenas de eventos por segundo: se agrupan en uno por cuadro de
+   * animación para que cada redibujado de la gráfica cueste una sola vez y el movimiento sea fluido.
+   */
   protected alCambiar(ev: { id: string; valor: number | string }): void {
     const d = this.def();
     if (!d) return;
-    const anterior = this.params();
+    const anterior = this.pendiente ?? this.params();
     let nuevo: Params = { ...anterior, [ev.id]: ev.valor };
     const ajuste = d.alCambiar?.(anterior, nuevo);
     if (ajuste) nuevo = { ...nuevo, ...ajuste };
-    this.params.set(nuevo);
+    this.pendiente = nuevo;
+    if (this.cuadro) return;
+    this.cuadro = requestAnimationFrame(() => {
+      this.cuadro = 0;
+      if (this.pendiente) this.params.set(this.pendiente);
+      this.pendiente = null;
+    });
   }
 }

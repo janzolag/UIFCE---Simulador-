@@ -1,9 +1,10 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
-import { CREADOR, MATERIAS, SUBTITULO_APP, TITULO_APP, listos } from '../core/catalogo';
+import { CREADOR, MATERIAS, listos } from '../core/catalogo';
 
+/** Menú lateral desplegable (cajón): materias en acordeón y, dentro de cada una, sus simuladores. */
 @Component({
   selector: 'app-sidebar',
   imports: [RouterLink],
@@ -13,12 +14,12 @@ import { CREADOR, MATERIAS, SUBTITULO_APP, TITULO_APP, listos } from '../core/ca
 export class Sidebar {
   private readonly router = inject(Router);
 
-  protected readonly titulo = TITULO_APP;
-  protected readonly subtitulo = SUBTITULO_APP;
+  readonly abierta = input(false);
+  readonly cerrar = output<void>();
+
   protected readonly creador = CREADOR;
   protected readonly materias = MATERIAS;
   protected readonly listos = listos;
-  protected readonly abierta = signal(false);
 
   private readonly url = toSignal(
     this.router.events.pipe(
@@ -28,17 +29,25 @@ export class Sidebar {
     { initialValue: this.router.url },
   );
 
-  /** [materia, simulador] activos según la URL actual. */
+  /** Materia y simulador activos según la URL. */
   protected readonly ruta = computed(() => {
     const partes = this.url().split(/[?#]/)[0].split('/').filter(Boolean);
     return { materia: partes[0] ?? '', sim: partes[1] ?? '' };
   });
 
-  protected alternar(): void {
-    this.abierta.update((v) => !v);
+  /** Materia desplegada a mano; si no hay, se despliega la de la página actual. */
+  private readonly manual = signal<string | null | undefined>(undefined);
+  protected readonly desplegada = computed(() => (this.manual() === undefined ? this.ruta().materia : this.manual()));
+
+  constructor() {
+    // Al navegar, el acordeón vuelve a seguir la materia de la página.
+    effect(() => {
+      this.ruta();
+      this.manual.set(undefined);
+    });
   }
 
-  protected cerrar(): void {
-    this.abierta.set(false);
+  protected alternar(id: string): void {
+    this.manual.set(this.desplegada() === id ? null : id);
   }
 }

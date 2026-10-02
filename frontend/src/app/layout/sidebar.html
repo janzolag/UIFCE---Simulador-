@@ -1,53 +1,53 @@
-<aside class="barra-lateral" [class.abierta]="abierta()">
-  <div class="marca">
-    <a routerLink="/" class="marca-enlace" (click)="cerrar()">
-      <div class="marca-logo">UI</div>
-      <div>
-        <div class="marca-titulo">{{ titulo }}</div>
-        <div class="marca-subtitulo">{{ subtitulo }}</div>
-      </div>
-    </a>
-    <button type="button" class="boton-menu" (click)="alternar()" title="Mostrar u ocultar el menú" aria-label="Menú">☰</button>
+<div class="velo" [class.visible]="abierta()" (click)="cerrar.emit()" aria-hidden="true"></div>
+
+<aside id="menu-lateral" class="menu" [class.abierto]="abierta()" [attr.inert]="abierta() ? null : ''" aria-label="Materias y simuladores">
+  <div class="menu-cabeza">
+    <span class="menu-titulo">Materias y simuladores</span>
+    <button type="button" class="cerrar" (click)="cerrar.emit()" aria-label="Cerrar menú">✕</button>
   </div>
 
-  <nav class="nav-lateral">
-    <a routerLink="/" class="boton-nav" [class.activo]="ruta().materia === ''" (click)="cerrar()">
-      <span class="icono-nav icono-inicio">⌂</span>
-      <span class="texto-nav">Inicio</span>
+  <nav class="menu-nav">
+    <a routerLink="/" class="fila inicio" [class.activo]="ruta().materia === ''" (click)="cerrar.emit()">
+      <span class="icono icono-inicio">⌂</span>
+      <span class="texto">Inicio</span>
     </a>
-    <div class="etiqueta-seccion">Materias</div>
 
     @for (m of materias; track m.id) {
-      <a
-        [routerLink]="['/', m.id]"
-        class="boton-nav boton-materia"
-        [class.activo]="ruta().materia === m.id"
-        [style.--color-materia]="m.color"
-        (click)="cerrar()"
-      >
-        <span class="icono-nav">{{ m.sigla }}</span>
-        <span class="texto-nav">{{ m.nombre }}</span>
-        <span class="contador" title="Simuladores listos / planeados">{{ listos(m) }}/{{ m.simuladores.length }}</span>
-      </a>
-      @if (ruta().materia === m.id) {
-        <div class="submenu" [style.--color-materia]="m.color">
-          @for (s of m.simuladores; track s.id) {
-            <a
-              [routerLink]="['/', m.id, s.id]"
-              class="enlace-sub"
-              [class.activo]="ruta().sim === s.id"
-              [class.pendiente]="!s.listo"
-              (click)="cerrar()"
-            >
-              <span class="punto-estado"></span><span>{{ s.nombre }}</span>
-            </a>
-          }
-        </div>
-      }
+      <div class="grupo" [style.--color-materia]="m.color">
+        <button
+          type="button"
+          class="fila materia"
+          [class.activo]="ruta().materia === m.id"
+          [attr.aria-expanded]="desplegada() === m.id"
+          (click)="alternar(m.id)"
+        >
+          <span class="icono">{{ m.sigla }}</span>
+          <span class="texto">{{ m.nombre }}</span>
+          <span class="contador" title="Simuladores listos / planeados">{{ listos(m) }}/{{ m.simuladores.length }}</span>
+          <span class="flecha" [class.girada]="desplegada() === m.id" aria-hidden="true">›</span>
+        </button>
+
+        @if (desplegada() === m.id) {
+          <div class="submenu">
+            <a [routerLink]="['/', m.id]" class="sub ver-todos" (click)="cerrar.emit()">Ver todos los simuladores →</a>
+            @for (s of m.simuladores; track s.id) {
+              <a
+                [routerLink]="['/', m.id, s.id]"
+                class="sub"
+                [class.activo]="ruta().materia === m.id && ruta().sim === s.id"
+                [class.pendiente]="!s.listo"
+                (click)="cerrar.emit()"
+              >
+                <span class="punto"></span><span>{{ s.nombre }}</span>
+              </a>
+            }
+          </div>
+        }
+      </div>
     }
   </nav>
 
-  <div class="pie-lateral">
+  <div class="menu-pie">
     <div>Unidad Informática FCE</div>
     <div class="texto-suave">Universidad Nacional de Colombia</div>
   </div>

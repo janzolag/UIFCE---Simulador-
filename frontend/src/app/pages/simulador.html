@@ -8,33 +8,48 @@
         </div>
       }
 
-      <div class="migas">
-        <a [routerLink]="['/', m.id]">{{ m.nombre }}</a><span> › </span><span>{{ s.nombre }}</span>
-      </div>
-      <div class="encabezado-simulador">
-        <h1>{{ s.nombre }}</h1>
-        <p class="texto-suave">{{ s.descripcion }}</p>
+      <div class="encabezado">
+        <div class="titulos">
+          <h1>{{ s.nombre }}</h1>
+          <p class="texto-suave">{{ s.descripcion }}</p>
+        </div>
         @if (s.ecuacion) {
-          <app-math-equation [tex]="s.ecuacion" />
+          <app-math-equation class="ecuacion-cabeza" [tex]="s.ecuacion" />
         }
       </div>
 
-      <div class="rejilla-simulador">
-        <section class="panel panel-controles">
-          <h3>Parámetros</h3>
-          @if (def(); as d) {
-            <app-control-panel [grupos]="d.grupos" [params]="params()" (cambio)="alCambiar($event)" />
-          } @else if (!s.listo) {
-            <div class="control-fantasma"></div>
-            <div class="control-fantasma"></div>
-            <div class="control-fantasma"></div>
-            <p class="texto-suave pequeno">Aquí irán los deslizadores de los parámetros del modelo.</p>
-          } @else if (falla()) {
-            <p class="texto-suave">No se pudo cargar el simulador. Recarga la página.</p>
-          } @else {
-            <p class="texto-suave pequeno">Cargando…</p>
-          }
-        </section>
+      <div class="herramientas">
+        <button
+          type="button"
+          class="boton-panel"
+          [attr.aria-expanded]="panelAbierto()"
+          aria-controls="panel-controles"
+          (click)="panelAbierto.set(!panelAbierto())"
+        >
+          <span aria-hidden="true">⚙</span>
+          {{ panelAbierto() ? 'Ocultar parámetros' : 'Mostrar parámetros' }}
+        </button>
+        <a class="enlace-materia" [routerLink]="['/', m.id]">← {{ m.nombre }}</a>
+      </div>
+
+      <div class="escenario" [class.sin-panel]="!panelAbierto()">
+        @if (panelAbierto()) {
+          <section id="panel-controles" class="panel panel-controles">
+            <h3>Parámetros</h3>
+            @if (def(); as d) {
+              <app-control-panel [grupos]="d.grupos" [params]="params()" (cambio)="alCambiar($event)" />
+            } @else if (!s.listo) {
+              <div class="control-fantasma"></div>
+              <div class="control-fantasma"></div>
+              <div class="control-fantasma"></div>
+              <p class="texto-suave pequeno">Aquí irán los deslizadores de los parámetros del modelo.</p>
+            } @else if (falla()) {
+              <p class="texto-suave">No se pudo cargar el simulador. Recarga la página.</p>
+            } @else {
+              <p class="texto-suave pequeno">Cargando…</p>
+            }
+          </section>
+        }
         <section class="panel panel-grafica">
           @if (resultado(); as r) {
             <app-plotly-chart [fig]="r.fig" [alto]="def()?.alto ?? 540" />

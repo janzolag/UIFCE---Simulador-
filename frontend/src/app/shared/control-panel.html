@@ -17,6 +17,7 @@
             [max]="c.max"
             [step]="c.paso"
             [value]="valor(c)"
+            [style.--p]="porcentaje(c)"
             (input)="alSlider(c, $event)"
           />
         } @else {

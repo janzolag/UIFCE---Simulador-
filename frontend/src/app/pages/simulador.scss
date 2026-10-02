@@ -1,10 +1,34 @@
-.migas { font-size: 0.85rem; color: var(--texto-suave); margin-bottom: 10px; a:hover { color: var(--texto); text-decoration: underline; } }
-.encabezado-simulador { margin-bottom: 20px; app-math-equation { font-size: 1.1rem; margin-top: 8px; } }
-.rejilla-simulador { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; margin-bottom: 18px; }
-.panel-grafica { padding: 8px; }
+.encabezado {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 18px;
+  h1 { margin: 0 0 2px; font-size: 1.9rem; letter-spacing: -0.02em; }
+  p { margin: 0; }
+}
+.ecuacion-cabeza { font-size: 1.2rem; color: var(--acento); }
+
+.herramientas { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.boton-panel {
+  display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 0.88rem; cursor: pointer;
+  color: var(--texto); background: var(--panel); border: 1px solid var(--borde); border-radius: 999px; padding: 8px 16px;
+  transition: background 0.15s, border-color 0.15s;
+  &:hover { background: var(--panel-hover); border-color: var(--acento); }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+}
+.enlace-materia { font-size: 0.85rem; color: var(--texto-suave); &:hover { color: var(--texto); } }
+
+/* Escenario: parámetros a la izquierda, gráfica protagonista; sin panel, la gráfica ocupa todo el ancho */
+.escenario {
+  display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 16px; margin-bottom: 16px; align-items: start;
+  &.sin-panel { grid-template-columns: minmax(0, 1fr); }
+}
+.panel-controles {
+  max-height: 640px; overflow-y: auto; position: sticky; top: calc(var(--alto-barra) + 12px);
+  h3 { margin: 0 0 14px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); }
+  scrollbar-width: thin;
+}
+.panel-grafica { padding: 10px; min-width: 0; }
 .grafica-vacia { display: grid; place-items: center; color: var(--texto-suave); }
 .aviso-construccion {
-  background: rgba(245, 196, 81, 0.08); border: 1px solid rgba(245, 196, 81, 0.35);
+  background: rgba(61, 214, 181, 0.08); border: 1px solid rgba(61, 214, 181, 0.35);
   border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; font-size: 0.9rem;
 }
 .control-fantasma {
@@ -12,6 +36,8 @@
   background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 24px);
   border: 1px dashed var(--borde);
 }
+
 @media (max-width: 900px) {
-  .rejilla-simulador { grid-template-columns: 1fr; }
+  .escenario { grid-template-columns: minmax(0, 1fr); }
+  .panel-controles { position: static; max-height: none; }
 }

@@ -2,14 +2,14 @@
 import { Bloque, Figura } from './tipos';
 
 export const COLORES = {
-  fondo: '#0B1D3A',
-  fondoLateral: '#07142B',
-  panel: '#11284D',
-  borde: '#22406E',
-  rejilla: '#1C3560',
-  texto: '#E8EEF8',
-  textoSuave: '#9DB0CF',
-  acento: '#F5C451',
+  fondo: '#171b22', // fondo del papel de Plotly = color de la tarjeta
+  fondoLateral: '#0a0d12',
+  panel: '#12161d', // área de trazado
+  borde: '#262c36',
+  rejilla: '#222834',
+  texto: '#eef1f6',
+  textoSuave: '#8b94a5',
+  acento: '#F5C451', // resalta puntos de equilibrio en las gráficas
 };
 
 export const SERIE = ['#5B9BFF', '#F5C451', '#3DD6B5', '#FF7A85', '#B79CFF', '#FFA45B'];

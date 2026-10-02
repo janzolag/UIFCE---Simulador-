@@ -1,0 +1,29 @@
+<header class="barra">
+  <button
+    type="button"
+    class="boton-menu"
+    (click)="menuAbierto.set(!menuAbierto())"
+    [attr.aria-expanded]="menuAbierto()"
+    aria-controls="menu-lateral"
+    aria-label="Abrir o cerrar el menú de materias y simuladores"
+  >
+    <span class="hamburguesa" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <a routerLink="/" class="marca">
+    <span class="logo">UI</span>
+    <span class="marca-titulo">{{ titulo }}</span>
+  </a>
+  @if (ubicacion(); as u) {
+    <div class="ubicacion">
+      <span class="materia">{{ u.materia }}</span>
+      @if (u.sim) {
+        <span class="sep">›</span>
+        <span class="sim">{{ u.sim }}</span>
+      }
+    </div>
+  }
+</header>
+
+<app-sidebar [abierta]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
+
+<main class="contenido"><router-outlet /></main>
