@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Económico UIFCE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #0B1D3A 0%, #07142B 100%);
+            color: #E8EEF8;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: rgba(11, 29, 58, 0.95);
+            border-bottom: 2px solid #22406E;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #F5C451;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: #9DB0CF;
+            margin-bottom: 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            flex: 1;
+            width: 100%;
+        }
+        .intro {
+            background: rgba(17, 40, 77, 0.6);
+            border: 1px solid #22406E;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .card {
+            background: rgba(17, 40, 77, 0.8);
+            border: 1px solid #22406E;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: #F5C451;
+            box-shadow: 0 0 20px rgba(245, 196, 81, 0.1);
+            transform: translateY(-5px);
+        }
+        .card h3 {
+            color: #F5C451;
+            margin-bottom: 1rem;
+        }
+        .card p {
+            color: #9DB0CF;
+            font-size: 0.95rem;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat {
+            background: rgba(91, 155, 255, 0.1);
+            border-left: 4px solid #5B9BFF;
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+        .stat .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #5B9BFF;
+        }
+        .stat .label {
+            color: #9DB0CF;
+            font-size: 0.9rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #5B9BFF 0%, #3DD6B5 100%);
+            color: #0B1D3A;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(91, 155, 255, 0.3);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #F5C451;
+            color: #F5C451;
+        }
+        .btn-secondary:hover {
+            background: rgba(245, 196, 81, 0.1);
+        }
+        footer {
+            background: rgba(11, 29, 58, 0.95);
+            border-top: 1px solid #22406E;
+            padding: 2rem;
+            text-align: center;
+            color: #9DB0CF;
+            margin-top: auto;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .feature {
+            padding: 1rem;
+        }
+        .feature h4 {
+            color: #3DD6B5;
+            margin-bottom: 0.5rem;
+        }
+        .feature p {
+            color: #9DB0CF;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 Simulador Económico</h1>
+        <p>Unidad Informática FCE · Universidad Nacional de Colombia</p>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">Bienvenido</h2>
+            <p>Aplicación web interactiva para simular modelos económicos en las materias de Fundamentos, Microeconomía 1 y Macroeconomía 1. Desarrollada con tecnología moderna (Dash + Plotly) para visualizar conceptos económicos de forma dinámica e intuitiva.</p>
+        </section>
+
+        <section>
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">📚 Materias disponibles</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Fundamentos de Economía</h3>
+                    <p><strong>6 simuladores:</strong> Equilibrio de mercado, elasticidades, excedentes, impuestos y subsidios, frontera de posibilidades de producción, ventaja comparativa.</p>
+                </div>
+                <div class="card">
+                    <h3>Microeconomía 1</h3>
+                    <p><strong>10 simuladores activos:</strong> Restricción presupuestal, preferencias, elección óptima, Slutsky, demanda, producción, costos, competencia perfecta, monopolio y oligopolio.</p>
+                </div>
+                <div class="card">
+                    <h3>Macroeconomía 1</h3>
+                    <p><strong>4 simuladores:</strong> Modelo Keynesiano, IS-LM, demanda y oferta agregadas, Mundell-Fleming (en desarrollo).</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 3rem 0;">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">📈 Estado del Proyecto</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="number">10</div>
+                    <div class="label">Simuladores activos (Micro 1)</div>
+                </div>
+                <div class="stat">
+                    <div class="number">20</div>
+                    <div class="label">Simuladores totales</div>
+                </div>
+                <div class="stat">
+                    <div class="number">~790</div>
+                    <div class="label">Pruebas automáticas</div>
+                </div>
+                <div class="stat">
+                    <div class="number">0.2.0</div>
+                    <div class="label">Versión (Beta)</div>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 3rem 0;">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">✨ Características</h2>
+            <div class="features">
+                <div class="feature">
+                    <h4>🎨 Interfaz moderna</h4>
+                    <p>Tema azul oscuro, responsive design, gráficas interactivas con Plotly.</p>
+                </div>
+                <div class="feature">
+                    <h4>📱 Multiplataforma</h4>
+                    <p>Funciona en desktop, tablet y móvil. Menú adaptable en pantallas pequeñas.</p>
+                </div>
+                <div class="feature">
+                    <h4>🔧 Arquitectura modular</h4>
+                    <p>Fácil de extender: agregar nuevos simuladores sin tocar el núcleo.</p>
+                </div>
+                <div class="feature">
+                    <h4>✅ Testeado</h4>
+                    <p>Motor matemático probado, pruebas de interfaz y navegador con Playwright.</p>
+                </div>
+                <div class="feature">
+                    <h4>📊 Económicamente sólido</h4>
+                    <p>Basado en Monsalve (2017) y el programa oficial de las materias.</p>
+                </div>
+                <div class="feature">
+                    <h4>🚀 Production-ready</h4>
+                    <p>Listo para desplegar con gunicorn en Heroku, Render, Railway o tu servidor.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 3rem 0;">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">🚀 Comienza aquí</h2>
+            <div class="btn-group">
+                <a href="https://github.com/janzolag/UIFCE---Simulador-" class="btn">Ver en GitHub</a>
+                <a href="#instalacion" class="btn btn-secondary">Instalar localmente</a>
+                <a href="https://github.com/janzolag/UIFCE---Simulador-#pruebas" class="btn btn-secondary">Ver pruebas</a>
+            </div>
+        </section>
+
+        <section style="margin: 3rem 0;" id="instalacion">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">💻 Instalación rápida</h2>
+            <div class="intro">
+                <pre style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>git clone https://github.com/janzolag/UIFCE---Simulador-.git
+cd UIFCE---Simulador-/simulador_uifce
+pip install -r requirements.txt
+python app.py</code></pre>
+                <p style="margin-top: 1rem; color: #9DB0CF;">Abre http://127.0.0.1:8050 en tu navegador.</p>
+            </div>
+        </section>
+
+        <section style="margin: 3rem 0;">
+            <h2 style="color: #F5C451; margin-bottom: 1rem;">📖 Documentación</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>📁 Estructura</h3>
+                    <p>Aprende cómo está organizado el proyecto: aplicación, componentes, simuladores, modelos y pruebas.</p>
+                </div>
+                <div class="card">
+                    <h3>✍️ Crear un simulador</h3>
+                    <p>Sigue el ejemplo en <code>plantilla.py</code> para agregar nuevos simuladores en menos de 100 líneas.</p>
+                </div>
+                <div class="card">
+                    <h3>🧪 Pruebas</h3>
+                    <p>~790 pruebas: motor matemático, interfaz y navegador. Todo funciona sin errores.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Unidad Informática FCE · Universidad Nacional de Colombia</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+            <a href="https://github.com/janzolag/UIFCE---Simulador-" style="color: #5B9BFF; text-decoration: none;">GitHub</a> ·
+            <a href="mailto:janzolag@unal.edu.co" style="color: #5B9BFF; text-decoration: none;">Contacto</a>
+        </p>
+    </footer>
+</body>
+</html>
