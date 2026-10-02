@@ -1,4 +1,4 @@
-# Simulador Económico UIFCE
+﻿# Simulador Económico UIFCE
 
 **Aplicación web para enseñanza de modelos económicos | Python + Dash + Plotly**
 
@@ -60,7 +60,7 @@ Desarrollada por la **Unidad Informática de la Facultad de Ciencias Económicas
 
 ```bash
 git clone https://github.com/janzolag/UIFCE---Simulador-.git
-cd UIFCE---Simulador-/simulador_uifce
+cd UIFCE---Simulador-
 pip install -r requirements.txt
 python app.py
 ```
@@ -83,7 +83,7 @@ Funciona en:
 ## 📁 Estructura del proyecto
 
 ```
-simulador_uifce/
+UIFCE---Simulador-/
 ├── app.py                      # Enrutador principal + registro de callbacks
 ├── config.py                   # Paleta de colores + plantilla Plotly "uifce"
 ├── registro.py                 # Lista única de materias (MATERIAS)
@@ -122,7 +122,7 @@ simulador_uifce/
 │   ├── test_navegador.py       # Playwright: UI real en Chromium
 │   ├── test_micro1_interfaz.py # Deslizadores y selectores
 │   │
-│   └── micro1/                 # ~670 pruebas del motor
+│   └── micro1/                 # pruebas del motor
 │       ├── test_01_presupuesto.py
 │       ├── test_02_preferencias.py
 │       ├── ... (otros temas)
@@ -261,14 +261,13 @@ VERSION = "1.0.0"
 | **Cálculos** | NumPy 1.26 |
 | **Servidor** | Gunicorn 22 |
 | **Pruebas** | pytest + Playwright |
-| **Estilo** | CSS + Figma (tema azul) |
+| **Estilo** | CSS (tema azul) |
 
 ---
 
 ## 📖 Referencias
 
-- **Monsalve (2017)**: Introducción a la Teoría del Equilibrio General
-- **Programa oficial**: Facultad de Ciencias Económicas, UN
+- **Monsalve (2017)**: fuente de las fórmulas de Microeconomía 1
 
 ---
 
