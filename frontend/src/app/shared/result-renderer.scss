@@ -1,0 +1,14 @@
+:host { display: contents; }
+.rejilla-resultados { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+.lectura h3 { font-size: 0.95rem; margin-bottom: 10px; }
+.lectura p, p { font-size: 0.9rem; }
+.pequeno { font-size: 0.85rem; }
+.tabla-resultados { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 10px; }
+.tabla-resultados th { text-align: left; font-weight: 500; color: var(--texto-suave); font-size: 0.78rem; padding: 4px 6px; border-bottom: 1px solid var(--borde); }
+.tabla-resultados td { padding: 5px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: var(--texto-suave); }
+.tabla-resultados td.num { text-align: right; color: var(--texto); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.aviso { border-radius: 10px; padding: 9px 12px; font-size: 0.88rem; margin-bottom: 10px; }
+.aviso-info { background: rgba(91, 155, 255, 0.1); border: 1px solid rgba(91, 155, 255, 0.35); }
+.aviso-error { background: rgba(255, 122, 133, 0.1); border: 1px solid rgba(255, 122, 133, 0.45); }
+.referencia { font-size: 0.8rem; color: var(--texto-suave); font-style: italic; margin-top: 8px; }
+.referencia span { font-style: normal; color: var(--acento); }

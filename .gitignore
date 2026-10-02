@@ -1,6 +1,21 @@
-﻿__pycache__/
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.claude/
+*.tsbuildinfo
+npm-debug.log*
+
+# Python (código legacy y herramientas)
+__pycache__/
 *.pyc
 .pytest_cache/
 .venv/
 venv/
 .env
+
+# Editores y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

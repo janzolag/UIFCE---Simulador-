@@ -1,0 +1,42 @@
+@for (g of visibles(); track $index) {
+  <div [class.grupo-controles]="g.titulo">
+    @if (g.titulo) {
+      <div class="grupo-titulo">{{ g.titulo }}</div>
+    }
+    @for (c of g.controles; track c.id) {
+      <div class="control">
+        @if (c.tipo === 'slider') {
+          <label class="control-etiqueta" [for]="'ctl-' + c.id">
+            <span>{{ c.etiqueta }}</span>
+            <output class="valor">{{ texto(c) }}</output>
+          </label>
+          <input
+            type="range"
+            [id]="'ctl-' + c.id"
+            [min]="c.min"
+            [max]="c.max"
+            [step]="c.paso"
+            [value]="valor(c)"
+            (input)="alSlider(c, $event)"
+          />
+        } @else {
+          <div class="control-etiqueta">{{ c.etiqueta }}</div>
+          <div class="selector" role="radiogroup" [attr.aria-label]="c.etiqueta">
+            @for (o of c.opciones; track o.valor) {
+              <button
+                type="button"
+                role="radio"
+                class="opcion"
+                [class.selected]="valor(c) === o.valor"
+                [attr.aria-checked]="valor(c) === o.valor"
+                (click)="alElegir(c, o.valor)"
+              >
+                {{ o.etiqueta }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

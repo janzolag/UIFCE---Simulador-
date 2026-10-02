@@ -1,0 +1,65 @@
+/* Simulador Económico UIFCE — tema azul oscuro (estilos globales).
+   Aquí viven las variables de tema, la tipografía y las piezas compartidas;
+   lo específico de cada pantalla está en el .scss de su componente. */
+
+:root {
+  --fondo: #0b1d3a;
+  --fondo-lateral: #07142b;
+  --panel: #11284d;
+  --panel-hover: #163260;
+  --borde: #22406e;
+  --texto: #e8eef8;
+  --texto-suave: #9db0cf;
+  --acento: #f5c451;
+  --listo: #3dd6b5;
+  --pendiente: #6c7fa0;
+  --radio: 14px;
+  --ancho-lateral: 272px;
+  --fuente: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: var(--fuente);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { margin: 0 0 0.4em; line-height: 1.2; font-weight: 650; }
+h1 { font-size: 2rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0 0 0.6em; }
+code { background: rgba(255, 255, 255, 0.07); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; }
+
+.texto-suave { color: var(--texto-suave); }
+.pequeno { font-size: 0.85rem; }
+.destacado { color: var(--texto); font-weight: 550; }
+
+.panel { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 18px; }
+
+.boton-secundario {
+  display: inline-block; background: transparent; color: var(--texto);
+  border: 1px solid var(--borde); border-radius: 10px; padding: 9px 16px;
+  font: inherit; font-size: 0.9rem; cursor: pointer; white-space: nowrap;
+  &:hover:not(:disabled) { background: var(--panel-hover); }
+  &:disabled { opacity: 0.6; cursor: default; }
+}
+
+.tarjeta-sigla {
+  width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center;
+  font-weight: 800; margin-bottom: 14px;
+  background: color-mix(in srgb, var(--color-materia) 22%, transparent);
+  color: var(--color-materia);
+  &.grande { width: 58px; height: 58px; font-size: 1.3rem; margin: 0; flex: none; }
+}
+
+.ecuacion { color: var(--texto); overflow-x: auto; overflow-y: hidden; }
+.ecuacion-mini { font-size: 0.9rem; padding: 4px 0; }
+
+/* Plotly: la barra de herramientas hereda el tema */
+.js-plotly-plot .plotly .modebar { background: transparent !important; }

@@ -1,0 +1,14 @@
+.encabezado-materia { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 26px; }
+.progreso { font-size: 0.85rem; color: var(--color-materia); }
+.rejilla-simuladores { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+.tarjeta-simulador {
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 18px;
+  transition: background 0.15s, border-color 0.15s;
+  &:hover { background: var(--panel-hover); border-color: var(--color-materia); }
+  p { font-size: 0.87rem; margin: 0; }
+}
+.tarjeta-simulador-cabeza { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; h3 { margin: 0; } }
+.estado { font-size: 0.7rem; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.estado-listo { background: rgba(61, 214, 181, 0.15); color: var(--listo); }
+.estado-pendiente { background: rgba(255, 255, 255, 0.06); color: var(--texto-suave); }

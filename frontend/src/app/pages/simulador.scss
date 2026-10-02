@@ -1,0 +1,17 @@
+.migas { font-size: 0.85rem; color: var(--texto-suave); margin-bottom: 10px; a:hover { color: var(--texto); text-decoration: underline; } }
+.encabezado-simulador { margin-bottom: 20px; app-math-equation { font-size: 1.1rem; margin-top: 8px; } }
+.rejilla-simulador { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; margin-bottom: 18px; }
+.panel-grafica { padding: 8px; }
+.grafica-vacia { display: grid; place-items: center; color: var(--texto-suave); }
+.aviso-construccion {
+  background: rgba(245, 196, 81, 0.08); border: 1px solid rgba(245, 196, 81, 0.35);
+  border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; font-size: 0.9rem;
+}
+.control-fantasma {
+  height: 44px; border-radius: 10px; margin-bottom: 14px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 24px);
+  border: 1px dashed var(--borde);
+}
+@media (max-width: 900px) {
+  .rejilla-simulador { grid-template-columns: 1fr; }
+}

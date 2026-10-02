@@ -1,0 +1,26 @@
+@if (materia(); as m) {
+  <div class="pagina-materia" [style.--color-materia]="m.color">
+    <div class="encabezado-materia">
+      <div class="tarjeta-sigla grande">{{ m.sigla }}</div>
+      <div>
+        <h1>{{ m.nombre }}</h1>
+        <p class="texto-suave">{{ m.descripcion }}</p>
+        <p class="progreso">{{ listos(m) }} de {{ m.simuladores.length }} simuladores disponibles · elige el modelo que quieres presentar.</p>
+      </div>
+    </div>
+    <div class="rejilla-simuladores">
+      @for (s of m.simuladores; track s.id) {
+        <a [routerLink]="['/', m.id, s.id]" class="tarjeta-simulador">
+          <div class="tarjeta-simulador-cabeza">
+            <h3>{{ s.nombre }}</h3>
+            <span class="estado" [class.estado-listo]="s.listo" [class.estado-pendiente]="!s.listo">{{ s.listo ? 'Listo' : 'En construcción' }}</span>
+          </div>
+          <app-math-equation [tex]="s.ecuacionResumen || s.ecuacion" [mini]="true" />
+          <p class="texto-suave">{{ s.descripcion }}</p>
+        </a>
+      }
+    </div>
+  </div>
+} @else {
+  <app-no-encontrada />
+}

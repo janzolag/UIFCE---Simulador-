@@ -1,0 +1,45 @@
+@for (b of bloques(); track $index) {
+  @switch (b.t) {
+    @case ('rejilla') {
+      <div class="rejilla-resultados"><app-result-renderer [bloques]="b.hijos" /></div>
+    }
+    @case ('lectura') {
+      <div class="lectura">
+        <h3>{{ b.titulo }}</h3>
+        <app-result-renderer [bloques]="b.hijos" />
+      </div>
+    }
+    @case ('tabla') {
+      <table class="tabla-resultados">
+        @if (b.encabezado) {
+          <thead>
+            <tr>
+              @for (c of b.encabezado; track $index) {
+                <th>{{ c }}</th>
+              }
+            </tr>
+          </thead>
+        }
+        <tbody>
+          @for (f of b.filas; track $index) {
+            <tr>
+              <td>{{ f[0] }}</td>
+              @for (v of f.slice(1); track $index) {
+                <td class="num">{{ fmt(v) }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+    @case ('aviso') {
+      <div class="aviso" [class.aviso-error]="b.nivel === 'error'" [class.aviso-info]="b.nivel !== 'error'">{{ b.texto }}</div>
+    }
+    @case ('texto') {
+      <p [class]="b.clase ?? ''">{{ b.texto }}</p>
+    }
+    @case ('ref') {
+      <p class="referencia"><span>Monsalve (2017) · </span>{{ b.texto }}</p>
+    }
+  }
+}

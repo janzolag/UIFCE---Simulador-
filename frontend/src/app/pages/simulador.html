@@ -1,0 +1,58 @@
+@if (materia(); as m) {
+  @if (sim(); as s) {
+    <div class="pagina-simulador" [style.--color-materia]="m.color">
+      @if (!s.listo) {
+        <div class="aviso-construccion">
+          <strong>En construcción. </strong>
+          <span>Este simulador ya tiene su espacio reservado; se activará cuando se programe su módulo.</span>
+        </div>
+      }
+
+      <div class="migas">
+        <a [routerLink]="['/', m.id]">{{ m.nombre }}</a><span> › </span><span>{{ s.nombre }}</span>
+      </div>
+      <div class="encabezado-simulador">
+        <h1>{{ s.nombre }}</h1>
+        <p class="texto-suave">{{ s.descripcion }}</p>
+        @if (s.ecuacion) {
+          <app-math-equation [tex]="s.ecuacion" />
+        }
+      </div>
+
+      <div class="rejilla-simulador">
+        <section class="panel panel-controles">
+          <h3>Parámetros</h3>
+          @if (def(); as d) {
+            <app-control-panel [grupos]="d.grupos" [params]="params()" (cambio)="alCambiar($event)" />
+          } @else if (!s.listo) {
+            <div class="control-fantasma"></div>
+            <div class="control-fantasma"></div>
+            <div class="control-fantasma"></div>
+            <p class="texto-suave pequeno">Aquí irán los deslizadores de los parámetros del modelo.</p>
+          } @else if (falla()) {
+            <p class="texto-suave">No se pudo cargar el simulador. Recarga la página.</p>
+          } @else {
+            <p class="texto-suave pequeno">Cargando…</p>
+          }
+        </section>
+        <section class="panel panel-grafica">
+          @if (resultado(); as r) {
+            <app-plotly-chart [fig]="r.fig" [alto]="def()?.alto ?? 540" />
+          } @else {
+            <div class="grafica-vacia" [style.height.px]="def()?.alto ?? 540">
+              <span>{{ s.listo ? 'Cargando…' : 'La gráfica del modelo aparecerá aquí' }}</span>
+            </div>
+          }
+        </section>
+      </div>
+
+      @if (resultado(); as r) {
+        <section class="panel panel-explicacion"><app-result-renderer [bloques]="r.panel" /></section>
+      }
+    </div>
+  } @else {
+    <app-no-encontrada />
+  }
+} @else {
+  <app-no-encontrada />
+}

@@ -1,0 +1,60 @@
+name: Desplegar en GitHub Pages
+
+# Se ejecuta en cada push a main que toque el frontend (o a mano desde la pestaña Actions).
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+
+      - name: Pruebas de paridad con el modelo original
+        run: npx ng test --watch=false
+
+      # --base-href debe coincidir con el nombre del repositorio: https://<usuario>.github.io/<repo>/
+      - name: Compilar
+        run: npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Copia 404.html (respaldo para enlaces directos)
+        run: cp dist/frontend/browser/index.html dist/frontend/browser/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist/frontend/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

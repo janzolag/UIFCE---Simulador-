@@ -1,0 +1,12 @@
+.contenedor-app { display: flex; min-height: 100vh; }
+.contenido {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--ancho-lateral);
+  padding: 36px 44px 28px;
+  max-width: calc(1280px + var(--ancho-lateral));
+}
+@media (max-width: 900px) {
+  .contenedor-app { flex-direction: column; }
+  .contenido { margin-left: 0; padding: 20px 16px; }
+}
