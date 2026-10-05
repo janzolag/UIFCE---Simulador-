@@ -47,6 +47,28 @@ export interface Simulacion {
   panel: Bloque[];
 }
 
+/** Ficha de teoría de un modelo (se muestra en el modal «Teoría»). */
+export interface Teoria {
+  /** Modelo y variante, p. ej. «Preferencias · Cobb-Douglas». */
+  titulo: string;
+  /** Idea clave: 2–3 viñetas cortas. */
+  conceptos: string[];
+  /** Fórmulas centrales en LaTeX (máximo 2). */
+  formulas: string[];
+  /** Ejercicio que se resuelve sobre la gráfica interactiva. */
+  ejemplo: {
+    /** Parámetros del enunciado; el botón «Cargar en la gráfica» los aplica. */
+    parametros: Params;
+    enunciado: string;
+    /** Lo que se debe obtener con esos parámetros. */
+    resultado: string;
+    /** Qué mover en la gráfica para comprobarlo. */
+    prueba: string;
+  };
+  /** De dónde sale en el material de referencia (Monsalve, 2017). */
+  fuente?: string;
+}
+
 export interface SimuladorDef {
   defecto: Params;
   grupos: GrupoControles[];

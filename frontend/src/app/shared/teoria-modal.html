@@ -1,0 +1,49 @@
+<dialog #dialogo class="teoria" aria-labelledby="teoria-titulo" (click)="alClicDialogo($event)" (cancel)="cerrar.emit()" (close)="abierto() && cerrar.emit()">
+  @if (teoria(); as t) {
+    <div class="tarjeta">
+      <header class="cabeza">
+        <div>
+          <div class="sobre">Teoría</div>
+          <h2 id="teoria-titulo">{{ t.titulo }}</h2>
+        </div>
+        <button type="button" class="cerrar" (click)="cerrar.emit()" aria-label="Cerrar la teoría">✕</button>
+      </header>
+
+      <div class="cuerpo">
+        <section>
+          <h3>Idea clave</h3>
+          <ul>
+            @for (c of t.conceptos; track $index) {
+              <li>{{ c }}</li>
+            }
+          </ul>
+        </section>
+
+        <section>
+          <h3>Fórmulas</h3>
+          <div class="formulas">
+            @for (fm of t.formulas; track $index) {
+              <app-math-equation [tex]="fm" [bloque]="true" />
+            }
+          </div>
+        </section>
+
+        <section class="ejercicio">
+          <h3>Resuélvelo en la gráfica</h3>
+          <p class="enunciado">{{ t.ejemplo.enunciado }}</p>
+          <p><strong>Debes obtener:</strong> {{ t.ejemplo.resultado }}</p>
+          <p><strong>Compruébalo:</strong> {{ t.ejemplo.prueba }}</p>
+        </section>
+
+        @if (t.fuente) {
+          <p class="fuente"><span>Monsalve (2017) · </span>{{ t.fuente }}</p>
+        }
+      </div>
+
+      <footer class="pie">
+        <button type="button" class="secundario" (click)="cerrar.emit()">Cerrar</button>
+        <button type="button" class="primario" (click)="cargar.emit(t.ejemplo.parametros)">Cargar este ejemplo en la gráfica</button>
+      </footer>
+    </div>
+  }
+</dialog>

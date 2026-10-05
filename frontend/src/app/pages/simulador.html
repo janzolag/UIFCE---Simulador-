@@ -19,16 +19,23 @@
       </div>
 
       <div class="herramientas">
-        <button
-          type="button"
-          class="boton-panel"
-          [attr.aria-expanded]="panelAbierto()"
-          aria-controls="panel-controles"
-          (click)="panelAbierto.set(!panelAbierto())"
-        >
-          <span aria-hidden="true">⚙</span>
-          {{ panelAbierto() ? 'Ocultar parámetros' : 'Mostrar parámetros' }}
-        </button>
+        <div class="grupo-botones">
+          <button
+            type="button"
+            class="boton-panel"
+            [attr.aria-expanded]="panelAbierto()"
+            aria-controls="panel-controles"
+            (click)="panelAbierto.set(!panelAbierto())"
+          >
+            <span aria-hidden="true">⚙</span>
+            {{ panelAbierto() ? 'Ocultar parámetros' : 'Mostrar parámetros' }}
+          </button>
+          @if (def()) {
+            <button type="button" class="boton-panel boton-teoria" aria-haspopup="dialog" (click)="abrirTeoria()">
+              <span aria-hidden="true">📖</span> Teoría
+            </button>
+          }
+        </div>
         <a class="enlace-materia" [routerLink]="['/', m.id]">← {{ m.nombre }}</a>
       </div>
 
@@ -64,6 +71,13 @@
       @if (resultado(); as r) {
         <section class="panel panel-explicacion"><app-result-renderer [bloques]="r.panel" /></section>
       }
+
+      <app-teoria-modal
+        [teoria]="teoria()"
+        [abierto]="teoriaAbierta()"
+        (cerrar)="teoriaAbierta.set(false)"
+        (cargar)="cargarEjemplo($event)"
+      />
     </div>
   } @else {
     <app-no-encontrada />

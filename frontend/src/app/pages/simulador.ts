@@ -4,19 +4,20 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, map } from 'rxjs';
 import { buscarMateria, buscarSimulador } from '../core/catalogo';
 import { ErrorParametro } from '../core/errores';
-import { Params, Simulacion, SimuladorDef } from '../core/tipos';
+import { Params, Simulacion, SimuladorDef, Teoria } from '../core/tipos';
 import { aviso, figuraVacia } from '../core/tema';
 import { CARGADORES } from '../micro1/registro';
 import { ControlPanel } from '../shared/control-panel';
 import { MathEquation } from '../shared/math-equation';
 import { PlotlyChart } from '../shared/plotly-chart';
 import { ResultRenderer } from '../shared/result-renderer';
+import { TeoriaModal } from '../shared/teoria-modal';
 import { NoEncontrada } from './no-encontrada';
 
 /** Página genérica de simulador: se arma a partir de la definición registrada. */
 @Component({
   selector: 'app-simulador',
-  imports: [RouterLink, ControlPanel, MathEquation, PlotlyChart, ResultRenderer, NoEncontrada],
+  imports: [RouterLink, ControlPanel, MathEquation, PlotlyChart, ResultRenderer, TeoriaModal, NoEncontrada],
   templateUrl: './simulador.html',
   styleUrl: './simulador.scss',
 })
@@ -71,6 +72,25 @@ export class SimuladorPage {
 
   /** Panel de parámetros visible (se puede ocultar para dar todo el ancho a la gráfica). */
   protected readonly panelAbierto = signal(true);
+
+  /** Ficha de teoría del modelo elegido (se calcula al abrir el modal, con los parámetros actuales). */
+  protected readonly teoria = signal<Teoria | null>(null);
+  protected readonly teoriaAbierta = signal(false);
+
+  protected async abrirTeoria(): Promise<void> {
+    const { teoria } = await import('../micro1/teoria'); // se descarga solo al pulsar «Teoría»
+    this.teoria.set(teoria(this.ids().sim, this.params()));
+    this.teoriaAbierta.set(true);
+  }
+
+  /** Aplica a la gráfica los parámetros del ejercicio de la teoría. */
+  protected cargarEjemplo(parametros: Params): void {
+    cancelAnimationFrame(this.cuadro);
+    this.cuadro = 0;
+    this.pendiente = null;
+    this.params.set({ ...parametros });
+    this.teoriaAbierta.set(false);
+  }
 
   private pendiente: Params | null = null;
   private cuadro = 0;
