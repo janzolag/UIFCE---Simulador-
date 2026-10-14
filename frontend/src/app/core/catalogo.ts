@@ -1,3 +1,4 @@
+import { CARGADORES_FUNDAMENTOS } from '../fundamentos/registro';
 import { CARGADORES_MACRO1 } from '../macro1/registro';
 import { CARGADORES_MICRO1 } from '../micro1/registro';
 import { Materia, SimuladorMeta } from './tipos';
@@ -5,15 +6,7 @@ import { Materia, SimuladorMeta } from './tipos';
 export const TITULO_APP = 'Simulador Económico';
 export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.4.0 — Microeconomía 1 y Macroeconomía 1 (beta)';
-
-const pendiente = (
-  id: string,
-  nombre: string,
-  descripcion: string,
-  ecuacion: string,
-  ecuacionResumen?: string,
-): SimuladorMeta => ({ id, nombre, descripcion, ecuacion, ecuacionResumen, listo: false });
+export const VERSION = '0.5.0 — Fundamentos, Microeconomía 1 y Macroeconomía 1 (beta)';
 
 /** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
 const listoEn =
@@ -28,6 +21,7 @@ const listoEn =
   });
 const listo = listoEn(CARGADORES_MICRO1);
 const listoMacro = listoEn(CARGADORES_MACRO1);
+const listoFund = listoEn(CARGADORES_FUNDAMENTOS);
 
 export const FUNDAMENTOS: Materia = {
   id: 'fundamentos',
@@ -35,43 +29,68 @@ export const FUNDAMENTOS: Materia = {
   sigla: 'Fu',
   color: '#3DD6B5',
   descripcion:
-    'Mercados, elasticidades, excedentes e intervención del Estado: las herramientas básicas del análisis económico.',
+    'Mercados, elasticidades, excedentes e intervención del Estado: las herramientas básicas del análisis económico (Mankiw, cap. 2–10).',
   simuladores: [
-    pendiente(
+    listoFund(
+      'fpp',
+      'Frontera de posibilidades de producción',
+      'Costo de oportunidad creciente, eficiencia productiva y crecimiento.',
+      String.raw`$\left(\dfrac{x}{X}\right)^k + \left(\dfrac{y}{Y}\right)^k = 1 \qquad CO = -\dfrac{dy}{dx}$`,
+    ),
+    listoFund(
+      'ventaja-comparativa',
+      'Ventaja comparativa y comercio',
+      'Costos de oportunidad entre dos productores y ganancias del intercambio.',
+      String.raw`$CO_{\text{carne}} = \dfrac{\text{min carne}}{\text{min papas}} \qquad CO_{\text{carne}}^{A} < P < CO_{\text{carne}}^{B}$`,
+      String.raw`$CO_{\text{carne}} = \dfrac{\text{min carne}}{\text{min papas}}$`,
+    ),
+    listoFund(
       'oferta-demanda',
       'Equilibrio de mercado',
       'Oferta y demanda lineales, precio y cantidad de equilibrio, y desplazamientos de las curvas.',
-      String.raw`$Q^d = a - bP \qquad Q^s = c + dP$`,
+      String.raw`$Q^d = a - bP \qquad Q^s = c + dP \qquad P^* = \dfrac{a-c}{b+d}$`,
     ),
-    pendiente(
+    listoFund(
       'elasticidades',
       'Elasticidades',
-      'Elasticidad precio, ingreso y cruzada a lo largo de la curva de demanda.',
-      String.raw`$\varepsilon_{p} = \dfrac{\Delta Q / Q}{\Delta P / P}$`,
+      'Elasticidad precio por punto medio y su efecto sobre el ingreso total.',
+      String.raw`$\varepsilon = \dfrac{(Q_2-Q_1)/[(Q_2+Q_1)/2]}{(P_2-P_1)/[(P_2+P_1)/2]} \qquad IT = P\times Q$`,
+      String.raw`$\varepsilon = \dfrac{\Delta Q / \bar{Q}}{\Delta P / \bar{P}}$`,
     ),
-    pendiente(
+    listoFund(
       'excedentes',
       'Excedente del consumidor y del productor',
-      'Áreas de bienestar en el equilibrio competitivo.',
-      String.raw`$EC = \int_0^{Q^*} D(Q)\,dQ - P^*Q^*$`,
+      'Áreas de bienestar en el equilibrio competitivo, en curvas lineales y en tablas escalonadas.',
+      String.raw`$EC = \int_0^{Q} \left[P^d(q) - P\right] dq \qquad EP = \int_0^{Q} \left[P - P^s(q)\right] dq$`,
+      String.raw`$ET = EC + EP$`,
     ),
-    pendiente(
-      'intervencion',
-      'Impuestos, subsidios y controles de precios',
-      'Incidencia tributaria, pérdida irrecuperable de eficiencia, precios máximos y mínimos.',
-      String.raw`$P_c - P_p = t$`,
+    listoFund(
+      'controles-precios',
+      'Precios máximos y mínimos',
+      'Escasez, excedentes, desempleo por salario mínimo y pérdida de peso muerto.',
+      String.raw`$P_{\max} < P^* \Rightarrow Q = Q^s(P_{\max}) < Q^d \qquad P_{\min} > P^* \Rightarrow Q = Q^d(P_{\min}) < Q^s$`,
+      String.raw`$P_{\max} < P^* \Rightarrow Q^s < Q^d$`,
     ),
-    pendiente(
-      'fpp',
-      'Frontera de posibilidades de producción',
-      'Costo de oportunidad creciente y eficiencia productiva.',
-      String.raw`$\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$`,
+    listoFund(
+      'impuestos',
+      'Impuestos y subsidios',
+      'Incidencia tributaria, pérdida irrecuperable de eficiencia y curva de Laffer.',
+      String.raw`$P_c - P_v = t \qquad \text{Carga del comprador} = \dfrac{d}{b+d} \qquad PPM = \tfrac12\, t\,(Q^* - Q_t)$`,
+      String.raw`$P_c - P_v = t$`,
     ),
-    pendiente(
-      'ventaja-comparativa',
-      'Ventaja comparativa y comercio',
-      'Costos de oportunidad entre dos países y ganancias del intercambio.',
-      String.raw`$CO_{x} = \dfrac{\Delta y}{\Delta x}$`,
+    listoFund(
+      'comercio-internacional',
+      'Comercio internacional',
+      'Precio mundial, ganadores y perdedores, arancel y cuota de importación.',
+      String.raw`$M = Q^d(P_W + \tau) - Q^s(P_W + \tau) \qquad \text{Recaudo} = \tau \times M$`,
+      String.raw`$M = Q^d - Q^s$`,
+    ),
+    listoFund(
+      'externalidades',
+      'Externalidades',
+      'Costo y beneficio social, óptimo y corrección con impuestos o subsidios pigouvianos.',
+      String.raw`$\text{Costo social} = P^s(Q) + e \qquad \text{Valor social} = P^d(Q) + e \qquad t_{\text{Pigou}} = e$`,
+      String.raw`$t_{\text{Pigou}} = e$`,
     ),
   ],
 };

@@ -2,7 +2,7 @@
  * Como `toFixed`, pero redondea al par en empates exactos (igual que f"{v:.{dec}f}" de Python:
  * 0.5625 → 0.562, mientras que toFixed daría 0.563).
  */
-function fijo(v: number, dec: number): string {
+export function fijo(v: number, dec: number): string {
   const exacto = v.toFixed(Math.min(100, dec + 60));
   const cola = exacto.slice(exacto.indexOf('.') + 1 + dec);
   if (/^50*$/.test(cola)) {

@@ -9,7 +9,7 @@ todo el cálculo ocurre en el navegador y el sitio se publica en **GitHub Pages*
 - Microeconomía 1: los 10 simuladores están listos.
 - Macroeconomía 1: los 4 simuladores de corto plazo están listos (Keynesiano, IS–LM, DA–OA y Mundell–Fleming),
   con teoría de Blanchard (2017).
-- Fundamentos (6): su espacio está reservado ("En construcción").
+- Fundamentos de Economía: los 9 simuladores (Mankiw, cap. 2–10) están listos, con teoría integrada.
 
 ## Estructura
 
@@ -25,13 +25,20 @@ frontend/                 Aplicación Angular (la que se despliega)
       simuladores/        un archivo por simulador: controles + gráfica + resultados
       registro.ts         lista de simuladores listos (carga bajo demanda)
       paridad.spec.ts     pruebas contra los resultados del código Python original
+    fundamentos/
+      modelos/            motor de mercados y bienestar (port del Bloque A en Python/Dash)
+      simuladores/        un archivo por simulador
+      teoria.ts           fichas del modal «Teoría» (Mankiw)
+      paridad.spec.ts     pruebas contra los resultados del Bloque A original en Python
+      *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
     macro1/
       modelos/            matemática de los modelos de corto plazo (Blanchard, 2017)
       simuladores/        un archivo por simulador
       teoria.ts           fichas del modal «Teoría» (definición, variables, choques, equilibrio)
       *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
 legacy/                   Versión original en Python (Dash). Solo referencia y oráculo de pruebas
-tools/exportar_fixtures.py  genera los valores de referencia desde legacy/
+tools/exportar_fixtures.py  genera los valores de referencia de Micro 1 desde legacy/
+tools/exportar_fixtures_fundamentos.py  ídem para Fundamentos, desde la carpeta `bloque_a` (Python/Dash)
 .github/workflows/deploy.yml  despliegue automático a GitHub Pages
 ```
 
