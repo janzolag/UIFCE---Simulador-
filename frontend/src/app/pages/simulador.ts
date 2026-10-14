@@ -6,7 +6,7 @@ import { buscarMateria, buscarSimulador } from '../core/catalogo';
 import { ErrorParametro } from '../core/errores';
 import { Params, Simulacion, SimuladorDef, Teoria } from '../core/tipos';
 import { aviso, figuraVacia } from '../core/tema';
-import { CARGADORES } from '../micro1/registro';
+import { CARGADORES, TEORIAS } from '../core/registro';
 import { ControlPanel } from '../shared/control-panel';
 import { MathEquation } from '../shared/math-equation';
 import { PlotlyChart } from '../shared/plotly-chart';
@@ -78,7 +78,9 @@ export class SimuladorPage {
   protected readonly teoriaAbierta = signal(false);
 
   protected async abrirTeoria(): Promise<void> {
-    const { teoria } = await import('../micro1/teoria'); // se descarga solo al pulsar «Teoría»
+    const cargar = TEORIAS[this.ids().materia];
+    if (!cargar) return;
+    const teoria = await cargar(); // se descarga solo al pulsar «Teoría»
     this.teoria.set(teoria(this.ids().sim, this.params()));
     this.teoriaAbierta.set(true);
   }

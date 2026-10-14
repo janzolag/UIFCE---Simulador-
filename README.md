@@ -7,7 +7,9 @@ Aplicación web **100 % estática** (Angular + Plotly.js) con simuladores intera
 todo el cálculo ocurre en el navegador y el sitio se publica en **GitHub Pages**.
 
 - Microeconomía 1: los 10 simuladores están listos.
-- Fundamentos (6) y Macroeconomía 1 (4): su espacio está reservado ("En construcción").
+- Macroeconomía 1: los 4 simuladores de corto plazo están listos (Keynesiano, IS–LM, DA–OA y Mundell–Fleming),
+  con teoría de Blanchard (2017).
+- Fundamentos (6): su espacio está reservado ("En construcción").
 
 ## Estructura
 
@@ -23,6 +25,11 @@ frontend/                 Aplicación Angular (la que se despliega)
       simuladores/        un archivo por simulador: controles + gráfica + resultados
       registro.ts         lista de simuladores listos (carga bajo demanda)
       paridad.spec.ts     pruebas contra los resultados del código Python original
+    macro1/
+      modelos/            matemática de los modelos de corto plazo (Blanchard, 2017)
+      simuladores/        un archivo por simulador
+      teoria.ts           fichas del modal «Teoría» (definición, variables, choques, equilibrio)
+      *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
 legacy/                   Versión original en Python (Dash). Solo referencia y oráculo de pruebas
 tools/exportar_fixtures.py  genera los valores de referencia desde legacy/
 .github/workflows/deploy.yml  despliegue automático a GitHub Pages
@@ -41,7 +48,7 @@ npm start            # http://localhost:4200
 Otros comandos (dentro de `frontend/`):
 
 ```bash
-npm test             # pruebas de paridad con el modelo original (Vitest)
+npm test             # pruebas de paridad (Micro 1) y pruebas de Macro 1 (Vitest)
 npm run build        # compilación de producción en frontend/dist/
 ```
 
@@ -65,10 +72,11 @@ recargar funcionan en GitHub Pages sin configuración adicional.
 
 ## Agregar o modificar un simulador
 
-1. Matemática: `frontend/src/app/micro1/modelos/<modelo>.ts`.
-2. Pantalla: `frontend/src/app/micro1/simuladores/<id>.ts`. Exporta `SIM` con `defecto`, `grupos`
+1. Matemática: `frontend/src/app/<materia>/modelos/<modelo>.ts`.
+2. Pantalla: `frontend/src/app/<materia>/simuladores/<id>.ts`. Exporta `SIM` con `defecto`, `grupos`
    (sliders y selectores) y `calcular(params)`, que devuelve `{ fig, panel }`.
-3. Regístralo en `frontend/src/app/micro1/registro.ts` y el catálogo (`core/catalogo.ts`) lo marca como "Listo".
+3. Regístralo en `frontend/src/app/<materia>/registro.ts` y el catálogo (`core/catalogo.ts`) lo marca como "Listo".
+   Una materia nueva se agrega también en `core/registro.ts` (simuladores y teoría).
 
 ## Pruebas de paridad con Python
 

@@ -10,6 +10,13 @@
       </header>
 
       <div class="cuerpo">
+        @if (t.definicion) {
+          <section>
+            <h3>Definición</h3>
+            <p class="definicion">{{ t.definicion }}</p>
+          </section>
+        }
+
         <section>
           <h3>Idea clave</h3>
           <ul>
@@ -28,6 +35,41 @@
           </div>
         </section>
 
+        @if (t.variables?.length) {
+          <section>
+            <h3>Variables</h3>
+            <table class="variables">
+              <tbody>
+                @for (v of t.variables; track v.simbolo) {
+                  <tr>
+                    <td class="simbolo"><app-math-equation [tex]="v.simbolo" /></td>
+                    <td>{{ v.significado }}</td>
+                    <td class="tipo" [attr.data-tipo]="v.tipo">{{ v.tipo }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </section>
+        }
+
+        @if (t.choques?.length) {
+          <section>
+            <h3>Exógenas y choques</h3>
+            <ul>
+              @for (c of t.choques; track $index) {
+                <li>{{ c }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (t.equilibrio) {
+          <section>
+            <h3>Cómo leer el equilibrio</h3>
+            <p class="definicion">{{ t.equilibrio }}</p>
+          </section>
+        }
+
         <section class="ejercicio">
           <h3>Resuélvelo en la gráfica</h3>
           <p class="enunciado">{{ t.ejemplo.enunciado }}</p>
@@ -36,7 +78,7 @@
         </section>
 
         @if (t.fuente) {
-          <p class="fuente"><span>Monsalve (2017) · </span>{{ t.fuente }}</p>
+          <p class="fuente"><span>{{ t.autor ?? 'Monsalve (2017)' }} · </span>{{ t.fuente }}</p>
         }
       </div>
 

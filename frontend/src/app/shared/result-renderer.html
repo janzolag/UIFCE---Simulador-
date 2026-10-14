@@ -39,7 +39,7 @@
       <p [class]="b.clase ?? ''">{{ b.texto }}</p>
     }
     @case ('ref') {
-      <p class="referencia"><span>Monsalve (2017) · </span>{{ b.texto }}</p>
+      <p class="referencia"><span>{{ b.autor ?? 'Monsalve (2017)' }} · </span>{{ b.texto }}</p>
     }
   }
 }

@@ -32,6 +32,18 @@ ul { margin: 0; padding-left: 20px; li { margin-bottom: 6px; font-size: 0.93rem;
   overflow-x: auto;
 }
 
+.definicion { margin: 0; font-size: 0.93rem; line-height: 1.5; }
+
+.variables {
+  width: 100%; border-collapse: collapse; font-size: 0.88rem;
+  td { padding: 5px 6px; border-bottom: 1px solid var(--borde); vertical-align: middle; line-height: 1.35; }
+  tr:last-child td { border-bottom: 0; }
+  .simbolo { width: 1%; white-space: nowrap; padding-right: 12px; }
+  .simbolo ::ng-deep .ecuacion { overflow: visible; }
+  .tipo { width: 1%; white-space: nowrap; font-size: 0.74rem; color: var(--texto-suave); text-align: right; }
+  .tipo[data-tipo='endógena'] { color: var(--acento); }
+}
+
 .ejercicio {
   padding: 12px 14px; border-radius: 14px; background: rgba(61, 214, 181, 0.08); border: 1px solid rgba(61, 214, 181, 0.3);
   p { margin: 0 0 8px; font-size: 0.92rem; line-height: 1.5; &:last-child { margin-bottom: 0; } }

@@ -1,10 +1,11 @@
+import { CARGADORES_MACRO1 } from '../macro1/registro';
 import { CARGADORES_MICRO1 } from '../micro1/registro';
 import { Materia, SimuladorMeta } from './tipos';
 
 export const TITULO_APP = 'Simulador Económico';
 export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.3.0 — Microeconomía 1 (beta)';
+export const VERSION = '0.4.0 — Microeconomía 1 y Macroeconomía 1 (beta)';
 
 const pendiente = (
   id: string,
@@ -14,14 +15,19 @@ const pendiente = (
   ecuacionResumen?: string,
 ): SimuladorMeta => ({ id, nombre, descripcion, ecuacion, ecuacionResumen, listo: false });
 
-/** Un simulador de Micro 1 está "listo" cuando tiene su módulo registrado en micro1/registro.ts. */
-const listo = (id: string, nombre: string, descripcion: string, ecuacion: string): SimuladorMeta => ({
-  id,
-  nombre,
-  descripcion,
-  ecuacion,
-  listo: id in CARGADORES_MICRO1,
-});
+/** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
+const listoEn =
+  (cargadores: Record<string, unknown>) =>
+  (id: string, nombre: string, descripcion: string, ecuacion: string, ecuacionResumen?: string): SimuladorMeta => ({
+    id,
+    nombre,
+    descripcion,
+    ecuacion,
+    ecuacionResumen,
+    listo: id in cargadores,
+  });
+const listo = listoEn(CARGADORES_MICRO1);
+const listoMacro = listoEn(CARGADORES_MACRO1);
 
 export const FUNDAMENTOS: Materia = {
   id: 'fundamentos',
@@ -149,31 +155,31 @@ export const MACRO1: Materia = {
   descripcion:
     'El corto plazo y el principio de la demanda efectiva: del modelo Keynesiano al modelo Mundell-Fleming.',
   simuladores: [
-    pendiente(
+    listoMacro(
       'keynesiano',
       'Modelo Keynesiano (Gasto–Ingreso)',
       'Equilibrio en el mercado de bienes con precios fijos y multiplicador con impuestos proporcionales.',
-      String.raw`$DA = C + \bar{I} + \bar{G}, \quad C = \bar{C} + c(1-t)Y \quad\Rightarrow\quad Y^{*} = \dfrac{1}{1 - c(1-t)}\,\bar{A}$`,
-      String.raw`$Y^{*} = \dfrac{1}{1 - c(1-t)}\,\bar{A}$`,
+      String.raw`$Z = c_0 + c_1(Y - T) + \bar{I} + G, \quad T = T_0 + tY \quad\Rightarrow\quad Y^{*} = \dfrac{A}{1 - c_1(1-t)}$`,
+      String.raw`$Y^{*} = \dfrac{A}{1 - c_1(1-t)}$`,
     ),
-    pendiente(
+    listoMacro(
       'is-lm',
       'IS–LM en economía cerrada',
       'Equilibrio conjunto del mercado de bienes y del mercado de dinero; política fiscal y monetaria.',
-      String.raw`$IS:\; Y = \alpha_G(\bar{A} - b\,r) \qquad LM:\; \dfrac{M}{P} = kY - h\,r$`,
-      String.raw`$Y = \alpha_G(\bar{A} - b\,r), \;\; \tfrac{M}{P} = kY - h\,r$`,
+      String.raw`$IS:\; Y = \dfrac{A - b_2\,i}{1 - c_1 - b_1} \qquad LM:\; i = \bar{\imath} \;\text{ o }\; \dfrac{M}{P} = kY - h\,i$`,
+      String.raw`$Y = \dfrac{A - b_2\,i}{1 - c_1 - b_1}, \;\; i = \bar{\imath}$`,
     ),
-    pendiente(
+    listoMacro(
       'da-oa',
       'Demanda y oferta agregadas (DA–OA)',
       'Nivel de precios, rigideces nominales y ajuste hacia el producto potencial.',
-      String.raw`$OA_{CP}:\; P = P^{e} + \lambda\,(Y - \bar{Y})$`,
+      String.raw`$OA_{CP}:\; P = P^{e}\left[1 + \lambda\,\dfrac{Y - \bar{Y}_n}{\bar{Y}_n}\right]$`,
     ),
-    pendiente(
+    listoMacro(
       'mundell-fleming',
       'Mundell–Fleming (IS–LM–BP)',
       'Economía abierta: balanza de pagos, tipo de cambio y efectividad de las políticas.',
-      String.raw`$NX = \bar{X} + \phi\,e - m\,Y$`,
+      String.raw`$XN = x_0 + \phi\,e - qY \qquad e = e^{e}\,\dfrac{1 + i^{*}}{1 + i}$`,
     ),
   ],
 };

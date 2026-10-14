@@ -31,7 +31,7 @@ export type Bloque =
   | { t: 'aviso'; texto: string; nivel?: 'info' | 'error' }
   | { t: 'lectura'; titulo: string; hijos: Bloque[] }
   | { t: 'texto'; texto: string; clase?: string }
-  | { t: 'ref'; texto: string }
+  | { t: 'ref'; texto: string; autor?: string }
   | { t: 'rejilla'; hijos: Bloque[] };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -65,8 +65,24 @@ export interface Teoria {
     /** Qué mover en la gráfica para comprobarlo. */
     prueba: string;
   };
-  /** De dónde sale en el material de referencia (Monsalve, 2017). */
+  /** De dónde sale en el material de referencia (Monsalve, 2017, salvo que `autor` diga otra cosa). */
   fuente?: string;
+  /** Texto de referencia que acompaña a `fuente`; por defecto «Monsalve (2017)». */
+  autor?: string;
+  /** Definición del modelo en una o dos frases. */
+  definicion?: string;
+  /** Variables del modelo: símbolo (LaTeX), significado y si es endógena, exógena o parámetro. */
+  variables?: VariableTeoria[];
+  /** Exógenas que se pueden mover y qué choque representan. */
+  choques?: string[];
+  /** Cómo leer el equilibrio que muestra la gráfica. */
+  equilibrio?: string;
+}
+
+export interface VariableTeoria {
+  simbolo: string;
+  significado: string;
+  tipo: 'endógena' | 'exógena' | 'parámetro';
 }
 
 export interface SimuladorDef {

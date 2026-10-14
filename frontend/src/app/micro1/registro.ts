@@ -13,7 +13,3 @@ export const CARGADORES_MICRO1: Record<string, () => Promise<SimuladorDef>> = {
   monopolio: () => import('./simuladores/monopolio').then((m) => m.SIM),
   oligopolio: () => import('./simuladores/oligopolio').then((m) => m.SIM),
 };
-
-export const CARGADORES: Record<string, Record<string, () => Promise<SimuladorDef>>> = {
-  micro1: CARGADORES_MICRO1,
-};

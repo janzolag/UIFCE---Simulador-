@@ -112,4 +112,5 @@ export const aviso = (texto: string, nivel: 'info' | 'error' = 'info'): Bloque =
 export const lectura = (titulo: string, ...hijos: Bloque[]): Bloque => ({ t: 'lectura', titulo, hijos });
 export const resultados = (hijos: Bloque[]): Bloque => ({ t: 'rejilla', hijos });
 export const texto = (t: string, clase = ''): Bloque => ({ t: 'texto', texto: t, clase });
-export const referencia = (t: string): Bloque => ({ t: 'ref', texto: t });
+export const referencia = (t: string, autor?: string): Bloque =>
+  autor ? { t: 'ref', texto: t, autor } : { t: 'ref', texto: t };
