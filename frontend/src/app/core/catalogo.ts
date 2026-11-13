@@ -2,12 +2,13 @@ import { CARGADORES_FUNDAMENTOS } from '../fundamentos/registro';
 import { CARGADORES_MACRO1 } from '../macro1/registro';
 import { CARGADORES_MACRO2 } from '../macro2/registro';
 import { CARGADORES_MICRO1 } from '../micro1/registro';
+import { CARGADORES_MICRO2 } from '../micro2/registro';
 import { Materia, SimuladorMeta } from './tipos';
 
 export const TITULO_APP = 'Simulador Económico';
 export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.6.0 — Fundamentos, Microeconomía 1, Macroeconomía 1 y 2 (beta)';
+export const VERSION = '0.7.0 — Fundamentos, Microeconomía 1 y 2, Macroeconomía 1 y 2 (beta)';
 
 /** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
 const listoEn =
@@ -24,6 +25,7 @@ const listo = listoEn(CARGADORES_MICRO1);
 const listoMacro = listoEn(CARGADORES_MACRO1);
 const listoFund = listoEn(CARGADORES_FUNDAMENTOS);
 const listoMacro2 = listoEn(CARGADORES_MACRO2);
+const listoMicro2 = listoEn(CARGADORES_MICRO2);
 
 export const FUNDAMENTOS: Materia = {
   id: 'fundamentos',
@@ -205,6 +207,41 @@ export const MACRO1: Materia = {
   ],
 };
 
+export const MICRO2: Materia = {
+  id: 'micro2',
+  nombre: 'Microeconomía 2',
+  sigla: 'Mi2',
+  color: '#FF7A85',
+  descripcion:
+    'Efectos sustitución y renta, monopolio y discriminación de precios, oligopolio y equilibrio general de intercambio (Varian, Microeconomía intermedia).',
+  simuladores: [
+    listoMicro2(
+      'slutsky',
+      'Ecuación de Slutsky',
+      'Pivote y desplazamiento de la recta presupuestaria: bienes normales, inferiores y Giffen, con demanda ordinaria y compensada.',
+      String.raw`$\Delta x_1 = \Delta x_1^{s} + \Delta x_1^{n}$`,
+    ),
+    listoMicro2(
+      'monopolio',
+      'Monopolio y discriminación de precios',
+      'IMg = CMg, pérdida irrecuperable de eficiencia y discriminación de primer y tercer grado.',
+      String.raw`$p(y)\left[1 - \dfrac{1}{|\varepsilon|}\right] = CMg(y)$`,
+    ),
+    listoMicro2(
+      'oligopolio',
+      'Oligopolio: Cournot, Stackelberg y colusión',
+      'Funciones de reacción, equilibrio de Cournot-Nash, liderazgo de Stackelberg con isobeneficios y cartel.',
+      String.raw`$f_1(y_2) = \dfrac{a - c_1 - b\,y_2}{2b}$`,
+    ),
+    listoMicro2(
+      'edgeworth',
+      'Caja de Edgeworth',
+      'Intercambio entre dos consumidores: curva de contrato, núcleo, precios walrasianos y ley de Walras.',
+      String.raw`$TMS^{A} = TMS^{B} = \dfrac{p_1}{p_2}$`,
+    ),
+  ],
+};
+
 export const MACRO2: Materia = {
   id: 'macro2',
   nombre: 'Macroeconomía 2',
@@ -249,7 +286,7 @@ export const MACRO2: Materia = {
   ],
 };
 
-export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MACRO1, MACRO2];
+export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MICRO2, MACRO1, MACRO2];
 
 export const totalSimuladores = (): number => MATERIAS.reduce((n, m) => n + m.simuladores.length, 0);
 export const listos = (m: Materia): number => m.simuladores.filter((s) => s.listo).length;

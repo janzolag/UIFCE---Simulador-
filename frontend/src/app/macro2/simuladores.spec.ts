@@ -46,7 +46,7 @@ function combinaciones(sim: string, defecto: Params): Params[] {
 
 describe('catálogo y navegación de Macro 2', () => {
   it('Macro 2 es una materia más, después de Macro 1, con sus 5 simuladores listos', () => {
-    expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'macro1', 'macro2']);
+    expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'macro1', 'macro2']);
     expect(MACRO2.simuladores.map((s) => s.id)).toEqual(SIMS);
     expect(MACRO2.simuladores.every((s) => s.listo)).toBe(true);
     expect(CARGADORES['macro2']).toBe(CARGADORES_MACRO2);

@@ -3,14 +3,17 @@
 Unidad Informática FCE · Universidad Nacional de Colombia.
 
 Aplicación web **100 % estática** (Angular + Plotly.js) con simuladores interactivos de
-**Fundamentos de Economía**, **Microeconomía 1**, **Macroeconomía 1** y **Macroeconomía 2**. No necesita servidor:
+**Fundamentos de Economía**, **Microeconomía 1 y 2** y **Macroeconomía 1 y 2**. No necesita servidor:
 todo el cálculo ocurre en el navegador y el sitio se publica en **GitHub Pages**.
 
 - Microeconomía 1: los 10 simuladores están listos.
 - Macroeconomía 1: los 4 simuladores de corto plazo están listos (Keynesiano, IS–LM, DA–OA y Mundell–Fleming),
   con teoría de Blanchard (2017).
-- Macroeconomía 2: 5 simuladores (IS–LM con trampa de liquidez, Mundell–Fleming en versión DD–AA de
-  Krugman y Obstfeld, DA–OA de corto y largo plazo, curva de Phillips y Solow), con fichas de teoría breves.
+- Microeconomía 2: 4 simuladores con la notación de Varian (ecuación de Slutsky, monopolio y discriminación
+  de precios, oligopolio de Cournot/Stackelberg/colusión y caja de Edgeworth).
+- Macroeconomía 2: 5 simuladores con paneles enlazados y botones de choque (IS–LM con cruz keynesiana y
+  mercado de dinero, Mundell–Fleming DD–AA con mercado de divisas, DA–OA con curva de Phillips, Phillips y
+  Solow), estática comparativa E₀ → E₁ → E₂ y fichas de teoría breves. Auditoría en `AUDITORIA_MICRO2_MACRO2.md`.
 - Fundamentos de Economía: los 9 simuladores (Mankiw, cap. 2–10) están listos, con teoría integrada.
 
 ## Estructura
@@ -40,9 +43,13 @@ frontend/                 Aplicación Angular (la que se despliega)
       *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
     macro2/
       modelos/            IS–LM (reutiliza el motor de Macro 1), DD–AA, DA–OA, Phillips y Solow
-      simuladores/        un archivo por simulador (curvas fantasma, proyecciones a los ejes)
+      simuladores/        un archivo por simulador; _paneles.ts: paneles enlazados y botones de choque
       teoria.ts           fichas del modal «Teoría» (Krugman y Obstfeld, 2006; notación estándar donde el libro no llega)
       *.spec.ts           los ejercicios de los modales verificados contra la solución analítica
+    micro2/
+      modelos/mercados.ts monopolio, discriminación, duopolio e intercambio (Slutsky reutiliza Micro 1)
+      simuladores/        Slutsky, monopolio, oligopolio y Edgeworth
+      teoria.ts           fichas del modal «Teoría» (Varian, títulos de capítulo)
 legacy/                   Versión original en Python (Dash). Solo referencia y oráculo de pruebas
 tools/exportar_fixtures.py  genera los valores de referencia de Micro 1 desde legacy/
 tools/exportar_fixtures_fundamentos.py  ídem para Fundamentos, desde la carpeta `bloque_a` (Python/Dash)
