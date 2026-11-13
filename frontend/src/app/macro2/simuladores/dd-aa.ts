@@ -201,12 +201,12 @@ export function calcular(p: P): Simulacion {
   const Ys = estados.map((e) => e.r.Y);
   const Es = estados.map((e) => e.r.E);
   // Vista acercada alrededor de los equilibrios, como en los diagramas DD-AA del libro.
-  const ymin = Math.min(...Ys) * 0.6;
-  const ymax = Math.max(...Ys) * 1.4;
-  const emin = Math.min(...Es) * 0.6;
-  const emax = Math.max(...Es) * 1.4;
+  const ymin = Math.min(...Ys) * 0.75;
+  const ymax = Math.max(...Ys) * 1.25;
+  const emin = Math.min(...Es) * 0.8;
+  const emax = Math.max(...Es) * 1.2;
   const Rs = estados.flatMap((e) => [e.r.R, e.q.Rstar]);
-  const rmax = Math.max(8, ...Rs) * 1.8;
+  const rmax = Math.max(...Rs) * 2 + 2;
 
   const A: Panel = {
     id: '',
@@ -220,9 +220,9 @@ export function calcular(p: P): Simulacion {
   };
   const B: Panel = {
     id: '2',
-    titulo: 'B · Mercado de divisas (paridad de intereses)',
+    titulo: 'B · Mercado de divisas',
     tituloX: 'Tasa de rendimiento (%)',
-    tituloY: 'E',
+    tituloY: 'Tipo de cambio E',
     rangoX: [0, rmax],
     rangoY: [emin, emax],
     dominio: { x: [0.7, 1], y: [0, 0.93] },
@@ -233,6 +233,7 @@ export function calcular(p: P): Simulacion {
 
   const es = linspace(emin, emax, 80);
   const ys = linspace(ymin, ymax, 200);
+  const esDesc = [...es].reverse();
   const Eesp = (q: ParamsDDAA) => (q.regimen === 'fijo' ? q.E0 : q.Ee);
   const trazarDD = (q: ParamsDDAA, et: string, color: string, estado: Estado) =>
     curvaP(fig, A, es.map((e) => curvaDD(q, e)), es, 'DD', color, estado, et);
@@ -256,18 +257,20 @@ export function calcular(p: P): Simulacion {
     curvaP(
       fig,
       B,
-      es.map((e) => {
+      // De E alto a E bajo: la etiqueta queda en el borde derecho del panel, no sobre el eje.
+      esDesc.map((e) => {
         const v = q.Rstar + (100 * (Eesp(q) - e)) / e;
         return v >= -rmax && v <= rmax * 1.5 ? v : null;
       }),
-      es,
+      esDesc,
       'Rendimiento esperado de los depósitos en divisas',
       color,
       estado,
       et,
     );
   const trazarR = (R: number, et: string, color: string, estado: Estado) =>
-    curvaP(fig, B, [R, R], [emin, emax], 'Rendimiento de los depósitos nacionales R', color, estado, et);
+    // De arriba hacia abajo: la etiqueta queda al pie y no tapa el título del panel.
+    curvaP(fig, B, [R, R], [emax, emin], 'Rendimiento de los depósitos nacionales R', color, estado, et);
 
   const CDD = [AZUL, VERDE, DORADO];
   const CAA = [ROJO, MORADO, DORADO];
@@ -275,7 +278,7 @@ export function calcular(p: P): Simulacion {
   if (!choque) {
     trazarDD(b, 'DD', AZUL, 'final');
     trazarAA(b, r0, 'AA', ROJO, 'final');
-    trazarExt(b, 'R* + ΔEᵉ/E', NARANJA, 'final');
+    trazarExt(b, 'Rend. externo', NARANJA, 'final');
     trazarR(r0.R, 'R', ROJO, 'final');
   } else {
     // Para cada curva: estados en los que cambia. El primero queda fantasma, el último sólido y los
@@ -299,7 +302,7 @@ export function calcular(p: P): Simulacion {
     );
     trazarSerie(
       (a, c) => Eesp(a.q) === Eesp(c.q) && a.q.Rstar === c.q.Rstar,
-      (i, e) => trazarExt(estados[i].q, `Ext${sub[i]}`, i === 0 ? NARANJA : CDD[i], e),
+      (i, e) => trazarExt(estados[i].q, `Rend. ext.${sub[i]}`, i === 0 ? NARANJA : CDD[i], e),
     );
     trazarSerie(
       (a, c) => Math.abs(a.r.R - c.r.R) < 1e-9,
@@ -316,6 +319,29 @@ export function calcular(p: P): Simulacion {
       line: { color: DORADO, width: 1.5, dash: 'dashdot' },
       hovertemplate: `Paridad fija E₀ = ${fmt(n.E0, 3)}<extra></extra>`,
     });
+  // Tramo plano de la AA: con Y < (M/P)/k la tasa R llega a su piso 0 (trampa de liquidez) y E ya no
+  // responde a Y. Se rotula para que no parezca un error de la gráfica.
+  const ultimo = estados[estados.length - 1];
+  const yTrampa = ultimo.r.Mp / ultimo.q.k;
+  const hayTrampa = !fijo && yTrampa > ymin;
+  if (hayTrampa) {
+    const yt = Math.min(yTrampa, ymax);
+    const et = curvaAA(ultimo.q, yt, ultimo.r.Mp, Eesp(ultimo.q));
+    if (et >= emin && et <= emax)
+      fig.layout.annotations.push({
+        x: ymin,
+        y: et,
+        xref: 'x',
+        yref: 'y',
+        xanchor: 'left',
+        xshift: 4,
+        yanchor: 'bottom',
+        yshift: 4,
+        text: 'R = 0: trampa de liquidez',
+        showarrow: false,
+        font: { size: 10, color: SUAVE },
+      });
+  }
 
   const nombres = ['Equilibrio inicial', 'Corto plazo (choque transitorio)', 'Largo plazo (choque permanente)'];
   const simbolos = ['circle', 'square', 'diamond'];
@@ -335,6 +361,13 @@ export function calcular(p: P): Simulacion {
   }
 
   const lecturas: Bloque[] = [];
+  if (hayTrampa)
+    lecturas.push(
+      texto(
+        `Tramo plano de la AA: con Y < ${fmt(yTrampa, 0)} (= (M/P)/k) la demanda de dinero no alcanza a subir la tasa por encima de 0 %, así que E deja de responder al producto (trampa de liquidez).`,
+        'pequeno texto-suave',
+      ),
+    );
   if (fijo && p.dMp !== 0)
     lecturas.push(
       aviso(
