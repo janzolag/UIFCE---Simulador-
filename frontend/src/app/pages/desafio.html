@@ -4,10 +4,26 @@
       <div class="pagina-desafio" [style.--color-materia]="m.color">
         <header class="cabecera">
           <div class="cabecera-titulos">
-            <p class="ruta">{{ m.nombre }} <span aria-hidden="true">›</span> {{ s.nombre }}</p>
             <h1><span aria-hidden="true">🎯</span> Modo Desafío</h1>
+            <div class="selectores">
+              <label>
+                <select [value]="m.id" (change)="elegirMateria($any($event.target).value)" aria-label="Materia">
+                  @for (x of materias; track x.id) {
+                    <option [value]="x.id" [selected]="x.id === m.id">{{ x.nombre }}</option>
+                  }
+                </select>
+              </label>
+              <label>
+                <select [value]="s.id" (change)="elegirModelo($any($event.target).value)" aria-label="Modelo">
+                  @for (x of modelos(); track x.id) {
+                    <option [value]="x.id" [selected]="x.id === s.id">{{ x.nombre }}</option>
+                  }
+                </select>
+              </label>
+            </div>
           </div>
           <div class="cabecera-datos">
+            <span class="contador">Reto {{ indice() + 1 }}/{{ retos().length }}</span>
             <span class="chip" [attr.data-dificultad]="r.dificultad">{{ r.dificultad }}</span>
             <div class="progreso" [attr.aria-label]="resueltosModelo() + ' de ' + retos().length + ' retos resueltos'">
               <span class="progreso-texto">{{ resueltosModelo() }}/{{ retos().length }} resueltos</span>

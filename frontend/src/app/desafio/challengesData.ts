@@ -27,6 +27,10 @@ const n = (p: Params, k: string): number => Number(p[k]);
 
 const slutsky = (p: Params) =>
   descomposicion(utilidadDe(String(p['caso']), n(p, 'a')), n(p, 'p1'), n(p, 'p2'), n(p, 'm'), n(p, 'p1n'), p['metodo'] as any);
+const utilSlutsky = (p: Params) => {
+  const d = slutsky(p);
+  return utilidadDe(String(p['caso']), n(p, 'a')).U(d.C.x, d.C.y);
+};
 const mono = (p: Params) => monopolio({ a: n(p, 'a'), b: n(p, 'b'), c: n(p, 'c'), d: n(p, 'd'), F: n(p, 'F') });
 const duo = (p: Params) => ({ a: n(p, 'a'), b: n(p, 'b'), c1: n(p, 'c1'), c2: n(p, 'c2') });
 const edge = (p: Params) =>
@@ -54,30 +58,30 @@ const MICRO2: Reto[] = [
     materia: 'micro2',
     sim: 'slutsky',
     dificultad: 'Intermedio',
-    titulo: 'Compensar con renta',
-    enunciado: 'El precio ya subió a p₁′ = 3. ¿Qué renta m deja la cesta final en x₁ = 8?',
+    titulo: 'Recuperar la utilidad',
+    enunciado: 'Antes del alza (p₁ = 2) tu utilidad era U* = √200 ≈ 14.14. Con p₁′ = 3, elige la renta m que te devuelve a U*.',
     inicial: {},
     controles: ['m'],
-    objetivos: [{ etiqueta: 'x₁ final', meta: 8, medir: (p) => slutsky(p).C.x, zona: { eje: 'x' } }],
-    solucion: { m: 48 },
+    objetivos: [{ etiqueta: 'Utilidad final U', meta: Math.sqrt(200), medir: (p) => utilSlutsky(p) }],
+    solucion: { m: 49 },
     explicacion:
-      'Tras el alza, la demanda es x₁ = a·m/p₁′ = m/6, así que x₁ = 8 exige m = 48. El efecto renta de un bien normal se contrarresta subiendo el ingreso, sin tocar el precio relativo.',
-    pista: 'Con a = 0.5 y p₁′ = 3, cada 6 unidades de renta compran una unidad de x₁.',
+      'Con u = √(x₁·x₂) la utilidad indirecta es m/(2·√(p₁·p₂)), así que volver a U* con p₁′ = 3 exige m = 2·√3·14.14 ≈ 49. Esa es la compensación de Hicks, algo menor que la de Slutsky (m = 50), porque basta volver a la curva de indiferencia y no a la cesta inicial.',
+    pista: 'La utilidad crece en proporción a m: sube la renta hasta que el alza de p₁ quede compensada.',
   },
   {
     id: 'm2-slutsky-3',
     materia: 'micro2',
     sim: 'slutsky',
     dificultad: 'Avanzado',
-    titulo: 'Afinar el efecto renta',
-    enunciado: 'Con p₁: 2 → 3 y m = 40, elige la preferencia a para que el efecto renta (Slutsky) sobre x₁ sea −0.6.',
-    inicial: {},
-    controles: ['a'],
-    objetivos: [{ etiqueta: 'Efecto renta en x₁', meta: -0.6, medir: (p) => slutsky(p).efecto_ingreso[0] }],
-    solucion: { a: 0.3 },
+    titulo: 'Efecto sustitución puro',
+    enunciado: 'Con la compensación de Hicks (utilidad constante), elige el nuevo precio p₁′ para que el efecto sustitución sobre x₁ sea −2.93.',
+    inicial: { metodo: 'hicks' },
+    controles: ['p1n'],
+    objetivos: [{ etiqueta: 'Efecto sustitución en x₁', meta: -2.93, medir: (p) => slutsky(p).efecto_sustitucion[0] }],
+    solucion: { p1n: 4 },
     explicacion:
-      'En esta economía el efecto renta vale −20·a²/3: depende del peso del bien en el gasto, porque la pérdida de poder adquisitivo es x₁·Δp₁. Con a = 0.3 da exactamente −0.6.',
-    pista: 'Un bien con menos peso en el gasto sufre un efecto renta más pequeño: baja a.',
+      'El efecto sustitución de Hicks es el movimiento sobre la misma curva de indiferencia: la demanda compensada es x₁ʰ = U*·√(p₂/p₁′). Con p₁′ = 4 cae a 7.07, es decir, 2.93 unidades menos que la cesta inicial.',
+    pista: 'El efecto sustitución siempre va en contra del precio: sube p₁′ para hacerlo más negativo.',
   },
   // Monopolio simple (a = 100, b = 2, c = 10, d = 1)
   {
@@ -263,15 +267,15 @@ const MACRO2: Reto[] = [
     materia: 'macro2',
     sim: 'is-lm',
     dificultad: 'Intermedio',
-    titulo: 'Bajar la tasa',
-    enunciado: 'El banco central quiere reducir la tasa de interés de 4 % a r = 2 %. Elige la expansión Δ(M/P).',
-    inicial: {},
-    controles: ['dm'],
-    objetivos: [{ etiqueta: 'Tasa r (%)', meta: 2, medir: (p) => islm(p).r, zona: { eje: 'y' } }],
-    solucion: { dm: 150 },
+    titulo: 'Salir de la trampa de liquidez',
+    enunciado: 'Con M/P = 900 la economía está en la trampa (r = 0, Y = 1,600). Tienes ΔG y Δ(M/P): lleva el producto a Y = 1,760.',
+    inicial: { m: 900 },
+    controles: ['dG', 'dm'],
+    objetivos: [{ etiqueta: 'Producto Y', meta: 1760, decimales: 0, medir: (p) => islm(p).Y, zona: { eje: 'x' } }],
+    solucion: { dG: 40, dm: 0 },
     explicacion:
-      'La LM se desplaza a la derecha y la tasa cae r = 4 − Δ(M/P)/75, pero parte del efecto se compensa porque el producto sube y demanda más dinero. Por eso bajar 2 puntos exige 150 de saldos reales.',
-    pista: 'Cada 75 de saldos reales adicionales baja la tasa un punto.',
+      'En la trampa la LM es plana en r = 0: más dinero no baja la tasa y la política monetaria no mueve el producto. La política fiscal, en cambio, opera con el multiplicador keynesiano completo (4) sin efecto expulsión, así que ΔG = 40 suma 160.',
+    pista: 'Mover el dinero no sirve con r = 0; usa el gasto público, que aquí no expulsa inversión.',
   },
   {
     id: 'm2-islm-3',
@@ -360,15 +364,15 @@ const MACRO2: Reto[] = [
     materia: 'macro2',
     sim: 'da-oa',
     dificultad: 'Intermedio',
-    titulo: 'Choque de costos',
-    enunciado: 'Un alza de costos ΔW desplaza la OACP. ¿Qué ΔW lleva el nivel de precios de corto plazo a P = 112.5?',
-    inicial: { choque: 'ninguno', dD0: 0, dW: 0, dYp: 0 },
-    controles: ['dW'],
-    objetivos: [{ etiqueta: 'Precios de corto plazo P', meta: 112.5, decimales: 1, medir: (p) => daoa(p).e1.P, zona: { eje: 'y' } }],
-    solucion: { dW: 25 },
+    titulo: 'Frenar la espiral de precios',
+    enunciado: 'Un choque petrolero ΔW = +20 ya subió la OACP. Usa la demanda (ΔD₀) para que el nivel de precios no suba: P = 100.',
+    inicial: { choque: 'petroleo', dD0: 0, dW: 20, dYp: 0 },
+    controles: ['dD0'],
+    objetivos: [{ etiqueta: 'Precios de corto plazo P', meta: 100, decimales: 1, medir: (p) => daoa(p).e1.P, zona: { eje: 'y' } }],
+    solucion: { dD0: -200 },
     explicacion:
-      'La OACP sube y el nuevo equilibrio es P = (W + 100)/2: la DA absorbe la mitad del choque con menos producto. Por eso P sube 12.5 cuando W sube 25, y aparece la estanflación.',
-    pista: 'Los precios suben la mitad de lo que suben los costos W.',
+      'Con OACP más alta, el equilibrio es P = (W + D₀/10 − 100)/2, así que contraer la DA en 200 anula el alza de precios. El costo es una recesión (Y = 800): ante un choque de oferta la política de demanda elige entre inflación y producto.',
+    pista: 'Para que P no suba hay que contraer la demanda: mueve ΔD₀ a valores negativos.',
   },
   {
     id: 'm2-daoa-3',

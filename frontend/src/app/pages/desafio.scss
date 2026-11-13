@@ -3,6 +3,16 @@
   h1 { margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
   .ruta { margin: 0 0 2px; font-size: 0.85rem; color: var(--texto-suave); }
 }
+.selectores {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;
+  label { min-width: 0; max-width: 100%; }
+  select {
+    font: inherit; font-size: 0.86rem; color: var(--texto); background: var(--panel); max-width: 100%;
+    border: 1px solid var(--borde); border-radius: 10px; padding: 6px 10px; cursor: pointer;
+    &:hover, &:focus-visible { border-color: var(--acento); outline: none; }
+  }
+}
+.contador { font-size: 0.85rem; font-weight: 650; }
 .cabecera-datos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .chip {
   font-size: 0.78rem; font-weight: 650; padding: 4px 12px; border-radius: 999px;
