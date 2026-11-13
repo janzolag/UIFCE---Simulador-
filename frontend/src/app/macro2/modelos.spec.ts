@@ -190,7 +190,7 @@ describe('curva de Phillips', () => {
 });
 
 describe('Solow', () => {
-  const p = { A: 1, alpha: 0.5, s: 0.3, delta: 0.1, n: 0.05 };
+  const p = { A: 1, alpha: 0.5, s: 0.3, delta: 0.08, n: 0.05, g: 0.02 };
   it('ejercicio del modal: k* = 4, y* = 2, c* = 1.4', () => {
     const r = estadoEstacionario(p);
     expect(r.k).toBeCloseTo(4, 12);
@@ -205,7 +205,7 @@ describe('Solow', () => {
   });
   it('en k* la inversión iguala la reposición; la regla de oro maximiza c', () => {
     const r = estadoEstacionario(p);
-    expect(p.s * produccion(p, r.k)).toBeCloseTo((p.delta + p.n) * r.k, 12);
+    expect(p.s * produccion(p, r.k)).toBeCloseTo((p.delta + p.n + p.g) * r.k, 12);
     expect(r.sOro).toBe(0.5);
     expect(r.kOro).toBeCloseTo(100 / 9, 10);
     expect(r.cOro).toBeCloseTo(5 / 3, 10);

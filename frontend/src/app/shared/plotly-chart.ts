@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AfterViewInit, Component, ElementRef, OnDestroy, effect, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, input, viewChild } from '@angular/core';
 import { Figura } from '../core/tipos';
 
 /** Solo se conserva la cámara (descargar imagen); todo lo demás se maneja con rueda, pellizco y doble clic. */
@@ -60,10 +60,19 @@ function limitarEjes(layout: any, data: any[]): void {
   }
 }
 
+/** Sobrescribe dominios y otras propiedades de primer nivel de cada eje (copia superficial por eje). */
+function aplicarMovil(layout: any, extra: any): void {
+  for (const [k, v] of Object.entries<any>(extra)) {
+    if (v && typeof v === 'object' && !Array.isArray(v) && layout[k] && typeof layout[k] === 'object')
+      layout[k] = { ...layout[k], ...v };
+    else layout[k] = v;
+  }
+}
+
 /** Gráfica Plotly. Carga plotly.js bajo demanda, redibuja con Plotly.react y sigue el tamaño de su contenedor. */
 @Component({
   selector: 'app-plotly-chart',
-  template: `<div #cont class="grafica" [style.height.px]="alto()"></div>`,
+  template: `<div #cont class="grafica" [style.height.px]="altoEfectivo()"></div>`,
   styles: `
     :host { display: block; min-width: 0; }
     .grafica { width: 100%; }
@@ -74,6 +83,11 @@ function limitarEjes(layout: any, data: any[]): void {
 export class PlotlyChart implements AfterViewInit, OnDestroy {
   readonly fig = input.required<Figura>();
   readonly alto = input(460);
+  /** En móvil, las figuras de varios paneles se apilan y piden más alto. */
+  protected readonly altoEfectivo = computed(() => {
+    const f = this.fig();
+    return f.movil && esMovil() ? f.movil.alto : this.alto();
+  });
 
   private readonly cont = viewChild.required<ElementRef<HTMLDivElement>>('cont');
   private Plotly: any = null;
@@ -85,12 +99,13 @@ export class PlotlyChart implements AfterViewInit, OnDestroy {
   constructor() {
     effect(() => {
       const f = this.fig();
-      const alto = this.alto();
+      const alto = this.altoEfectivo();
       const el = this.cont().nativeElement;
       cargarPlotly().then((P) => {
         if (this.destruido) return;
         this.Plotly = P;
         const layout = { ...f.layout, autosize: true, height: alto };
+        if (f.movil && esMovil()) aplicarMovil(layout, f.movil.layout);
         // Móvil: sin arrastre (dragmode false); escritorio: arrastrar desplaza y la rueda hace zoom.
         layout.dragmode = esMovil() ? false : 'pan';
         limitarEjes(layout, f.data);

@@ -216,21 +216,21 @@ export const MACRO2: Materia = {
     listoMacro2(
       'is-lm',
       'IS–LM con trampa de liquidez',
-      'Política fiscal y monetaria, efecto expulsión y trampa de liquidez en economía cerrada.',
+      'Tres paneles enlazados (cruz keynesiana, mercado de dinero e IS–LM) con choques fiscales y monetarios, efecto expulsión y trampa de liquidez.',
       String.raw`$IS:\; Y = \dfrac{C_0 - cT + I_0 + G - b\,r}{1-c} \qquad LM:\; \dfrac{M}{P} = kY - h\,r$`,
       String.raw`$\dfrac{M}{P} = kY - h\,r$`,
     ),
     listoMacro2(
       'mundell-fleming',
       'Mundell–Fleming (modelo DD–AA)',
-      'Producción y tipo de cambio a corto plazo con tipo fijo o flotante y movilidad de capital (Krugman y Obstfeld).',
+      'DD–AA y mercado de divisas enlazados: choques transitorios y permanentes con tipo fijo o flotante y movilidad de capital (Krugman y Obstfeld).',
       String.raw`$DD:\; Y = D\!\left(\tfrac{EP^*}{P}, Y-T, I, G\right) \qquad AA:\; R = R^* + \dfrac{E^e - E}{E}$`,
       String.raw`$R = R^* + \dfrac{E^e - E}{E}$`,
     ),
     listoMacro2(
       'da-oa',
-      'DA–OA de corto y largo plazo',
-      'Choques de demanda y oferta, brechas inflacionaria y recesiva y autocorrección hacia el producto potencial.',
+      'DA–OA y curva de Phillips',
+      'DA–OACP–OALP enlazado con la curva de Phillips (ley de Okun): choques de demanda, petroleros y de productividad con autocorrección.',
       String.raw`$Y = D_0 - dP \qquad P = W + \tfrac{Y - Y_p}{\sigma}$`,
       String.raw`$P = W + \dfrac{Y - Y_p}{\sigma}$`,
     ),
@@ -243,8 +243,8 @@ export const MACRO2: Materia = {
     listoMacro2(
       'solow',
       'Modelo de crecimiento de Solow',
-      'Acumulación de capital, estado estacionario y regla de oro.',
-      String.raw`$\Delta k = s\,A k^{\alpha} - (\delta + n)\,k$`,
+      'Dos paneles con eje k compartido: producción y = A·f(k) e inversión frente a reposición; estado estacionario, regla de oro y choques.',
+      String.raw`$\Delta k = s\,A k^{\alpha} - (n + g + \delta)\,k$`,
     ),
   ],
 };

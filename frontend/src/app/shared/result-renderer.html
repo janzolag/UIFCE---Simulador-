@@ -38,6 +38,15 @@
     @case ('texto') {
       <p [class]="b.clase ?? ''">{{ b.texto }}</p>
     }
+    @case ('cadena') {
+      <div class="cadena" role="group" aria-label="Estática comparativa">
+        <div class="paso"><span class="rotulo">1 · Choque</span><p>{{ b.choque }}</p></div>
+        <div class="paso"><span class="rotulo">2 · Transmisión</span><p>{{ b.transmision }}</p></div>
+        <div class="paso"><span class="rotulo">3 · Resultado neto</span><p>{{ b.resultado }}</p>
+          @if (b.largo) {<p class="largo">{{ b.largo }}</p>}
+        </div>
+      </div>
+    }
     @case ('ref') {
       <p class="referencia"><span>{{ b.autor ?? 'Monsalve (2017)' }} · </span>{{ b.texto }}</p>
     }

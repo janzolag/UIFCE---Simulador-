@@ -1,8 +1,9 @@
 /**
- * Macro 2 · Modelo de crecimiento de Solow (notación estándar).
- *   y = A·k^α,   Δk = s·y − (δ + n)·k
- *   Estado estacionario: k* = (s·A/(δ + n))^{1/(1−α)}
- *   Regla de oro: f'(k) = δ + n ⇒ k_oro = (α·A/(δ + n))^{1/(1−α)}, s_oro = α.
+ * Macro 2 · Modelo de crecimiento de Solow con progreso técnico (notación estándar).
+ *   k y y por trabajador efectivo; y = A·k^α,   Δk = s·y − (n + g + δ)·k
+ *   Estado estacionario: k* = (s·A/(n + g + δ))^{1/(1−α)}
+ *   Regla de oro: f'(k) = n + g + δ ⇒ k_oro = (α·A/(n + g + δ))^{1/(1−α)}, s_oro = α.
+ *   Con g = 0 se recupera el modelo sin progreso técnico.
  */
 import { ErrorParametro, enIntervalo, noNegativo, positivo } from '../../core/errores';
 
@@ -12,7 +13,12 @@ export interface ParamsSolow {
   s: number;
   delta: number;
   n: number;
+  /** Crecimiento del progreso técnico que aumenta el trabajo (opcional; 0 si falta). */
+  g?: number;
 }
+
+/** Tasa de reposición n + g + δ. */
+export const reposicion = (p: ParamsSolow): number => p.delta + p.n + (p.g ?? 0);
 
 export interface ResSolow {
   k: number;
@@ -36,9 +42,11 @@ export function validarSolow(p: ParamsSolow): void {
   noNegativo('δ', p.delta);
   if (p.n === null || p.n === undefined || !Number.isFinite(p.n))
     throw new ErrorParametro('n debe ser un número finito.');
-  if (!(p.delta + p.n > 0))
+  if (p.g !== undefined && (p.g === null || !Number.isFinite(p.g)))
+    throw new ErrorParametro('g debe ser un número finito.');
+  if (!(reposicion(p) > 0))
     throw new ErrorParametro(
-      `δ + n debe ser positivo (es ${p.delta + p.n}): sin depreciación ni crecimiento de la población el capital por trabajador crece sin límite.`,
+      `n + g + δ debe ser positivo (es ${reposicion(p)}): sin reposición el capital por trabajador crece sin límite.`,
     );
 }
 
@@ -46,7 +54,7 @@ export const produccion = (p: ParamsSolow, k: number): number => p.A * Math.pow(
 
 export function estadoEstacionario(p: ParamsSolow): ResSolow {
   validarSolow(p);
-  const dn = p.delta + p.n;
+  const dn = reposicion(p);
   const e = 1 / (1 - p.alpha);
   const k = Math.pow((p.s * p.A) / dn, e);
   const y = produccion(p, k);

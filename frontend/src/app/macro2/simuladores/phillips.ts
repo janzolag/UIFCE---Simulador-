@@ -20,6 +20,7 @@ import {
 } from '../../core/tema';
 import { ParamsPhillips, desempleoParaMeta, inflacion, razonSacrificio } from '../modelos/phillips';
 import { curva, equilibrio, refEstandar } from './_comun';
+import { Choque, Panel, alCambiarChoques, cadena, cambio, grupoChoques, recorrido } from './_paneles';
 
 const SIM_ID = 'm2-phillips';
 // CPCP: π = 6 − 0.5·(u − 5). Con u = 7 la inflación es 5 %; bajarla a 2 % en un año exige u = 13 %.
@@ -30,10 +31,20 @@ const DEF = {
   v: 0,
   uobj: 7,
   piobj: 2,
+  choque: 'ninguno' as string,
   dpie: 0,
   dv: 0,
 };
 type P = typeof DEF;
+
+export const CHOQUES: Choque[] = [
+  { valor: 'ninguno', etiqueta: 'Sin choque', cambios: {} },
+  { valor: 'expectativas', etiqueta: '+ Expectativas de inflación (Δπᵉ = +2)', cambios: { dpie: 2 } },
+  { valor: 'petroleo', etiqueta: '+ Choque de oferta adverso (Δv = +2)', cambios: { dv: 2 } },
+  { valor: 'favorable', etiqueta: '− Choque de oferta favorable (Δv = −2)', cambios: { dv: -2 } },
+  { valor: 'anclaje', etiqueta: '− Anclaje de expectativas (Δπᵉ = −3)', cambios: { dpie: -3 } },
+];
+const DELTAS = ['dpie', 'dv'];
 
 export function escenarios(p: P): [ParamsPhillips, ParamsPhillips] {
   const base: ParamsPhillips = { pie: p.pie, beta: p.beta, ustar: p.ustar, v: p.v };
@@ -78,6 +89,16 @@ export function calcular(p: P): Simulacion {
   punto(fig, n.ustar, n.pie + n.v, 'Sin sorpresas (u*, πᵉ + v)', NARANJA, 'circle-open');
   if (choque) equilibrio(fig, p.uobj, pi0, 'Antes del choque', 'A₀', SUAVE, ejes);
   equilibrio(fig, p.uobj, pi1, 'Punto de corto plazo (u, π)', 'A', DORADO, { ...ejes, simbolo: 'diamond' });
+  if (choque) {
+    // E₂: largo plazo sin sorpresas sobre la CPLP (u = u*, π = πᵉ + v de la curva nueva).
+    equilibrio(fig, n.ustar, n.pie + n.v, 'Largo plazo sin sorpresas (CPLP)', 'E₂', NARANJA, { ...ejes, simbolo: 'diamond' });
+    const panelP: Panel = {
+      id: '', titulo: '', tituloX: '', tituloY: '',
+      rangoX: [0, umax], rangoY: [ylo, pmax + margen],
+      dominio: { x: [0, 1], y: [0, 1] }, movil: { x: [0, 1], y: [0, 1] },
+    };
+    recorrido(fig, panelP, [[p.uobj, pi0], [p.uobj, pi1], [n.ustar, n.pie + n.v]], DORADO);
+  }
   if (metaVisible)
     punto(fig, uMeta, p.piobj, `Meta π = ${fmt(p.piobj, 2)} % en un año`, ROJO, 'x', undefined, {
       hovertemplate: `Para π = ${fmt(p.piobj, 2)} %: u = %{x:.2f} %<extra></extra>`,
@@ -109,6 +130,16 @@ export function calcular(p: P): Simulacion {
 
   const panel = [
     resultados([
+      ...(choque
+        ? [
+            cadena(
+              `Choque: ${p.dpie !== 0 ? `Δπᵉ = ${fmt(p.dpie, 2)} p. p.` : ''}${p.dpie !== 0 && p.dv !== 0 ? ', ' : ''}${p.dv !== 0 ? `Δv = ${fmt(p.dv, 2)} p. p. (oferta)` : ''}.`,
+              `${p.dpie !== 0 ? `πᵉ ${p.dpie > 0 ? '↑' : '↓'} → salarios y precios fijados con más ${p.dpie > 0 ? 'inflación' : 'calma'}` : `costos ${p.dv > 0 ? '↑' : '↓'}`} → la CPCP se desplaza ${pi1 > pi0 ? 'hacia arriba' : 'hacia abajo'} → con u = ${fmt(p.uobj, 2)} % la inflación pasa de E₀ a E₁.`,
+              `Corto plazo: π ${cambio(pi0, pi1)} % con u fijo en ${fmt(p.uobj, 2)} %.`,
+              `Largo plazo: sin sorpresas la economía vuelve a la CPLP en u* = ${fmt(n.ustar, 2)} % con π = πᵉ + v = ${fmt(n.pie + n.v, 2)} % (E₂): no hay intercambio permanente entre inflación y desempleo.`,
+            ),
+          ]
+        : []),
       lectura(
         'Punto de corto plazo',
         tabla(
@@ -138,6 +169,7 @@ export const SIM: SimuladorDef = {
   defecto: { ...DEF },
   alto: 540,
   grupos: [
+    grupoChoques(CHOQUES),
     {
       titulo: 'CPCP: π = πᵉ − β·(u − u*) + v',
       controles: [
@@ -155,12 +187,13 @@ export const SIM: SimuladorDef = {
       ],
     },
     {
-      titulo: 'Choques (estática comparativa)',
+      titulo: 'Tamaño del choque',
       controles: [
         { id: 'dpie', etiqueta: 'Δπᵉ (expectativas)', tipo: 'slider', min: -6, max: 6, paso: 0.25 },
         { id: 'dv', etiqueta: 'Δv (choque de oferta)', tipo: 'slider', min: -4, max: 6, paso: 0.25 },
       ],
     },
   ],
+  alCambiar: alCambiarChoques(CHOQUES, DELTAS),
   calcular: (p: Params) => calcular(p as unknown as P),
 };

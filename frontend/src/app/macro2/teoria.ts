@@ -26,7 +26,7 @@ const con = (sim: { defecto: Params }, cambios: Params): any => ({ ...sim.defect
 
 // ------------------------------------------------------------------ IS–LM
 function islm(): Teoria {
-  const parametros = con(SIM_ISLM, { dG: 100 });
+  const parametros = con(SIM_ISLM, { choque: 'fiscal', dG: 100, dT: 0, dm: 0 });
   const [b, n] = escISLM(parametros);
   const r0 = equilibrioISLM2(b);
   const r1 = equilibrioISLM2(n);
@@ -61,7 +61,7 @@ function islm(): Teoria {
 // ------------------------------------------------------------------ DD–AA (Mundell–Fleming)
 function mundell(p: Params): Teoria {
   const fijo = p['regimen'] === 'fijo';
-  const parametros = con(SIM_MF, { regimen: fijo ? 'fijo' : 'flotante', movilidad: 'perfecta', dG: 70 });
+  const parametros = con(SIM_MF, { regimen: fijo ? 'fijo' : 'flotante', movilidad: 'perfecta', choque: 'fiscal', dG: 70 });
   const [b, n] = escMF(parametros);
   const r0 = equilibrioDDAA(b);
   const r1 = equilibrioDDAA(n);
@@ -101,7 +101,7 @@ function mundell(p: Params): Teoria {
 
 // ------------------------------------------------------------------ DA–OA
 function daoa(): Teoria {
-  const parametros = con(SIM_DAOA, { autoajuste: 'si', theta: 1, dD0: 200, dW: 0, dYp: 0 });
+  const parametros = con(SIM_DAOA, { autoajuste: 'si', theta: 1, choque: 'demanda', dD0: 200, dW: 0, dYp: 0 });
   const [b, n] = escDAOA(parametros);
   const e0 = cortoPlazo(b);
   const e1 = cortoPlazo(n);
@@ -135,7 +135,7 @@ function daoa(): Teoria {
 
 // ------------------------------------------------------------------ Phillips
 function phillips(): Teoria {
-  const parametros = con(SIM_PH, { dpie: 0, dv: 0 });
+  const parametros = con(SIM_PH, { choque: 'ninguno', dpie: 0, dv: 0 });
   const [b] = escPH(parametros);
   const pi = inflacion(b, parametros.uobj);
   const u = desempleoParaMeta(b, parametros.piobj);
@@ -162,24 +162,24 @@ function phillips(): Teoria {
 
 // ------------------------------------------------------------------ Solow
 function solow(): Teoria {
-  const parametros = con(SIM_SOLOW, { ds: 0.15, dn: 0, dA: 0 });
+  const parametros = con(SIM_SOLOW, { choque: 'ahorro', ds: 0.15, dn: 0, dA: 0 });
   const [b, n] = escSolow(parametros);
   const r0 = estadoEstacionario(b);
   const r1 = estadoEstacionario(n);
   return {
     titulo: 'Modelo de crecimiento de Solow',
     conceptos: [
-      'El capital por trabajador crece mientras la inversión s·f(k) supere la inversión de reposición (δ + n)·k; se detiene en k*.',
+      'El capital por trabajador efectivo crece mientras la inversión s·A·f(k) supere la reposición (n + g + δ)·k; se detiene en k*.',
       'Más ahorro eleva k* e y* (efecto de nivel), pero no la tasa de crecimiento de largo plazo: esa la da el progreso técnico.',
-      'La regla de oro (f′(k) = δ + n, con Cobb-Douglas s = α) maximiza el consumo de estado estacionario.',
+      'La regla de oro (f′(k) = n + g + δ, con Cobb-Douglas s = α) maximiza el consumo de estado estacionario.',
     ],
     formulas: [
-      '\\Delta k = s\\,A k^{\\alpha} - (\\delta + n)\\,k',
-      'k^{*} = \\left(\\dfrac{sA}{\\delta + n}\\right)^{\\frac{1}{1-\\alpha}}',
+      '\\Delta k = s\\,A k^{\\alpha} - (n + g + \\delta)\\,k',
+      'k^{*} = \\left(\\dfrac{sA}{n + g + \\delta}\\right)^{\\frac{1}{1-\\alpha}}',
     ],
     ejemplo: {
       parametros,
-      enunciado: 'Con A = 1, α = 0.5, s = 0.3, δ = 0.10 y n = 0.05, la tasa de ahorro sube a 0.45 (Δs = +0.15).',
+      enunciado: 'Con A = 1, α = 0.5, s = 0.3, n = 0.05, g = 0.02 y δ = 0.08 (n + g + δ = 0.15), pulsa «+ Tasa de ahorro» (Δs = +0.15, s = 0.45).',
       resultado:
         `Inicialmente k* = ${f(r0.k)}, y* = ${f(r0.y)} y c* = ${f(r0.c)}. Con s = 0.45: k* = ${f(r1.k)}, y* = ${f(r1.y)} y c* = ${f(r1.c)}. ` +
         `La regla de oro es s = ${f(r1.sOro)} con c = ${f(r1.cOro, 3)}.`,

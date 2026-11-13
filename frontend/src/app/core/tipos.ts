@@ -32,7 +32,9 @@ export type Bloque =
   | { t: 'lectura'; titulo: string; hijos: Bloque[] }
   | { t: 'texto'; texto: string; clase?: string }
   | { t: 'ref'; texto: string; autor?: string }
-  | { t: 'rejilla'; hijos: Bloque[] };
+  | { t: 'rejilla'; hijos: Bloque[] }
+  /** Estática comparativa en tres pasos: choque → transmisión → resultado neto. */
+  | { t: 'cadena'; choque: string; transmision: string; resultado: string; largo?: string };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface Figura {
@@ -40,6 +42,12 @@ export interface Figura {
   data: any[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   layout: any;
+  /**
+   * Variante para pantallas angostas (figuras de varios paneles): dominios de los ejes apilados y
+   * alto total. El componente de la gráfica la aplica solo en móvil.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  movil?: { alto: number; layout: any };
 }
 
 export interface Simulacion {

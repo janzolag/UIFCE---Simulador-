@@ -24,6 +24,7 @@ function textos(bs: Bloque[]): string[] {
       case 'aviso': return [b.texto];
       case 'texto': return [b.texto];
       case 'ref': return ['Monsalve (2017) · ', b.texto];
+      case 'cadena': return [b.choque, b.transmision, b.resultado, ...(b.largo ? [b.largo] : [])];
     }
   });
 }
