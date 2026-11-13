@@ -206,7 +206,7 @@ export function calcular(p: P): Simulacion {
       lectura(
         'Lectura',
         ...lecturas,
-        refKO('cap. 16, «La producción y el tipo de cambio a corto plazo», y cap. 17, tipos fijos e intervención (numeración de la 7.ª ed.).'),
+        refKO('cap. 16, «La producción nacional y el tipo de cambio a corto plazo», y cap. 17, «Los tipos de cambio fijos y la intervención en los mercados de divisas» (numeración de la 7.ª ed.).'),
       ),
     ]),
   ];

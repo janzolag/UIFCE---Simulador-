@@ -94,7 +94,7 @@ function mundell(p: Params): Teoria {
         : 'Pon ΔEᵉ = +0.1 (el choque se cree permanente): la AA sube y el resultado cambia. Compara con el régimen fijo.',
     },
     fuente:
-      'cap. 16, «La producción y el tipo de cambio a corto plazo» (DD-AA), y cap. 17, tipos de cambio fijos e intervención (numeración de la 7.ª ed.). La versión con movilidad imperfecta (μ) es una extensión estándar.',
+      'cap. 16, «La producción nacional y el tipo de cambio a corto plazo» (DD-AA), y cap. 17, «Los tipos de cambio fijos y la intervención en los mercados de divisas» (numeración de la 7.ª ed.). La versión con movilidad imperfecta (μ) es una extensión estándar.',
     autor: AUTOR_KO,
   };
 }
