@@ -15,7 +15,9 @@ import { desempleoParaMeta, inflacion, razonSacrificio } from './modelos/phillip
 import { estadoEstacionario } from './modelos/solow';
 import { SIM as SIM_DAOA, escenarios as escDAOA } from './simuladores/da-oa';
 import { SIM as SIM_ISLM, escenarios as escISLM } from './simuladores/is-lm';
-import { SIM as SIM_MF, escenarios as escMF } from './simuladores/mundell-fleming';
+import { SIM as SIM_MF, escenarios as escMF } from './simuladores/dd-aa';
+import { SIM as SIM_AB, pasos as pasosAb } from './simuladores/mundell-fleming';
+import { etapas } from './modelos/abierta';
 import { SIM as SIM_PH, escenarios as escPH } from './simuladores/phillips';
 import { SIM as SIM_SOLOW, escenarios as escSolow } from './simuladores/solow';
 import { AUTOR_ESTANDAR, AUTOR_KO } from './simuladores/_comun';
@@ -58,8 +60,8 @@ function islm(): Teoria {
   };
 }
 
-// ------------------------------------------------------------------ DD–AA (Mundell–Fleming)
-function mundell(p: Params): Teoria {
+// ------------------------------------------------------------------ DD–AA (Mundell–Fleming de corto plazo)
+function ddaa(p: Params): Teoria {
   const fijo = p['regimen'] === 'fijo';
   const parametros = con(SIM_MF, { regimen: fijo ? 'fijo' : 'flotante', movilidad: 'perfecta', choque: 'fiscal', dG: 70 });
   const [b, n] = escMF(parametros);
@@ -96,6 +98,55 @@ function mundell(p: Params): Teoria {
     fuente:
       'cap. 16, «La producción nacional y el tipo de cambio a corto plazo» (DD-AA), y cap. 17, «Los tipos de cambio fijos y la intervención en los mercados de divisas» (numeración de la 7.ª ed.). La versión con movilidad imperfecta (μ) es una extensión estándar.',
     autor: AUTOR_KO,
+  };
+}
+
+// ------------------------------------------------------------------ Sistema de economía abierta (5 paneles)
+function sistemaAbierto(p: Params): Teoria {
+  const fijo = p['regimen'] === 'fijo';
+  const parametros = con(SIM_AB, {
+    regimen: fijo ? 'fijo' : 'flotante',
+    movilidad: 'imperfecta',
+    kappa: 25,
+    choque: 'apertura',
+    dAp: 1,
+    dG: 0,
+    dM: 0,
+    dIs: 0,
+    dX: 0,
+    dEe: 0,
+  });
+  const s = pasosAb(parametros);
+  const a = s.e0.r;
+  const z = s.e2.r;
+  return {
+    titulo: `Mundell–Fleming: economía abierta en cinco paneles · tipo ${fijo ? 'fijo' : 'flotante'}`,
+    conceptos: [
+      'En el mercado de fondos prestables la tasa i iguala ahorro e inversión; si la cuenta de capital está abierta, la diferencia Sᴺ − I la cubre el resto del mundo (Sᴺ⁺ᴱ o Dᴺ⁺ᴱ alrededor de i*).',
+      'Balanza de pagos: la entrada neta de capital es exactamente el déficit comercial (XN = Sᴺ − I). El tipo de cambio es la variable que ajusta X y M a esa brecha; la paridad i = i* + ε dice cuánto capital está dispuesto a moverse.',
+      fijo
+        ? 'Con tipo fijo E no se mueve: el tipo real se ajusta vía precios y la política monetaria pierde su efecto (el crédito se va en reservas): no se puede tener a la vez tipo fijo, capital libre y política monetaria propia.'
+        : 'Invertir más de lo que se ahorra pone la absorción (C + G, I) fuera de la FPP y alarga la estructura de producción; con ahorro externo es sostenible, con crédito sin ahorro (expansión monetaria) no.',
+    ],
+    formulas: [
+      'S^{N}(i) + \\kappa\\,(i - i^{*} - \\varepsilon) = I(i), \\qquad \\varepsilon = \\dfrac{E^{e} - E}{E}',
+      'XN(q) = X(q) - M(q) = S^{N} - I = -KF',
+    ],
+    ejemplo: {
+      parametros,
+      enunciado:
+        `Ahorro Sᴺ = 150 + 10·i, inversión I = 350 − 15·i, X = 200·q, M = 200/q, i* = 4 % y movilidad κ = 25${fijo ? ', tipo de cambio fijo' : ''}. ` +
+        'Parte de la economía cerrada y abre la cuenta de capital (botón «Abrir la cuenta de capital»).',
+      resultado:
+        `Cerrada: i = ${f(a.i)} %, Sᴺ = I = ${f(a.I)} y q = ${f(a.q)} (comercio equilibrado). ` +
+        `Abierta, a largo plazo: i = ${f(z.i)} %, Sᴺ = ${f(z.S)}, I = ${f(z.I)}, entrada de capital = déficit comercial = ${f(z.KF)} y q = ${f(z.q)}` +
+        `${fijo ? ` (con Ē fijo, P sube a ${f(z.P, 3)})` : ' (apreciación)'}. La estructura pasa de ${f(etapas(a.I, a.C))} a ${f(etapas(z.I, z.C))} etapas.`,
+      prueba:
+        'Lee E₀ y E₂ en los paneles ① y ③. Luego cambia a movilidad perfecta: i baja hasta i* y la entrada de capital crece. Prueba también «Expansión monetaria» con tipo fijo: no se mueve nada.',
+    },
+    fuente:
+      'fondos prestables en economía abierta pequeña (notación estándar de manual); paridad de intereses según Krugman y Obstfeld (2006), cap. 14; FPP consumo–inversión y estructura intertemporal de la producción según Garrison (2001), Time and Money. El DD–AA de corto plazo está en el simulador «DD–AA».',
+    autor: AUTOR_ESTANDAR,
   };
 }
 
@@ -196,7 +247,9 @@ export function teoria(sim: string, p: Params): Teoria | null {
     case 'is-lm':
       return islm();
     case 'mundell-fleming':
-      return mundell(p);
+      return sistemaAbierto(p);
+    case 'dd-aa':
+      return ddaa(p);
     case 'da-oa':
       return daoa();
     case 'phillips':

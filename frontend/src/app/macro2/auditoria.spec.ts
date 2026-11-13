@@ -14,7 +14,9 @@ import { ParamsDDAA, ResDDAA, equilibrioDDAA, curvaAA, curvaDD } from './modelos
 import { equilibrioISLM2, isY, lmR } from './modelos/islm';
 import { estadoEstacionario, produccion } from './modelos/solow';
 import * as ISLM from './simuladores/is-lm';
-import * as MF from './simuladores/mundell-fleming';
+import * as MF from './simuladores/dd-aa';
+import * as AB from './simuladores/mundell-fleming';
+import { equilibrioAbierta, etapas, exportaciones, fpp, importaciones, rendimientoExterno } from './modelos/abierta';
 import * as DAOA from './simuladores/da-oa';
 import * as SOLOW from './simuladores/solow';
 import * as PH from './simuladores/phillips';
@@ -69,7 +71,8 @@ const marcador = (r: Simulacion, nombre: string, eje = 'x') =>
 describe('Pasada 1 · notación, ejes y paneles enlazados', () => {
   const casos: [string, string[], Record<string, string>][] = [
     ['is-lm', ['', '2', '3'], { xaxis2: 'x', yaxis3: 'y' }],
-    ['mundell-fleming', ['', '2'], { yaxis2: 'y' }],
+    ['mundell-fleming', ['', '2', '3', '4', '5'], { yaxis3: 'y2', xaxis4: 'x' }],
+    ['dd-aa', ['', '2'], { yaxis2: 'y' }],
     ['da-oa', ['', '2'], {}],
     ['solow', ['', '2'], { xaxis2: 'x' }],
   ];
@@ -103,7 +106,7 @@ describe('Pasada 1 · notación, ejes y paneles enlazados', () => {
     expect(islm.yaxis.title.text).toBe('Tasa de interés r (%)');
     expect(islm.yaxis2.title.text).toBe('Gasto planeado AE');
     expect(islm.xaxis3.title.text).toBe('Saldos reales M/P');
-    const mf = await t('mundell-fleming');
+    const mf = await t('dd-aa');
     expect(mf.yaxis.title.text).toMatch(/^Tipo de cambio E/);
     expect(mf.xaxis2.title.text).toBe('Tasa de rendimiento (%)');
     const da = await t('da-oa');
@@ -152,8 +155,8 @@ describe('Pasada 2 · solución analítica = cruce graficado (4 decimales)', () 
     expect(m.r2.Y).toBeLessThan(m.r0.Y);
   });
 
-  it('Mundell-Fleming: cada curva graficada está sobre DD y AA analíticas y el equilibrio las satisface', async () => {
-    const d = await CARGADORES_MACRO2['mundell-fleming']();
+  it('DD-AA: cada curva graficada está sobre DD y AA analíticas y el equilibrio las satisface', async () => {
+    const d = await CARGADORES_MACRO2['dd-aa']();
     for (const regimen of ['flotante', 'fijo'])
       for (const movilidad of ['perfecta', 'imperfecta'])
         for (const c of MF.CHOQUES) {
@@ -175,7 +178,7 @@ describe('Pasada 2 · solución analítica = cruce graficado (4 decimales)', () 
   });
 
   it('Krugman y Obstfeld: resultados de largo plazo (choques permanentes)', async () => {
-    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    const d = await CARGADORES_MACRO2['dd-aa']();
     // Flotante, expansión fiscal permanente: Y no cambia y la CA cae exactamente ΔG (expulsión vía CA).
     const f = MF.pasos(pulsar(d, { ...d.defecto }, 'fiscal') as never);
     expect(f.e2!.Y).toBeCloseTo(f.e0.Y, 4);
@@ -285,6 +288,12 @@ describe('Pasada 3 · bordes: botones de choque × extremos de cada deslizador',
       { regimen: 'flotante', movilidad: 'imperfecta' },
       { regimen: 'fijo', movilidad: 'imperfecta' },
     ],
+    'dd-aa': [
+      { regimen: 'flotante', movilidad: 'perfecta' },
+      { regimen: 'fijo', movilidad: 'perfecta' },
+      { regimen: 'flotante', movilidad: 'imperfecta' },
+      { regimen: 'fijo', movilidad: 'imperfecta' },
+    ],
     'da-oa': [{ autoajuste: 'si' }, { autoajuste: 'no' }],
     phillips: [{}],
     solow: [{}],
@@ -301,7 +310,7 @@ describe('Pasada 3 · bordes: botones de choque × extremos de cada deslizador',
           if (b !== 'ninguno') {
             expect(cadenaDe(r0), `${sim} ${b}: caja de estática comparativa`).toBeTruthy();
             expect(r0.fig.data.some((t) => String(t.name).endsWith('(inicial)')), `${sim} ${b}: E₀ fantasma`).toBe(
-              !(sim === 'mundell-fleming' && b === 'monetaria' && v['regimen'] === 'fijo'),
+              !(['mundell-fleming', 'dd-aa'].includes(sim) && b === 'monetaria' && v['regimen'] === 'fijo'),
             );
           }
           for (const c of controles(d).filter((x) => x.tipo === 'slider'))
@@ -339,5 +348,193 @@ describe('Pasada 3 · bordes: botones de choque × extremos de cada deslizador',
     const neg = da.calcular({ ...da.defecto, okun: 1, dD0: 400 });
     expect(JSON.stringify(neg.panel)).toContain('desempleo negativo');
     expect(neg.fig.data.filter((t) => t.xaxis === 'x2' && t.mode?.includes('markers')).every((t) => t.x[0] >= 0)).toBe(true);
+  });
+});
+
+/* ================================================================ Sistema de economía abierta */
+describe('Mundell–Fleming en cinco paneles · analítico = gráfica', () => {
+  const REG = [
+    { regimen: 'flotante', movilidad: 'imperfecta' },
+    { regimen: 'flotante', movilidad: 'perfecta' },
+    { regimen: 'fijo', movilidad: 'imperfecta' },
+    { regimen: 'fijo', movilidad: 'perfecta' },
+  ];
+  const finalDe = (r: Simulacion, nombre: string, eje: string) =>
+    r.fig.data.filter((t) => t.name === nombre && (t.xaxis ?? 'x') === eje && t.line?.dash === undefined).pop();
+
+  it('identidades en E₀, E₁ y E₂: fondos, balanza de pagos, paridad, FPP y estructura', async () => {
+    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    for (const v of REG)
+      for (const c of AB.CHOQUES) {
+        const p = pulsar(d, { ...d.defecto, ...v }, c.valor);
+        const s = AB.pasos(p as never);
+        for (const { q, r } of [s.e0, s.e1, s.e2]) {
+          const tag = `${JSON.stringify(v)} ${c.valor}`;
+          expect(Math.abs(r.S + r.credito + r.KF - r.I), `${tag} fondos`).toBeLessThan(1e-8);
+          expect(Math.abs(r.XN + r.KF), `${tag} BP`).toBeLessThan(1e-8);
+          expect(Math.abs(exportaciones(q, r.q) - importaciones(q, r.q) - r.XN), `${tag} XN`).toBeLessThan(1e-8);
+          expect(Math.abs(r.C - fpp(q.Yf, r.S))).toBeLessThan(1e-9);
+          expect(Math.abs(r.E - r.q * r.P), `${tag} E = qP`).toBeLessThan(1e-9);
+          if (q.movilidad === 'perfecta') expect(Math.abs(r.i - q.iStar - r.eps), `${tag} paridad`).toBeLessThan(1e-8);
+          if (q.movilidad === 'imperfecta')
+            expect(Math.abs(r.KF - q.kappa * (r.i - q.iStar - r.eps)), `${tag} KF = κ(i − i* − ε)`).toBeLessThan(1e-7);
+          if (q.movilidad === 'cerrada') expect(r.KF).toBeCloseTo(0, 9);
+          if (q.Ee !== null && q.movilidad !== 'cerrada')
+            expect(Math.abs(r.eps - (100 * (q.Ee - r.E)) / r.E), `${tag} ε`).toBeLessThan(1e-7);
+          if (q.regimen === 'fijo') expect(r.E).toBe(q.Ebar);
+        }
+      }
+  });
+
+  it('cada marcador y cada cruce graficado coincide con la solución analítica (4 decimales)', async () => {
+    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    for (const v of REG)
+      for (const c of AB.CHOQUES) {
+        const p = pulsar(d, { ...d.defecto, ...v }, c.valor);
+        const r = d.calcular(p);
+        expect(esError(r), c.valor).toBe(false);
+        const s = AB.pasos(p as never);
+        const est = AB.estadosAb(p as never, s);
+        const { q, r: e } = est[est.length - 1];
+        const nom = est.length === 1 ? 'Equilibrio' : est.length === 3 ? 'Largo plazo (Eᵉ = E)' : 'Nuevo equilibrio';
+        const tag = `${JSON.stringify(v)} ${c.valor}`;
+        // ① fondos: el equilibrio está en (I, i) si entra capital, en (Sᴺ + ΔC, i) si sale.
+        const m1 = marcador(r, nom, 'x');
+        expect(m1.x[0], tag).toBeCloseTo(e.KF >= 0 ? e.I : e.S + e.credito, 4);
+        expect(m1.y[0], tag).toBeCloseTo(e.i, 4);
+        const dn = traza(r, 'Dᴺ (inversión)');
+        if (q.movilidad === 'imperfecta' && e.KF > 1e-6)
+          cruzaEn(finalDe(r, 'Sᴺ⁺ᴱ (ahorro nacional + externo)', 'x'), dn, e.I, e.i);
+        if (q.movilidad === 'imperfecta' && e.KF < -1e-6)
+          cruzaEn(finalDe(r, 'Dᴺ⁺ᴱ (inversión + salida de capital)', 'x'), finalDe(r, 'Sᴺ (ahorro nacional)', 'x'), e.S + e.credito, e.i);
+        // ② paridad: el rendimiento externo graficado en E es i* + 100·(Eᵉ − E)/E.
+        const m2 = marcador(r, nom, 'x2');
+        expect(m2.x[0]).toBeCloseTo(e.i, 4);
+        expect(m2.y[0]).toBeCloseTo(e.E, 4);
+        const ext = finalDe(r, 'i* + (Eᵉ − E)/E (depósitos en divisas)', 'x2');
+        const Ee = q.Ee ?? e.E;
+        ext.y.forEach(
+          (E: number, k: number) =>
+            ext.x[k] !== null && expect(Math.abs(ext.x[k] - rendimientoExterno(q.iStar, Ee, E))).toBeLessThan(1e-9),
+        );
+        if (q.movilidad === 'perfecta' && q.regimen === 'flotante')
+          cruzaEn(finalDe(r, 'i (depósitos nacionales)', 'x2'), ext, e.i, e.E);
+        // ③ comercio: X y M a q de equilibrio; X ∩ M en el equilibrio comercial.
+        const m3 = marcador(r, nom, 'x3');
+        expect(m3.x[0]).toBeCloseTo(e.X, 4);
+        expect(m3.y[0]).toBeCloseTo(e.q, 4);
+        cruzaEn(finalDe(r, 'X (exportaciones)', 'x3'), traza(r, 'M (importaciones)', 'x3'), exportaciones(q, e.qBal), e.qBal);
+        if (Math.abs(e.XN) > 1e-6) {
+          const br = r.fig.data.find((t) => String(t.name).includes('comercial (') && t.xaxis === 'x3');
+          expect(Math.abs(Math.abs(br.x[1] - br.x[0]) - Math.abs(e.XN))).toBeLessThan(DEC4);
+        }
+        // ④ FPP: cada punto del arco está sobre C = √(Yf² − I²); absorción en (I, C).
+        const ar = traza(r, 'FPP', 'x4');
+        ar.x.forEach((k: number, j: number) => expect(Math.abs(ar.y[j] - fpp(q.Yf, k))).toBeLessThan(1e-9));
+        const m4 = marcador(r, nom, 'x4');
+        expect(m4.x[0]).toBeCloseTo(e.I, 4);
+        expect(m4.y[0]).toBeCloseTo(e.C, 4);
+        // ⑤ estructura: vértice (L, C) con L = 20·I/C.
+        const m5 = marcador(r, nom, 'x5');
+        expect(m5.x[0]).toBeCloseTo(etapas(e.I, e.C), 4);
+        expect(m5.y[0]).toBeCloseTo(e.C, 4);
+      }
+  });
+
+  it('resultados de referencia: apertura, fiscal, monetaria, i*, exportaciones y expectativas', async () => {
+    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    const P = (b: string, extra: Params = {}) => AB.pasos(pulsar(d, { ...d.defecto, ...extra }, b) as never);
+    // Apertura por defecto: cerrada i = 8 %, q = 1; abierta (κ = 25) i = 6 %, KF = 50 = déficit: 200·q − 200/q = −50.
+    const qDef = (xn: number, X0 = 200) => (xn + Math.sqrt(xn * xn + 4 * X0 * 200)) / (2 * X0);
+    const a = P('apertura');
+    expect(a.e0.r.i).toBeCloseTo(8, 10);
+    expect(a.e0.r.q).toBeCloseTo(1, 10);
+    expect(a.e0.r.XN).toBeCloseTo(0, 10);
+    expect(a.e2.r.i).toBeCloseTo(6, 10);
+    expect(a.e2.r.KF).toBeCloseTo(50, 10);
+    expect(a.e2.r.q).toBeCloseTo(qDef(-50), 10);
+    expect(a.e1.r.q).toBeGreaterThan(a.e2.r.q); // con Eᵉ aún en 1 aprecia menos
+    expect(a.e1.r.q).toBeLessThan(a.e0.r.q);
+    expect(etapas(a.e2.r.I, a.e2.r.C)).toBeGreaterThan(etapas(a.e0.r.I, a.e0.r.C));
+    const ap = P('apertura', { movilidad: 'perfecta' });
+    expect(ap.e2.r.i).toBeCloseTo(4, 10);
+    expect(ap.e2.r.q).toBeCloseTo(qDef(-100), 10);
+    // Fiscal (+50): i = 7 % y déficit 75 a largo plazo (déficits gemelos).
+    const f = P('fiscal');
+    expect(f.e0.r.i).toBeCloseTo(6, 10);
+    expect(f.e2.r.i).toBeCloseTo(7, 10);
+    expect(f.e2.r.q).toBeCloseTo(qDef(-75), 10);
+    expect(f.e2.r.XN).toBeLessThan(f.e0.r.XN);
+    // Monetaria flotante: a corto plazo i ↓ y E ↑; a largo plazo neutral, E = 1.1·E₀ y q = q₀.
+    const m = P('monetaria');
+    expect(m.e1.r.i).toBeLessThan(m.e0.r.i);
+    expect(m.e1.r.E).toBeGreaterThan(m.e0.r.E);
+    expect(m.e1.r.I).toBeGreaterThan(m.e0.r.I);
+    expect(m.e2.r.q).toBeCloseTo(m.e0.r.q, 10);
+    expect(m.e2.r.i).toBeCloseTo(m.e0.r.i, 10);
+    expect(m.e2.r.E).toBeCloseTo(1.1 * m.e0.r.E, 10);
+    // Monetaria con tipo fijo: nada real cambia y se pierden 40 de reservas (trilema).
+    const mf = P('monetaria', { regimen: 'fijo' });
+    for (const k of ['i', 'E', 'q', 'I', 'XN'] as const) expect(mf.e1.r[k]).toBeCloseTo(mf.e0.r[k], 10);
+    expect(mf.e1.r.reservas).toBe(-40);
+    // i* +2: i ↑, I ↓, E ↑, XN ↑.
+    const x = P('externa');
+    expect(x.e2.r.i).toBeGreaterThan(x.e0.r.i);
+    expect(x.e2.r.I).toBeLessThan(x.e0.r.I);
+    expect(x.e2.r.E).toBeGreaterThan(x.e0.r.E);
+    expect(x.e2.r.XN).toBeGreaterThan(x.e0.r.XN);
+    // Auge exportador: a largo plazo XN no cambia y q cae (X₀ = 240 con el mismo déficit).
+    const ex = P('exportaciones');
+    expect(ex.e2.r.XN).toBeCloseTo(ex.e0.r.XN, 10);
+    expect(ex.e2.r.q).toBeCloseTo(qDef(-50, 240), 10);
+    expect(ex.e2.r.q).toBeLessThan(ex.e0.r.q);
+    // Expectativas de depreciación: E ↑ e i ↑ hoy; si no se validan, todo vuelve a E₀.
+    const ee = P('expectativas');
+    expect(ee.e1.r.E).toBeGreaterThan(ee.e0.r.E);
+    expect(ee.e1.r.i).toBeGreaterThan(ee.e0.r.i);
+    expect(ee.e2.r.E).toBeCloseTo(ee.e0.r.E, 10);
+    const eef = P('expectativas', { regimen: 'fijo', movilidad: 'perfecta' });
+    expect(eef.e1.r.i).toBeCloseTo(eef.e0.r.i + 10, 10); // defender Ē exige pagar la prima ε
+  });
+
+  it('movilidad imperfecta con κ grande converge a la movilidad perfecta', () => {
+    const base = AB.parametrosBase({ ...AB.SIM.defecto } as never);
+    const per = equilibrioAbierta({ ...base, movilidad: 'perfecta', G: 250 });
+    const imp = equilibrioAbierta({ ...base, movilidad: 'imperfecta', kappa: 1e8, G: 250 });
+    expect(imp.i).toBeCloseTo(per.i, 5);
+    expect(imp.q).toBeCloseTo(per.q, 5);
+  });
+
+  it('bordes: cada choque × extremos de cada deslizador da una gráfica válida o un aviso claro', async () => {
+    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    let validos = 0;
+    let avisos = 0;
+    for (const v of REG)
+      for (const c of AB.CHOQUES) {
+        const base = pulsar(d, { ...d.defecto, ...v }, c.valor);
+        for (const ctl of controles(d).filter((x) => x.tipo === 'slider'))
+          for (const x of [ctl.min!, ctl.max!, (ctl.min! + ctl.max!) / 2]) {
+            const r = d.calcular({ ...base, [ctl.id]: x });
+            expect(json(r), `${c.valor} ${ctl.id}=${x}`).not.toMatch(/NaN|undefined|Infinity/);
+            if (esError(r)) {
+              avisos++;
+              expect(r.fig.data.length).toBe(0);
+              expect(r.fig.layout.annotations[0].text.length).toBeGreaterThan(20);
+            } else validos++;
+          }
+      }
+    // La gran mayoría de las combinaciones debe dar una gráfica (los avisos son la excepción).
+    expect(validos).toBeGreaterThan(avisos * 10);
+  });
+
+  it('casos degenerados: s = b = 0 con economía cerrada y deltas no numéricos', async () => {
+    const d = await CARGADORES_MACRO2['mundell-fleming']();
+    const r = d.calcular({ ...d.defecto, s: 0, b: 0 });
+    expect(esError(r)).toBe(true);
+    expect(JSON.stringify(r.panel)).toContain('s + b');
+    for (const k of ['dAp', 'dG', 'dM', 'dIs', 'dX', 'dEe'])
+      expect(esError(d.calcular({ ...d.defecto, [k]: NaN })), k).toBe(true);
+    const sinApertura = d.calcular({ ...d.defecto, choque: 'ninguno', dAp: 0, s: 0, b: 0 });
+    expect(json(sinApertura)).not.toMatch(/NaN|Infinity|undefined/);
   });
 });

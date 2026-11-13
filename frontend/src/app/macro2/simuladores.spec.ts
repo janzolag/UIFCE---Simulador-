@@ -20,6 +20,10 @@ const VARIANTES: Record<string, { id: string; valores: string[] }[]> = {
     { id: 'regimen', valores: ['flotante', 'fijo'] },
     { id: 'movilidad', valores: ['perfecta', 'imperfecta'] },
   ],
+  'dd-aa': [
+    { id: 'regimen', valores: ['flotante', 'fijo'] },
+    { id: 'movilidad', valores: ['perfecta', 'imperfecta'] },
+  ],
   'da-oa': [{ id: 'autoajuste', valores: ['si', 'no'] }],
   phillips: [],
   solow: [],
@@ -45,7 +49,7 @@ function combinaciones(sim: string, defecto: Params): Params[] {
 }
 
 describe('catálogo y navegación de Macro 2', () => {
-  it('Macro 2 es una materia más, después de Macro 1, con sus 5 simuladores listos', () => {
+  it('Macro 2 es una materia más, después de Macro 1, con sus 6 simuladores listos', () => {
     expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'macro1', 'macro2']);
     expect(MACRO2.simuladores.map((s) => s.id)).toEqual(SIMS);
     expect(MACRO2.simuladores.every((s) => s.listo)).toBe(true);
@@ -114,12 +118,12 @@ for (const sim of SIMS) {
       expect(r0.fig.data.some((t) => String(t.name).endsWith('(inicial)'))).toBe(false);
       for (const c of choques) {
         const v = c.max! > 0 ? c.max! / 2 : c.min! / 2;
-        const base: Params = sim === 'mundell-fleming' && c.id === 'dE0' ? { regimen: 'fijo' } : {};
+        const base: Params = sim === 'dd-aa' && c.id === 'dE0' ? { regimen: 'fijo' } : {};
         const r = d.calcular({ ...d.defecto, ...cero, ...base, [c.id]: v });
         if (esError(r)) continue;
         const fantasmas = r.fig.data.filter((t) => String(t.name).endsWith('(inicial)'));
         // Δ(M/P) con tipo fijo no mueve nada: es justo la lección de ese régimen.
-        if (sim === 'mundell-fleming' && c.id === 'dMp' && base['regimen'] === 'fijo') continue;
+        if (sim === 'dd-aa' && c.id === 'dMp' && base['regimen'] === 'fijo') continue;
         expect(fantasmas.length, c.id).toBeGreaterThan(0);
         expect(fantasmas.every((t) => t.line.dash === 'dash')).toBe(true);
       }
@@ -147,8 +151,22 @@ for (const sim of SIMS) {
 }
 
 describe('Macro 2: reglas de los modelos en la interfaz', () => {
-  it('Mundell–Fleming: con tipo fijo se ve E₀ y la devaluación; con flotante, M/P y Eᵉ', async () => {
+  it('Mundell–Fleming (sistema): κ solo con movilidad imperfecta y los seis choques tienen botón', async () => {
     const d = await CARGADORES_MACRO2['mundell-fleming']();
+    const visibles = (p: Params) =>
+      d.grupos.filter((g) => !g.visibleSi || g.visibleSi({ ...d.defecto, ...p })).flatMap((g) => g.controles.map((c) => c.id));
+    expect(visibles({ movilidad: 'imperfecta' })).toContain('kappa');
+    expect(visibles({ movilidad: 'perfecta' })).not.toContain('kappa');
+    const botones = d.grupos.flatMap((g) => g.controles).find((c) => c.id === 'choque')!.opciones!.map((o) => o.valor);
+    expect(botones).toEqual(['ninguno', 'apertura', 'fiscal', 'monetaria', 'externa', 'exportaciones', 'expectativas']);
+    // Por defecto ya se ve algo: la apertura desde la economía cerrada, con E₀, E₁ y E₂.
+    const r = d.calcular({ ...d.defecto });
+    expect(r.fig.data.some((t) => String(t.name).endsWith('(inicial)'))).toBe(true);
+    expect(JSON.stringify(r.panel)).toContain('Entrada de capital');
+  });
+
+  it('DD–AA: con tipo fijo se ve E₀ y la devaluación; con flotante, M/P y Eᵉ', async () => {
+    const d = await CARGADORES_MACRO2['dd-aa']();
     const visibles = (p: Params) =>
       d.grupos.filter((g) => !g.visibleSi || g.visibleSi({ ...d.defecto, ...p })).flatMap((g) => g.controles.map((c) => c.id));
     expect(visibles({ regimen: 'flotante' })).toEqual(expect.arrayContaining(['Mp', 'Ee', 'dEe']));

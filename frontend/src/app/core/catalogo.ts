@@ -248,7 +248,7 @@ export const MACRO2: Materia = {
   sigla: 'M2',
   color: '#B79CFF',
   descripcion:
-    'Economía abierta, ciclo y crecimiento: IS–LM, Mundell–Fleming (DD–AA de Krugman y Obstfeld), DA–OA, curva de Phillips y Solow.',
+    'Economía abierta, ciclo y crecimiento: IS–LM, Mundell–Fleming (sistema de cinco paneles y DD–AA de Krugman y Obstfeld), DA–OA, curva de Phillips y Solow.',
   simuladores: [
     listoMacro2(
       'is-lm',
@@ -259,7 +259,14 @@ export const MACRO2: Materia = {
     ),
     listoMacro2(
       'mundell-fleming',
-      'Mundell–Fleming (modelo DD–AA)',
+      'Mundell–Fleming: economía abierta en cinco paneles',
+      'Fondos prestables, paridad de intereses, comercio exterior, FPP consumo–inversión y estructura intertemporal de la producción enlazados: apertura financiera, política fiscal y monetaria, i*, exportaciones y expectativas con tipo fijo o flotante.',
+      String.raw`$S^N(i) + KF = I(i) \qquad XN(q) = S^N - I = -KF$`,
+      String.raw`$XN = S^N - I$`,
+    ),
+    listoMacro2(
+      'dd-aa',
+      'Mundell–Fleming de corto plazo (modelo DD–AA)',
       'DD–AA y mercado de divisas enlazados: choques transitorios y permanentes con tipo fijo o flotante y movilidad de capital (Krugman y Obstfeld).',
       String.raw`$DD:\; Y = D\!\left(\tfrac{EP^*}{P}, Y-T, I, G\right) \qquad AA:\; R = R^* + \dfrac{E^e - E}{E}$`,
       String.raw`$R = R^* + \dfrac{E^e - E}{E}$`,

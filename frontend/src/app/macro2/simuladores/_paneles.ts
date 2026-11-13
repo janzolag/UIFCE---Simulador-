@@ -14,7 +14,7 @@ import { COLORES, SUAVE, layoutBase } from '../../core/tema';
 import { fmt } from '../../core/formato';
 import { FANTASMA } from './_comun';
 
-export type IdPanel = '' | '2' | '3';
+export type IdPanel = '' | '2' | '3' | '4' | '5';
 export type Estado = 'inicial' | 'intermedio' | 'final';
 
 export interface Panel {

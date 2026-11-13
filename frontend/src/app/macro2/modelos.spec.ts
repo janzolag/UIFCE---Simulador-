@@ -10,7 +10,7 @@ import { desempleoParaMeta, inflacion, razonSacrificio } from './modelos/phillip
 import { estadoEstacionario, produccion } from './modelos/solow';
 import { SIM as SIM_DAOA, escenarios as escDAOA } from './simuladores/da-oa';
 import { SIM as SIM_ISLM, escenarios as escISLM } from './simuladores/is-lm';
-import { SIM as SIM_MF } from './simuladores/mundell-fleming';
+import { SIM as SIM_MF } from './simuladores/dd-aa';
 import { SIM as SIM_PH } from './simuladores/phillips';
 import { SIM as SIM_SOLOW } from './simuladores/solow';
 import { teoria } from './teoria';
@@ -126,9 +126,20 @@ describe('DD–AA / Mundell–Fleming (Krugman y Obstfeld)', () => {
   });
 
   it('el texto del modal (fijo) cita los números correctos', () => {
-    const t = teoria('mundell-fleming', { regimen: 'fijo' })!;
+    const t = teoria('dd-aa', { regimen: 'fijo' })!;
     expect(t.ejemplo.resultado).toContain('Y pasa de 1,000 a 1,200');
     expect(t.ejemplo.resultado).toContain('M/P de 460 a 560');
+  });
+});
+
+describe('Mundell–Fleming en cinco paneles: ficha de teoría', () => {
+  it('el ejercicio de apertura cita los números del simulador (flotante y fijo)', () => {
+    const t = teoria('mundell-fleming', {})!;
+    expect(t.ejemplo.resultado).toContain('Cerrada: i = 8 %, Sᴺ = I = 230 y q = 1');
+    expect(t.ejemplo.resultado).toContain('i = 6 %, Sᴺ = 210, I = 260, entrada de capital = déficit comercial = 50 y q = 0.88');
+    const fijo = teoria('mundell-fleming', { regimen: 'fijo' })!;
+    expect(fijo.ejemplo.resultado).toContain('P sube a 1.133');
+    expect(fijo.conceptos.join(' ')).toContain('tipo fijo');
   });
 });
 

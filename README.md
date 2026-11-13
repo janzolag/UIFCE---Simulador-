@@ -11,8 +11,8 @@ todo el cálculo ocurre en el navegador y el sitio se publica en **GitHub Pages*
   con teoría de Blanchard (2017).
 - Microeconomía 2: 4 simuladores con la notación de Varian (ecuación de Slutsky, monopolio y discriminación
   de precios, oligopolio de Cournot/Stackelberg/colusión y caja de Edgeworth).
-- Macroeconomía 2: 5 simuladores con paneles enlazados y botones de choque (IS–LM con cruz keynesiana y
-  mercado de dinero, Mundell–Fleming DD–AA con mercado de divisas, DA–OA con curva de Phillips, Phillips y
+- Macroeconomía 2: 6 simuladores con paneles enlazados y botones de choque (IS–LM con cruz keynesiana y
+  mercado de dinero, Mundell–Fleming en cinco paneles enlazados (fondos prestables, paridad de intereses, comercio, FPP y estructura de producción), DD–AA con mercado de divisas, DA–OA con curva de Phillips, Phillips y
   Solow), estática comparativa E₀ → E₁ → E₂ y fichas de teoría breves. Auditoría en `AUDITORIA_MICRO2_MACRO2.md`.
 - Fundamentos de Economía: los 9 simuladores (Mankiw, cap. 2–10) están listos, con teoría integrada.
 
@@ -42,7 +42,7 @@ frontend/                 Aplicación Angular (la que se despliega)
       teoria.ts           fichas del modal «Teoría» (definición, variables, choques, equilibrio)
       *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
     macro2/
-      modelos/            IS–LM (reutiliza el motor de Macro 1), DD–AA, DA–OA, Phillips y Solow
+      modelos/            IS–LM (reutiliza el motor de Macro 1), economía abierta (abierta.ts), DD–AA, DA–OA, Phillips y Solow
       simuladores/        un archivo por simulador; _paneles.ts: paneles enlazados y botones de choque
       teoria.ts           fichas del modal «Teoría» (Krugman y Obstfeld, 2006; notación estándar donde el libro no llega)
       *.spec.ts           los ejercicios de los modales verificados contra la solución analítica
