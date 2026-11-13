@@ -1,0 +1,75 @@
+.cabecera {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; margin-bottom: 14px;
+  h1 { margin: 0; font-size: 1.7rem; letter-spacing: -0.02em; }
+  .ruta { margin: 0 0 2px; font-size: 0.85rem; color: var(--texto-suave); }
+}
+.cabecera-datos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.chip {
+  font-size: 0.78rem; font-weight: 650; padding: 4px 12px; border-radius: 999px;
+  background: color-mix(in srgb, var(--acento) 18%, transparent); color: var(--acento);
+  &[data-dificultad='Intermedio'] { background: rgba(245, 196, 81, 0.16); color: #f5c451; }
+  &[data-dificultad='Avanzado'] { background: color-mix(in srgb, var(--acento-2) 18%, transparent); color: var(--acento-2); }
+}
+.progreso { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+.barra-progreso {
+  width: 90px; height: 6px; border-radius: 6px; background: var(--borde); overflow: hidden;
+  i { display: block; height: 100%; background: var(--acento); transition: width 0.3s; }
+}
+.racha { font-size: 0.85rem; font-weight: 600; }
+.boton-volver {
+  font-size: 0.88rem; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--borde); background: var(--panel);
+  &:hover { border-color: var(--acento); background: var(--panel-hover); }
+}
+
+.pestanas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.pestana {
+  display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 0.86rem; cursor: pointer;
+  color: var(--texto-suave); background: transparent; border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px 6px 6px;
+  .num {
+    width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.78rem; font-weight: 700;
+    background: var(--borde); color: var(--texto);
+  }
+  &:hover { border-color: var(--acento); color: var(--texto); }
+  &.activa { color: var(--texto); border-color: var(--acento); background: var(--panel);
+    .num { background: var(--acento); color: #07142b; } }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+}
+
+.escenario { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 16px; align-items: start; }
+.columna { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.tarjeta-problema {
+  h2 { font-size: 1.1rem; margin-bottom: 6px; }
+  .enunciado {
+    margin: 0 0 10px; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .metas { margin: 0; padding: 0; list-style: none; font-size: 0.9rem; li + li { margin-top: 4px; } }
+}
+.acciones { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.boton-verificar {
+  flex: 1; font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; padding: 10px 16px; border-radius: 10px;
+  border: none; background: var(--acento); color: #07142b;
+  &:hover:not(:disabled) { filter: brightness(1.08); }
+  &:disabled { opacity: 0.5; cursor: default; }
+  &:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }
+}
+.banner {
+  border-radius: 12px; padding: 12px 14px; font-size: 0.92rem;
+  p { margin: 6px 0 0; }
+  .boton-secundario { margin-top: 10px; }
+  &.exito { background: rgba(61, 214, 181, 0.1); border: 1px solid rgba(61, 214, 181, 0.45); strong { color: var(--acento); } }
+  &.fallo { background: rgba(255, 122, 133, 0.08); border: 1px solid rgba(255, 122, 133, 0.4); strong { color: var(--acento-2); } }
+}
+
+.panel-grafica { padding: 10px; min-width: 0; }
+.leyenda-desafio { display: flex; align-items: center; gap: 8px; margin: 2px 6px 6px; }
+.muestra {
+  display: inline-block; width: 22px; height: 10px; border-radius: 3px;
+  &.fantasma { border-top: 2px dotted rgba(160, 170, 190, 0.8); height: 0; }
+  &.zona { background: rgba(245, 196, 81, 0.3); border: 1px dashed #f5c451; margin-left: 10px; }
+}
+.grafica-vacia { display: grid; place-items: center; color: var(--texto-suave); }
+
+@media (max-width: 900px) {
+  .escenario { grid-template-columns: minmax(0, 1fr); }
+  .cabecera { align-items: flex-start; }
+}

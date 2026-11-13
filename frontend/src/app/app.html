@@ -20,7 +20,17 @@
         <span class="sep">›</span>
         <span class="sim">{{ u.sim }}</span>
       }
+      @if (u.desafio) {
+        <span class="sep">›</span>
+        <span class="sim">Modo Desafío</span>
+      }
     </div>
+  }
+  @if (desafio(); as d) {
+    <a class="boton-desafio-barra" [routerLink]="d.ruta" [class.activo]="d.dentro">
+      <span aria-hidden="true">{{ d.dentro ? '←' : '🎯' }}</span>
+      <span class="etiqueta">{{ d.dentro ? 'Volver al Simulador' : 'Modo Desafío' }}</span>
+    </a>
   }
   <button type="button" class="boton-tutorial" (click)="tutorial.iniciar()" title="Ver el tutorial de UIFCITO">
     <span class="interrogacion" aria-hidden="true">?</span>

@@ -40,7 +40,16 @@
   }
 }
 
-.ubicacion ~ .boton-tutorial { margin-left: 0; }
+.ubicacion ~ .boton-tutorial, .ubicacion ~ .boton-desafio-barra, .boton-desafio-barra ~ .boton-tutorial { margin-left: 0; }
+.boton-desafio-barra {
+  flex: none; margin-left: auto; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px;
+  font-size: 0.85rem; font-weight: 600; white-space: nowrap; color: #07142b; background: var(--acento);
+  border: 1px solid var(--acento); border-radius: 999px; transition: filter 0.15s, background 0.15s;
+  &:hover { filter: brightness(1.08); }
+  &:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }
+  &.activo { color: var(--texto); background: transparent; border-color: var(--borde);
+    &:hover { background: var(--panel-hover); border-color: var(--acento); filter: none; } }
+}
 .ubicacion {
   margin-left: auto; min-width: 0; display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--texto-suave);
   .sim { color: var(--texto); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -58,5 +67,6 @@
   .ubicacion .materia, .ubicacion .sep { display: none; }
   .ubicacion { margin-left: 0; flex: 1; }
   .boton-tutorial { padding: 0 6px; .etiqueta { display: none; } }
+  .boton-desafio-barra { padding: 0 10px; .etiqueta { display: none; } }
   .contenido { padding: 18px 14px 32px; }
 }

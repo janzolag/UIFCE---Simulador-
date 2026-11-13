@@ -1,0 +1,115 @@
+@if (materia(); as m) {
+  @if (sim(); as s) {
+    @if (reto(); as r) {
+      <div class="pagina-desafio" [style.--color-materia]="m.color">
+        <header class="cabecera">
+          <div class="cabecera-titulos">
+            <p class="ruta">{{ m.nombre }} <span aria-hidden="true">›</span> {{ s.nombre }}</p>
+            <h1><span aria-hidden="true">🎯</span> Modo Desafío</h1>
+          </div>
+          <div class="cabecera-datos">
+            <span class="chip" [attr.data-dificultad]="r.dificultad">{{ r.dificultad }}</span>
+            <div class="progreso" [attr.aria-label]="resueltosModelo() + ' de ' + retos().length + ' retos resueltos'">
+              <span class="progreso-texto">{{ resueltosModelo() }}/{{ retos().length }} resueltos</span>
+              <span class="barra-progreso"><i [style.width.%]="(100 * resueltosModelo()) / retos().length"></i></span>
+            </div>
+            <span class="racha" title="Retos nuevos resueltos seguidos sin fallar">
+              <span aria-hidden="true">🔥</span> Racha {{ progreso().racha }}
+            </span>
+          </div>
+          <a class="boton-volver" [routerLink]="['/', m.id, s.id]">← Volver al Simulador</a>
+        </header>
+
+        <nav class="pestanas" aria-label="Retos de este modelo">
+          @for (x of retos(); track x.id; let i = $index) {
+            <button
+              type="button"
+              class="pestana"
+              [class.activa]="i === indice()"
+              [attr.aria-current]="i === indice() ? 'step' : null"
+              (click)="irA(i)"
+            >
+              <span class="num">{{ progreso().resueltos[x.id] ? '✓' : i + 1 }}</span>
+              {{ x.titulo }}
+            </button>
+          }
+        </nav>
+
+        <div class="escenario">
+          <aside class="columna">
+            <section class="panel tarjeta-problema">
+              <h2>{{ r.titulo }}</h2>
+              <p class="enunciado">{{ r.enunciado }}</p>
+              <ul class="metas">
+                @for (o of r.objetivos; track o.etiqueta) {
+                  <li>
+                    <span class="texto-suave">{{ o.etiqueta }}</span> = <strong>{{ meta(o) }}</strong>
+                    <span class="texto-suave pequeno">({{ tolerancia }})</span>
+                  </li>
+                }
+              </ul>
+            </section>
+
+            <section class="panel">
+              @if (def()) {
+                <app-control-panel [grupos]="grupos()" [params]="params()" (cambio)="alCambiar($event)" />
+              } @else if (falla()) {
+                <p class="texto-suave">No se pudo cargar el modelo. Recarga la página.</p>
+              } @else {
+                <p class="texto-suave pequeno">Cargando…</p>
+              }
+              <div class="acciones">
+                <button type="button" class="boton-verificar" [disabled]="!def()" (click)="verificarSolucion()">
+                  Verificar Solución
+                </button>
+                <button type="button" class="boton-secundario" (click)="reiniciar()">Reiniciar</button>
+              </div>
+            </section>
+
+            @if (veredicto(); as v) {
+              @if (v.ok) {
+                <section class="banner exito" role="status">
+                  <strong>¡Reto superado!</strong>
+                  <p>{{ r.explicacion }}</p>
+                  @if (indice() < retos().length - 1) {
+                    <button type="button" class="boton-secundario" (click)="irA(indice() + 1)">Siguiente reto →</button>
+                  } @else if (resueltosModelo() === retos().length) {
+                    <p class="pequeno">Completaste los {{ retos().length }} retos de este modelo.</p>
+                  }
+                </section>
+              } @else {
+                <section class="banner fallo" role="status">
+                  <strong>Aún no.</strong>
+                  @for (x of v.mediciones; track x.objetivo.etiqueta) {
+                    <p class="pequeno">
+                      {{ x.objetivo.etiqueta }}: obtuviste {{ valor(x.valor, x.objetivo) }}, la meta es {{ meta(x.objetivo) }}.
+                    </p>
+                  }
+                  <p><span aria-hidden="true">💡</span> {{ r.pista }}</p>
+                </section>
+              }
+            }
+          </aside>
+
+          <section class="panel panel-grafica">
+            <p class="leyenda-desafio pequeno texto-suave">
+              <span class="muestra fantasma"></span> Estado inicial
+              <span class="muestra zona"></span> Zona objetivo
+            </p>
+            @if (figura(); as f) {
+              <app-plotly-chart [fig]="f" [alto]="def()?.alto ?? 540" />
+            } @else {
+              <div class="grafica-vacia" [style.height.px]="def()?.alto ?? 540"><span>Cargando…</span></div>
+            }
+          </section>
+        </div>
+      </div>
+    } @else {
+      <app-no-encontrada />
+    }
+  } @else {
+    <app-no-encontrada />
+  }
+} @else {
+  <app-no-encontrada />
+}

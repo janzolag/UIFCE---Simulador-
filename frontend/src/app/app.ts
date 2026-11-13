@@ -4,6 +4,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { TITULO_APP, buscarMateria, buscarSimulador } from './core/catalogo';
 import { Menu } from './core/menu';
+import { hayDesafio } from './desafio/indice';
 import { Tutorial } from './core/tutorial';
 import { Sidebar } from './layout/sidebar';
 import { TutorialUifcito } from './shared/tutorial-uifcito';
@@ -31,11 +32,23 @@ export class App {
 
   /** "Microeconomía 1 › Monopolio" para la barra superior. */
   protected readonly ubicacion = computed(() => {
-    const [m, s] = this.url().split(/[?#]/)[0].split('/').filter(Boolean);
+    const [m, s, extra] = this.segmentos();
     const materia = m ? buscarMateria(m) : undefined;
     if (!materia) return null;
     const sim = s ? buscarSimulador(materia, s) : undefined;
-    return sim ? { materia: materia.nombre, sim: sim.nombre } : { materia: materia.nombre, sim: '' };
+    return sim
+      ? { materia: materia.nombre, sim: sim.nombre, desafio: extra === 'desafio' }
+      : { materia: materia.nombre, sim: '', desafio: false };
+  });
+
+  private readonly segmentos = computed(() => this.url().split(/[?#]/)[0].split('/').filter(Boolean));
+
+  /** Botón «Modo Desafío» de la barra (o «Volver al Simulador» cuando ya se está en el desafío). */
+  protected readonly desafio = computed(() => {
+    const [m, s, extra] = this.segmentos();
+    if (!m || !s || !hayDesafio(m, s)) return null;
+    const dentro = extra === 'desafio';
+    return { dentro, ruta: dentro ? ['/', m, s] : ['/', m, s, 'desafio'] };
   });
 
   constructor() {

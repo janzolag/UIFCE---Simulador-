@@ -14,6 +14,7 @@
   &:hover { background: var(--panel-hover); border-color: var(--acento); }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 }
+.boton-desafio { border-color: color-mix(in srgb, var(--acento) 55%, var(--borde)); }
 .enlace-materia { font-size: 0.85rem; color: var(--texto-suave); &:hover { color: var(--texto); } }
 
 /* Escenario: parámetros a la izquierda, gráfica protagonista; sin panel, la gráfica ocupa todo el ancho */

@@ -13,6 +13,7 @@ import { PlotlyChart } from '../shared/plotly-chart';
 import { ResultRenderer } from '../shared/result-renderer';
 import { TeoriaModal } from '../shared/teoria-modal';
 import { NoEncontrada } from './no-encontrada';
+import { hayDesafio } from '../desafio/indice';
 
 /** Página genérica de simulador: se arma a partir de la definición registrada. */
 @Component({
@@ -33,6 +34,9 @@ export class SimuladorPage {
     const m = this.materia();
     return m ? buscarSimulador(m, this.ids().sim) : undefined;
   });
+
+  /** El modelo tiene retos: muestra el acceso al Modo Desafío (vista aparte). */
+  protected readonly conDesafio = computed(() => hayDesafio(this.ids().materia, this.ids().sim));
 
   protected readonly def = signal<SimuladorDef | null>(null);
   protected readonly params = signal<Params>({});

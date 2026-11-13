@@ -35,6 +35,11 @@
               <span aria-hidden="true">📖</span> Teoría
             </button>
           }
+          @if (conDesafio()) {
+            <a class="boton-panel boton-desafio" [routerLink]="['/', m.id, s.id, 'desafio']">
+              <span aria-hidden="true">🎯</span> Modo Desafío
+            </a>
+          }
         </div>
         <a class="enlace-materia" [routerLink]="['/', m.id]">← {{ m.nombre }}</a>
       </div>
