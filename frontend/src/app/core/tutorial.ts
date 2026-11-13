@@ -29,7 +29,7 @@ export const PASOS: Paso[] = [
     titulo: '¡Hola, soy UIFCITO!',
     texto:
       'Te doy la bienvenida al Simulador Económico de la Unidad Informática de la Facultad de Ciencias Económicas. ' +
-      'Aquí los modelos de Fundamentos, Microeconomía 1 y Macroeconomía 1 cobran vida: mueves un parámetro y ves ' +
+      'Aquí los modelos de Fundamentos, Microeconomía 1, Macroeconomía 1 y Macroeconomía 2 cobran vida: mueves un parámetro y ves ' +
       'cómo cambian las curvas. ¿Te muestro cómo se usa? Es un recorrido de un minuto.',
     siguiente: 'Mostrarme cómo', saltar: 'Explorar por mi cuenta',
   },

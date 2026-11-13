@@ -1,12 +1,13 @@
 import { CARGADORES_FUNDAMENTOS } from '../fundamentos/registro';
 import { CARGADORES_MACRO1 } from '../macro1/registro';
+import { CARGADORES_MACRO2 } from '../macro2/registro';
 import { CARGADORES_MICRO1 } from '../micro1/registro';
 import { Materia, SimuladorMeta } from './tipos';
 
 export const TITULO_APP = 'Simulador Económico';
 export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.5.0 — Fundamentos, Microeconomía 1 y Macroeconomía 1 (beta)';
+export const VERSION = '0.6.0 — Fundamentos, Microeconomía 1, Macroeconomía 1 y 2 (beta)';
 
 /** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
 const listoEn =
@@ -22,6 +23,7 @@ const listoEn =
 const listo = listoEn(CARGADORES_MICRO1);
 const listoMacro = listoEn(CARGADORES_MACRO1);
 const listoFund = listoEn(CARGADORES_FUNDAMENTOS);
+const listoMacro2 = listoEn(CARGADORES_MACRO2);
 
 export const FUNDAMENTOS: Materia = {
   id: 'fundamentos',
@@ -203,7 +205,51 @@ export const MACRO1: Materia = {
   ],
 };
 
-export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MACRO1];
+export const MACRO2: Materia = {
+  id: 'macro2',
+  nombre: 'Macroeconomía 2',
+  sigla: 'M2',
+  color: '#B79CFF',
+  descripcion:
+    'Economía abierta, ciclo y crecimiento: IS–LM, Mundell–Fleming (DD–AA de Krugman y Obstfeld), DA–OA, curva de Phillips y Solow.',
+  simuladores: [
+    listoMacro2(
+      'is-lm',
+      'IS–LM con trampa de liquidez',
+      'Política fiscal y monetaria, efecto expulsión y trampa de liquidez en economía cerrada.',
+      String.raw`$IS:\; Y = \dfrac{C_0 - cT + I_0 + G - b\,r}{1-c} \qquad LM:\; \dfrac{M}{P} = kY - h\,r$`,
+      String.raw`$\dfrac{M}{P} = kY - h\,r$`,
+    ),
+    listoMacro2(
+      'mundell-fleming',
+      'Mundell–Fleming (modelo DD–AA)',
+      'Producción y tipo de cambio a corto plazo con tipo fijo o flotante y movilidad de capital (Krugman y Obstfeld).',
+      String.raw`$DD:\; Y = D\!\left(\tfrac{EP^*}{P}, Y-T, I, G\right) \qquad AA:\; R = R^* + \dfrac{E^e - E}{E}$`,
+      String.raw`$R = R^* + \dfrac{E^e - E}{E}$`,
+    ),
+    listoMacro2(
+      'da-oa',
+      'DA–OA de corto y largo plazo',
+      'Choques de demanda y oferta, brechas inflacionaria y recesiva y autocorrección hacia el producto potencial.',
+      String.raw`$Y = D_0 - dP \qquad P = W + \tfrac{Y - Y_p}{\sigma}$`,
+      String.raw`$P = W + \dfrac{Y - Y_p}{\sigma}$`,
+    ),
+    listoMacro2(
+      'phillips',
+      'Curva de Phillips',
+      'Intercambio de corto plazo entre inflación y desempleo, NAIRU y costo de la desinflación.',
+      String.raw`$\pi = \pi^e - \beta\,(u - u^*) + v$`,
+    ),
+    listoMacro2(
+      'solow',
+      'Modelo de crecimiento de Solow',
+      'Acumulación de capital, estado estacionario y regla de oro.',
+      String.raw`$\Delta k = s\,A k^{\alpha} - (\delta + n)\,k$`,
+    ),
+  ],
+};
+
+export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MACRO1, MACRO2];
 
 export const totalSimuladores = (): number => MATERIAS.reduce((n, m) => n + m.simuladores.length, 0);
 export const listos = (m: Materia): number => m.simuladores.filter((s) => s.listo).length;

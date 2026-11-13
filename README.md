@@ -3,12 +3,14 @@
 Unidad Informática FCE · Universidad Nacional de Colombia.
 
 Aplicación web **100 % estática** (Angular + Plotly.js) con simuladores interactivos de
-**Fundamentos de Economía**, **Microeconomía 1** y **Macroeconomía 1**. No necesita servidor:
+**Fundamentos de Economía**, **Microeconomía 1**, **Macroeconomía 1** y **Macroeconomía 2**. No necesita servidor:
 todo el cálculo ocurre en el navegador y el sitio se publica en **GitHub Pages**.
 
 - Microeconomía 1: los 10 simuladores están listos.
 - Macroeconomía 1: los 4 simuladores de corto plazo están listos (Keynesiano, IS–LM, DA–OA y Mundell–Fleming),
   con teoría de Blanchard (2017).
+- Macroeconomía 2: 5 simuladores (IS–LM con trampa de liquidez, Mundell–Fleming en versión DD–AA de
+  Krugman y Obstfeld, DA–OA de corto y largo plazo, curva de Phillips y Solow), con fichas de teoría breves.
 - Fundamentos de Economía: los 9 simuladores (Mankiw, cap. 2–10) están listos, con teoría integrada.
 
 ## Estructura
@@ -36,6 +38,11 @@ frontend/                 Aplicación Angular (la que se despliega)
       simuladores/        un archivo por simulador
       teoria.ts           fichas del modal «Teoría» (definición, variables, choques, equilibrio)
       *.spec.ts           pruebas matemáticas, de interfaz y de casos límite
+    macro2/
+      modelos/            IS–LM (reutiliza el motor de Macro 1), DD–AA, DA–OA, Phillips y Solow
+      simuladores/        un archivo por simulador (curvas fantasma, proyecciones a los ejes)
+      teoria.ts           fichas del modal «Teoría» (Krugman y Obstfeld, 2006; notación estándar donde el libro no llega)
+      *.spec.ts           los ejercicios de los modales verificados contra la solución analítica
 legacy/                   Versión original en Python (Dash). Solo referencia y oráculo de pruebas
 tools/exportar_fixtures.py  genera los valores de referencia de Micro 1 desde legacy/
 tools/exportar_fixtures_fundamentos.py  ídem para Fundamentos, desde la carpeta `bloque_a` (Python/Dash)
