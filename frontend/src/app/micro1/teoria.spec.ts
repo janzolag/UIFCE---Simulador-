@@ -15,8 +15,6 @@ const VARIANTES: Record<string, { id: string; valores: string[] } | null> = {
   produccion: { id: 'tec', valores: ['cd', 'ces', 'leontief', 'lineal', 'separable'] },
   costos: { id: 'modo', valores: ['corto', 'largo'] },
   'competencia-perfecta': null,
-  monopolio: null,
-  oligopolio: null,
 };
 
 for (const [sim, variante] of Object.entries(VARIANTES)) {

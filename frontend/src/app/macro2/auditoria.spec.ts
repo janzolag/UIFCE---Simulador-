@@ -320,7 +320,7 @@ describe('Pasada 3 · bordes: botones de choque × extremos de cada deslizador',
               if (esError(r)) expect(r.fig.data.length).toBe(0);
             }
         }
-    });
+    }, 30000); // barrido pesado: con la suite completa en paralelo supera los 5 s por defecto
 
   it('botones: fijan su choque y anulan los demás; mover un delta a mano deja el botón en «manual»', async () => {
     const d = await CARGADORES_MACRO2['is-lm']();

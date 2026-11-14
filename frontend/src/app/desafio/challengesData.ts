@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Banco de retos del Modo Desafío (tres por modelo) para Micro 2 (Varian) y Macro 2.
+ * Banco de retos del Modo Desafío (tres por modelo) para Micro 2 (Varian), Micro 3 y Macro 2.
  *
  * Cada `medir` usa las funciones del modelo que dibujan la gráfica, y `solucion` es una combinación
  * de deslizadores (dentro de su rango y sobre su paso) que cumple la meta con ±1,5 %. Las pruebas de
@@ -37,7 +37,9 @@ const cmeMinimo = (p: Params): number => {
   return costoMedio(q, Math.sqrt((2 * q.F) / q.d));
 };
 const prod = (p: Params): ParamsProduccion => ({
+  enfoque: String(p['enfoque']),
   modo: String(p['modo']),
+  alfa: n(p, 'alfa'), pp: n(p, 'pp'), w: n(p, 'w'),
   a: n(p, 'a'), b: n(p, 'b'), w1: n(p, 'w1'), w2: n(p, 'w2'), y: n(p, 'y'),
   CF: n(p, 'CF'), ac: n(p, 'ac'), bc: n(p, 'bc'), cc: n(p, 'cc'),
 });
@@ -101,7 +103,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Básico',
     titulo: 'Costo mínimo para y*',
     enunciado: 'Producir y = 10 cuesta como mínimo c(w, y) = 40 con w₁ = 4 y w₂ = 1. Elige la producción y para que el costo mínimo sea 60.',
-    inicial: { modo: 'largo' },
+    inicial: { enfoque: 'costos', modo: 'largo' },
     controles: ['y'],
     objetivos: [{ etiqueta: 'Costo mínimo c(w, y)', meta: 60, decimales: 1, medir: (p) => costoMinimo(prod(p)).costo }],
     solucion: { y: 15 },
@@ -116,7 +118,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Intermedio',
     titulo: 'Precio de equilibrio (break-even)',
     enunciado: 'El precio de equilibrio, mínimo del CMe, es 14.8 con CF = 20. Cambia el costo fijo CF para que sea 20.',
-    inicial: { modo: 'corto' },
+    inicial: { enfoque: 'costos', modo: 'corto' },
     controles: ['CF'],
     objetivos: [
       { etiqueta: 'Mínimo del CMe', meta: 20, decimales: 1, medir: (p) => costoCorto(prod(p)).precio_nivelacion(), zona: { eje: 'y' } },
@@ -133,7 +135,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Avanzado',
     titulo: 'Precio de cierre',
     enunciado: 'El precio de cierre, mínimo del CVMe, es 8. Elige el parámetro b de la función de costo para que baje a 5.5.',
-    inicial: { modo: 'corto' },
+    inicial: { enfoque: 'costos', modo: 'corto' },
     controles: ['bc'],
     objetivos: [
       { etiqueta: 'Precio de cierre (mín CVMe)', meta: 5.5, decimales: 1, medir: (p) => costoCorto(prod(p)).precio_cierre(), zona: { eje: 'y' } },
@@ -143,102 +145,6 @@ const MICRO2: Reto[] = [
       'El CVMe = a − b·y + c·y² alcanza su mínimo a − b²/(4c) en y = b/(2c), así que un b mayor lo hace más profundo. Con b = 3 el precio de cierre cae a 5.5, porque la empresa soporta precios menores antes de apagar.',
     pista: 'El mínimo del CVMe baja con el cuadrado de b: sube b hasta 3.',
   },
-  // Monopolio simple (a = 100, b = 2, c = 10, d = 1)
-  {
-    id: 'm2-monopolio-1',
-    materia: 'micro2',
-    sim: 'monopolio',
-    dificultad: 'Básico',
-    titulo: 'Trasladar el costo',
-    enunciado: 'El monopolista cobra p = 64. Ajusta el costo marginal inicial c para que su precio óptimo sea p = 70.',
-    inicial: { modo: 'simple' },
-    controles: ['c'],
-    objetivos: [{ etiqueta: 'Precio p', meta: 70, medir: (p) => mono(p).p, zona: { eje: 'y' } }],
-    solucion: { c: 25 },
-    explicacion:
-      'De IMg = CMg sale y* = (a − c)/(2b + d) y p = a − b·y*: cada peso de costo sube el precio solo 0.4. Por eso pasar de 64 a 70 exige que c suba 15, de 10 a 25.',
-    pista: 'El precio sube menos que el costo: necesitas un aumento de c mayor que 6.',
-  },
-  {
-    id: 'm2-monopolio-2',
-    materia: 'micro2',
-    sim: 'monopolio',
-    dificultad: 'Intermedio',
-    titulo: 'Demanda más plana',
-    enunciado: 'Hoy se producen 18 unidades. Cambia la pendiente b de la demanda para que el óptimo sea y = 20.',
-    inicial: { modo: 'simple' },
-    controles: ['b'],
-    objetivos: [{ etiqueta: 'Producción y', meta: 20, medir: (p) => mono(p).y, zona: { eje: 'x' } }],
-    solucion: { b: 1.75 },
-    explicacion:
-      'Con y* = 90/(2b + 1), una demanda más plana aleja el IMg de la demanda y el monopolista vende más. Por eso y = 20 exige 2b + 1 = 4.5, es decir, b = 1.75.',
-    pista: 'Para producir más, la demanda debe ser más elástica: baja b.',
-  },
-  {
-    id: 'm2-monopolio-3',
-    materia: 'micro2',
-    sim: 'monopolio',
-    dificultad: 'Avanzado',
-    titulo: 'Precio de equilibrio de largo plazo',
-    enunciado: 'El costo medio mínimo es 20 (c = 10, d = 1). Cambia el costo fijo F para que el precio de break-even, el mínimo del CMe, sea 30.',
-    inicial: { modo: 'simple' },
-    controles: ['F'],
-    objetivos: [{ etiqueta: 'CMe mínimo', meta: 30, decimales: 1, medir: (p) => cmeMinimo(p), zona: { eje: 'y' } }],
-    solucion: { F: 200 },
-    explicacion:
-      'El CMe = F/y + c + (d/2)·y se minimiza donde cruza al CMg, en y = √(2F/d), y vale c + √(2·F·d). Con F = 200 el break-even es 30: por debajo de ese precio la empresa no cubre sus costos totales.',
-    pista: 'El mínimo del CMe sube con la raíz del costo fijo: aumenta F hasta que c + √(2F) llegue a 30.',
-  },
-  // Oligopolio (a = 120, b = 1, c₁ = c₂ = 0)
-  {
-    id: 'm2-cournot-1',
-    materia: 'micro2',
-    sim: 'oligopolio',
-    dificultad: 'Básico',
-    titulo: 'Costo y reacción',
-    enunciado: 'En Cournot cada empresa produce 40. Sube el costo c₁ hasta que la empresa 1 produzca y₁ = 30.',
-    inicial: {},
-    controles: ['c1'],
-    objetivos: [{ etiqueta: 'y₁ (Cournot)', meta: 30, medir: (p) => cournotNash(duo(p)).y1, zona: { eje: 'x' } }],
-    solucion: { c1: 15 },
-    explicacion:
-      'En Cournot y₁ = (a − 2c₁ + c₂)/(3b): cada peso de costo propio desplaza la curva de reacción y recorta y₁ en 2/3. Para bajar 10 unidades, c₁ debe subir 15.',
-    pista: 'La producción de Cournot cae 2/3 de unidad por cada peso de c₁.',
-  },
-  {
-    id: 'm2-cournot-2',
-    materia: 'micro2',
-    sim: 'oligopolio',
-    dificultad: 'Intermedio',
-    titulo: 'Mercado más grande',
-    enunciado: 'El precio de Cournot es 40. Cambia el precio máximo a de la demanda para que el precio de Cournot sea 50.',
-    inicial: {},
-    controles: ['a'],
-    objetivos: [
-      { etiqueta: 'Precio p (Cournot)', meta: 50, medir: (p) => cournotNash(duo(p)).p, zona: { eje: 'y', panel: '2' } },
-    ],
-    solucion: { a: 150 },
-    explicacion:
-      'Con costos nulos el precio de Cournot es p = (a + c₁ + c₂)/3: solo un tercio de la demanda se queda como margen. Subir p en 10 exige ampliar a en 30.',
-    pista: 'El precio de Cournot sube un tercio de lo que suba a.',
-  },
-  {
-    id: 'm2-cournot-3',
-    materia: 'micro2',
-    sim: 'oligopolio',
-    dificultad: 'Avanzado',
-    titulo: 'Ventaja del líder',
-    enunciado: 'En Stackelberg el líder produce 60. Elige el costo de la seguidora c₂ para que el líder produzca y₁ = 70.',
-    inicial: {},
-    controles: ['c2'],
-    objetivos: [
-      { etiqueta: 'y₁ (Stackelberg)', meta: 70, medir: (p) => stackelbergLider(duo(p)).y1, zona: { eje: 'x' } },
-    ],
-    solucion: { c2: 20 },
-    explicacion:
-      'El líder maximiza sobre la curva de reacción de la seguidora, y₁ = (a − 2c₁ + c₂)/(2b). Si la seguidora es más costosa, reacciona con menos y el líder ocupa ese espacio: c₂ = 20 lleva y₁ a 70.',
-    pista: 'Encarecer a la seguidora libera mercado para el líder: sube c₂.',
-  },
   // Edgeworth (a = 0.6, b = 0.3, ωᴬ = (8, 2), ωᴮ = (2, 8))
   {
     id: 'm2-edgeworth-1',
@@ -247,7 +153,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Básico',
     titulo: 'Precios iguales',
     enunciado: 'El precio relativo walrasiano es p₁/p₂ ≈ 0.78. Ajusta la preferencia de B por el bien 1 (b) para que sea 1.',
-    inicial: {},
+    inicial: { enfoque: 'walras' },
     controles: ['b'],
     objetivos: [{ etiqueta: 'Precio relativo p₁/p₂', meta: 1, medir: (p) => edge(p).p }],
     solucion: { b: 0.4 },
@@ -262,7 +168,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Intermedio',
     titulo: 'Más dotación para A',
     enunciado: 'Cambia la dotación ω₁ᴬ para que, en el equilibrio walrasiano, A consuma x₁ᴬ = 7.8.',
-    inicial: {},
+    inicial: { enfoque: 'walras' },
     controles: ['wA1'],
     objetivos: [{ etiqueta: 'x₁ᴬ de equilibrio', meta: 7.8, medir: (p) => edge(p).xA1, zona: { eje: 'x' } }],
     solucion: { wA1: 10 },
@@ -277,7 +183,7 @@ const MICRO2: Reto[] = [
     dificultad: 'Avanzado',
     titulo: 'Asignación objetivo',
     enunciado: 'Elige la preferencia de A (a) para que el equilibrio walrasiano le dé exactamente la cesta (x₁ᴬ, x₂ᴬ) = (7, 3).',
-    inicial: {},
+    inicial: { enfoque: 'walras' },
     controles: ['a'],
     objetivos: [
       { etiqueta: 'x₁ᴬ', meta: 7, medir: (p) => edge(p).xA1, zona: { eje: 'x' } },
@@ -287,6 +193,107 @@ const MICRO2: Reto[] = [
     explicacion:
       'Con a = 0.7 el precio de equilibrio es 1 y la renta de A vale 10, de la que gasta el 70 % en el bien 1. El equilibrio cae sobre la curva de contrato justo en (7, 3).',
     pista: 'A necesita valorar más el bien 1 que hoy: sube a.',
+  },
+];
+
+/* ------------------------------------------------------------------ Micro 3 (monopolio y oligopolio) */
+
+const MICRO3: Reto[] = [
+  // Monopolio simple (a = 100, b = 2, c = 10, d = 1)
+  {
+    id: 'm2-monopolio-1',
+    materia: 'micro3',
+    sim: 'monopolio',
+    dificultad: 'Básico',
+    titulo: 'Trasladar el costo',
+    enunciado: 'El monopolista cobra p = 64. Ajusta el costo marginal inicial c para que su precio óptimo sea p = 70.',
+    inicial: { enfoque: 'basico' },
+    controles: ['c'],
+    objetivos: [{ etiqueta: 'Precio p', meta: 70, medir: (p) => mono(p).p, zona: { eje: 'y' } }],
+    solucion: { c: 25 },
+    explicacion:
+      'De IMg = CMg sale y* = (a − c)/(2b + d) y p = a − b·y*: cada peso de costo sube el precio solo 0.4. Por eso pasar de 64 a 70 exige que c suba 15, de 10 a 25.',
+    pista: 'El precio sube menos que el costo: necesitas un aumento de c mayor que 6.',
+  },
+  {
+    id: 'm2-monopolio-2',
+    materia: 'micro3',
+    sim: 'monopolio',
+    dificultad: 'Intermedio',
+    titulo: 'Demanda más plana',
+    enunciado: 'Hoy se producen 18 unidades. Cambia la pendiente b de la demanda para que el óptimo sea y = 20.',
+    inicial: { enfoque: 'basico' },
+    controles: ['b'],
+    objetivos: [{ etiqueta: 'Producción y', meta: 20, medir: (p) => mono(p).y, zona: { eje: 'x' } }],
+    solucion: { b: 1.75 },
+    explicacion:
+      'Con y* = 90/(2b + 1), una demanda más plana aleja el IMg de la demanda y el monopolista vende más. Por eso y = 20 exige 2b + 1 = 4.5, es decir, b = 1.75.',
+    pista: 'Para producir más, la demanda debe ser más elástica: baja b.',
+  },
+  {
+    id: 'm2-monopolio-3',
+    materia: 'micro3',
+    sim: 'monopolio',
+    dificultad: 'Avanzado',
+    titulo: 'Precio de equilibrio de largo plazo',
+    enunciado: 'El costo medio mínimo es 20 (c = 10, d = 1). Cambia el costo fijo F para que el precio de break-even, el mínimo del CMe, sea 30.',
+    inicial: { enfoque: 'basico' },
+    controles: ['F'],
+    objetivos: [{ etiqueta: 'CMe mínimo', meta: 30, decimales: 1, medir: (p) => cmeMinimo(p), zona: { eje: 'y' } }],
+    solucion: { F: 200 },
+    explicacion:
+      'El CMe = F/y + c + (d/2)·y se minimiza donde cruza al CMg, en y = √(2F/d), y vale c + √(2·F·d). Con F = 200 el break-even es 30: por debajo de ese precio la empresa no cubre sus costos totales.',
+    pista: 'El mínimo del CMe sube con la raíz del costo fijo: aumenta F hasta que c + √(2F) llegue a 30.',
+  },
+  // Oligopolio (a = 120, b = 1, c₁ = c₂ = 0)
+  {
+    id: 'm2-cournot-1',
+    materia: 'micro3',
+    sim: 'oligopolio',
+    dificultad: 'Básico',
+    titulo: 'Costo y reacción',
+    enunciado: 'En Cournot cada empresa produce 40. Sube el costo c₁ hasta que la empresa 1 produzca y₁ = 30.',
+    inicial: { enfoque: 'cournot' },
+    controles: ['c1'],
+    objetivos: [{ etiqueta: 'y₁ (Cournot)', meta: 30, medir: (p) => cournotNash(duo(p)).y1, zona: { eje: 'x' } }],
+    solucion: { c1: 15 },
+    explicacion:
+      'En Cournot y₁ = (a − 2c₁ + c₂)/(3b): cada peso de costo propio desplaza la curva de reacción y recorta y₁ en 2/3. Para bajar 10 unidades, c₁ debe subir 15.',
+    pista: 'La producción de Cournot cae 2/3 de unidad por cada peso de c₁.',
+  },
+  {
+    id: 'm2-cournot-2',
+    materia: 'micro3',
+    sim: 'oligopolio',
+    dificultad: 'Intermedio',
+    titulo: 'Mercado más grande',
+    enunciado: 'El precio de Cournot es 40. Cambia el precio máximo a de la demanda para que el precio de Cournot sea 50.',
+    inicial: { enfoque: 'cournot' },
+    controles: ['a'],
+    objetivos: [
+      { etiqueta: 'Precio p (Cournot)', meta: 50, medir: (p) => cournotNash(duo(p)).p, zona: { eje: 'y', panel: '2' } },
+    ],
+    solucion: { a: 150 },
+    explicacion:
+      'Con costos nulos el precio de Cournot es p = (a + c₁ + c₂)/3: solo un tercio de la demanda se queda como margen. Subir p en 10 exige ampliar a en 30.',
+    pista: 'El precio de Cournot sube un tercio de lo que suba a.',
+  },
+  {
+    id: 'm2-cournot-3',
+    materia: 'micro3',
+    sim: 'oligopolio',
+    dificultad: 'Avanzado',
+    titulo: 'Ventaja del líder',
+    enunciado: 'En Stackelberg el líder produce 60. Elige el costo de la seguidora c₂ para que el líder produzca y₁ = 70.',
+    inicial: { enfoque: 'stackelberg' },
+    controles: ['c2'],
+    objetivos: [
+      { etiqueta: 'y₁ (Stackelberg)', meta: 70, medir: (p) => stackelbergLider(duo(p)).y1, zona: { eje: 'x' } },
+    ],
+    solucion: { c2: 20 },
+    explicacion:
+      'El líder maximiza sobre la curva de reacción de la seguidora, y₁ = (a − 2c₁ + c₂)/(2b). Si la seguidora es más costosa, reacciona con menos y el líder ocupa ese espacio: c₂ = 20 lleva y₁ a 70.',
+    pista: 'Encarecer a la seguidora libera mercado para el líder: sube c₂.',
   },
 ];
 
@@ -544,7 +551,7 @@ const MACRO2: Reto[] = [
 ];
 
 /** Banco completo de retos (tres por modelo). */
-export const CHALLENGES: Reto[] = [...MICRO2, ...MACRO2];
+export const CHALLENGES: Reto[] = [...MICRO2, ...MICRO3, ...MACRO2];
 
 export const retosDe = (materia: string, sim: string): Reto[] =>
   CHALLENGES.filter((r) => r.materia === materia && r.sim === sim);

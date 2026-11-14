@@ -29,7 +29,7 @@ export const PASOS: Paso[] = [
     titulo: '¡Hola, soy UIFCITO!',
     texto:
       'Te doy la bienvenida al Simulador Económico de la Unidad Informática de la Facultad de Ciencias Económicas. ' +
-      'Aquí los modelos de Fundamentos, Microeconomía 1 y 2, Macroeconomía 1 y 2 cobran vida: mueves un parámetro y ves ' +
+      'Aquí los modelos de Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 cobran vida: mueves un parámetro y ves ' +
       'cómo cambian las curvas. ¿Te muestro cómo se usa? Es un recorrido de un minuto.',
     siguiente: 'Mostrarme cómo', saltar: 'Explorar por mi cuenta',
   },
@@ -46,7 +46,7 @@ export const PASOS: Paso[] = [
       'los de punto vacío están en construcción.',
   },
   {
-    pose: 'explicando', ruta: '/micro1/monopolio', objetivo: '.panel-controles', menu: 'cerrar', dock: 'br',
+    pose: 'explicando', ruta: '/micro3/monopolio', objetivo: '.panel-controles', menu: 'cerrar', dock: 'br',
     titulo: 'Los parámetros',
     texto:
       'Cada deslizador es una variable del modelo. Arrástralo y la gráfica responde al instante. ' +

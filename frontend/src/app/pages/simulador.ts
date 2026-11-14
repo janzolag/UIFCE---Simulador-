@@ -9,6 +9,7 @@ import { aviso, figuraVacia } from '../core/tema';
 import { CARGADORES, TEORIAS } from '../core/registro';
 import { ControlPanel } from '../shared/control-panel';
 import { MathEquation } from '../shared/math-equation';
+import { PlanteamientosAcordeon } from '../shared/planteamientos';
 import { PlotlyChart } from '../shared/plotly-chart';
 import { ResultRenderer } from '../shared/result-renderer';
 import { TeoriaModal } from '../shared/teoria-modal';
@@ -18,7 +19,7 @@ import { hayDesafio } from '../desafio/indice';
 /** Página genérica de simulador: se arma a partir de la definición registrada. */
 @Component({
   selector: 'app-simulador',
-  imports: [RouterLink, ControlPanel, MathEquation, PlotlyChart, ResultRenderer, TeoriaModal, NoEncontrada],
+  imports: [RouterLink, ControlPanel, MathEquation, PlotlyChart, PlanteamientosAcordeon, ResultRenderer, TeoriaModal, NoEncontrada],
   templateUrl: './simulador.html',
   styleUrl: './simulador.scss',
 })

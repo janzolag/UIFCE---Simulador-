@@ -12,13 +12,71 @@ import { refVarian } from './_comun';
 const SIM_ID = 'm2-produccion';
 // Largo plazo: f(x₁, x₂) = x₁^a·x₂^b con a = b = 0.5, w₁ = 4, w₂ = 1, y = 10 → x* = (5, 20), c(w, y) = 40.
 // Corto plazo: C(y) = CF + a·y − b·y² + c·y³ (Varian: CMg en U) con CF = 20, a = 10, b = 2, c = 0.5.
-const DEF = { modo: 'largo' as string, a: 0.5, b: 0.5, w1: 4, w2: 1, y: 10, CF: 20, ac: 10, bc: 2, cc: 0.5 };
+// Beneficio (un factor): f(x) = x^α con α = 0.5, p = 20, w = 5 → x* = 4, y* = 2, π = 20.
+const DEF = {
+  enfoque: 'beneficio' as string,
+  modo: 'largo' as string,
+  a: 0.5, b: 0.5, w1: 4, w2: 1, y: 10, CF: 20, ac: 10, bc: 2, cc: 0.5,
+  alfa: 0.5, pp: 20, w: 5,
+};
 export type ParamsProduccion = typeof DEF;
 type P = ParamsProduccion;
 
 export const tecnologia = (p: P): CobbDouglasP => new CobbDouglasP(1, p.a, p.b);
 export const costoMinimo = (p: P) => demandasCondicionadas(tecnologia(p), p.w1, p.w2, p.y);
 export const costoCorto = (p: P): CostoCubico => new CostoCubico(p.CF, p.ac, p.bc, p.cc);
+
+/** Función de beneficio con un factor: f(x) = x^α (α < 1). */
+export function beneficio(alfa: number, pp: number, w: number): { x: number; y: number; pi: number } {
+  if (!(alfa > 0 && alfa < 1)) throw new ErrorParametro('α debe estar entre 0 y 1 (rendimientos decrecientes).');
+  if (!(Number.isFinite(pp) && pp > 0 && Number.isFinite(w) && w > 0)) throw new ErrorParametro('p y w deben ser positivos.');
+  const x = Math.pow((alfa * pp) / w, 1 / (1 - alfa));
+  const y = Math.pow(x, alfa);
+  return { x, y, pi: pp * y - w * x };
+}
+
+/** Maximización de beneficios y lema de Hotelling: ∂π/∂p = y(p, w) y ∂π/∂w = −x(p, w). */
+function hotelling(p: P): Simulacion {
+  const r = beneficio(p.alfa, p.pp, p.w);
+  const h = 1e-4;
+  const dpdp = (beneficio(p.alfa, p.pp + h, p.w).pi - beneficio(p.alfa, p.pp - h, p.w).pi) / (2 * h);
+  const dpdw = (beneficio(p.alfa, p.pp, p.w + h).pi - beneficio(p.alfa, p.pp, p.w - h).pi) / (2 * h);
+  const lx = r.x * 2.5;
+  const ly = Math.pow(lx, p.alfa) * 1.15;
+  const xs = linspace(0, lx, 200);
+  const fig = figura('Factor x', 'Producción y', SIM_ID + '-beneficio', { xaxis: { range: [0, lx] }, yaxis: { range: [0, ly] } });
+  fig.data.push({ type: 'scatter', x: xs, y: xs.map((v) => Math.pow(v, p.alfa)), mode: 'lines', name: 'Función de producción y = x^α', line: { color: AZUL, width: 3 } });
+  // Recta de isobeneficio tangente: y = π/p + (w/p)·x.
+  fig.data.push({
+    type: 'scatter', x: [0, lx], y: [r.pi / p.pp, r.pi / p.pp + (p.w / p.pp) * lx], mode: 'lines',
+    name: `Isobeneficio máximo: y = π/p + (w/p)·x`, line: { color: ROJO, width: 2.5 },
+  });
+  fig.data.push({
+    type: 'scatter', x: [0, lx], y: [0, (p.w / p.pp) * lx], mode: 'lines', name: 'Isobeneficio π = 0',
+    line: { color: MORADO, width: 1.5, dash: 'dot' },
+  });
+  punto(fig, r.x, r.y, 'Óptimo (x*, y*)', ACENTO, undefined, 'x*');
+  punto(fig, 0, r.pi / p.pp, 'Intercepto π*/p', ROJO, 'diamond', 'π/p');
+  const panel = [
+    resultados([
+      lectura('Maximización de beneficios', tabla([
+        ['Demanda del factor x(p, w)', r.x], ['Oferta y(p, w)', r.y], ['Beneficio π(p, w)', r.pi],
+        ['PMg en el óptimo = w/p', p.w / p.pp],
+      ])),
+      lectura('Lema de Hotelling', tabla(
+        [['∂π/∂p', dpdp, r.y], ['∂π/∂w', dpdw, -r.x]],
+        ['Derivada de π', 'Valor numérico', 'Debe ser'],
+      )),
+      lectura(
+        'Lectura económica',
+        texto('La empresa elige la recta de isobeneficio más alta que toca la función de producción: allí p·PMg = w. El intercepto vertical es π/p.'),
+        texto('Hotelling: derivar la función de beneficio da la oferta (respecto a p) y menos la demanda del factor (respecto a w).', 'pequeno texto-suave'),
+        refVarian('«Maximización del beneficio» y función de beneficio; Monsalve (2017), dualidad del productor.'),
+      ),
+    ]),
+  ];
+  return { fig, panel };
+}
 
 function largo(p: P): Simulacion {
   const tec = tecnologia(p);
@@ -39,12 +97,20 @@ function largo(p: P): Simulacion {
   fig.layout.xaxis.range = [0, lx];
   fig.layout.yaxis.range = [0, ly];
   punto(fig, s.x, s.y, 'Mezcla óptima x*', ACENTO, undefined, 'x*');
+  // Lema de Shephard: ∂c/∂wᵢ = xᵢ(w, y) (derivada numérica de la función de costos).
+  const h = 1e-4;
+  const c1 = (costoMinimo({ ...p, w1: p.w1 + h }).costo - costoMinimo({ ...p, w1: p.w1 - h }).costo) / (2 * h);
+  const c2 = (costoMinimo({ ...p, w2: p.w2 + h }).costo - costoMinimo({ ...p, w2: p.w2 - h }).costo) / (2 * h);
   const panel = [
     resultados([
       lectura('Minimización de costos', tabla([
         ['x₁* (demanda condicionada)', s.x], ['x₂* (demanda condicionada)', s.y], ['Costo mínimo c(w, y)', s.costo],
         ['TMST = w₁/w₂', p.w1 / p.w2], ['Rendimientos a escala (a + b)', p.a + p.b],
       ])),
+      lectura('Lema de Shephard', tabla(
+        [['∂c/∂w₁', c1, s.x], ['∂c/∂w₂', c2, s.y]],
+        ['Derivada de c(w, y)', 'Valor numérico', 'Demanda condicionada'],
+      )),
       lectura(
         'Lectura económica',
         texto('En el óptimo la isocuanta es tangente al isocosto: la TMST iguala el cociente de precios de los factores.'),
@@ -93,6 +159,7 @@ function corto(p: P): Simulacion {
 
 export function calcular(p: P): Simulacion {
   try {
+    if (p.enfoque !== 'costos') return hotelling(p);
     return p.modo === 'corto' ? corto(p) : largo(p);
   } catch (e) {
     if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
@@ -105,6 +172,16 @@ export const SIM: SimuladorDef = {
   alto: 540,
   grupos: [
     {
+      titulo: 'Tecnología f(x) = x^α y precios',
+      visibleSi: (p) => p['enfoque'] !== 'costos',
+      controles: [
+        { id: 'alfa', etiqueta: 'α', tipo: 'slider', min: 0.1, max: 0.9, paso: 0.05 },
+        { id: 'pp', etiqueta: 'Precio del producto p', tipo: 'slider', min: 1, max: 50, paso: 0.5 },
+        { id: 'w', etiqueta: 'Precio del factor w', tipo: 'slider', min: 0.5, max: 30, paso: 0.5 },
+      ],
+    },
+    {
+      visibleSi: (p) => p['enfoque'] === 'costos',
       controles: [
         {
           id: 'modo', etiqueta: 'Horizonte', tipo: 'selector',
@@ -117,7 +194,7 @@ export const SIM: SimuladorDef = {
     },
     {
       titulo: 'Tecnología f(x₁, x₂) = x₁ᵃ·x₂ᵇ y precios',
-      visibleSi: (p) => p['modo'] !== 'corto',
+      visibleSi: (p) => p['enfoque'] === 'costos' && p['modo'] !== 'corto',
       controles: [
         { id: 'a', etiqueta: 'a', tipo: 'slider', min: 0.1, max: 0.9, paso: 0.05 },
         { id: 'b', etiqueta: 'b', tipo: 'slider', min: 0.1, max: 0.9, paso: 0.05 },
@@ -128,7 +205,7 @@ export const SIM: SimuladorDef = {
     },
     {
       titulo: 'C(y) = CF + a·y − b·y² + c·y³',
-      visibleSi: (p) => p['modo'] === 'corto',
+      visibleSi: (p) => p['enfoque'] === 'costos' && p['modo'] === 'corto',
       controles: [
         { id: 'CF', etiqueta: 'Costo fijo CF', tipo: 'slider', min: 0, max: 100, paso: 1 },
         { id: 'ac', etiqueta: 'a', tipo: 'slider', min: 1, max: 30, paso: 0.5 },
@@ -137,5 +214,12 @@ export const SIM: SimuladorDef = {
       ],
     },
   ],
+  planteamientos: {
+    param: 'enfoque',
+    opciones: [
+      { valor: 'beneficio', titulo: 'Maximización de beneficios π(p, w) y lema de Hotelling', resumen: 'Recta de isobeneficio tangente a la producción (p·PMg = w); ∂π/∂p = y y ∂π/∂w = −x.' },
+      { valor: 'costos', titulo: 'Función de costos c(w, y) y lema de Shephard', resumen: 'Isocuanta tangente al isocosto (TMST = w₁/w₂) y curvas de costo; ∂c/∂wᵢ = xᵢ(w, y).' },
+    ],
+  },
   calcular: (p: Params) => calcular(p as unknown as P),
 };

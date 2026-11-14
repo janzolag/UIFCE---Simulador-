@@ -112,17 +112,6 @@ export const SIM: SimuladorDef = {
   alto: 540,
   grupos: [
     {
-      controles: [
-        {
-          id: 'modo', etiqueta: 'Horizonte', tipo: 'selector',
-          opciones: [
-            { valor: 'corto', etiqueta: 'Corto plazo (costo cúbico)' },
-            { valor: 'largo', etiqueta: 'Largo plazo y envolvente (Cobb-Douglas)' },
-          ],
-        },
-      ],
-    },
-    {
       titulo: 'C(q) = CF + aq − bq² + cq³',
       visibleSi: (p) => p['modo'] !== 'largo',
       controles: [
@@ -143,5 +132,12 @@ export const SIM: SimuladorDef = {
       ],
     },
   ],
+  planteamientos: {
+    param: 'modo',
+    opciones: [
+      { valor: 'corto', titulo: 'Corto plazo (CF, CV, CT, CMg, CMe)', resumen: 'Con la planta fija, CT = CF + CV(q): el CMg corta al CVMe y al CMe en sus mínimos (cierre y nivelación).' },
+      { valor: 'largo', titulo: 'Largo plazo (envolvente CMeL, CMgL)', resumen: 'Todos los factores son variables: el CMe de largo plazo envuelve a los CMe de corto plazo de cada planta.' },
+    ],
+  },
   calcular: (p: Params) => calcular(p as unknown as P),
 };

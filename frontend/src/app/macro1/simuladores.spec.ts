@@ -51,7 +51,7 @@ describe('catálogo y registro de Macro 1', () => {
   it('la teoría de Macro 1 se carga desde el registro común', async () => {
     const fn = await TEORIAS['macro1']();
     expect(fn('is-lm', {})?.titulo).toContain('IS–LM');
-    expect((await TEORIAS['micro1']())('monopolio', {})?.titulo).toBe('Monopolio');
+    expect((await TEORIAS['micro3']())('monopolio', {})?.titulo).toContain('Monopolio');
   });
 });
 

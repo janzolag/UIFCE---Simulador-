@@ -1,25 +1,55 @@
 /**
  * Fichas de teoría de Micro 2 (modal «Teoría»): idea clave (máx. 3 viñetas), máx. 2 ecuaciones y un
  * ejercicio que se comprueba en la gráfica. Los números salen de las mismas funciones del simulador.
- * Referencia: Varian, H. R., Microeconomía intermedia: un enfoque actual, 8.ª ed. Se citan títulos de
- * capítulo, sin números de página. Los ejercicios numéricos son propios, con la notación de Varian.
+ * Referencias del programa: Varian, H. R., Microeconomía intermedia (se citan títulos de capítulo, sin
+ * páginas); Monsalve (2017), Competencia bajo equilibrio general; Sen, sobre elección social. Los textos
+ * de Monsalve y Sen no están en el proyecto: se citan autor y tema. Los ejercicios numéricos son propios.
  */
 import { fmt } from '../core/formato';
 import { Params, Teoria } from '../core/tipos';
 import { descomposicion } from '../micro1/modelos/slutsky';
-import { monopolio, tercerGrado, walras } from './modelos/mercados';
+import { walras } from './modelos/mercados';
+import { AUTOR_BIENESTAR, SIM as SIM_BIE, fpu, votacion } from './simuladores/bienestar';
 import { SIM as SIM_EDG, parametros as parEdg } from './simuladores/edgeworth';
-import { SIM as SIM_PRO, costoCorto, costoMinimo } from './simuladores/produccion';
-import { SIM as SIM_MON, parametrosMonopolio, parametrosTercer } from './simuladores/monopolio';
-import { SIM as SIM_OLI, parametros as parOli, soluciones } from './simuladores/oligopolio';
-import { CASOS, SIM as SIM_SL, utilidadDe } from './simuladores/slutsky';
+import { SIM as SIM_EGP, equilibrioAutarquia, produccionAPrecio } from './simuladores/equilibrio-produccion';
+import { SIM as SIM_EXT, bienPublico, externalidad } from './simuladores/externalidades';
+import { SIM as SIM_PRO, beneficio, costoCorto, costoMinimo } from './simuladores/produccion';
+import { CASOS, SIM as SIM_SL, slutskyDotacion, utilidadDe } from './simuladores/slutsky';
 import { AUTOR_VARIAN } from './simuladores/_comun';
+
+/** Autor de las fichas de equilibrio general: Varian y Monsalve (2017). */
+const AUTOR_EG = `${AUTOR_VARIAN}; Monsalve, Competencia bajo equilibrio general (2017)`;
 
 const f = (v: number, d = 2): string => fmt(v, d);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const con = (sim: { defecto: Params }, cambios: Params): any => ({ ...sim.defecto, ...cambios });
 
+function slutskyDotacionT(): Teoria {
+  const parametros = con(SIM_SL, { enfoque: 'dotacion', alfa: 0.5, T: 24, mbar: 40, w0: 10, w1: 15 });
+  const r = slutskyDotacion(0.5, 24, 40, 10, 15);
+  return {
+    titulo: 'Slutsky con dotación inicial: oferta de trabajo',
+    conceptos: [
+      'Quien vende su tiempo tiene una dotación: su renta monetaria m = w·T̄ + m̄ cambia con el salario.',
+      'Un aumento de w produce efecto sustitución (menos ocio), efecto renta ordinario y efecto renta-dotación; los dos últimos van en sentidos opuestos.',
+      'Si el efecto dotación domina, la oferta de trabajo se curva hacia atrás.',
+    ],
+    formulas: ['C + w\,R = w\,\bar T + \bar m', '\dfrac{\Delta R}{\Delta w} = \dfrac{\Delta R^{s}}{\Delta w} + (\bar T - R)\,\dfrac{\Delta R^{m}}{\Delta m}'],
+    ejemplo: {
+      parametros,
+      enunciado: 'u = R^0.5·C^0.5, T̄ = 24 h, m̄ = 40 y el salario sube de 10 a 15.',
+      resultado:
+        `Ocio: ${f(r.A.R, 3)} → ${f(r.C.R, 3)}. Sustitución ${f(r.sustitucion, 3)}, renta ordinaria ${f(r.ingresoOrdinario, 3)}, efecto dotación ${f(r.ingresoDotacion, 3)}. ` +
+        `Las horas trabajadas pasan de ${f(r.L0, 3)} a ${f(r.L1, 3)}.`,
+      prueba: 'Lee A y C en el panel A (la recta gira alrededor de ω) y los dos puntos de la oferta de trabajo en el panel B.',
+    },
+    fuente: '«La ecuación de Slutsky»: el efecto renta-dotación y la oferta de trabajo. Ejercicio propio con la notación de Varian.',
+    autor: AUTOR_VARIAN,
+  };
+}
+
 function slutsky(p: Params): Teoria {
+  if (p['enfoque'] === 'dotacion') return slutskyDotacionT();
   const giffen = p['caso'] === 'giffen';
   const parametros = giffen
     ? con(SIM_SL, { caso: 'giffen', metodo: 'slutsky', ...CASOS['giffen'] })
@@ -52,85 +82,18 @@ function slutsky(p: Params): Teoria {
   };
 }
 
-function monopolioT(p: Params): Teoria {
-  if (p['modo'] === 'tercer') {
-    const parametros = con(SIM_MON, { modo: 'tercer', a1: 100, b1: 2, a2: 60, b2: 1, c: 10, F: 50 });
-    const r = tercerGrado(parametrosTercer(parametros));
-    return {
-      titulo: 'Discriminación de precios de tercer grado',
-      conceptos: [
-        'El monopolista vende a grupos separables a precios distintos e iguala el ingreso marginal de cada mercado al costo marginal.',
-        'El grupo con demanda menos elástica paga el precio más alto: pᵢ·(1 − 1/|εᵢ|) = CMg.',
-      ],
-      formulas: ['IMg_1(y_1) = IMg_2(y_2) = CMg(y_1 + y_2)', 'p_i\\left[1 - \\dfrac{1}{|\\varepsilon_i|}\\right] = CMg'],
-      ejemplo: {
-        parametros,
-        enunciado: 'Mercado 1: p₁ = 100 − 2y₁; mercado 2: p₂ = 60 − y₂; CMg = 10.',
-        resultado:
-          `y₁ = ${f(r.m1.y)}, p₁ = ${f(r.m1.p)} (|ε₁| = ${f(r.m1.elasticidad, 3)}); y₂ = ${f(r.m2.y)}, p₂ = ${f(r.m2.p)} (|ε₂| = ${f(r.m2.elasticidad, 3)}). ` +
-          `Con precio único p = ${f(r.pUnico)} el beneficio sería ${f(r.beneficioUnico)} en vez de ${f(r.beneficio)}.`,
-        prueba: 'Lee pᵢ en cada panel; compara con la línea naranja del precio único.',
-      },
-      fuente: '«La conducta monopolística» (discriminación de tercer grado). Ejercicio propio con la notación de Varian.',
-      autor: AUTOR_VARIAN,
-    };
-  }
-  const parametros = con(SIM_MON, { modo: p['modo'] === 'primer' ? 'primer' : 'simple', a: 100, b: 2, c: 10, d: 1, F: 50 });
-  const r = monopolio(parametrosMonopolio(parametros));
-  return {
-    titulo: p['modo'] === 'primer' ? 'Discriminación de primer grado' : 'Monopolio',
-    conceptos: [
-      'El monopolista elige y donde IMg = CMg y cobra el precio de la demanda: p > CMg, por eso produce menos que la competencia y genera una pérdida irrecuperable de eficiencia.',
-      'Nunca opera en el tramo inelástico: p(y)·[1 − 1/|ε|] = CMg exige |ε| > 1.',
-      'Con discriminación perfecta (primer grado) vende hasta p = CMg y se apropia de todo el excedente: no hay pérdida irrecuperable.',
-    ],
-    formulas: ['IMg(y) = p(y) + p\'(y)\\,y = CMg(y)', 'p(y)\\left[1 - \\dfrac{1}{|\\varepsilon(y)|}\\right] = CMg(y)'],
-    ejemplo: {
-      parametros,
-      enunciado: 'Demanda p = 100 − 2y; costo C(y) = 50 + 10y + y²/2 (CMg = 10 + y).',
-      resultado:
-        `Monopolio: y* = ${f(r.y)}, p* = ${f(r.p)}, CMg = ${f(r.cmg)}, |ε| = ${f(r.elasticidad, 3)}. ` +
-        `Competencia: y = ${f(r.yc)}, p = ${f(r.pc)}. Pérdida irrecuperable = ${f(r.PIE)}; beneficio del monopolio = ${f(r.beneficio)}.`,
-      prueba: 'Lee E en los ejes y el área roja (pérdida irrecuperable). Cambia a «Primer grado»: la producción sube a 30 y el triángulo rojo desaparece.',
-    },
-    fuente: '«El monopolio» y «La conducta monopolística». Ejercicio propio con la notación de Varian.',
-    autor: AUTOR_VARIAN,
-  };
-}
-
-function oligopolioT(): Teoria {
-  const parametros = con(SIM_OLI, { a: 120, b: 1, c1: 0, c2: 0 });
-  const s = soluciones(parOli(parametros));
-  return {
-    titulo: 'Oligopolio: Cournot, Stackelberg y colusión',
-    conceptos: [
-      'Cournot: cada empresa elige su producción como mejor respuesta a la de la otra; el equilibrio es el cruce de las funciones de reacción.',
-      'Stackelberg: el líder elige primero sabiendo que el seguidor responderá con f₂(y₁); produce más y gana más que en Cournot.',
-      'Colusión: maximizar el beneficio conjunto da menos producción y precio más alto, pero cada empresa tiene incentivo a desviarse.',
-    ],
-    formulas: ['f_1(y_2) = \\dfrac{a - c_1 - b\\,y_2}{2b}', '\\max_{y_1}\\; p\\big(y_1 + f_2(y_1)\\big)\\,y_1 - c_1 y_1'],
-    ejemplo: {
-      parametros,
-      enunciado: 'Demanda p = 120 − (y₁ + y₂) y costos marginales nulos.',
-      resultado:
-        `Cournot: y₁ = y₂ = ${f(s.cournot.y1)}, p = ${f(s.cournot.p)}, π = ${f(s.cournot.pi1)} cada una. ` +
-        `Stackelberg: y₁ = ${f(s.stackelberg.y1)}, y₂ = ${f(s.stackelberg.y2)}, p = ${f(s.stackelberg.p)}. Colusión: Y = ${f(s.colusion.Y)}, p = ${f(s.colusion.p)}.`,
-      prueba: 'Lee el cruce de f₁ y f₂ en el panel A y los precios en el panel B. El isobeneficio del líder es tangente a f₂ en el punto de Stackelberg.',
-    },
-    fuente: '«El oligopolio»: elección de la cantidad (Cournot), liderazgo en la cantidad (Stackelberg) y colusión. Ejercicio propio con la notación de Varian.',
-    autor: AUTOR_VARIAN,
-  };
-}
-
-function edgeworthT(): Teoria {
-  const parametros = con(SIM_EDG, { a: 0.6, b: 0.3, wA1: 8, wA2: 2, wB1: 2, wB2: 8 });
+function edgeworthT(p: Params): Teoria {
+  const walrasiano = p['enfoque'] === 'walras';
+  const parametros = con(SIM_EDG, { enfoque: walrasiano ? 'walras' : 'contrato', a: 0.6, b: 0.3, wA1: 8, wA2: 2, wB1: 2, wB2: 8 });
   const r = walras(parEdg(parametros));
   return {
-    titulo: 'Equilibrio general de intercambio (caja de Edgeworth)',
+    titulo: walrasiano ? 'Caja de Edgeworth: equilibrio walrasiano y teoremas del bienestar' : 'Caja de Edgeworth: curva de contrato y núcleo',
     conceptos: [
       'Una asignación es eficiente en el sentido de Pareto cuando las curvas de indiferencia de A y B son tangentes (TMSᴬ = TMSᴮ): el conjunto de esas asignaciones es la curva de contrato.',
       'El equilibrio walrasiano es el precio relativo que anula el exceso de demanda; por la ley de Walras basta con vaciar un mercado.',
-      'Primer teorema del bienestar: el equilibrio competitivo está en la curva de contrato.',
+      walrasiano
+        ? 'Primer teorema: el equilibrio competitivo es eficiente. Segundo: con preferencias convexas, toda asignación eficiente es un equilibrio tras redistribuir la dotación.'
+        : 'El núcleo es el tramo de la curva de contrato que ambos prefieren a su dotación: ninguna coalición lo puede bloquear.',
     ],
     formulas: ['TMS^{A} = TMS^{B} = \\dfrac{p_1}{p_2}', 'p_1 z_1(p) + p_2 z_2(p) \\equiv 0'],
     ejemplo: {
@@ -139,23 +102,48 @@ function edgeworthT(): Teoria {
       resultado:
         `p₁/p₂ = ${f(r.p, 4)}. A consume (${f(r.xA1, 3)}, ${f(r.xA2, 3)}) y B (${f(r.xB1, 3)}, ${f(r.xB2, 3)}). ` +
         `La utilidad de A pasa de ${f(r.uA0, 3)} a ${f(r.uA, 3)} y la de B de ${f(r.uB0, 3)} a ${f(r.uB, 3)}.`,
-      prueba: 'Lee x* en los ejes de la caja: está sobre la curva de contrato y sobre la recta de precios que sale de ω.',
+      prueba: walrasiano
+        ? 'Lee x* en los ejes de la caja: está sobre la curva de contrato y sobre la recta de precios que sale de ω.'
+        : 'El tramo verde grueso es el núcleo: sus extremos N₁ y N₂ dan a B o a A todo el beneficio del intercambio; x* (vista walrasiana) cae dentro.',
     },
-    fuente: '«El intercambio»: caja de Edgeworth, curva de contrato, equilibrio de mercado y ley de Walras. Ejercicio propio con la notación de Varian.',
-    autor: AUTOR_VARIAN,
+    fuente: '«El intercambio»: caja de Edgeworth, curva de contrato, equilibrio de mercado, ley de Walras y teoremas del bienestar. Ejercicio propio con la notación de Varian.',
+    autor: AUTOR_EG,
+  };
+}
+
+function produccionBeneficioT(): Teoria {
+  const parametros = con(SIM_PRO, { enfoque: 'beneficio', alfa: 0.5, pp: 20, w: 5 });
+  const r = beneficio(0.5, 20, 5);
+  const r2 = beneficio(0.5, 30, 5);
+  return {
+    titulo: 'Maximización de beneficios y lema de Hotelling',
+    conceptos: [
+      'La empresa competitiva elige x donde p·PMg(x) = w: la recta de isobeneficio más alta toca la función de producción.',
+      'La función de beneficio π(p, w) es creciente en p, decreciente en w y convexa. Lema de Hotelling: sus derivadas dan la oferta y la demanda del factor.',
+    ],
+    formulas: ['\pi(p, w) = \max_{x}\; p\,f(x) - w\,x', '\dfrac{\partial \pi}{\partial p} = y(p, w), \qquad \dfrac{\partial \pi}{\partial w} = -x(p, w)'],
+    ejemplo: {
+      parametros,
+      enunciado: 'f(x) = x^0.5, p = 20 y w = 5.',
+      resultado: `x* = (0.5·20/5)² = ${f(r.x)}, y* = ${f(r.y)} y π = ${f(r.pi)}. Con p = 30: y* = ${f(r2.y)} y π = ${f(r2.pi)}.`,
+      prueba: 'Lee x* en la tangencia y el intercepto π/p de la recta roja; compara las derivadas numéricas con y* y −x* en la tabla de Hotelling.',
+    },
+    fuente: '«Maximización del beneficio» y función de beneficio; Monsalve (2017), dualidad del productor. Ejercicio propio.',
+    autor: AUTOR_EG,
   };
 }
 
 function produccionT(p: Params): Teoria {
+  if (p['enfoque'] !== 'costos') return produccionBeneficioT();
   const corto = p['modo'] === 'corto';
-  const largo = con(SIM_PRO, { modo: 'largo' });
-  const cp = con(SIM_PRO, { modo: 'corto' });
+  const largo = con(SIM_PRO, { enfoque: 'costos', modo: 'largo' });
+  const cp = con(SIM_PRO, { enfoque: 'costos', modo: 'corto' });
   const s = costoMinimo(largo);
   const k = costoCorto(cp);
   return {
-    titulo: corto ? 'Costos de corto plazo: cierre y equilibrio' : 'Minimización de costos: isocuanta e isocosto',
+    titulo: corto ? 'Costos de corto plazo: cierre y equilibrio' : 'Función de costos y lema de Shephard',
     conceptos: [
-      'La empresa minimiza w₁x₁ + w₂x₂ sujeto a f(x₁, x₂) = y: en el óptimo la TMST iguala w₁/w₂ (isocuanta tangente al isocosto).',
+      'La empresa minimiza w₁x₁ + w₂x₂ sujeto a f(x₁, x₂) = y: en el óptimo la TMST iguala w₁/w₂. Lema de Shephard: ∂c/∂wᵢ = xᵢ(w, y).',
       'El CMg corta al CVMe y al CMe en sus mínimos; esos mínimos son el precio de cierre y el de equilibrio (break-even).',
       'Con un precio entre ambos la empresa pierde, pero cubre su costo variable y sigue produciendo en el corto plazo.',
     ],
@@ -175,8 +163,140 @@ function produccionT(p: Params): Teoria {
         ? 'Mira los dos puntos marcados: el CMg los cruza justo en el mínimo del CVMe y del CMe.'
         : 'Lee x* donde la isocuanta toca el isocosto; sube w₁ y verás que x₁* baja.',
     },
-    fuente: '«Minimización de costos», «Funciones de costos» y «Oferta de la empresa». Ejercicio propio con la notación de Varian.',
-    autor: AUTOR_VARIAN,
+    fuente: '«Minimización de costos», «Funciones de costos» y «Oferta de la empresa»; lema de Shephard. Ejercicio propio con la notación de Varian.',
+    autor: AUTOR_EG,
+  };
+}
+
+function equilibrioProduccionT(p: Params): Teoria {
+  const e = { L: 100, K: 100, alfa: 0.7, beta: 0.3 };
+  if (p['enfoque'] === 'teoremas') {
+    const parametros = con(SIM_EGP, { enfoque: 'teoremas', ...e, p: 1, pn: 1.3, dL: 20 });
+    const a = produccionAPrecio(e, 1);
+    const ry = produccionAPrecio({ ...e, L: 120 }, 1);
+    const ss = produccionAPrecio(e, 1.3);
+    return {
+      titulo: 'Stolper-Samuelson y Rybczynski',
+      conceptos: [
+        'Rybczynski: a precios dados, si aumenta la dotación de un factor crece más que proporcionalmente la producción del bien que lo usa intensivamente y cae la del otro.',
+        'Stolper-Samuelson: si sube el precio relativo de un bien, el factor que usa intensivamente gana en términos reales de ambos bienes y el otro pierde.',
+      ],
+      formulas: ['TMT(y_1, y_2) = \dfrac{p_1}{p_2}', '\hat w > \hat p_1 > \hat p_2 > \hat r \quad (\text{bien 1 intensivo en } L)'],
+      ejemplo: {
+        parametros,
+        enunciado: 'L = K = 100, α = 0.7 (bien 1 intensivo en trabajo), β = 0.3 y p₁/p₂ = 1. El trabajo sube a 120; luego p₁/p₂ sube a 1.3.',
+        resultado:
+          `Rybczynski: y₁ ${f(a.y1, 3)} → ${f(ry.y1, 3)}, y₂ ${f(a.y2, 3)} → ${f(ry.y2, 3)}. ` +
+          `Stolper-Samuelson: w/p₂ ${f(a.w, 3)} → ${f(ss.w, 3)} y r/p₂ ${f(a.r, 3)} → ${f(ss.r, 3)}.`,
+        prueba: 'Sigue la flecha azul (de A a R) y la morada (de A a S); compara los pagos reales en la tabla.',
+      },
+      fuente: '«La producción» (economía 2×2) y los teoremas de comercio en notación estándar. Ejercicio propio.',
+      autor: AUTOR_EG,
+    };
+  }
+  const parametros = con(SIM_EGP, { enfoque: 'fpp', ...e, gamma: 0.5 });
+  const q = equilibrioAutarquia(e, 0.5);
+  return {
+    titulo: 'Equilibrio general con producción (2×2)',
+    conceptos: [
+      'La FPP reúne las producciones eficientes: en ambos sectores la TMST es igual (curva de contrato de la caja de producción).',
+      'El óptimo de Pareto con producción exige TMS = TMT: la tasa a la que se desea cambiar los bienes iguala la tasa a la que se pueden transformar.',
+      'En el equilibrio competitivo ambas tasas igualan el precio relativo p₁/p₂.',
+    ],
+    formulas: ['TMST_1 = TMST_2 = \dfrac{w}{r}', 'TMS = TMT = \dfrac{p_1}{p_2}'],
+    ejemplo: {
+      parametros,
+      enunciado: 'L = K = 100, y₁ = L₁^0.7·K₁^0.3, y₂ = L₂^0.3·K₂^0.7 y u = y₁^0.5·y₂^0.5.',
+      resultado: `Producción (${f(q.y1, 3)}, ${f(q.y2, 3)}), TMT = TMS = p₁/p₂ = ${f(q.tmt, 3)}; el bien 1 usa L₁ = ${f(q.L1, 2)} y K₁ = ${f(q.K1, 2)}.`,
+      prueba: 'Lee E: la curva de indiferencia dorada y la recta de precios roja son tangentes a la FPP en ese punto.',
+    },
+    fuente: '«La producción»: FPP, eficiencia en la producción y en el consumo; Monsalve (2017), equilibrio general con producción. Ejercicio propio.',
+    autor: AUTOR_EG,
+  };
+}
+
+function bienestarT(p: Params): Teoria {
+  if (p['enfoque'] === 'arrow') {
+    const parametros = con(SIM_BIE, { enfoque: 'arrow', v1: 'xyz', v2: 'yzx', v3: 'zxy' });
+    const r = votacion(['xyz', 'yzx', 'zxy']);
+    return {
+      titulo: 'Elección social: teorema de imposibilidad de Arrow',
+      conceptos: [
+        'Una regla de elección social convierte preferencias individuales en una ordenación social.',
+        'Arrow: con tres o más alternativas, ninguna regla cumple a la vez dominio universal, Pareto, independencia de alternativas irrelevantes y transitividad, salvo la dictadura.',
+        'La mayoría entre pares puede ciclar (paradoja de Condorcet).',
+      ],
+      formulas: ['x \succ_S y \iff \#\{i : x \succ_i y\} > n/2', 'x \succ_S y \succ_S z \succ_S x \;\; \text{(ciclo)}'],
+      ejemplo: {
+        parametros,
+        enunciado: 'Votante 1: x ≻ y ≻ z; votante 2: y ≻ z ≻ x; votante 3: z ≻ x ≻ y. Vota por mayoría cada par.',
+        resultado: `x vence a y ${r.gana[0][1]}–${r.gana[1][0]}, y vence a z ${r.gana[1][2]}–${r.gana[2][1]} y z vence a x ${r.gana[2][0]}–${r.gana[0][2]}: la preferencia social cicla y no hay ganador de Condorcet.`,
+        prueba: 'Las tres flechas rojas forman un círculo. Cambia el votante 3 a x ≻ y ≻ z: aparece un ganador de Condorcet (dorado).',
+      },
+      fuente: '«El bienestar»: agregación de preferencias y teorema de Arrow; Sen, elección colectiva. Ejercicio propio.',
+      autor: AUTOR_BIENESTAR,
+    };
+  }
+  const parametros = con(SIM_BIE, { enfoque: 'fpu', ua: 2, ub: 1, W: 100 });
+  const r = fpu(2, 1, 100);
+  return {
+    titulo: 'Bienestar: FPU y criterios de Bentham, Rawls y Nash',
+    conceptos: [
+      'La frontera de posibilidades de utilidad (FPU) reúne las utilidades de las asignaciones eficientes: todas son óptimos de Pareto.',
+      'Una función de bienestar social elige entre ellas: Bentham suma utilidades, Rawls maximiza la del peor, Nash maximiza el producto.',
+    ],
+    formulas: ['W_B = u_A + u_B \qquad W_R = \min\{u_A, u_B\} \qquad W_N = u_A\,u_B', '\left(\dfrac{u_A}{a}\right)^2 + \left(\dfrac{u_B}{b}\right)^2 = W'],
+    ejemplo: {
+      parametros,
+      enunciado: 'W = 100 unidades; u_A = 2·√x_A y u_B = √x_B.',
+      resultado:
+        `Bentham: x_A = ${f(r.bentham.xA)} (u_A = ${f(r.bentham.uA, 3)}, u_B = ${f(r.bentham.uB, 3)}). ` +
+        `Rawls: x_A = ${f(r.rawls.xA)} (u_A = u_B = ${f(r.rawls.uA, 3)}). Nash: x_A = ${f(r.nash.xA)}.`,
+      prueba: 'Lee B, R y N sobre la FPU: cada uno es la tangencia de su curva de bienestar social (recta, escuadra o hipérbola).',
+    },
+    fuente: '«El bienestar»: funciones de bienestar social; Sen sobre utilitarismo y el criterio de Rawls. Ejercicio propio.',
+    autor: AUTOR_BIENESTAR,
+  };
+}
+
+function externalidadesT(p: Params): Teoria {
+  if (p['enfoque'] === 'publico') {
+    const parametros = con(SIM_EXT, { enfoque: 'publico', a1: 60, b1: 1, a2: 40, b2: 1, cg: 40 });
+    const r = bienPublico({ a1: 60, b1: 1, a2: 40, b2: 1, cg: 40 });
+    return {
+      titulo: 'Bienes públicos: condición de Samuelson',
+      conceptos: [
+        'Un bien público es no rival y no excluible: todos consumen la misma cantidad G.',
+        'Eficiencia (Samuelson): la suma de las TMS entre el bien público y el privado iguala el costo marginal. La provisión privada se queda corta por el polizón.',
+      ],
+      formulas: ['\sum_i TMS_i(G^{*}) = CMg(G^{*})', 'TMS_i = a_i - b_i\,G'],
+      ejemplo: {
+        parametros,
+        enunciado: 'TMS₁ = 60 − G, TMS₂ = 40 − G y CMg = 40.',
+        resultado: `100 − 2G = 40 ⇒ G* = ${f(r.G)}. Provisión privada: solo aporta el consumidor 1, G = ${f(r.Gprivado)}.`,
+        prueba: 'Lee G* donde la suma vertical (morada) corta al CMg, y Gᵖ donde lo corta la TMS del consumidor 1.',
+      },
+      fuente: '«Los bienes públicos»: condición de Samuelson y el polizón. Ejercicio propio con la notación de Varian.',
+      autor: AUTOR_EG,
+    };
+  }
+  const parametros = con(SIM_EXT, { enfoque: 'externalidad', a: 100, b: 1, c: 10, d: 1, e: 0.5 });
+  const r = externalidad({ a: 100, b: 1, c: 10, d: 1, e: 0.5 });
+  return {
+    titulo: 'Externalidades: impuesto pigouviano y teorema de Coase',
+    conceptos: [
+      'Con una externalidad negativa el productor iguala el precio al CMg privado e ignora el daño: produce más que el óptimo social.',
+      'Pigou: un impuesto igual al daño marginal en el óptimo internaliza la externalidad. Coase: sin costos de transacción, la negociación llega al óptimo sea quien sea el dueño del derecho.',
+    ],
+    formulas: ['p(Q^{*}) = CMg_P(Q^{*}) + CMgE(Q^{*})', 't^{*} = CMgE(Q^{*})'],
+    ejemplo: {
+      parametros,
+      enunciado: 'p = 100 − Q, CMg privado = 10 + Q y daño marginal CMgE = 0.5·Q.',
+      resultado: `Mercado: Q = ${f(r.Qm)}; óptimo: Q* = ${f(r.Qs)}; t* = ${f(r.t)}. Pérdida irrecuperable sin corregir = ${f(r.PIE)}.`,
+      prueba: 'Lee S*, donde la demanda corta al CMg social; la recta morada (CMg privado + t*) pasa por el mismo punto.',
+    },
+    fuente: '«Las externalidades»: impuesto pigouviano y teorema de Coase; Monsalve (2017). Ejercicio propio.',
+    autor: AUTOR_EG,
   };
 }
 
@@ -186,12 +306,14 @@ export function teoria(sim: string, p: Params): Teoria | null {
       return slutsky(p);
     case 'produccion':
       return produccionT(p);
-    case 'monopolio':
-      return monopolioT(p);
-    case 'oligopolio':
-      return oligopolioT();
     case 'edgeworth':
-      return edgeworthT();
+      return edgeworthT(p);
+    case 'equilibrio-produccion':
+      return equilibrioProduccionT(p);
+    case 'bienestar':
+      return bienestarT(p);
+    case 'externalidades':
+      return externalidadesT(p);
     default:
       return null;
   }

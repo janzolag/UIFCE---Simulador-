@@ -38,7 +38,10 @@ const cerca = (a: number | null, b: number | null): boolean => {
 const numeros = (v: unknown): (number | null)[] => (Array.isArray(v) ? v.map((e) => (typeof e === 'number' ? e : null)) : []);
 const normalizar = (s: string) => s.replace(/[-−]?\d+(\.\d+)?(e[+-]\d+)?/gi, '#');
 
-for (const [simId, casos] of Object.entries(fixtures as unknown as Record<string, Caso[]>)) {
+// Monopolio y oligopolio pasaron a Micro 3 (simuladores nuevos con otra notación): sus fixtures ya no aplican.
+const vigentes = Object.entries(fixtures as unknown as Record<string, Caso[]>).filter(([id]) => id in CARGADORES_MICRO1);
+
+for (const [simId, casos] of vigentes) {
   describe(`paridad ${simId}`, () => {
     casos.forEach((caso, i) => {
       it(`caso ${i}: ${JSON.stringify(caso.params)}`, async () => {

@@ -15,21 +15,25 @@ import {
   ingresoMarginal,
   monopolio,
   tercerGrado,
-} from '../modelos/mercados';
+} from '../../micro2/modelos/mercados';
 import { Panel, curvaP, ejeX, ejeY, equilibrioP, figuraPaneles } from '../../macro2/simuladores/_paneles';
-import { muestras, refVarian } from './_comun';
+import { muestras } from '../../micro2/simuladores/_comun';
+import { ResSegundo, segundoGrado } from '../modelos/estrategia';
+import { refMonsalve } from './_comun';
 
-const SIM_ID = 'm2-monopolio';
+const SIM_ID = 'm3-monopolio';
 // p(y) = 100 − 2y, CMg = 10 + y (C = 50 + 10y + y²/2): IMg = CMg ⇒ y* = 18, p* = 64; competencia y = 30, p = 40.
 const DEF = {
-  modo: 'simple' as string,
+  /** Planteamiento (acordeón): 'basico' o 'discriminacion'; `modo` es el grado de discriminación. */
+  enfoque: 'basico' as string,
+  modo: 'primer' as string,
   a: 100,
   b: 2,
   c: 10,
   d: 1,
   F: 50,
   a1: 100,
-  b1: 2,
+  b1: 1,
   a2: 60,
   b2: 1,
 };
@@ -66,7 +70,10 @@ export function parametrosTercer(p: P): ParamsTercer {
 
 export function calcular(p: P): Simulacion {
   try {
-    return p.modo === 'tercer' ? tercer(p) : simpleOPrimer(p);
+    if (p.enfoque !== 'discriminacion') return simpleOPrimer({ ...p, modo: 'simple' });
+    if (p.modo === 'tercer') return tercer(p);
+    if (p.modo === 'segundo') return segundo(p);
+    return simpleOPrimer({ ...p, modo: 'primer' });
   } catch (e) {
     if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
     throw e;
@@ -122,7 +129,7 @@ function simpleOPrimer(p: P): Simulacion {
     texto(
       primer
         ? `Con discriminación perfecta el monopolista vende y = ${fmt(r.yc, 2)} (donde p = CMg), cobra a cada unidad su precio de reserva y se queda con todo el excedente: no hay pérdida irrecuperable, pero el consumidor queda con excedente ${ECprimer}.`
-        : `Regla de Varian: p(y)·[1 − 1/|ε|] = CMg ⇒ ${fmt(r.p, 2)} × (1 − 1/${fmt(r.elasticidad, 3)}) = ${fmt(r.cmg, 2)}. El monopolista opera en el tramo elástico (|ε| = ${fmt(r.elasticidad, 3)} > 1).`,
+        : `Regla del margen: p(y)·[1 − 1/|ε|] = CMg ⇒ ${fmt(r.p, 2)} × (1 − 1/${fmt(r.elasticidad, 3)}) = ${fmt(r.cmg, 2)}. El monopolista opera en el tramo elástico (|ε| = ${fmt(r.elasticidad, 3)} > 1).`,
       'destacado',
     ),
   ];
@@ -162,7 +169,7 @@ function simpleOPrimer(p: P): Simulacion {
       lectura(
         'Lectura',
         ...lecturas,
-        refVarian('«El monopolio» (IMg = CMg, margen sobre el costo marginal y pérdida irrecuperable) y «La conducta monopolística» (discriminación de precios de primer y tercer grado).'),
+        refMonsalve('monopolio: IMg = CMg, índice de Lerner, pérdida irrecuperable de eficiencia y discriminación de precios.'),
       ),
     ]),
   ];
@@ -231,28 +238,99 @@ function tercer(p: P): Simulacion {
             `(p₁ = ${fmt(r.m1.p, 2)}, p₂ = ${fmt(r.m2.p, 2)}). Discriminar nunca reduce el beneficio frente al precio único.`,
           'destacado',
         ),
-        refVarian('«La conducta monopolística», discriminación de precios de tercer grado: el monopolista iguala el ingreso marginal de cada mercado al costo marginal.'),
+        refMonsalve('discriminación de precios de tercer grado: el monopolista iguala el ingreso marginal de cada mercado al costo marginal.'),
       ),
     ]),
   ];
   return { fig, panel };
 }
 
-const tercerVisible = (p: Params) => p['modo'] === 'tercer';
+/** Discriminación de segundo grado: menú de dos paquetes (cantidad, pago) para un tipo alto y uno bajo. */
+function segundo(p: P): Simulacion {
+  const q = { a1: p.a1, b1: p.b1, a2: p.a2, b2: p.b2, c: p.c };
+  const r: ResSegundo = segundoGrado(q);
+  const ymax = Math.max(q.a1 / q.b1, q.a2 / q.b2) * 1.02;
+  const M: Panel = {
+    id: '',
+    titulo: 'Discriminación de segundo grado (menú de paquetes)',
+    tituloX: 'Cantidad por consumidor q',
+    tituloY: 'Precio p y costo',
+    rangoX: [0, ymax],
+    rangoY: [0, q.a1 * 1.05],
+    dominio: { x: [0, 1], y: [0, 0.93] },
+    movil: { x: [0, 1], y: [0, 0.93] },
+  };
+  const fig = figuraPaneles(SIM_ID, [M], 560);
+  const dL = (y: number) => q.a2 - q.b2 * y;
+  const dH = (y: number) => q.a1 - q.b1 * y;
+  if (r.qL > 0) {
+    const xs = linspace(0, r.qL, 40);
+    area(fig, M, [...xs, r.qL, 0], [...xs.map(dL), 0, 0], `Pago del tipo bajo T_L = ${fmt(r.TL, 2)}`, AZUL, 0.22);
+    area(fig, M, [...xs, ...[...xs].reverse()], [...xs.map(dH), ...[...xs].reverse().map(dL)], `Renta informativa del tipo alto = ${fmt(r.renta, 2)}`, DORADO, 0.35);
+  }
+  if (r.qLef > r.qL) {
+    const xs = linspace(r.qL, r.qLef, 40);
+    area(fig, M, [...xs, r.qL], [...xs.map(dL), q.c], `Pérdida irrecuperable (tipo bajo) = ${fmt(r.PIE, 2)}`, ROJO, 0.4);
+  }
+  const ys = linspace(0, ymax, 160);
+  curvaP(fig, M, ys, muestras(ys, dH, M.rangoY[1]), 'Demanda del tipo alto p₁(q)', MORADO, 'final', 'D₁ (alto)');
+  curvaP(fig, M, ys, muestras(ys, dL, M.rangoY[1]), 'Demanda del tipo bajo p₂(q)', AZUL, 'final', 'D₂ (bajo)');
+  curvaP(fig, M, [0, ymax], [q.c, q.c], 'CMg = c', ROJO, 'final', 'CMg');
+  if (r.qL > 0) equilibrioP(fig, M, r.qL, dL(r.qL), 'Paquete del tipo bajo', 'q_L', AZUL, { simbolo: 'diamond' });
+  equilibrioP(fig, M, r.qH, q.c, 'Paquete del tipo alto (eficiente)', 'q_H', MORADO, { simbolo: 'diamond' });
+  const panel = [
+    resultados([
+      lectura(
+        'Menú óptimo (un consumidor de cada tipo)',
+        tabla(
+          [
+            ['Cantidad del paquete', r.qL, r.qH],
+            ['Pago total del paquete', r.TL, r.TH],
+            ['Precio medio por unidad', r.qL > 0 ? r.TL / r.qL : null, r.TH / r.qH],
+          ],
+          ['', 'Tipo bajo', 'Tipo alto'],
+        ),
+      ),
+      lectura(
+        'Frente a información completa',
+        tabla([
+          ['Beneficio con el menú', r.beneficio],
+          ['Beneficio con primer grado', r.beneficioPrimer],
+          ['Renta informativa del tipo alto', r.renta],
+          ['Pérdida irrecuperable', r.PIE],
+        ]),
+      ),
+      lectura(
+        'Lectura',
+        texto(
+          r.qL > 0
+            ? `El monopolista no observa el tipo: reduce el paquete bajo a q_L = ${fmt(r.qL, 2)} (eficiente: ${fmt(r.qLef, 2)}) para que al tipo alto no le convenga imitarlo, y le deja la renta dorada. El tipo alto recibe su cantidad eficiente (sin distorsión en la cima).`
+            : 'Atender al tipo bajo cuesta demasiada renta informativa: el monopolista solo vende el paquete del tipo alto.',
+          'destacado',
+        ),
+        refMonsalve('discriminación de precios de segundo grado: autoselección con menús de cantidad y precio.'),
+      ),
+    ]),
+  ];
+  return { fig, panel };
+}
+
+const tercerVisible = (p: Params) => p['enfoque'] === 'discriminacion' && (p['modo'] === 'tercer' || p['modo'] === 'segundo');
 
 export const SIM: SimuladorDef = {
   defecto: { ...DEF },
   alto: 560,
   grupos: [
     {
+      visibleSi: (p) => p['enfoque'] === 'discriminacion',
       controles: [
         {
           id: 'modo',
-          etiqueta: 'Fijación de precios',
+          etiqueta: 'Grado de discriminación',
           tipo: 'selector',
           opciones: [
-            { valor: 'simple', etiqueta: 'Monopolio (precio único)' },
             { valor: 'primer', etiqueta: 'Primer grado (perfecta)' },
+            { valor: 'segundo', etiqueta: 'Segundo grado (paquetes)' },
             { valor: 'tercer', etiqueta: 'Tercer grado (dos mercados)' },
           ],
         },
@@ -268,7 +346,7 @@ export const SIM: SimuladorDef = {
     },
     {
       visibleSi: tercerVisible,
-      titulo: 'Mercados: pᵢ = aᵢ − bᵢ·yᵢ',
+      titulo: 'Mercados o tipos: pᵢ = aᵢ − bᵢ·yᵢ',
       controles: [
         { id: 'a1', etiqueta: 'a₁', tipo: 'slider', min: 20, max: 200, paso: 5 },
         { id: 'b1', etiqueta: 'b₁', tipo: 'slider', min: 0.25, max: 6, paso: 0.25 },
@@ -288,5 +366,12 @@ export const SIM: SimuladorDef = {
       controles: [{ id: 'd', etiqueta: 'Pendiente del CMg, d', tipo: 'slider', min: 0, max: 5, paso: 0.1 }],
     },
   ],
+  planteamientos: {
+    param: 'enfoque',
+    opciones: [
+      { valor: 'basico', titulo: 'Monopolio básico (IMg = CMg, índice de Lerner, PIE)', resumen: 'Precio único: IMg = CMg, margen de Lerner (p − CMg)/p = 1/|ε| y pérdida irrecuperable frente a la competencia.' },
+      { valor: 'discriminacion', titulo: 'Discriminación de precios (1.°, 2.° y 3.° grado)', resumen: 'Primer grado: precio de reserva por unidad. Segundo: menú de paquetes con autoselección. Tercero: un precio por mercado.' },
+    ],
+  },
   calcular: (p: Params) => calcular(p as unknown as P),
 };

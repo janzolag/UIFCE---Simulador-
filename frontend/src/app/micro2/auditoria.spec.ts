@@ -1,5 +1,5 @@
 /**
- * Triple auditoría de Micro 2 (Varian).
+ * Triple auditoría de Micro 2 (Varian; Monsalve, 2017; Sen).
  *  Pasada 1 · notación y ejes (x₁, x₂, p₁, m; y, p, IMg, CMg; f₁(y₂); caja con orígenes Oᴬ y Oᴮ) y contrato de la interfaz.
  *  Pasada 2 · equilibrio: soluciones analíticas = cruces graficados a 4 decimales.
  *  Pasada 3 · bordes: barrido de deslizadores y casos degenerados sin NaN ni divisiones por cero.
@@ -12,34 +12,27 @@ import { Control, Params, SimuladorDef, Simulacion } from '../core/tipos';
 import { ControlPanel } from '../shared/control-panel';
 import { TeoriaModal } from '../shared/teoria-modal';
 import { descomposicion } from '../micro1/modelos/slutsky';
-import {
-  colusion,
-  competencia,
-  contrato,
-  cournotNash,
-  excesoDemanda,
-  isobeneficio1,
-  monopolio,
-  reaccion1,
-  reaccion2,
-  stackelbergLider,
-  tercerGrado,
-  walras,
-} from './modelos/mercados';
+import { contrato, excesoDemanda, walras } from './modelos/mercados';
+import { fpu, votacion } from './simuladores/bienestar';
+import { equilibrioAutarquia, produccionAPrecio } from './simuladores/equilibrio-produccion';
+import { bienPublico, externalidad } from './simuladores/externalidades';
+import { beneficio } from './simuladores/produccion';
 import { CARGADORES_MICRO2 } from './registro';
 import { teoria } from './teoria';
-import { CASOS, utilidadDe } from './simuladores/slutsky';
+import { CASOS, slutskyDotacion, utilidadDe } from './simuladores/slutsky';
 
 const DEC4 = 5e-5;
 const SIMS = Object.keys(CARGADORES_MICRO2);
 const VARIANTES: Record<string, Params[]> = {
-  slutsky: ['normal', 'inferior', 'giffen'].flatMap((caso) =>
-    ['slutsky', 'hicks'].map((metodo) => ({ caso, metodo, ...CASOS[caso] })),
-  ),
-  produccion: [{ modo: 'largo' }, { modo: 'corto' }],
-  monopolio: [{ modo: 'simple' }, { modo: 'primer' }, { modo: 'tercer' }],
-  oligopolio: [{ isobeneficios: 'si' }, { isobeneficios: 'no' }],
-  edgeworth: [{}],
+  slutsky: [
+    ...['normal', 'inferior', 'giffen'].flatMap((caso) => ['slutsky', 'hicks'].map((metodo) => ({ caso, metodo, ...CASOS[caso] }))),
+    { enfoque: 'dotacion' },
+  ],
+  produccion: [{ enfoque: 'beneficio' }, { enfoque: 'costos', modo: 'largo' }, { enfoque: 'costos', modo: 'corto' }],
+  edgeworth: [{ enfoque: 'contrato' }, { enfoque: 'walras' }],
+  'equilibrio-produccion': [{ enfoque: 'fpp' }, { enfoque: 'teoremas' }],
+  bienestar: [{ enfoque: 'fpu' }, { enfoque: 'arrow' }, { enfoque: 'arrow', v3: 'xyz' }],
+  externalidades: [{ enfoque: 'externalidad' }, { enfoque: 'publico' }],
 };
 const controles = (d: SimuladorDef): Control[] => d.grupos.flatMap((g) => g.controles);
 const esError = (r: Simulacion) => JSON.stringify(r.panel).includes('"nivel":"error"');
@@ -77,8 +70,10 @@ function cruzaEn(a: any, b: any, x: number, y: number): void {
 
 /* ================================================================ catálogo e interfaz */
 describe('catálogo de Micro 2', () => {
-  it('Micro 2 va después de Micro 1 con sus 5 simuladores listos y su teoría', async () => {
-    expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'macro1', 'macro2']);
+  it('Micro 2 va después de Micro 1 con sus 6 simuladores en 3 pilares y su teoría', async () => {
+    expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'micro3', 'macro1', 'macro2']);
+    expect(SIMS).toHaveLength(6);
+    expect(new Set(MICRO2.simuladores.map((s) => s.pilar)).size).toBe(3);
     expect(MICRO2.simuladores.map((s) => s.id)).toEqual(SIMS);
     expect(MICRO2.simuladores.every((s) => s.listo)).toBe(true);
     expect(CARGADORES['micro2']).toBe(CARGADORES_MICRO2);
@@ -119,7 +114,7 @@ for (const sim of SIMS)
         expect(t.fuente).not.toMatch(/p\.\s*\d|pág/); // sin números de página inventados
         const texto = [t.titulo, ...t.conceptos, t.ejemplo.enunciado, t.ejemplo.resultado, t.ejemplo.prueba].join(' ');
         expect(texto).not.toMatch(/NaN|undefined|Infinity/);
-        for (const k of Object.keys(t.ejemplo.parametros)) expect(ids, k).toContain(k);
+        for (const k of Object.keys(t.ejemplo.parametros)) expect([...ids, d.planteamientos?.param], k).toContain(k);
         expect(esError(d.calcular({ ...d.defecto, ...t.ejemplo.parametros }))).toBe(false);
       }
     });
@@ -196,73 +191,6 @@ describe('Pasada 2 · Slutsky (Varian)', () => {
   });
 });
 
-describe('Pasada 2 · monopolio y discriminación', () => {
-  it('IMg ∩ CMg y D ∩ CMg graficados coinciden con la solución analítica (y* = 18, p* = 64, y_c = 30)', async () => {
-    const d = await CARGADORES_MICRO2['monopolio']();
-    const r = d.calcular({ ...d.defecto });
-    const s = monopolio({ a: 100, b: 2, c: 10, d: 1, F: 50 });
-    expect(s.y).toBeCloseTo(18, 10);
-    expect(s.p).toBeCloseTo(64, 10);
-    expect(s.yc).toBeCloseTo(30, 10);
-    expect(s.PIE).toBeCloseTo(216, 8);
-    cruzaEn(traza(r, 'Ingreso marginal IMg'), traza(r, 'Costo marginal CMg'), s.y, s.cmg);
-    cruzaEn(traza(r, 'Demanda p(y)'), traza(r, 'Costo marginal CMg'), s.yc, s.pc);
-    expect(s.p * (1 - 1 / s.elasticidad)).toBeCloseTo(s.cmg, 10); // regla de Varian
-    expect(s.lerner).toBeCloseTo(1 / s.elasticidad, 10);
-    expect(s.elasticidad).toBeGreaterThan(1);
-  });
-  it('primer grado: sin pérdida irrecuperable; tercer grado: IMgᵢ = c y discriminar no reduce el beneficio', async () => {
-    const d = await CARGADORES_MICRO2['monopolio']();
-    const r = d.calcular({ ...d.defecto, modo: 'primer' });
-    expect(r.fig.data.some((t) => String(t.name).startsWith('Pérdida irrecuperable'))).toBe(false);
-    const t = tercerGrado({ a1: 100, b1: 2, a2: 60, b2: 1, c: 10, F: 50 });
-    expect(100 - 4 * t.m1.y).toBeCloseTo(10, 10);
-    expect(60 - 2 * t.m2.y).toBeCloseTo(10, 10);
-    expect(t.m1.p * (1 - 1 / t.m1.elasticidad)).toBeCloseTo(10, 10);
-    expect(t.m2.p * (1 - 1 / t.m2.elasticidad)).toBeCloseTo(10, 10);
-    expect(t.beneficio).toBeGreaterThanOrEqual(t.beneficioUnico - 1e-9);
-    expect(t.m1.elasticidad < t.m2.elasticidad).toBe(t.m1.p > t.m2.p); // menos elástico ⇒ precio más alto
-    const r3 = d.calcular({ ...d.defecto, modo: 'tercer' });
-    cruzaEn(traza(r3, 'IMg1'), r3.fig.data.find((x) => x.name === 'CMg = c' && (x.xaxis ?? 'x') === 'x'), t.m1.y, 10);
-  });
-});
-
-describe('Pasada 2 · oligopolio', () => {
-  const q = { a: 120, b: 1, c1: 0, c2: 0 };
-  it('f₁ ∩ f₂ graficadas = Cournot (40, 40); Stackelberg (60, 30) está sobre f₂ y su isobeneficio es tangente', async () => {
-    const d = await CARGADORES_MICRO2['oligopolio']();
-    const r = d.calcular({ ...d.defecto });
-    const c = cournotNash(q);
-    expect([c.y1, c.y2, c.p]).toEqual([40, 40, 40]);
-    cruzaEn(traza(r, 'Reacción de la empresa 1, f₁(y₂)'), traza(r, 'Reacción de la empresa 2, f₂(y₁)'), 40, 40);
-    const s = stackelbergLider(q);
-    expect(s.y1).toBeCloseTo(60, 10);
-    expect(s.y2).toBeCloseTo(30, 10);
-    expect(reaccion2(q, s.y1)).toBeCloseTo(s.y2, 12);
-    const h = 1e-5;
-    const pendiente = (isobeneficio1(q, s.pi1, s.y1 + h) - isobeneficio1(q, s.pi1, s.y1 - h)) / (2 * h);
-    expect(pendiente).toBeCloseTo(-0.5, 4); // pendiente de f₂
-    expect(s.pi1).toBeGreaterThan(c.pi1);
-    const k = colusion(q);
-    const w = competencia(q);
-    expect(k.Y < c.Y && c.Y < s.Y && s.Y < w.Y).toBe(true);
-    expect(k.p).toBe(60);
-  });
-  it('costos asimétricos y esquinas: si c₂ ≥ a la empresa 1 es monopolista', () => {
-    const asim = { a: 120, b: 1, c1: 0, c2: 130 };
-    const c = cournotNash(asim);
-    expect(c.y2).toBe(0);
-    expect(c.y1).toBeCloseTo(60, 10);
-    const s = stackelbergLider(asim);
-    expect(s.y2).toBe(0);
-    expect(s.y1).toBeCloseTo(60, 10);
-    expect(reaccion1(asim, 0)).toBeCloseTo(60, 10);
-    const s2 = stackelbergLider({ a: 120, b: 1, c1: 0, c2: 50 });
-    expect(s2.y2).toBeGreaterThanOrEqual(0);
-    expect(s2.pi1).toBeGreaterThanOrEqual(cournotNash({ a: 120, b: 1, c1: 0, c2: 50 }).pi1 - 1e-9);
-  });
-});
-
 describe('Pasada 2 · Edgeworth', () => {
   const q = { a: 0.6, b: 0.3, wA1: 8, wA2: 2, wB1: 2, wB2: 8 };
   it('el equilibrio vacía ambos mercados, está en la curva de contrato y en la recta de precios por ω', async () => {
@@ -280,7 +208,7 @@ describe('Pasada 2 · Edgeworth', () => {
     expect(r.uA).toBeGreaterThanOrEqual(r.uA0);
     expect(r.uB).toBeGreaterThanOrEqual(r.uB0);
     const d = await CARGADORES_MICRO2['edgeworth']();
-    const fig = d.calcular({ ...d.defecto });
+    const fig = d.calcular({ ...d.defecto, enfoque: 'walras' });
     const precios = fig.fig.data.find((t) => String(t.name).startsWith('Recta de precios'));
     const contr = fig.fig.data.find((t) => t.name === 'Curva de contrato (TMSᴬ = TMSᴮ)');
     const cs = cruces(precios, contr);
@@ -300,5 +228,79 @@ describe('Pasada 2 · Edgeworth', () => {
     const r = walras({ ...q, wA1: 0, wA2: 0 });
     expect(r.xA1).toBe(0);
     expect(Number.isFinite(r.p)).toBe(true);
+  });
+});
+
+describe('Pasada 2 · dualidad del productor y Slutsky con dotación', () => {
+  it('Hotelling: f = x^0.5, p = 20, w = 5 ⇒ x* = 4, y* = 2, π = 20 y ∂π/∂p = y, ∂π/∂w = −x', () => {
+    const r = beneficio(0.5, 20, 5);
+    expect(r.x).toBeCloseTo(4, 10);
+    expect(r.y).toBeCloseTo(2, 10);
+    expect(r.pi).toBeCloseTo(20, 10);
+    const h = 1e-5;
+    expect((beneficio(0.5, 20 + h, 5).pi - beneficio(0.5, 20 - h, 5).pi) / (2 * h)).toBeCloseTo(r.y, 5);
+    expect((beneficio(0.5, 20, 5 + h).pi - beneficio(0.5, 20, 5 - h).pi) / (2 * h)).toBeCloseTo(-r.x, 5);
+  });
+  it('Slutsky con dotación: los tres efectos suman el total y la recta pasa por ω', () => {
+    const r = slutskyDotacion(0.5, 24, 40, 10, 15);
+    expect(r.sustitucion + r.ingresoOrdinario + r.ingresoDotacion).toBeCloseTo(r.total, 12);
+    expect(r.sustitucion).toBeLessThan(0); // el ocio se encarece
+    expect(r.ingresoDotacion).toBeGreaterThan(0); // la dotación vale más
+    expect(r.C.C + 15 * r.C.R).toBeCloseTo(15 * 24 + 40, 10);
+  });
+});
+
+describe('Pasada 2 · equilibrio general con producción', () => {
+  const e = { L: 100, K: 100, alfa: 0.7, beta: 0.3 };
+  it('en el equilibrio TMS = TMT y los pagos a factores agotan el valor de la producción', () => {
+    const q = equilibrioAutarquia(e, 0.5);
+    expect(q.tms).toBeCloseTo(q.tmt, 4);
+    expect(q.w * 100 + q.r * 100).toBeCloseTo(q.tmt * q.y1 + q.y2, 4);
+  });
+  it('Rybczynski y Stolper-Samuelson con el bien 1 intensivo en trabajo', () => {
+    const a = produccionAPrecio(e, 1);
+    const ry = produccionAPrecio({ ...e, L: 120 }, 1);
+    expect(ry.y1).toBeGreaterThan(a.y1);
+    expect(ry.y2).toBeLessThan(a.y2);
+    expect(a.tmt).toBeCloseTo(1, 4);
+    const ss = produccionAPrecio(e, 1.3);
+    expect(ss.w / 1.3).toBeGreaterThan(a.w / 1); // salario real en bien 1 sube
+    expect(ss.w).toBeGreaterThan(a.w); // y en bien 2
+    expect(ss.r).toBeLessThan(a.r);
+    expect(ss.r / 1.3).toBeLessThan(a.r);
+  });
+});
+
+describe('Pasada 2 · bienestar y elección social', () => {
+  it('FPU: Bentham, Rawls y Nash sobre la frontera y con sus condiciones', () => {
+    const r = fpu(2, 1, 100);
+    for (const c of [r.bentham, r.rawls, r.nash]) expect((c.uA / 2) ** 2 + c.uB ** 2).toBeCloseTo(100, 10);
+    expect(r.rawls.uA).toBeCloseTo(r.rawls.uB, 10);
+    expect(r.bentham.xA).toBeCloseTo(80, 10);
+    expect(r.nash.xA).toBe(50);
+    expect(r.bentham.uA + r.bentham.uB).toBeGreaterThanOrEqual(r.rawls.uA + r.rawls.uB);
+  });
+  it('Condorcet: el perfil clásico cicla; con dos votantes iguales hay ganador', () => {
+    expect(votacion(['xyz', 'yzx', 'zxy']).ciclo).toBe(true);
+    const r = votacion(['xyz', 'yzx', 'xyz']);
+    expect(r.ciclo).toBe(false);
+    expect(r.condorcet).toBe(0);
+  });
+});
+
+describe('Pasada 2 · externalidades y bienes públicos', () => {
+  it('Pigou: Qᵐ = 45, Q* = 36, t* = 18 y el impuesto lleva el mercado al óptimo', () => {
+    const r = externalidad({ a: 100, b: 1, c: 10, d: 1, e: 0.5 });
+    expect(r.Qm).toBeCloseTo(45, 10);
+    expect(r.Qs).toBeCloseTo(36, 10);
+    expect(r.t).toBeCloseTo(18, 10);
+    expect(100 - 36).toBeCloseTo(10 + 36 + r.t, 10); // p = CMg privado + t en Q*
+    expect(r.danoEvitado).toBeGreaterThan(r.beneficioPerdido); // Coase: hay acuerdo posible
+  });
+  it('Samuelson: Σ TMS = CMg en G* = 30; provisión privada 20', () => {
+    const r = bienPublico({ a1: 60, b1: 1, a2: 40, b2: 1, cg: 40 });
+    expect(r.G).toBeCloseTo(30, 8);
+    expect(r.sumaTMS).toBeCloseTo(40, 6);
+    expect(r.Gprivado).toBe(20);
   });
 });

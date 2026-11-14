@@ -12,3 +12,7 @@
 .estado { font-size: 0.7rem; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
 .estado-listo { background: rgba(61, 214, 181, 0.15); color: var(--listo); }
 .estado-pendiente { background: rgba(255, 255, 255, 0.06); color: var(--texto-suave); }
+.titulo-pilar {
+  margin: 22px 0 12px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-materia);
+  &:first-of-type { margin-top: 0; }
+}

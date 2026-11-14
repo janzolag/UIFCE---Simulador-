@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { buscarMateria, listos } from '../core/catalogo';
+import { buscarMateria, listos, porPilar } from '../core/catalogo';
 import { MathEquation } from '../shared/math-equation';
 import { NoEncontrada } from './no-encontrada';
 
@@ -18,4 +18,5 @@ export class MateriaPage {
 
   protected readonly materia = computed(() => buscarMateria(this.id()));
   protected readonly listos = listos;
+  protected readonly porPilar = porPilar;
 }

@@ -6,9 +6,9 @@
 export const MODELOS_CON_RETOS: ReadonlySet<string> = new Set([
   'micro2/slutsky',
   'micro2/produccion',
-  'micro2/monopolio',
-  'micro2/oligopolio',
   'micro2/edgeworth',
+  'micro3/monopolio',
+  'micro3/oligopolio',
   'macro2/is-lm',
   'macro2/mundell-fleming',
   'macro2/da-oa',

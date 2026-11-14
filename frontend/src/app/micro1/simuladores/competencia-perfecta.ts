@@ -1,5 +1,6 @@
 import { Bloque, Params, Simulacion, SimuladorDef } from '../../core/tipos';
 import { ErrorParametro } from '../../core/errores';
+import { fmt } from '../../core/formato';
 import { linspace } from '../../core/numerico';
 import {
   ACENTO, AZUL, NARANJA, ROJO, VERDE, aviso, figuraVacia, layoutBase, lectura, punto, referencia, resultados, tabla, texto,
@@ -8,8 +9,9 @@ import { CostoCubico } from '../modelos/costos';
 import { equilibrioNEmpresasCubicas, nLibreEntrada, ofertaEmpresaCubica } from '../modelos/competencia';
 
 const SIM_ID = 'competencia-perfecta';
-const DEF = { CF: 20, a: 10, b: 2, c: 0.5, n: 20, Ad: 400, Bd: 10 };
-type P = typeof DEF;
+const DEF = { CF: 20, a: 10, b: 2, c: 0.5, n: 20, Ad: 400, Bd: 10, vista: 'firma' as string };
+/** `vista` es opcional: sin ella la gráfica es la original (pruebas de paridad). */
+type P = Omit<typeof DEF, 'vista'> & { vista?: string };
 
 const ZONAS: Record<string, [string, 'info' | 'error']> = {
   cierra: ['La empresa cierra: el precio no cubre ni el costo variable medio.', 'error'],
@@ -20,7 +22,7 @@ const ZONAS: Record<string, [string, 'info' | 'error']> = {
 
 const SEGUNDO = { xaxis: 'x2', yaxis: 'y2', showlegend: false };
 
-export function calcular({ CF, a, b, c, n, Ad, Bd }: P): Simulacion {
+export function calcular({ CF, a, b, c, n, Ad, Bd, vista }: P): Simulacion {
   let k: CostoCubico;
   let eq;
   n = Math.trunc(n);
@@ -84,6 +86,44 @@ export function calcular({ CF, a, b, c, n, Ad, Bd }: P): Simulacion {
     ],
   });
 
+  const extra: Bloque[] = [];
+  if (vista === 'mercado') {
+    // Excedentes en el panel de mercado: EC bajo la demanda y EP sobre la oferta n·q(p), hasta Q*.
+    const pMax = Ad / Bd;
+    const vs = linspace(0, p, 120);
+    const ofertaQ = vs.map((v) => n * ofertaEmpresaCubica(k, v).q);
+    const EC = 0.5 * eq.Q * (pMax - p);
+    let EP = 0;
+    for (let i = 1; i < vs.length; i++) EP += 0.5 * (ofertaQ[i] + ofertaQ[i - 1]) * (vs[i] - vs[i - 1]);
+    data.unshift(
+      {
+        type: 'scatter', x: [0, 0, eq.Q, 0], y: [p, pMax, p, p], fill: 'toself', fillcolor: 'rgba(91,155,255,.22)',
+        line: { width: 0 }, name: 'Excedente del consumidor', hoverinfo: 'name', xaxis: 'x2', yaxis: 'y2',
+      },
+      {
+        type: 'scatter', x: [0, ...ofertaQ, 0], y: [0, ...vs, p], fill: 'toself', fillcolor: 'rgba(61,214,181,.22)',
+        line: { width: 0 }, name: 'Excedente del productor', hoverinfo: 'name', xaxis: 'x2', yaxis: 'y2',
+      },
+    );
+    extra.push(
+      lectura(
+        'Equilibrio de mercado y excedentes',
+        tabla([['Excedente del consumidor', EC], ['Excedente del productor', EP], ['Excedente total', EC + EP]]),
+        texto('El equilibrio competitivo maximiza el excedente total: no hay pérdida irrecuperable de eficiencia.', 'pequeno texto-suave'),
+      ),
+    );
+  } else if (vista === 'firma') {
+    extra.push(
+      lectura(
+        'Decisión de la firma: P = CMg',
+        texto(
+          `Al precio ${fmt(p, 2)} la empresa produce q = ${fmt(q, 2)}, donde el precio iguala al costo marginal creciente. ` +
+            `Su curva de oferta es el CMg por encima del mínimo del CVMe (${fmt(k.precio_cierre(), 2)}).`,
+        ),
+      ),
+    );
+  }
+
   const [textoZona, tipo] = ZONAS[of.zona];
   let largoB: Bloque;
   try {
@@ -95,6 +135,7 @@ export function calcular({ CF, a, b, c, n, Ad, Bd }: P): Simulacion {
   }
   const panel = [
     resultados([
+      ...extra,
       lectura('Equilibrio de corto plazo', tabla([
         ['Precio p*', p], ['Cantidad de mercado Q*', eq.Q], ['q por empresa', q],
         ['Beneficio por empresa', eq.beneficio_empresa],
@@ -138,5 +179,12 @@ export const SIM: SimuladorDef = {
       ],
     },
   ],
+  planteamientos: {
+    param: 'vista',
+    opciones: [
+      { valor: 'firma', titulo: 'Decisión de la firma (P = CMg)', resumen: 'La empresa precio-aceptante produce donde P = CMg, por encima del mínimo del CVMe (punto de cierre).' },
+      { valor: 'mercado', titulo: 'Equilibrio de mercado y excedentes', resumen: 'Oferta de mercado n·CMg frente a la demanda: precio de equilibrio, excedente del consumidor y del productor.' },
+    ],
+  },
   calcular: (p: Params) => calcular(p as unknown as P),
 };

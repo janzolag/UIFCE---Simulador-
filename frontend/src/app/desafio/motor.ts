@@ -35,7 +35,7 @@ export interface Objetivo {
 
 export interface Reto {
   id: string;
-  materia: 'micro2' | 'macro2';
+  materia: 'micro2' | 'micro3' | 'macro2';
   sim: string;
   dificultad: Dificultad;
   titulo: string;

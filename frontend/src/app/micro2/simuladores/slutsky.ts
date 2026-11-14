@@ -15,7 +15,19 @@ export const CASOS: Record<string, { p1: number; p2: number; m: number; p1n: num
   inferior: { p1: 1, p2: 2, m: 3.5, p1n: 1.2 },
   giffen: { p1: 2, p2: 1, m: 3.5, p1n: 2.2 },
 };
-const DEF = { caso: 'normal' as string, metodo: 'slutsky' as string, a: 0.5, ...CASOS['normal'] };
+const DEF = {
+  enfoque: 'compensacion' as string,
+  caso: 'normal' as string,
+  metodo: 'slutsky' as string,
+  a: 0.5,
+  ...CASOS['normal'],
+  // Dotación inicial (oferta de trabajo): tiempo T̄, renta no laboral m̄, salario w → w′, u = R^α·C^(1−α).
+  alfa: 0.5,
+  T: 24,
+  mbar: 40,
+  w0: 10,
+  w1: 15,
+};
 type P = typeof DEF;
 
 export const utilidadDe = (caso: string, a: number): Utilidad =>
@@ -28,6 +40,14 @@ const NOMBRE_CASO: Record<string, string> = {
 };
 
 export function calcular(p: P): Simulacion {
+  if (p.enfoque === 'dotacion') {
+    try {
+      return dotacion(p);
+    } catch (e) {
+      if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
+      throw e;
+    }
+  }
   let u: Utilidad;
   let d: Descomposicion;
   try {
@@ -169,11 +189,137 @@ export function calcular(p: P): Simulacion {
   return { fig, panel };
 }
 
+export interface ResDotacion {
+  A: { R: number; C: number };
+  B: { R: number; C: number };
+  C: { R: number; C: number };
+  /** Ingreso monetario de la dotación con w y con w′, y el compensado de Slutsky. */
+  M0: number;
+  M1: number;
+  Mc: number;
+  sustitucion: number;
+  ingresoOrdinario: number;
+  ingresoDotacion: number;
+  total: number;
+  /** Horas trabajadas L = T̄ − R. */
+  L0: number;
+  L1: number;
+}
+
+/**
+ * Slutsky con dotación (oferta de trabajo): ocio R y consumo C (precio 1); restricción C + w·R = w·T̄ + m̄.
+ * ΔR = sustitución (A → B, pivote por A) + ingreso ordinario (B → D, renta monetaria fija) + efecto dotación (D → C).
+ */
+export function slutskyDotacion(alfa: number, T: number, mbar: number, w0: number, w1: number): ResDotacion {
+  if (!(alfa > 0 && alfa < 1)) throw new ErrorParametro('α debe estar entre 0 y 1.');
+  for (const [n, v] of [['T̄', T], ['w', w0], ["w′", w1]] as const)
+    if (!(Number.isFinite(v) && v > 0)) throw new ErrorParametro(`${n} debe ser positivo.`);
+  if (!(Number.isFinite(mbar) && mbar >= 0)) throw new ErrorParametro('La renta no laboral no puede ser negativa.');
+  // Demanda de ocio Cobb-Douglas con tope en T̄ (no se puede tener más ocio que el tiempo disponible).
+  const ocio = (w: number, M: number) => Math.min(T, (alfa * M) / w);
+  const cesta = (w: number, M: number) => {
+    const R = ocio(w, M);
+    return { R, C: M - w * R };
+  };
+  const M0 = w0 * T + mbar;
+  const M1 = w1 * T + mbar;
+  const A = cesta(w0, M0);
+  const Mc = w1 * A.R + A.C;
+  const B = cesta(w1, Mc);
+  const D = cesta(w1, M0);
+  const C = cesta(w1, M1);
+  return {
+    A, B, C, M0, M1, Mc,
+    sustitucion: B.R - A.R,
+    ingresoOrdinario: D.R - B.R,
+    ingresoDotacion: C.R - D.R,
+    total: C.R - A.R,
+    L0: T - A.R,
+    L1: T - C.R,
+  };
+}
+
+function dotacion(p: P): Simulacion {
+  const r = slutskyDotacion(p.alfa, p.T, p.mbar, p.w0, p.w1);
+  const top = Math.max(r.M0, r.M1, r.Mc) * 1.08;
+  const G: Panel = {
+    id: '',
+    titulo: 'A · Ocio y consumo: la recta gira alrededor de la dotación ω',
+    tituloX: 'Ocio R (horas)',
+    tituloY: 'Consumo C',
+    rangoX: [0, p.T * 1.08],
+    rangoY: [0, top],
+    dominio: { x: [0, 0.6], y: [0, 0.93] },
+    movil: { x: [0, 1], y: [0.48, 0.97] },
+  };
+  const wmax = Math.max(p.w0, p.w1) * 1.6;
+  const S: Panel = {
+    id: '2',
+    titulo: 'B · Oferta de trabajo L(w) = T̄ − R(w)',
+    tituloX: 'Horas trabajadas L',
+    tituloY: 'Salario w',
+    rangoX: [0, p.T * 1.08],
+    rangoY: [0, wmax],
+    dominio: { x: [0.7, 1], y: [0, 0.93] },
+    movil: { x: [0, 1], y: [0, 0.38] },
+  };
+  const fig = figuraPaneles(SIM_ID + '-dotacion', [G, S], 900);
+  const recta = (w: number, M: number, nombre: string, color: string, estado: 'inicial' | 'intermedio' | 'final', et: string) =>
+    curvaP(fig, G, [0, Math.min(p.T, M / w)], [M, M - w * Math.min(p.T, M / w)], nombre, color, estado, et);
+  recta(p.w0, r.M0, 'Recta con w', AZUL, 'inicial', 'w');
+  recta(p.w1, r.Mc, 'Recta compensada de Slutsky (pasa por A)', VERDE, 'intermedio', 'compensada');
+  recta(p.w1, r.M1, "Recta con w′", ROJO, 'final', "w′");
+  const u = new CobbDouglas(p.alfa, 1 - p.alfa);
+  const xs = linspace(p.T / 400, p.T, 300);
+  const ic = (c: { R: number; C: number }, nombre: string, color: string, estado: 'inicial' | 'final', et: string) =>
+    curvaP(fig, G, xs, muestras(xs, (x) => u.curvaIndiferencia(u.U(c.R, c.C), x), top), nombre, color, estado, et);
+  ic(r.A, 'Curva de indiferencia de A', SUAVE, 'inicial', 'u(A)');
+  ic(r.C, 'Curva de indiferencia de C', DORADO, 'final', 'u(C)');
+  equilibrioP(fig, G, p.T, p.mbar, 'Dotación ω = (T̄, m̄)', 'ω', SUAVE, { lecturas: false, simbolo: 'square' });
+  equilibrioP(fig, G, r.A.R, r.A.C, 'A · elección con w', 'A', AZUL, { decX: 2 });
+  equilibrioP(fig, G, r.B.R, r.B.C, 'B · compensada', 'B', VERDE, { simbolo: 'square', lecturas: false });
+  equilibrioP(fig, G, r.C.R, r.C.C, "C · elección con w′", 'C', ROJO, { simbolo: 'diamond', decX: 2 });
+  // Oferta de trabajo.
+  const ws = linspace(wmax / 200, wmax, 160);
+  const oferta = ws.map((w) => p.T - Math.min(p.T, (p.alfa * (w * p.T + p.mbar)) / w));
+  curvaP(fig, S, oferta, ws, 'Oferta de trabajo L(w)', MORADO, 'final', 'L(w)');
+  equilibrioP(fig, S, r.L0, p.w0, 'Con w', 'w', AZUL, { lecturas: false });
+  equilibrioP(fig, S, r.L1, p.w1, "Con w′", "w′", ROJO, { lecturas: false, simbolo: 'diamond' });
+  const panel = [
+    resultados([
+      lectura(
+        'Descomposición de ΔR (ocio)',
+        tabla([
+          ['Sustitución (A → B)', r.sustitucion],
+          ['Ingreso ordinario (renta monetaria fija)', r.ingresoOrdinario],
+          ['Efecto dotación (sube el valor de T̄)', r.ingresoDotacion],
+          ['Total ΔR', r.total],
+          ['Horas trabajadas: L con w → L con w′', `${fmt(r.L0, 2)} → ${fmt(r.L1, 2)}`],
+        ]),
+      ),
+      lectura(
+        'Lectura',
+        texto(
+          'Con dotación, subir el salario encarece el ocio (sustitución: menos ocio) pero también enriquece al trabajador, que vende su tiempo: ' +
+            'el efecto dotación va en sentido contrario al ingreso ordinario. Si domina, la oferta de trabajo se curva hacia atrás.',
+          'destacado',
+        ),
+        texto(`Ecuación de Slutsky con dotación: ΔR/Δw = ΔRˢ/Δw + (T̄ − R)·ΔR/Δm.`, 'pequeno texto-suave'),
+        refVarian('«La ecuación de Slutsky»: el efecto renta-dotación y la oferta de trabajo.'),
+      ),
+    ]),
+  ];
+  return { fig, panel };
+}
+
+const compensacion = (p: Params) => p['enfoque'] !== 'dotacion';
+
 export const SIM: SimuladorDef = {
   defecto: { ...DEF },
   alto: 560,
   grupos: [
     {
+      visibleSi: compensacion,
       controles: [
         {
           id: 'caso',
@@ -197,11 +343,12 @@ export const SIM: SimuladorDef = {
       ],
     },
     {
-      visibleSi: (p) => p['caso'] === 'normal',
+      visibleSi: (p) => compensacion(p) && p['caso'] === 'normal',
       titulo: 'Preferencias: u = x₁ᵃ·x₂¹⁻ᵃ',
       controles: [{ id: 'a', etiqueta: 'Peso del bien 1, a', tipo: 'slider', min: 0.1, max: 0.9, paso: 0.05 }],
     },
     {
+      visibleSi: compensacion,
       titulo: 'Precios y renta',
       controles: [
         { id: 'p1', etiqueta: 'p₁ inicial', tipo: 'slider', min: 0.5, max: 10, paso: 0.1 },
@@ -210,7 +357,25 @@ export const SIM: SimuladorDef = {
         { id: 'm', etiqueta: 'Renta m', tipo: 'slider', min: 1, max: 100, paso: 0.5 },
       ],
     },
+    {
+      visibleSi: (p) => p['enfoque'] === 'dotacion',
+      titulo: 'Oferta de trabajo: u = R^α·C^(1−α)',
+      controles: [
+        { id: 'alfa', etiqueta: 'Peso del ocio α', tipo: 'slider', min: 0.1, max: 0.9, paso: 0.05 },
+        { id: 'T', etiqueta: 'Tiempo disponible T̄', tipo: 'slider', min: 8, max: 24, paso: 1 },
+        { id: 'mbar', etiqueta: 'Renta no laboral m̄', tipo: 'slider', min: 0, max: 200, paso: 5 },
+        { id: 'w0', etiqueta: 'Salario inicial w', tipo: 'slider', min: 1, max: 40, paso: 0.5 },
+        { id: 'w1', etiqueta: 'Salario nuevo w′', tipo: 'slider', min: 1, max: 40, paso: 0.5 },
+      ],
+    },
   ],
+  planteamientos: {
+    param: 'enfoque',
+    opciones: [
+      { valor: 'compensacion', titulo: 'Slutsky vs. Hicks', resumen: 'Renta monetaria fija: el cambio de p₁ se separa en sustitución (pivote) y renta; la compensación se elige en el panel.' },
+      { valor: 'dotacion', titulo: 'Dotación inicial (oferta laboral)', resumen: 'El consumidor vende su tiempo: un salario mayor añade el efecto renta-dotación y puede curvar hacia atrás la oferta de trabajo.' },
+    ],
+  },
   /** Al cambiar de caso los deslizadores saltan a valores donde el caso se cumple. */
   alCambiar: (anterior, nuevo) =>
     anterior['caso'] === nuevo['caso'] ? null : { ...(CASOS[nuevo['caso'] as string] ?? CASOS['normal']) },

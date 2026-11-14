@@ -97,12 +97,6 @@ export const SIM: SimuladorDef = {
             { valor: 'stone', etiqueta: 'Stone-Geary' }, { valor: 'giffen', etiqueta: 'Bien Giffen (ej. 3.5)' },
           ],
         },
-        {
-          id: 'metodo', etiqueta: 'Compensación', tipo: 'selector',
-          opciones: [
-            { valor: 'hicks', etiqueta: METODOS['hicks'] }, { valor: 'slutsky', etiqueta: METODOS['slutsky'] },
-          ],
-        },
       ],
     },
     {
@@ -122,6 +116,13 @@ export const SIM: SimuladorDef = {
       ],
     },
   ],
+  planteamientos: {
+    param: 'metodo',
+    opciones: [
+      { valor: 'slutsky', titulo: 'Descomposición de Slutsky', resumen: 'Compensa el ingreso para que el consumidor pueda comprar la canasta inicial A (mismo poder de compra).' },
+      { valor: 'hicks', titulo: 'Descomposición de Hicks', resumen: 'Compensa el ingreso para que el consumidor conserve la utilidad inicial (misma curva de indiferencia).' },
+    ],
+  },
   /** Al elegir el bien Giffen (o salir de él) los deslizadores saltan a su región válida. */
   alCambiar: (anterior, nuevo) => {
     if (anterior['familia'] === nuevo['familia']) return null;

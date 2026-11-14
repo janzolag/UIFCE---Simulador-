@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, input, output, signal } from '@ang
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
-import { CREADOR, MATERIAS, listos } from '../core/catalogo';
+import { CREADOR, MATERIAS, listos, porPilar } from '../core/catalogo';
 
 /** Menú lateral desplegable (cajón): materias en acordeón y, dentro de cada una, sus simuladores. */
 @Component({
@@ -20,6 +20,17 @@ export class Sidebar {
   protected readonly creador = CREADOR;
   protected readonly materias = MATERIAS;
   protected readonly listos = listos;
+  protected readonly porPilar = porPilar;
+
+  /** Pilares plegados a mano («materia:pilar»); por defecto todos están desplegados. */
+  protected readonly plegados = signal<ReadonlySet<string>>(new Set());
+
+  protected alternarPilar(clave: string): void {
+    const s = new Set(this.plegados());
+    if (s.has(clave)) s.delete(clave);
+    else s.add(clave);
+    this.plegados.set(s);
+  }
 
   private readonly url = toSignal(
     this.router.events.pipe(

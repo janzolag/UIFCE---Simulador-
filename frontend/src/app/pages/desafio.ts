@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { MACRO2, MICRO2, buscarMateria, buscarSimulador } from '../core/catalogo';
+import { MACRO2, MICRO2, MICRO3, buscarMateria, buscarSimulador } from '../core/catalogo';
 import { ErrorParametro } from '../core/errores';
 import { fmt } from '../core/formato';
 import { figuraVacia } from '../core/tema';
@@ -54,7 +54,7 @@ export class DesafioPage {
     return m ? buscarSimulador(m, this.ids().sim) : undefined;
   });
   /** Selectores de la cabecera: materias con desafío y sus modelos con retos. */
-  protected readonly materias = [MICRO2, MACRO2];
+  protected readonly materias = [MICRO2, MICRO3, MACRO2];
   protected readonly modelos = computed(() =>
     (this.materia()?.simuladores ?? []).filter((x) => hayDesafio(this.ids().materia, x.id)),
   );

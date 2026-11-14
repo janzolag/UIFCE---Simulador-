@@ -10,13 +10,11 @@ import { CostoCubico, constanteBCd, costoLp } from './modelos/costos';
 import { equilibrioNEmpresasCubicas, nLibreEntrada } from './modelos/competencia';
 import { Giffen, Utilidad } from './modelos/consumidor';
 import { agregacionEngel, elasticidades, variaciones } from './modelos/demanda';
-import { monopolioLineal } from './modelos/monopolio';
-import { cartel, cournot, stackelberg } from './modelos/oligopolio';
 import { recta } from './modelos/presupuesto';
 import { CobbDouglasP } from './modelos/produccion';
 import { descomposicion } from './modelos/slutsky';
 import { crearUtilidad } from './simuladores/_comun';
-import { crearTecnologia } from './simuladores/produccion';
+import { crearTecnologia, maxProducto, minCosto } from './simuladores/produccion';
 
 const f = (v: number, d = 3): string => fmt(v, d);
 const num = (p: Params, k: string): number => Number(p[k]);
@@ -220,7 +218,34 @@ function duplicar(p: Params): string {
   return `Duplica p₁, p₂ y M (6, 4 y 90): la canasta óptima no cambia, sigue en (${f(r.x)}, ${f(r.y)}). No hay ilusión monetaria.`;
 }
 
+/** Problema dual: mínimo gasto para alcanzar la utilidad del primal (Cobb-Douglas α = β = 1). */
+function eleccionDual(): Teoria {
+  const parametros: Params = { familia: 'cd', a: 1, b: 1, p1: 3, p2: 2, M: 45, problema: 'dual', k: 1 };
+  const u = crearUtilidad('cd', 1, 1);
+  const v = u.eleccionOptima(3, 2, 45).utilidad;
+  const e = u.gasto(3, 2, v);
+  const [h1, h2] = u.hicks(3, 2, v);
+  const e2 = u.gasto(3, 2, 2 * v);
+  return {
+    titulo: 'Elección óptima · problema dual (mínimo gasto)',
+    conceptos: [
+      'El dual minimiza el gasto p₁x + p₂y para alcanzar una utilidad Ū; su solución es la demanda hicksiana h(p, Ū) y su valor, la función de gasto e(p, Ū).',
+      'Primal y dual se encuentran en la misma tangencia: h(p, v(p, M)) = x(p, M) y e(p, v(p, M)) = M.',
+      'La hicksiana mantiene la utilidad constante; la marshalliana mantiene el ingreso constante.',
+    ],
+    formulas: ['e(p,ar U)=\min_{x,y}\;p_1x+p_2y\quad	ext{s.a.}\quad U(x,y)\ge ar U', 'h(p,ar U)=xig(p,\,e(p,ar U)ig)'],
+    ejemplo: {
+      parametros,
+      enunciado: 'Con U = xy, p₁ = 3, p₂ = 2 y M = 45, fija Ū igual a la utilidad del primal (k = 1).',
+      resultado: `v(p, M) = ${f(v)}; e(p, Ū) = ${f(e)} = M y h = (${f(h1)}, ${f(h2)}), la misma canasta marshalliana.`,
+      prueba: `Sube k a 2: Ū se duplica y el gasto mínimo pasa a ${f(e2)} (con Cobb-Douglas de grado 2, e crece con √Ū).`,
+    },
+    fuente: 'teoría del consumidor: problema dual, demanda hicksiana y función de gasto.',
+  };
+}
+
 function eleccion(p: Params): Teoria {
+  if (p['problema'] === 'dual') return eleccionDual();
   const c = ELEC[String(p['familia'])] ?? ELEC['cd'];
   const par = c.parametros;
   const r = optimo(par);
@@ -252,32 +277,37 @@ const SLUTSKY_FAM: Record<string, { nombre: string; nota: string }> = {
 
 function slutsky(p: Params): Teoria {
   const familia = String(p['familia']);
+  const metodo = p['metodo'] === 'slutsky' ? 'slutsky' : 'hicks';
   const c = SLUTSKY_FAM[familia] ?? SLUTSKY_FAM['cd'];
   const base = familia === 'giffen' ? { p1: 2, p2: 1, M: 3.5, p1n: 2.2 } : { p1: 3, p2: 2, M: 45, p1n: 3.6 };
-  const parametros: Params = { familia, metodo: 'hicks', a: 2, b: 1, ...base };
+  const parametros: Params = { familia, metodo, a: 2, b: 1, ...base };
   const u: Utilidad = familia === 'giffen' ? new Giffen() : crearUtilidad(familia, 2, 1);
-  const h = descomposicion(u, base.p1, base.p2, base.M, base.p1n, 'hicks');
-  const s = descomposicion(u, base.p1, base.p2, base.M, base.p1n, 'slutsky');
-  const esH = h.efecto_sustitucion[0];
-  const esS = s.efecto_sustitucion[0];
+  const elegido = descomposicion(u, base.p1, base.p2, base.M, base.p1n, metodo);
+  const otro = descomposicion(u, base.p1, base.p2, base.M, base.p1n, metodo === 'hicks' ? 'slutsky' : 'hicks');
+  const es = elegido.efecto_sustitucion[0];
+  const esOtro = otro.efecto_sustitucion[0];
+  const nombre = metodo === 'hicks' ? 'Hicks' : 'Slutsky';
+  const nombreOtro = metodo === 'hicks' ? 'Slutsky' : 'Hicks';
   return {
-    titulo: `Efectos ingreso y sustitución · ${c.nombre}`,
+    titulo: `Descomposición de ${nombre} · ${c.nombre}`,
     conceptos: [
       'Ante un cambio de precio, el efecto total se parte en sustitución (A → B, compensando) e ingreso (B → C).',
       c.nota,
-      'Hicks mantiene la utilidad inicial; Slutsky devuelve el ingreso que permite comprar la canasta A.',
+      metodo === 'hicks'
+        ? 'Hicks compensa para mantener la utilidad inicial: B está sobre la curva de indiferencia de A.'
+        : 'Slutsky compensa para que se pueda comprar la canasta A: la recta compensada pasa por A y el consumidor queda un poco mejor.',
     ],
-    formulas: ['\\Delta x=\\Delta x^{S}+\\Delta x^{I}', '\\dfrac{\\partial x}{\\partial p_1}=\\dfrac{\\partial h_1}{\\partial p_1}-x\\,\\dfrac{\\partial x}{\\partial M}'],
+    formulas: ['\Delta x=\Delta x^{S}+\Delta x^{I}', '\dfrac{\partial x}{\partial p_1}=\dfrac{\partial h_1}{\partial p_1}-x\,\dfrac{\partial x}{\partial M}'],
     ejemplo: {
       parametros,
-      enunciado: `Con p₁ = ${f(base.p1)} que sube a p₁' = ${f(base.p1n)}, p₂ = ${f(base.p2)} y M = ${f(base.M)}, compensación de Hicks${familia === 'cd' ? ' (el ejemplo 1 de la semana 4)' : ''}.`,
+      enunciado: `Con p₁ = ${f(base.p1)} que sube a p₁' = ${f(base.p1n)}, p₂ = ${f(base.p2)} y M = ${f(base.M)}, compensación de ${nombre}${familia === 'cd' ? ' (el ejemplo 1 de la semana 4)' : ''}.`,
       resultado:
-        `Δx de sustitución = ${f(esH)}, de ingreso = ${f(h.efecto_ingreso[0])} y total = ${f(h.efecto_total[0])}. ` +
-        `La canasta pasa de A = (${f(h.A.x)}, ${f(h.A.y)}) a C = (${f(h.C.x)}, ${f(h.C.y)}).`,
+        `Δx de sustitución = ${f(es)}, de ingreso = ${f(elegido.efecto_ingreso[0])} y total = ${f(elegido.efecto_total[0])}. ` +
+        `La canasta pasa de A = (${f(elegido.A.x)}, ${f(elegido.A.y)}) a C = (${f(elegido.C.x)}, ${f(elegido.C.y)}).`,
       prueba:
-        Math.abs(esH - esS) < 1e-9
-          ? `Cambia la compensación a «Slutsky»: el efecto sustitución en x sigue en ${f(esS)}; en este modelo los dos métodos coinciden.`
-          : `Cambia la compensación a «Slutsky»: el efecto sustitución en x pasa de ${f(esH)} a ${f(esS)} y el punto B se mueve.`,
+        Math.abs(es - esOtro) < 1e-9
+          ? `Elige «Descomposición de ${nombreOtro}» debajo de la gráfica: el efecto sustitución en x sigue en ${f(esOtro)}; en este modelo los dos métodos coinciden.`
+          : `Elige «Descomposición de ${nombreOtro}» debajo de la gráfica: el efecto sustitución en x pasa de ${f(es)} a ${f(esOtro)} y el punto B se mueve.`,
     },
     fuente: 'ejemplo 1 de la semana 4 (x²y, 3x + 2y = 45, p1 sube 20 %); ejemplo 5 de la semana 3 (Giffen).',
   };
@@ -366,7 +396,42 @@ const PROD_FAM: Record<string, { nombre: string; nota: string; formulas: string[
   },
 };
 
+/** Planteamientos del productor: máximo producto con C₀ y su dual, mínimo costo de q₀ (Cobb-Douglas). */
+function produccionProblema(problema: string): Teoria {
+  const maxq = problema === 'maxq';
+  const parametros: Params = { tec: 'cd', A: 1, alpha: 0.5, beta: 0.25, rho: 0.5, x0: 4, y0: 4, p: 3, w1: 2, w2: 3, problema, C0: 18, q0: 3 };
+  const t = crearTecnologia('cd', 1, 0.5, 0.25, 0.5);
+  const m = maxProducto(t, 2, 3, 18);
+  const c = minCosto(t, 2, 3, 3);
+  return {
+    titulo: maxq ? 'Productor · máximo producto dado C₀' : 'Productor · mínimo costo dado q₀',
+    conceptos: [
+      'Máximo producto: la isocuanta más alta que toca la recta de isocosto w₁x + w₂y = C₀.',
+      'Mínimo costo: el isocosto más bajo que toca la isocuanta q₀; es el problema dual y lleva a la misma condición TMST = w₁/w₂.',
+      'Con Cobb-Douglas el gasto se reparte en proporción α : β entre los dos factores.',
+    ],
+    formulas: maxq
+      ? ['\max_{x,y}\;F(x,y)\quad	ext{s.a.}\quad w_1x+w_2y=C_0', 'TMST=\dfrac{PMg_x}{PMg_y}=\dfrac{w_1}{w_2}']
+      : ['c(w,q_0)=\min_{x,y}\;w_1x+w_2y\quad	ext{s.a.}\quad F(x,y)=q_0', 'TMST=\dfrac{w_1}{w_2}'],
+    ejemplo: {
+      parametros,
+      enunciado: maxq
+        ? 'Con F = x^0.5·y^0.25, w₁ = 2, w₂ = 3 y un presupuesto C₀ = 18.'
+        : 'Con F = x^0.5·y^0.25, w₁ = 2 y w₂ = 3, produce q₀ = 3 al menor costo.',
+      resultado: maxq
+        ? `x* = ${f(m.x)}, y* = ${f(m.y)} y producción máxima q* = ${f(m.q)} (2/3 del gasto va a x).`
+        : `x* = ${f(c.x)}, y* = ${f(c.y)} y costo mínimo c(w, 3) = ${f(c.C)}.`,
+      prueba: maxq
+        ? 'Lee el rombo dorado q*: la isocuanta dorada toca la recta roja de isocosto. Sube w₁ y verás que x* baja.'
+        : 'Lee el rombo dorado c*: es el punto de la isocuanta q₀ con el isocosto más bajo. Sube q₀ y el isocosto se desplaza.',
+    },
+    fuente: 'teoría del productor: maximización del producto y minimización de costos.',
+  };
+}
+
 function produccion(p: Params): Teoria {
+  // El planteamiento (máximo producto / mínimo costo) se explica con Cobb-Douglas; las otras tecnologías muestran su ficha.
+  if ((p['problema'] === 'maxq' || p['problema'] === 'minc') && (p['tec'] ?? 'cd') === 'cd') return produccionProblema(String(p['problema']));
   const tec = String(p['tec']);
   const c = PROD_FAM[tec] ?? PROD_FAM['cd'];
   const parametros: Params = { tec, A: 1, alpha: 0.5, beta: 0.25, rho: 0.5, x0: 4, y0: 4, p: 3, w1: 2, w2: 3 };
@@ -439,14 +504,15 @@ function costos(p: Params): Teoria {
 }
 
 // ------------------------------------------------------------------ competencia perfecta
-function competencia(): Teoria {
-  const parametros: Params = { CF: 20, a: 10, b: 2, c: 0.5, n: 20, Ad: 400, Bd: 10 };
+function competencia(p: Params): Teoria {
+  const vista = p['vista'] === 'mercado' ? 'mercado' : 'firma';
+  const parametros: Params = { CF: 20, a: 10, b: 2, c: 0.5, n: 20, Ad: 400, Bd: 10, vista };
   const k = new CostoCubico(20, 10, 2, 0.5);
   const e20 = equilibrioNEmpresasCubicas(400, 10, k, 20);
   const e40 = equilibrioNEmpresasCubicas(400, 10, k, 40);
   const le = nLibreEntrada(400, 10, k);
   return {
-    titulo: 'Competencia perfecta',
+    titulo: vista === 'mercado' ? 'Competencia perfecta · mercado y excedentes' : 'Competencia perfecta · decisión de la firma',
     conceptos: [
       'La empresa precio-aceptante produce donde p = CMg en el tramo creciente; si p < mín CVMe, cierra.',
       'La oferta de mercado es la suma horizontal de las n empresas (n·CMg); el equilibrio la iguala con la demanda.',
@@ -465,59 +531,6 @@ function competencia(): Teoria {
   };
 }
 
-// ------------------------------------------------------------------ monopolio
-function monopolio(): Teoria {
-  const parametros: Params = { a: 12, b: 1, c: 0, d: 1, CF: 0 };
-  const r = monopolioLineal(12, 1, 0, 1, 0);
-  const r2 = monopolioLineal(12, 1, 4, 1, 0);
-  return {
-    titulo: 'Monopolio',
-    conceptos: [
-      'El monopolista iguala ingreso marginal y costo marginal; como IMg < p, produce menos y cobra más que en competencia.',
-      'La diferencia genera una pérdida irrecuperable de eficiencia (área roja); opera siempre en el tramo elástico de la demanda.',
-      'Si CMe > CMg (economías de escala), regular con p = CMg dejaría pérdidas: se regula con p = CMe.',
-    ],
-    formulas: ['IMg(y)=CMg(y)', '\\dfrac{p-CMg}{p}=-\\dfrac{1}{\\varepsilon}\\quad\\text{(índice de Lerner)}'],
-    ejemplo: {
-      parametros,
-      enunciado: 'Con demanda p = 12 − y y costo C = y² (a = 12, b = 1, c = 0, d = 1, CF = 0).',
-      resultado:
-        `Monopolio: y = ${f(r.y_m)} y p = ${f(r.p_m)}; competencia: y = ${f(r.y_c)} y p = ${f(r.p_c)}. ` +
-        `Pérdida irrecuperable = ${f(r.perdida_eficiencia)} e índice de Lerner = ${f(r.lerner)}.`,
-      prueba: `Sube c a 4: el monopolista produce y = ${f(r2.y_m)} y cobra p = ${f(r2.p_m)}; la pérdida de eficiencia pasa a ${f(r2.perdida_eficiencia)}.`,
-    },
-    fuente: 'ejemplos 1 y 2 de la semana 10 (C = y², y = 12 − p); secciones 10.4–10.5.',
-  };
-}
-
-// ------------------------------------------------------------------ oligopolio
-function oligopolio(): Teoria {
-  const parametros: Params = { a: 20, c: 2, n: 3 };
-  const duo = cournot(20, 2, 2);
-  const c3 = cournot(20, 2, 3);
-  const c10 = cournot(20, 2, 10);
-  const st = stackelberg(20, 2);
-  const ka = cartel(20, 2, 2);
-  return {
-    titulo: 'Oligopolio',
-    conceptos: [
-      'En Cournot cada empresa elige su producción tomando como dada la de las demás; el equilibrio es la intersección de las curvas de reacción.',
-      'En precio: cartel > Cournot > Stackelberg > Bertrand. El cartel no es estable: cada empresa querría desviarse.',
-      'Al aumentar n, el precio converge al costo marginal y Cournot se acerca a la competencia perfecta.',
-    ],
-    formulas: ['y_i^{*}=\\dfrac{a-c}{n+1},\\qquad p^{*}=\\dfrac{a+nc}{n+1}', 'y_i=\\dfrac{a-c-y_j}{2}\\quad\\text{(curva de reacción)}'],
-    ejemplo: {
-      parametros,
-      enunciado: 'Con p = a − Y, a = 20, costo marginal c = 2 y n = 3 empresas.',
-      resultado:
-        `Duopolio: Cournot p = ${f(duo.p)}, Stackelberg p = ${f(st.p)} y cartel p = ${f(ka.p)}. ` +
-        `Con n = 3 (Cournot): y por empresa = ${f(c3.y_i)} y p = ${f(c3.p)}.`,
-      prueba: `Sube n a 10: el precio baja a ${f(c10.p)}, ya cerca del costo marginal (c = 2), y cada empresa produce ${f(c10.y_i)}.`,
-    },
-    fuente: 'tabla 11.3 y figuras 11.4–11.5; paradoja de Bertrand (sección 11.3.3).',
-  };
-}
-
 /** Ficha de teoría del simulador `simId` para el modelo elegido en `p` (o null si no hay). */
 export function teoria(simId: string, p: Params): Teoria | null {
   switch (simId) {
@@ -528,9 +541,7 @@ export function teoria(simId: string, p: Params): Teoria | null {
     case 'demanda': return demanda(p);
     case 'produccion': return produccion(p);
     case 'costos': return costos(p);
-    case 'competencia-perfecta': return competencia();
-    case 'monopolio': return monopolio();
-    case 'oligopolio': return oligopolio();
+    case 'competencia-perfecta': return competencia(p);
     default: return null;
   }
 }

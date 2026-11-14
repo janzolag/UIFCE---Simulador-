@@ -10,6 +10,4 @@ export const CARGADORES_MICRO1: Record<string, () => Promise<SimuladorDef>> = {
   produccion: () => import('./simuladores/produccion').then((m) => m.SIM),
   costos: () => import('./simuladores/costos').then((m) => m.SIM),
   'competencia-perfecta': () => import('./simuladores/competencia-perfecta').then((m) => m.SIM),
-  monopolio: () => import('./simuladores/monopolio').then((m) => m.SIM),
-  oligopolio: () => import('./simuladores/oligopolio').then((m) => m.SIM),
 };

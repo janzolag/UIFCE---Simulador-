@@ -3,12 +3,13 @@ import { CARGADORES_MACRO1 } from '../macro1/registro';
 import { CARGADORES_MACRO2 } from '../macro2/registro';
 import { CARGADORES_MICRO1 } from '../micro1/registro';
 import { CARGADORES_MICRO2 } from '../micro2/registro';
+import { CARGADORES_MICRO3 } from '../micro3/registro';
 import { Materia, SimuladorMeta } from './tipos';
 
 export const TITULO_APP = 'Simulador Económico';
 export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.7.0 — Fundamentos, Microeconomía 1 y 2, Macroeconomía 1 y 2 (beta)';
+export const VERSION = '0.8.0 — Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 (beta)';
 
 /** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
 const listoEn =
@@ -26,6 +27,10 @@ const listoMacro = listoEn(CARGADORES_MACRO1);
 const listoFund = listoEn(CARGADORES_FUNDAMENTOS);
 const listoMacro2 = listoEn(CARGADORES_MACRO2);
 const listoMicro2 = listoEn(CARGADORES_MICRO2);
+const listoMicro3 = listoEn(CARGADORES_MICRO3);
+
+/** Asigna un pilar del programa a un bloque de simuladores. */
+const pilar = (nombre: string, sims: SimuladorMeta[]): SimuladorMeta[] => sims.map((s) => ({ ...s, pilar: nombre }));
 
 export const FUNDAMENTOS: Materia = {
   id: 'fundamentos',
@@ -105,68 +110,62 @@ export const MICRO1: Materia = {
   sigla: 'Mi',
   color: '#FFA45B',
   descripcion:
-    'Teoría del consumidor y del productor: restricción presupuestal, preferencias, elección óptima, costos y estructuras de mercado.',
+    'Problema del consumidor, problema del productor y el mercado competitivo: restricción presupuestal, preferencias, elección óptima, costos y competencia perfecta.',
   simuladores: [
-    listo(
-      'restriccion-presupuestal',
-      'Restricción presupuestal',
-      'Conjunto factible del consumidor y efectos de cambios en precios e ingreso.',
-      String.raw`$p_1 x + p_2 y = M$`,
-    ),
-    listo(
-      'preferencias',
-      'Preferencias y curvas de indiferencia',
-      'Cobb-Douglas, Leontief, sustitutos perfectos, cuasilineal, separable y Stone-Geary.',
-      String.raw`$U(x, y) = x^{\alpha} y^{\beta} \qquad TMS = \dfrac{UMg_x}{UMg_y}$`,
-    ),
-    listo(
-      'eleccion-optima',
-      'Elección óptima del consumidor',
-      'Tangencia entre la curva de indiferencia y la recta presupuestal.',
-      String.raw`$TMS = \dfrac{UMg_x}{UMg_y} = \dfrac{p_1}{p_2}$`,
-    ),
-    listo(
-      'slutsky',
-      'Efectos ingreso y sustitución',
-      'Descomposición de Slutsky y de Hicks ante un cambio de precio.',
-      String.raw`$\dfrac{\partial x}{\partial p_1} = \dfrac{\partial h_1}{\partial p_1} - x\,\dfrac{\partial x}{\partial M}$`,
-    ),
-    listo(
-      'demanda',
-      'Demanda individual y de mercado',
-      'Curva de demanda, curva de Engel, elasticidades y medidas de bienestar (VC, VE, excedente).',
-      String.raw`$x^{*} = x(p_1, p_2, M) \qquad \varepsilon = \dfrac{\partial x}{\partial p_1}\dfrac{p_1}{x}$`,
-    ),
-    listo(
-      'produccion',
-      'Tecnología e isocuantas',
-      'Función de producción, productividad marginal y rendimientos a escala.',
-      String.raw`$z = A\,x^{\alpha} y^{\beta}$`,
-    ),
-    listo(
-      'costos',
-      'Costos de corto y largo plazo',
-      'Costo total, medio y marginal; envolvente de largo plazo.',
-      String.raw`$CT(Q) = CF + CV(Q) \qquad CMg = \dfrac{dCT}{dQ}$`,
-    ),
-    listo(
-      'competencia-perfecta',
-      'Competencia perfecta',
-      'Maximización de beneficios, punto de cierre y oferta de la empresa.',
-      String.raw`$P = CMg(Q)$`,
-    ),
-    listo(
-      'monopolio',
-      'Monopolio',
-      'Ingreso marginal, poder de mercado y pérdida de eficiencia.',
-      String.raw`$IMg(Q) = CMg(Q)$`,
-    ),
-    listo(
-      'oligopolio',
-      'Oligopolio',
-      'Cournot, Stackelberg, cartel y Bertrand; convergencia a competencia con n empresas.',
-      String.raw`$y_i^{*} = \dfrac{a-c}{n+1} \qquad p^{*} = \dfrac{a+nc}{n+1}$`,
-    ),
+    ...pilar('Problema del consumidor', [
+      listo(
+        'restriccion-presupuestal',
+        'Restricción presupuestal',
+        'Conjunto factible del consumidor y efectos de cambios en precios e ingreso.',
+        String.raw`$p_1 x + p_2 y = M$`,
+      ),
+      listo(
+        'preferencias',
+        'Preferencias y curvas de indiferencia',
+        'Cobb-Douglas, Leontief, sustitutos perfectos, cuasilineal, separable y Stone-Geary.',
+        String.raw`$U(x, y) = x^{\alpha} y^{\beta} \qquad TMS = \dfrac{UMg_x}{UMg_y}$`,
+      ),
+      listo(
+        'eleccion-optima',
+        'Elección óptima del consumidor',
+        'Problema primal (máxima utilidad) y dual (mínimo gasto): demanda marshalliana frente a hicksiana.',
+        String.raw`$TMS = \dfrac{UMg_x}{UMg_y} = \dfrac{p_1}{p_2}$`,
+      ),
+      listo(
+        'slutsky',
+        'Efectos ingreso y sustitución',
+        'Descomposición de Slutsky y de Hicks ante un cambio de precio.',
+        String.raw`$\dfrac{\partial x}{\partial p_1} = \dfrac{\partial h_1}{\partial p_1} - x\,\dfrac{\partial x}{\partial M}$`,
+      ),
+      listo(
+        'demanda',
+        'Demanda individual y de mercado',
+        'Curva de demanda, curva de Engel, elasticidades y medidas de bienestar (VC, VE, excedente).',
+        String.raw`$x^{*} = x(p_1, p_2, M) \qquad \varepsilon = \dfrac{\partial x}{\partial p_1}\dfrac{p_1}{x}$`,
+      ),
+    ]),
+    ...pilar('Problema del productor', [
+      listo(
+        'produccion',
+        'Tecnología e isocuantas',
+        'Función de producción, rendimientos a escala, máximo producto con un presupuesto y mínimo costo de una producción.',
+        String.raw`$z = A\,x^{\alpha} y^{\beta}$`,
+      ),
+      listo(
+        'costos',
+        'Costos de corto y largo plazo',
+        'Costo total, medio y marginal; envolvente de largo plazo.',
+        String.raw`$CT(Q) = CF + CV(Q) \qquad CMg = \dfrac{dCT}{dQ}$`,
+      ),
+    ]),
+    ...pilar('El mercado', [
+      listo(
+        'competencia-perfecta',
+        'Competencia perfecta',
+        'Decisión de la empresa (P = CMg), punto de cierre, equilibrio de mercado y excedentes.',
+        String.raw`$P = CMg(Q)$`,
+      ),
+    ]),
   ],
 };
 
@@ -213,37 +212,84 @@ export const MICRO2: Materia = {
   sigla: 'Mi2',
   color: '#FF7A85',
   descripcion:
-    'Efectos sustitución y renta, producción y costos, monopolio y discriminación de precios, oligopolio y equilibrio general de intercambio (Varian, Microeconomía intermedia).',
+    'Equilibrio general y bienestar: dualidad del consumidor y del productor, intercambio y producción en una economía 2×2, elección social y fallas de mercado (Varian; Monsalve, 2017; Sen).',
   simuladores: [
-    listoMicro2(
-      'slutsky',
-      'Ecuación de Slutsky',
-      'Pivote y desplazamiento de la recta presupuestaria: bienes normales, inferiores y Giffen, con demanda ordinaria y compensada.',
-      String.raw`$\Delta x_1 = \Delta x_1^{s} + \Delta x_1^{n}$`,
+    ...pilar('Fundamentos de consumidor y productor', [
+      listoMicro2(
+        'slutsky',
+        'Ecuación de Slutsky y dualidad del consumidor',
+        'Pivote y desplazamiento de la recta presupuestaria (Slutsky y Hicks) y efecto dotación en la oferta de trabajo.',
+        String.raw`$\Delta x_1 = \Delta x_1^{s} + \Delta x_1^{n}$`,
+      ),
+      listoMicro2(
+        'produccion',
+        'Dualidad del productor',
+        'Función de beneficio π(p, w) con el lema de Hotelling y función de costos c(w, y) con el lema de Shephard.',
+        String.raw`$\dfrac{\partial \pi}{\partial p} = y \qquad \dfrac{\partial c}{\partial w_i} = x_i(w, y)$`,
+      ),
+    ]),
+    ...pilar('Equilibrio general', [
+      listoMicro2(
+        'edgeworth',
+        'Caja de Edgeworth (intercambio puro)',
+        'Curva de contrato y núcleo; equilibrio walrasiano, ley de Walras y teoremas del bienestar.',
+        String.raw`$TMS^{A} = TMS^{B} = \dfrac{p_1}{p_2}$`,
+      ),
+      listoMicro2(
+        'equilibrio-produccion',
+        'Equilibrio general con producción (2×2)',
+        'Frontera de posibilidades de producción con TMS = TMT, y teoremas de Stolper-Samuelson y Rybczynski.',
+        String.raw`$TMS = TMT = \dfrac{p_1}{p_2}$`,
+      ),
+    ]),
+    ...pilar('Bienestar, elección social y fallas', [
+      listoMicro2(
+        'bienestar',
+        'Bienestar y elección social',
+        'Frontera de posibilidades de utilidad con criterios de Bentham, Rawls y Nash, y teorema de imposibilidad de Arrow.',
+        String.raw`$W = u_A + u_B \qquad W = \min\{u_A, u_B\} \qquad W = u_A\,u_B$`,
+      ),
+      listoMicro2(
+        'externalidades',
+        'Externalidades y bienes públicos',
+        'Óptimo social, impuesto pigouviano y teorema de Coase; condición de Samuelson para bienes públicos.',
+        String.raw`$t^{*} = CMgE(q^{*}) \qquad \textstyle\sum_i TMS_i = CMg$`,
+      ),
+    ]),
+  ],
+};
+
+export const MICRO3: Materia = {
+  id: 'micro3',
+  nombre: 'Microeconomía 3',
+  sigla: 'Mi3',
+  color: '#F06FB0',
+  descripcion:
+    'Teoría de juegos y fallas de mercado: interacción estratégica, monopolio, oligopolio e información asimétrica (Lozano y Salamanca, 2024; Monsalve, 2025).',
+  simuladores: [
+    listoMicro3(
+      'juegos',
+      'Teoría de juegos',
+      'Forma normal (Nash en estrategias puras y mixtas), forma extensiva (inducción hacia atrás) y juegos repetidos con estrategias gatillo.',
+      String.raw`$u_i(s_i^{*}, s_{-i}^{*}) \ge u_i(s_i, s_{-i}^{*})$`,
     ),
-    listoMicro2(
-      'produccion',
-      'Producción y costos',
-      'Minimización de costos (isocuanta tangente al isocosto) y curvas de costo de corto plazo: CMg, CMe, CVMe, precio de cierre y de equilibrio.',
-      String.raw`$TMST = \dfrac{w_1}{w_2} \qquad CMg = CMe \text{ en el mínimo}$`,
-    ),
-    listoMicro2(
+    listoMicro3(
       'monopolio',
       'Monopolio y discriminación de precios',
-      'IMg = CMg, pérdida irrecuperable de eficiencia y discriminación de primer y tercer grado.',
+      'IMg = CMg, índice de Lerner y pérdida irrecuperable; discriminación de primer, segundo y tercer grado.',
       String.raw`$p(y)\left[1 - \dfrac{1}{|\varepsilon|}\right] = CMg(y)$`,
     ),
-    listoMicro2(
+    listoMicro3(
       'oligopolio',
-      'Oligopolio: Cournot, Stackelberg y colusión',
-      'Funciones de reacción, equilibrio de Cournot-Nash, liderazgo de Stackelberg con isobeneficios y cartel.',
+      'Oligopolio e interacción estratégica',
+      'Curvas de reacción de Cournot, liderazgo de Stackelberg, competencia de Bertrand y colusión.',
       String.raw`$f_1(y_2) = \dfrac{a - c_1 - b\,y_2}{2b}$`,
     ),
-    listoMicro2(
-      'edgeworth',
-      'Caja de Edgeworth',
-      'Intercambio entre dos consumidores: curva de contrato, núcleo, precios walrasianos y ley de Walras.',
-      String.raw`$TMS^{A} = TMS^{B} = \dfrac{p_1}{p_2}$`,
+    listoMicro3(
+      'informacion',
+      'Información asimétrica',
+      'Selección adversa en el mercado de limones, señalización de Spence y riesgo moral.',
+      String.raw`$p = \mathbb{E}[\,v \mid \text{calidad ofrecida}\,]$`,
     ),
   ],
 };
@@ -299,10 +345,22 @@ export const MACRO2: Materia = {
   ],
 };
 
-export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MICRO2, MACRO1, MACRO2];
+export const MATERIAS: Materia[] = [FUNDAMENTOS, MICRO1, MICRO2, MICRO3, MACRO1, MACRO2];
 
 export const totalSimuladores = (): number => MATERIAS.reduce((n, m) => n + m.simuladores.length, 0);
 export const listos = (m: Materia): number => m.simuladores.filter((s) => s.listo).length;
 export const buscarMateria = (id: string): Materia | undefined => MATERIAS.find((m) => m.id === id);
+/** Simuladores de la materia agrupados por pilar, en orden (pilar null = sin agrupar). */
+export function porPilar(m: Materia): { pilar: string | null; simuladores: SimuladorMeta[] }[] {
+  const grupos: { pilar: string | null; simuladores: SimuladorMeta[] }[] = [];
+  for (const s of m.simuladores) {
+    const pilar = s.pilar ?? null;
+    const ultimo = grupos[grupos.length - 1];
+    if (ultimo && ultimo.pilar === pilar) ultimo.simuladores.push(s);
+    else grupos.push({ pilar, simuladores: [s] });
+  }
+  return grupos;
+}
+
 export const buscarSimulador = (m: Materia, id: string): SimuladorMeta | undefined =>
   m.simuladores.find((s) => s.id === id);

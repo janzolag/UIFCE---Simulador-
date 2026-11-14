@@ -93,9 +93,25 @@ export interface VariableTeoria {
   tipo: 'endógena' | 'exógena' | 'parámetro';
 }
 
+/** Una formulación del problema (opción del acordeón que va debajo de la gráfica). */
+export interface Planteamiento {
+  valor: string;
+  titulo: string;
+  /** Una frase: qué se resuelve con esta formulación. */
+  resumen: string;
+}
+
+/** Acordeón de planteamientos: cada opción fija el parámetro `param` del simulador. */
+export interface Planteamientos {
+  param: string;
+  opciones: Planteamiento[];
+}
+
 export interface SimuladorDef {
   defecto: Params;
   grupos: GrupoControles[];
+  /** Formulaciones del problema; se eligen en el acordeón de debajo de la gráfica. */
+  planteamientos?: Planteamientos;
   alto?: number;
   calcular(p: Params): Simulacion;
   /** Permite reajustar parámetros al cambiar uno (p. ej. preset de Giffen). */
@@ -109,6 +125,8 @@ export interface SimuladorMeta {
   ecuacion: string;
   ecuacionResumen?: string;
   listo: boolean;
+  /** Pilar del programa al que pertenece (agrupa el menú lateral y la página de la materia). */
+  pilar?: string;
 }
 
 export interface Materia {

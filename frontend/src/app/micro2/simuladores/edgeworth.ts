@@ -9,7 +9,7 @@ import { refVarian } from './_comun';
 
 const SIM_ID = 'm2-edgeworth';
 // u_A = x₁^0.6·x₂^0.4, u_B = x₁^0.3·x₂^0.7, ωᴬ = (8, 2), ωᴮ = (2, 8) ⇒ p₁/p₂ = 3.6/4.6.
-const DEF = { a: 0.6, b: 0.3, wA1: 8, wA2: 2, wB1: 2, wB2: 8 };
+const DEF = { enfoque: 'contrato' as string, a: 0.6, b: 0.3, wA1: 8, wA2: 2, wB1: 2, wB2: 8 };
 type P = typeof DEF;
 
 export const parametros = (p: P): ParamsEdgeworth => ({ a: p.a, b: p.b, wA1: p.wA1, wA2: p.wA2, wB1: p.wB1, wB2: p.wB2 });
@@ -69,9 +69,12 @@ export function calcular(p: P): Simulacion {
     curvaP(fig, C, xs, xs.map((x) => dentro(indiferencia(q.a, r.uA0, x))), 'Indiferencia de A por ω', AZUL, 'intermedio', 'uᴬ(ω)');
     curvaP(fig, C, xs, xs.map((x) => dentro(indiferenciaB(q, r.uB0, x))), 'Indiferencia de B por ω', ROJO, 'intermedio', 'uᴮ(ω)');
   }
+  const walrasiano = p.enfoque === 'walras';
   // Curvas de indiferencia que pasan por el equilibrio (tangentes entre sí y a la recta de precios).
-  curvaP(fig, C, xs, xs.map((x) => dentro(indiferencia(q.a, r.uA, x))), 'Indiferencia de A en el equilibrio', AZUL, 'final', 'uᴬ*');
-  curvaP(fig, C, xs, xs.map((x) => dentro(indiferenciaB(q, r.uB, x))), 'Indiferencia de B en el equilibrio', ROJO, 'final', 'uᴮ*');
+  if (walrasiano) {
+    curvaP(fig, C, xs, xs.map((x) => dentro(indiferencia(q.a, r.uA, x))), 'Indiferencia de A en el equilibrio', AZUL, 'final', 'uᴬ*');
+    curvaP(fig, C, xs, xs.map((x) => dentro(indiferenciaB(q, r.uB, x))), 'Indiferencia de B en el equilibrio', ROJO, 'final', 'uᴮ*');
+  }
   // Curva de contrato y núcleo (tramo dentro del lente).
   const xc = linspace(0, w1, 300);
   curvaP(fig, C, xc, xc.map((x) => contrato(q, x)), 'Curva de contrato (TMSᴬ = TMSᴮ)', VERDE, 'final', 'curva de contrato');
@@ -92,14 +95,20 @@ export function calcular(p: P): Simulacion {
       opacity: 0.35,
       hovertemplate: hoverB,
     });
-  // Recta de precios walrasiana por ω: x₂ᴬ = ω₂ᴬ − (p₁/p₂)·(x₁ᴬ − ω₁ᴬ).
-  const recta = (x: number) => q.wA2 - r.p * (x - q.wA1);
-  const xr = linspace(0, w1, 60);
-  curvaP(fig, C, xr, xr.map((x) => dentro(recta(x))), `Recta de precios (p₁/p₂ = ${fmt(r.p, 4)})`, DORADO, 'intermedio', 'p₁/p₂');
-
   equilibrioP(fig, C, q.wA1, q.wA2, 'Dotación inicial ω', 'ω', SUAVE, { decX: 3, decY: 3 });
-  equilibrioP(fig, C, r.xA1, r.xA2, 'Equilibrio walrasiano x*', 'x*', DORADO, { decX: 3, decY: 3, simbolo: 'diamond' });
-  flecha(fig, C, [q.wA1, q.wA2], [r.xA1, r.xA2], DORADO);
+  if (walrasiano) {
+    // Recta de precios walrasiana por ω: x₂ᴬ = ω₂ᴬ − (p₁/p₂)·(x₁ᴬ − ω₁ᴬ).
+    const recta = (x: number) => q.wA2 - r.p * (x - q.wA1);
+    const xr = linspace(0, w1, 60);
+    curvaP(fig, C, xr, xr.map((x) => dentro(recta(x))), `Recta de precios (p₁/p₂ = ${fmt(r.p, 4)})`, DORADO, 'intermedio', 'p₁/p₂');
+    equilibrioP(fig, C, r.xA1, r.xA2, 'Equilibrio walrasiano x*', 'x*', DORADO, { decX: 3, decY: 3, simbolo: 'diamond' });
+    flecha(fig, C, [q.wA1, q.wA2], [r.xA1, r.xA2], DORADO);
+  } else if (nucleo.length > 1) {
+    const extremo = (x: number, nombre: string, et: string) =>
+      equilibrioP(fig, C, x, contrato(q, x), nombre, et, VERDE, { decX: 3, decY: 3, simbolo: 'square', lecturas: false });
+    extremo(nucleo[0], 'Extremo del núcleo (B se queda con todo el lente)', 'N₁');
+    extremo(nucleo[nucleo.length - 1], 'Extremo del núcleo (A se queda con todo el lente)', 'N₂');
+  }
   fig.layout.annotations.push(
     { x: 0, y: 0, xref: 'x', yref: 'y', text: '<b>Oᴬ</b>', showarrow: false, xanchor: 'left', yanchor: 'bottom', xshift: 4, yshift: 4, font: { color: AZUL } },
     { x: w1, y: w2, xref: 'x', yref: 'y', text: '<b>Oᴮ</b>', showarrow: false, xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4, font: { color: ROJO } },
@@ -118,47 +127,81 @@ export function calcular(p: P): Simulacion {
   const [z1, z2] = excesoDemanda(q, r.p);
   const mejoraA = r.uA >= r.uA0 - 1e-12;
   const mejoraB = r.uB >= r.uB0 - 1e-12;
-  const panel = [
-    resultados([
-      lectura(
-        'Equilibrio walrasiano (p₂ = 1)',
-        tabla(
-          [
-            ['Precio relativo p₁/p₂', r.p, null],
-            ['Dotación ω (A)', q.wA1, q.wA2],
-            ['Asignación de A, x*ᴬ', r.xA1, r.xA2],
-            ['Asignación de B, x*ᴮ', r.xB1, r.xB2],
-            ['Exceso de demanda (z₁, z₂)', z1, z2],
-          ],
-          ['', 'Bien 1', 'Bien 2'],
-        ),
-      ),
-      lectura(
-        'Bienestar',
-        tabla(
-          [
-            ['Utilidad de A', r.uA0, r.uA],
-            ['Utilidad de B', r.uB0, r.uB],
-          ],
-          ['', 'En ω', 'En x*'],
-        ),
-        texto(
-          `Ley de Walras: p₁·z₁ + p₂·z₂ = ${fmt(r.p * z1 + z2, 6)}. Primer teorema del bienestar: x* está en la curva de contrato ` +
-            `(TMSᴬ = TMSᴮ = p₁/p₂) y ${mejoraA && mejoraB ? 'dentro del núcleo: ambos mejoran o quedan igual que en ω' : 'no empeora a nadie'}.`,
-          'pequeno texto-suave',
-        ),
-      ),
-      lectura(
-        'Lectura',
-        texto(
-          'Cada punto de la caja reparte la dotación total entre A y B. En ω las curvas de indiferencia se cortan: hay un lente de intercambios que mejoran a ambos. ' +
-            'Al precio walrasiano la recta de precios que pasa por ω es tangente a las dos curvas de indiferencia en el mismo punto x*.',
-          'destacado',
-        ),
-        refVarian('«El intercambio»: caja de Edgeworth, asignaciones eficientes en el sentido de Pareto, curva de contrato, equilibrio de mercado y ley de Walras.'),
-      ),
-    ]),
-  ];
+  const ref = refVarian('«El intercambio»: caja de Edgeworth, asignaciones eficientes en el sentido de Pareto, curva de contrato, equilibrio de mercado, ley de Walras y teoremas del bienestar; Monsalve (2017), equilibrio general de intercambio.');
+  const panel = walrasiano
+    ? [
+        resultados([
+          lectura(
+            'Equilibrio walrasiano (p₂ = 1)',
+            tabla(
+              [
+                ['Precio relativo p₁/p₂', r.p, null],
+                ['Dotación ω (A)', q.wA1, q.wA2],
+                ['Asignación de A, x*ᴬ', r.xA1, r.xA2],
+                ['Asignación de B, x*ᴮ', r.xB1, r.xB2],
+                ['Exceso de demanda (z₁, z₂)', z1, z2],
+              ],
+              ['', 'Bien 1', 'Bien 2'],
+            ),
+          ),
+          lectura(
+            'Bienestar',
+            tabla(
+              [
+                ['Utilidad de A', r.uA0, r.uA],
+                ['Utilidad de B', r.uB0, r.uB],
+              ],
+              ['', 'En ω', 'En x*'],
+            ),
+            texto(
+              `Ley de Walras: p₁·z₁ + p₂·z₂ = ${fmt(r.p * z1 + z2, 6)}. Primer teorema del bienestar: x* está en la curva de contrato ` +
+                `(TMSᴬ = TMSᴮ = p₁/p₂) y ${mejoraA && mejoraB ? 'dentro del núcleo: ambos mejoran o quedan igual que en ω' : 'no empeora a nadie'}.`,
+              'pequeno texto-suave',
+            ),
+          ),
+          lectura(
+            'Teoremas del bienestar',
+            texto(
+              'Primero: todo equilibrio competitivo es eficiente en el sentido de Pareto. Segundo: con preferencias convexas, cualquier asignación eficiente ' +
+                'se alcanza como equilibrio competitivo redistribuyendo la dotación (transferencias de suma fija).',
+              'destacado',
+            ),
+            texto('Prueba el segundo teorema: mueve ω a lo largo de la recta de precios y el equilibrio x* no cambia.', 'pequeno texto-suave'),
+            ref,
+          ),
+        ]),
+      ]
+    : [
+        resultados([
+          lectura(
+            'Curva de contrato y núcleo',
+            tabla(
+              [
+                ['Dotación ω (A)', q.wA1, q.wA2],
+                ['Utilidades en ω (A, B)', r.uA0, r.uB0],
+                ['Núcleo: x₁ᴬ desde', nucleo.length > 1 ? nucleo[0] : null, null],
+                ['Núcleo: x₁ᴬ hasta', nucleo.length > 1 ? nucleo[nucleo.length - 1] : null, null],
+              ],
+              ['', 'Bien 1', 'Bien 2'],
+            ),
+          ),
+          lectura(
+            'Lectura',
+            texto(
+              'La curva de contrato reúne las asignaciones eficientes en el sentido de Pareto (TMSᴬ = TMSᴮ): desde ellas no se puede mejorar a uno sin empeorar al otro. ' +
+                'El núcleo es el tramo del contrato que ambos prefieren a su dotación: ninguna coalición puede bloquearlo.',
+              'destacado',
+            ),
+            texto(
+              nucleo.length > 1
+                ? 'En ω las curvas de indiferencia se cortan: el lente dorado contiene los intercambios que mejoran a ambos.'
+                : 'La dotación ya es eficiente: no hay lente y el núcleo es el propio ω.',
+              'pequeno texto-suave',
+            ),
+            ref,
+          ),
+        ]),
+      ];
   return { fig, panel };
 }
 
@@ -183,5 +226,12 @@ export const SIM: SimuladorDef = {
       ],
     },
   ],
+  planteamientos: {
+    param: 'enfoque',
+    opciones: [
+      { valor: 'contrato', titulo: 'Curva de contrato y núcleo', resumen: 'Asignaciones eficientes en el sentido de Pareto (TMSᴬ = TMSᴮ) y el tramo que ambos prefieren a su dotación.' },
+      { valor: 'walras', titulo: 'Equilibrio walrasiano y 1.° / 2.° teoremas del bienestar', resumen: 'Precio que vacía los mercados (ley de Walras); el equilibrio es eficiente y toda asignación eficiente puede ser un equilibrio.' },
+    ],
+  },
   calcular: (p: Params) => calcular(p as unknown as P),
 };

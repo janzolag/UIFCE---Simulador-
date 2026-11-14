@@ -65,6 +65,9 @@
         <section class="panel panel-grafica">
           @if (resultado(); as r) {
             <app-plotly-chart [fig]="r.fig" [alto]="def()?.alto ?? 540" />
+            @if (def()?.planteamientos; as pl) {
+              <app-planteamientos [def]="pl" [valor]="params()[pl.param]" (elegir)="alCambiar({ id: pl.param, valor: $event })" />
+            }
           } @else {
             <div class="grafica-vacia" [style.height.px]="def()?.alto ?? 540">
               <span>{{ s.listo ? 'Cargando…' : 'La gráfica del modelo aparecerá aquí' }}</span>

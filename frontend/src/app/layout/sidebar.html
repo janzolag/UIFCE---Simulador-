@@ -30,16 +30,32 @@
         @if (desplegada() === m.id) {
           <div class="submenu">
             <a [routerLink]="['/', m.id]" class="sub ver-todos" (click)="cerrar.emit()">Ver todos los simuladores →</a>
-            @for (s of m.simuladores; track s.id) {
-              <a
-                [routerLink]="['/', m.id, s.id]"
-                class="sub"
-                [class.activo]="ruta().materia === m.id && ruta().sim === s.id"
-                [class.pendiente]="!s.listo"
-                (click)="cerrar.emit()"
-              >
-                <span class="punto"></span><span>{{ s.nombre }}</span>
-              </a>
+            @for (g of porPilar(m); track g.pilar ?? $index) {
+              @if (g.pilar; as pl) {
+                <button
+                  type="button"
+                  class="pilar"
+                  [attr.aria-expanded]="!plegados().has(m.id + ':' + pl)"
+                  (click)="alternarPilar(m.id + ':' + pl)"
+                >
+                  <span class="flecha pequena" [class.girada]="!plegados().has(m.id + ':' + pl)" aria-hidden="true">›</span>
+                  <span>{{ pl }}</span>
+                </button>
+              }
+              @if (!g.pilar || !plegados().has(m.id + ':' + g.pilar)) {
+                @for (s of g.simuladores; track s.id) {
+                  <a
+                    [routerLink]="['/', m.id, s.id]"
+                    class="sub"
+                    [class.en-pilar]="g.pilar"
+                    [class.activo]="ruta().materia === m.id && ruta().sim === s.id"
+                    [class.pendiente]="!s.listo"
+                    (click)="cerrar.emit()"
+                  >
+                    <span class="punto"></span><span>{{ s.nombre }}</span>
+                  </a>
+                }
+              }
             }
           </div>
         }
