@@ -8,7 +8,7 @@
  */
 import { Params } from '../core/tipos';
 import { descomposicion } from '../micro1/modelos/slutsky';
-import { cournotNash, monopolio, stackelbergLider, walras } from '../micro2/modelos/mercados';
+import { costoMedio, cournotNash, monopolio, stackelbergLider, walras } from '../micro2/modelos/mercados';
 import { utilidadDe } from '../micro2/simuladores/slutsky';
 import { cortoPlazo } from '../macro2/modelos/daoa';
 import { equilibrioISLM2 } from '../macro2/modelos/islm';
@@ -30,6 +30,10 @@ const slutsky = (p: Params) =>
 const utilSlutsky = (p: Params) => {
   const d = slutsky(p);
   return utilidadDe(String(p['caso']), n(p, 'a')).U(d.C.x, d.C.y);
+};
+const cmeMinimo = (p: Params): number => {
+  const q = { a: n(p, 'a'), b: n(p, 'b'), c: n(p, 'c'), d: n(p, 'd'), F: n(p, 'F') };
+  return costoMedio(q, Math.sqrt((2 * q.F) / q.d));
 };
 const mono = (p: Params) => monopolio({ a: n(p, 'a'), b: n(p, 'b'), c: n(p, 'c'), d: n(p, 'd'), F: n(p, 'F') });
 const duo = (p: Params) => ({ a: n(p, 'a'), b: n(p, 'b'), c1: n(p, 'c1'), c2: n(p, 'c2') });
@@ -119,15 +123,15 @@ const MICRO2: Reto[] = [
     materia: 'micro2',
     sim: 'monopolio',
     dificultad: 'Avanzado',
-    titulo: 'Recortar la pérdida irrecuperable',
-    enunciado: 'La PIE es 216. Cambia la pendiente del costo marginal d hasta que la pérdida irrecuperable sea 66.1.',
+    titulo: 'Precio de equilibrio de largo plazo',
+    enunciado: 'El costo medio mínimo es 20 (c = 10, d = 1). Cambia el costo fijo F para que el precio de break-even, el mínimo del CMe, sea 30.',
     inicial: { modo: 'simple' },
-    controles: ['d'],
-    objetivos: [{ etiqueta: 'Pérdida irrecuperable', meta: 66.1, decimales: 1, medir: (p) => mono(p).PIE }],
-    solucion: { d: 3 },
+    controles: ['F'],
+    objetivos: [{ etiqueta: 'CMe mínimo', meta: 30, decimales: 1, medir: (p) => cmeMinimo(p), zona: { eje: 'y' } }],
+    solucion: { F: 200 },
     explicacion:
-      'Un CMg más empinado acerca la cantidad competitiva (p = CMg) a la del monopolio, y el triángulo de pérdida se encoge. Con d = 3 la brecha entre ambas cantidades cae y la PIE baja a 66.1.',
-    pista: 'La PIE se reduce cuando la curva de CMg es más empinada: sube d.',
+      'El CMe = F/y + c + (d/2)·y se minimiza donde cruza al CMg, en y = √(2F/d), y vale c + √(2·F·d). Con F = 200 el break-even es 30: por debajo de ese precio la empresa no cubre sus costos totales.',
+    pista: 'El mínimo del CMe sube con la raíz del costo fijo: aumenta F hasta que c + √(2F) llegue a 30.',
   },
   // Oligopolio (a = 120, b = 1, c₁ = c₂ = 0)
   {
