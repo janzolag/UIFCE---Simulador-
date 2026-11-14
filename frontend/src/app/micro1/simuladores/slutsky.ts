@@ -52,7 +52,7 @@ export function calcular({ familia, metodo, a, b, p1, p2, M, p1n }: P): Simulaci
   const niveles: [number, string, number][] = [[d.U0, 'U inicial', 1], [u.U(C.x, C.y), 'U final', 0.55]];
   for (const [UU, nom, op] of niveles) {
     if (Number.isFinite(UU)) {
-      const [cx, cy0] = curva(u, UU, xs);
+      const [cx, cy0] = curva(u, UU, xs, { x: lx, y: ly });
       const cy = cy0.map((c) => (c === null || c <= ly * 1.3 ? c : null));
       fig.data.push({ type: 'scatter', x: cx, y: cy, mode: 'lines', name: nom, opacity: op, line: { color: DORADO, width: 2 }, hoverinfo: 'skip' });
     }

@@ -525,7 +525,7 @@ describe('Mundell–Fleming en cinco paneles · analítico = gráfica', () => {
       }
     // La gran mayoría de las combinaciones debe dar una gráfica (los avisos son la excepción).
     expect(validos).toBeGreaterThan(avisos * 10);
-  });
+  }, 30000); // barrido pesado: con la suite completa en paralelo supera los 5 s por defecto
 
   it('casos degenerados: s = b = 0 con economía cerrada y deltas no numéricos', async () => {
     const d = await CARGADORES_MACRO2['mundell-fleming']();

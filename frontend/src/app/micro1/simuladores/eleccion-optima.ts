@@ -31,8 +31,15 @@ export function calcular({ familia, a, b, p1, p2, M, problema, k }: P): Simulaci
   }
   const X = M / p1;
   const Y = M / p2;
-  const limX = Math.max(X, r.x) * 1.15 || 1;
-  const limY = Math.max(Y, r.y) * 1.15 || 1;
+  // El dual se resuelve antes de dibujar para que los ejes y todas las curvas usen el mismo recuadro.
+  const sd = problema === 'dual' ? resolverDual(u, r, p1, p2, Number(k)) : null;
+  let limX = Math.max(X, r.x) * 1.15 || 1;
+  let limY = Math.max(Y, r.y) * 1.15 || 1;
+  if (sd && !('error' in sd)) {
+    limX = Math.max(limX, (sd.e / p1) * 1.1, sd.h[0] * 1.15);
+    limY = Math.max(limY, (sd.e / p2) * 1.1, sd.h[1] * 1.15);
+  }
+  const lims = { x: limX, y: limY };
   const fig = figura('Bien x', 'Bien y', SIM_ID, { xaxis: { range: [0, limX] }, yaxis: { range: [0, limY] } });
   fig.data.push({
     type: 'scatter', x: [0, X, 0], y: [0, 0, Y], fill: 'toself', fillcolor: 'rgba(91,155,255,.12)',
@@ -47,7 +54,7 @@ export function calcular({ familia, a, b, p1, p2, M, problema, k }: P): Simulaci
   }
   const U = r.utilidad;
   if (U && Number.isFinite(U) && U > 0) {
-    const [cx, cy0] = curva(u, U, linspace(1e-3, limX, 500));
+    const [cx, cy0] = curva(u, U, linspace(1e-3, limX, 500), lims);
     const cy = cy0.map((c) => (c === null || c <= limY * 1.3 ? c : null));
     fig.data.push({ type: 'scatter', x: cx, y: cy, mode: 'lines', name: 'Curva de indiferencia óptima', line: { width: 3, color: DORADO } });
   }
@@ -61,7 +68,7 @@ export function calcular({ familia, a, b, p1, p2, M, problema, k }: P): Simulaci
   if (r.nota) extra.push(aviso(r.nota));
   if (u instanceof Cuasilineal) extra.push(texto(`Con estos precios, la solución es interior si M ≥ ${fmt(u.ingresoMinimoInterior(p1, p2))}.`));
   const extraPanel: Bloque[] = [];
-  if (problema === 'dual') extraPanel.push(dual(fig, u, r, p1, p2, M, Number(k)));
+  if (sd) extraPanel.push('error' in sd ? aviso(sd.error) : dual(fig, u, sd, p1, p2, M, Number(k), lims));
   else if (problema === 'primal')
     extraPanel.push(
       lectura(
@@ -92,34 +99,38 @@ export function calcular({ familia, a, b, p1, p2, M, problema, k }: P): Simulaci
   return { fig, panel };
 }
 
-/**
- * Problema dual: minimizar el gasto para alcanzar Ū = k·v(p, M). Dibuja la curva Ū, la recta de gasto
- * mínimo e(p, Ū) y la demanda hicksiana h(p, Ū); por dualidad h(p, Ū) = x(p, e(p, Ū)).
- */
-function dual(fig: Figura, u: Utilidad, r: Eleccion, p1: number, p2: number, M: number, k: number): Bloque {
-  if (!Number.isFinite(k) || k <= 0) return aviso('La utilidad objetivo debe ser positiva.');
+interface SolDual {
+  Ubar: number;
+  e: number;
+  h: [number, number];
+}
+
+/** Problema dual: mínimo gasto para alcanzar Ū = k·v(p, M) (o el motivo por el que no se puede plantear). */
+function resolverDual(u: Utilidad, r: Eleccion, p1: number, p2: number, k: number): SolDual | { error: string } {
+  if (!Number.isFinite(k) || k <= 0) return { error: 'La utilidad objetivo debe ser positiva.' };
   const v = r.utilidad;
-  if (!(Number.isFinite(v) && v > 0)) return aviso('Con este ingreso la utilidad del primal es cero: sube M para plantear el dual.');
+  if (!(Number.isFinite(v) && v > 0)) return { error: 'Con este ingreso la utilidad del primal es cero: sube M para plantear el dual.' };
   const Ubar = k * v;
-  let e: number;
-  let h: [number, number];
   try {
-    e = u.gasto(p1, p2, Ubar);
-    h = u.hicks(p1, p2, Ubar);
+    const e = u.gasto(p1, p2, Ubar);
+    const h = u.hicks(p1, p2, Ubar);
+    if (![e, h[0], h[1]].every(Number.isFinite)) return { error: 'El problema dual no tiene solución finita con estos valores.' };
+    return { Ubar, e, h };
   } catch (err) {
-    if (err instanceof ErrorParametro) return aviso(err.message);
+    if (err instanceof ErrorParametro) return { error: err.message };
     throw err;
   }
-  if (![e, h[0], h[1]].every(Number.isFinite)) return aviso('El problema dual no tiene solución finita con estos valores.');
-  const xr = fig.layout.xaxis.range as number[];
-  const yr = fig.layout.yaxis.range as number[];
-  const limX = Math.max(xr[1], (e / p1) * 1.1, h[0] * 1.15);
-  const limY = Math.max(yr[1], (e / p2) * 1.1, h[1] * 1.15);
-  fig.layout.xaxis.range = [0, limX];
-  fig.layout.yaxis.range = [0, limY];
-  const [cx, cy0] = curva(u, Ubar, linspace(1e-3, limX, 500));
+}
+
+/**
+ * Dibuja el dual: la curva Ū, la recta de gasto mínimo e(p, Ū) y la demanda hicksiana h(p, Ū);
+ * por dualidad h(p, Ū) = x(p, e(p, Ū)).
+ */
+function dual(fig: Figura, u: Utilidad, sd: SolDual, p1: number, p2: number, M: number, k: number, lims: { x: number; y: number }): Bloque {
+  const { Ubar, e, h } = sd;
+  const [cx, cy0] = curva(u, Ubar, linspace(1e-3, lims.x, 500), lims);
   fig.data.push({
-    type: 'scatter', x: cx, y: cy0.map((c) => (c === null || c <= limY * 1.3 ? c : null)), mode: 'lines',
+    type: 'scatter', x: cx, y: cy0.map((c) => (c === null || c <= lims.y * 1.3 ? c : null)), mode: 'lines',
     name: `Utilidad objetivo Ū = ${fmt(Ubar, 2)}`, line: { width: 2.5, color: VERDE, dash: 'dash' },
   });
   fig.data.push({

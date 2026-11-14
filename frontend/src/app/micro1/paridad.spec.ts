@@ -39,6 +39,9 @@ const numeros = (v: unknown): (number | null)[] => (Array.isArray(v) ? v.map((e)
 const normalizar = (s: string) => s.replace(/[-−]?\d+(\.\d+)?(e[+-]\d+)?/gi, '#');
 
 // Monopolio y oligopolio pasaron a Micro 3 (simuladores nuevos con otra notación): sus fixtures ya no aplican.
+const REDIBUJADAS = new Set(['Curva de indiferencia óptima', 'U inicial', 'U final']);
+const TOPE_ORIGINAL = 12 - 1e-9;
+
 const vigentes = Object.entries(fixtures as unknown as Record<string, Caso[]>).filter(([id]) => id in CARGADORES_MICRO1);
 
 for (const [simId, casos] of vigentes) {
@@ -62,6 +65,9 @@ for (const [simId, casos] of vigentes) {
           expect(x.length, `n(x) traza ${k} ${t.name}`).toBe(t.n);
           expect(y.length, `n(y) traza ${k} ${t.name}`).toBe(t.ny);
           t.idx.forEach((j, m) => {
+            // Curvas de indiferencia redibujadas hasta el borde de la gráfica: el original las cortaba en
+            // y = 15 (y los brazos de Leontief en 12). Se comparan solo los puntos que el original sí dibujaba.
+            if (REDIBUJADAS.has(t.name ?? '') && (t.y[m] === null || (t.x[m] ?? 0) >= TOPE_ORIGINAL || (t.y[m] ?? 0) >= TOPE_ORIGINAL)) return;
             expect(cerca(x[j], t.x[m]), `x[${j}] traza ${k} ${t.name}: ${x[j]} vs ${t.x[m]}`).toBe(true);
             if (j < y.length) expect(cerca(y[j], t.y[m]), `y[${j}] traza ${k} ${t.name}: ${y[j]} vs ${t.y[m]}`).toBe(true);
           });

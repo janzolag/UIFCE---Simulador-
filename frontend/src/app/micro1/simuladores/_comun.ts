@@ -30,16 +30,22 @@ export function crearUtilidad(familia: string, a: number, b: number): Utilidad {
   }
 }
 
-/** Puntos (x, y) de la curva de indiferencia; maneja la escuadra de Leontief. */
-export function curva(u: Utilidad, U0: number, xs: number[]): [number[], (number | null)[]] {
+/**
+ * Puntos (x, y) de la curva de indiferencia; maneja la escuadra de Leontief. Con `lims` (el recuadro de la
+ * gráfica) la curva llega hasta los bordes del recuadro; sin él usa el recuadro fijo 0–LIM.
+ */
+export function curva(u: Utilidad, U0: number, xs: number[], lims?: { x: number; y: number }): [number[], (number | null)[]] {
+  const bx = lims ? lims.x * 1.2 : LIM * 1.2;
+  const by = lims ? lims.y * 1.2 : LIM * 1.2;
+  const tope = lims ? lims.y * 1.5 : LIM * 1.5;
   if (u instanceof Leontief) {
     const xv = U0 / u.a;
     const yv = U0 / u.b;
-    return [[xv, xv, LIM * 1.2], [LIM * 1.2, yv, yv]];
+    return [[xv, xv, bx], [by, yv, yv]];
   }
   const ys = xs.map((x) => {
     const y = u.curvaIndiferencia(U0, x);
-    return Number.isFinite(y) && y >= 0 && y <= LIM * 1.5 ? y : null;
+    return Number.isFinite(y) && y >= 0 && y <= tope ? y : null;
   });
   return [xs, ys];
 }

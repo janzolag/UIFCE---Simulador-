@@ -51,33 +51,42 @@ export function minCosto(t: Tecnologia, w1: number, w2: number, q0: number): { x
 }
 
 /** Isocuanta de nivel q (maneja la escuadra de Leontief). */
-function isocuantaXY(t: Tecnologia, q: number, xs: number[]): [number[], (number | null)[]] {
-  if (t instanceof LeontiefP) return [[q * t.a, q * t.a, LIM * 1.2], [LIM * 1.2, q * t.b, q * t.b]];
+function isocuantaXY(t: Tecnologia, q: number, xs: number[], lim = LIM): [number[], (number | null)[]] {
+  if (t instanceof LeontiefP) return [[q * t.a, q * t.a, lim * 1.2], [lim * 1.2, q * t.b, q * t.b]];
   return [xs, xs.map((x) => {
     const c = t.isocuanta(q, x);
-    return Number.isFinite(c) && c >= 0 && c <= LIM * 1.5 ? c : null;
+    return Number.isFinite(c) && c >= 0 && c <= lim * 1.5 ? c : null;
   })];
 }
 
-/** Superpone el problema elegido (dual del productor) a la figura base. */
-function problemaProductor(fig: Figura, t: Tecnologia, problema: string, w1: number, w2: number, C0: number, q0: number): Bloque {
-  if (![w1, w2, C0, q0].every((v) => Number.isFinite(v) && v > 0)) return aviso('Precios, presupuesto y producción deben ser positivos.');
-  const xs = linspace(1e-3, LIM, 400);
-  const maxq = problema === 'maxq';
-  let sol: { x: number; y: number; q: number; C: number };
+type SolProductor = { x: number; y: number; q: number; C: number };
+
+/** Resuelve el planteamiento elegido (o devuelve el motivo por el que no se puede). */
+function resolverProductor(t: Tecnologia, problema: string, w1: number, w2: number, C0: number, q0: number): SolProductor | { error: string } {
+  if (![w1, w2, C0, q0].every((v) => Number.isFinite(v) && v > 0)) return { error: 'Precios, presupuesto y producción deben ser positivos.' };
   try {
-    if (maxq) sol = { ...maxProducto(t, w1, w2, C0), C: C0 };
-    else sol = { ...minCosto(t, w1, w2, q0), q: q0 };
+    return problema === 'maxq' ? { ...maxProducto(t, w1, w2, C0), C: C0 } : { ...minCosto(t, w1, w2, q0), q: q0 };
   } catch (e) {
-    if (e instanceof ErrorParametro) return aviso(e.message);
+    if (e instanceof ErrorParametro) return { error: e.message };
     throw e;
   }
+}
+
+/** Recuadro que contiene el óptimo con holgura (nunca menor que el 0–10 original). */
+const recuadroProductor = (sol: SolProductor | { error: string } | null): number =>
+  sol && !('error' in sol) ? Math.min(Math.max(LIM, sol.x * 1.3, sol.y * 1.3), 200) : LIM;
+
+/** Superpone el problema elegido (dual del productor) a la figura base. */
+function problemaProductor(fig: Figura, t: Tecnologia, problema: string, w1: number, w2: number, C0: number, q0: number, sol: SolProductor | { error: string }, lim: number): Bloque {
+  if ('error' in sol) return aviso(sol.error);
+  const xs = linspace(1e-3, lim, 400);
+  const maxq = problema === 'maxq';
   const { x, y, q, C } = sol;
   fig.data.push({
     type: 'scatter', x: [0, C / w1], y: [C / w2, 0], mode: 'lines', name: `Isocosto w₁x + w₂y = ${fmt(C, 2)}`,
     line: { color: ROJO, width: 2.5 },
   });
-  const [cx, cy] = isocuantaXY(t, q, xs);
+  const [cx, cy] = isocuantaXY(t, q, xs, lim);
   fig.data.push({ type: 'scatter', x: cx, y: cy, mode: 'lines', name: `Isocuanta q = ${fmt(q, 2)}`, line: { color: DORADO, width: 3 } });
   punto(fig, x, y, maxq ? 'Máximo producto' : 'Mínimo costo', DORADO, 'diamond', maxq ? 'q*' : 'c*');
   const tmst = t.tmst(x, y);
@@ -120,22 +129,26 @@ export function calcular({ tec, A, alpha, beta, rho, x0, y0, p, w1, w2, problema
     if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
     throw e;
   }
+  // Con un planteamiento activo el recuadro crece hasta contener el óptimo y las curvas llegan a sus bordes.
+  const conProblema = problema === 'maxq' || problema === 'minc';
+  const sol = conProblema ? resolverProductor(t, problema, w1, w2, Number(C0), Number(q0)) : null;
+  const lim = recuadroProductor(sol);
   const fig = figura('Insumo x (p. ej. trabajo)', 'Insumo y (p. ej. capital)', SIM_ID, {
-    xaxis: { range: [0, LIM] }, yaxis: { range: [0, LIM] },
+    xaxis: { range: [0, lim] }, yaxis: { range: [0, lim] },
   });
-  const xs = linspace(1e-3, LIM, 400);
+  const xs = linspace(1e-3, lim, 400);
   [2, 4, 6, 8].forEach((k, i) => {
     const q = t.F(k, k);
     let cx: number[];
     let cy: (number | null)[];
     if (t instanceof LeontiefP) {
-      cx = [q * t.a, q * t.a, LIM * 1.2];
-      cy = [LIM * 1.2, q * t.b, q * t.b];
+      cx = [q * t.a, q * t.a, lim * 1.2];
+      cy = [lim * 1.2, q * t.b, q * t.b];
     } else {
       cx = xs;
       cy = xs.map((x) => {
         const c = t.isocuanta(q, x);
-        return Number.isFinite(c) && c >= 0 && c <= LIM * 1.5 ? c : null;
+        return Number.isFinite(c) && c >= 0 && c <= lim * 1.5 ? c : null;
       });
     }
     fig.data.push({
@@ -178,7 +191,7 @@ export function calcular({ tec, A, alpha, beta, rho, x0, y0, p, w1, w2, problema
     );
   }
   const extra: Bloque[] =
-    problema === 'maxq' || problema === 'minc' ? [problemaProductor(fig, t, problema, w1, w2, Number(C0), Number(q0))] : [];
+    conProblema && sol ? [problemaProductor(fig, t, String(problema), w1, w2, Number(C0), Number(q0), sol, lim)] : [];
   const panel = [
     resultados([
       ...extra,
