@@ -8,6 +8,7 @@
  */
 import { Params } from '../core/tipos';
 import { descomposicion } from '../micro1/modelos/slutsky';
+import { ParamsProduccion, costoCorto, costoMinimo } from '../micro2/simuladores/produccion';
 import { costoMedio, cournotNash, monopolio, stackelbergLider, walras } from '../micro2/modelos/mercados';
 import { utilidadDe } from '../micro2/simuladores/slutsky';
 import { cortoPlazo } from '../macro2/modelos/daoa';
@@ -35,6 +36,11 @@ const cmeMinimo = (p: Params): number => {
   const q = { a: n(p, 'a'), b: n(p, 'b'), c: n(p, 'c'), d: n(p, 'd'), F: n(p, 'F') };
   return costoMedio(q, Math.sqrt((2 * q.F) / q.d));
 };
+const prod = (p: Params): ParamsProduccion => ({
+  modo: String(p['modo']),
+  a: n(p, 'a'), b: n(p, 'b'), w1: n(p, 'w1'), w2: n(p, 'w2'), y: n(p, 'y'),
+  CF: n(p, 'CF'), ac: n(p, 'ac'), bc: n(p, 'bc'), cc: n(p, 'cc'),
+});
 const mono = (p: Params) => monopolio({ a: n(p, 'a'), b: n(p, 'b'), c: n(p, 'c'), d: n(p, 'd'), F: n(p, 'F') });
 const duo = (p: Params) => ({ a: n(p, 'a'), b: n(p, 'b'), c1: n(p, 'c1'), c2: n(p, 'c2') });
 const edge = (p: Params) =>
@@ -86,6 +92,56 @@ const MICRO2: Reto[] = [
     explicacion:
       'El efecto sustitución de Hicks es el movimiento sobre la misma curva de indiferencia: la demanda compensada es x₁ʰ = U*·√(p₂/p₁′). Con p₁′ = 4 cae a 7.07, es decir, 2.93 unidades menos que la cesta inicial.',
     pista: 'El efecto sustitución siempre va en contra del precio: sube p₁′ para hacerlo más negativo.',
+  },
+  // Producción y costos (largo: x₁^0.5·x₂^0.5, w = (4, 1), y = 10; corto: CF = 20, a = 10, b = 2, c = 0.5)
+  {
+    id: 'm2-produccion-1',
+    materia: 'micro2',
+    sim: 'produccion',
+    dificultad: 'Básico',
+    titulo: 'Costo mínimo para y*',
+    enunciado: 'Producir y = 10 cuesta como mínimo c(w, y) = 40 con w₁ = 4 y w₂ = 1. Elige la producción y para que el costo mínimo sea 60.',
+    inicial: { modo: 'largo' },
+    controles: ['y'],
+    objetivos: [{ etiqueta: 'Costo mínimo c(w, y)', meta: 60, decimales: 1, medir: (p) => costoMinimo(prod(p)).costo }],
+    solucion: { y: 15 },
+    explicacion:
+      'Con rendimientos constantes a escala (a + b = 1) el costo mínimo es proporcional a la producción: c(w, y) = 2·√(w₁w₂)·y = 4y. Por eso pasar de 40 a 60 exige y = 15.',
+    pista: 'Con a + b = 1 el costo crece en línea recta con y: sube la producción hasta que 4·y llegue a 60.',
+  },
+  {
+    id: 'm2-produccion-2',
+    materia: 'micro2',
+    sim: 'produccion',
+    dificultad: 'Intermedio',
+    titulo: 'Precio de equilibrio (break-even)',
+    enunciado: 'El precio de equilibrio, mínimo del CMe, es 14.8 con CF = 20. Cambia el costo fijo CF para que sea 20.',
+    inicial: { modo: 'corto' },
+    controles: ['CF'],
+    objetivos: [
+      { etiqueta: 'Mínimo del CMe', meta: 20, decimales: 1, medir: (p) => costoCorto(prod(p)).precio_nivelacion(), zona: { eje: 'y' } },
+    ],
+    solucion: { CF: 40 },
+    explicacion:
+      'El CMe mínimo es donde el CMg lo corta, y un costo fijo mayor eleva el CFMe y desplaza ese mínimo hacia arriba y a la derecha. Con CF = 40 el break-even llega a 19.9, y por debajo de ese precio la empresa pierde dinero.',
+    pista: 'Duplicar el costo fijo sube el break-even: aumenta CF hasta rondar 40.',
+  },
+  {
+    id: 'm2-produccion-3',
+    materia: 'micro2',
+    sim: 'produccion',
+    dificultad: 'Avanzado',
+    titulo: 'Precio de cierre',
+    enunciado: 'El precio de cierre, mínimo del CVMe, es 8. Elige el parámetro b de la función de costo para que baje a 5.5.',
+    inicial: { modo: 'corto' },
+    controles: ['bc'],
+    objetivos: [
+      { etiqueta: 'Precio de cierre (mín CVMe)', meta: 5.5, decimales: 1, medir: (p) => costoCorto(prod(p)).precio_cierre(), zona: { eje: 'y' } },
+    ],
+    solucion: { bc: 3 },
+    explicacion:
+      'El CVMe = a − b·y + c·y² alcanza su mínimo a − b²/(4c) en y = b/(2c), así que un b mayor lo hace más profundo. Con b = 3 el precio de cierre cae a 5.5, porque la empresa soporta precios menores antes de apagar.',
+    pista: 'El mínimo del CVMe baja con el cuadrado de b: sube b hasta 3.',
   },
   // Monopolio simple (a = 100, b = 2, c = 10, d = 1)
   {

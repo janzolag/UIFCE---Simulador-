@@ -9,6 +9,7 @@ import { Params, Teoria } from '../core/tipos';
 import { descomposicion } from '../micro1/modelos/slutsky';
 import { monopolio, tercerGrado, walras } from './modelos/mercados';
 import { SIM as SIM_EDG, parametros as parEdg } from './simuladores/edgeworth';
+import { SIM as SIM_PRO, costoCorto, costoMinimo } from './simuladores/produccion';
 import { SIM as SIM_MON, parametrosMonopolio, parametrosTercer } from './simuladores/monopolio';
 import { SIM as SIM_OLI, parametros as parOli, soluciones } from './simuladores/oligopolio';
 import { CASOS, SIM as SIM_SL, utilidadDe } from './simuladores/slutsky';
@@ -145,10 +146,46 @@ function edgeworthT(): Teoria {
   };
 }
 
+function produccionT(p: Params): Teoria {
+  const corto = p['modo'] === 'corto';
+  const largo = con(SIM_PRO, { modo: 'largo' });
+  const cp = con(SIM_PRO, { modo: 'corto' });
+  const s = costoMinimo(largo);
+  const k = costoCorto(cp);
+  return {
+    titulo: corto ? 'Costos de corto plazo: cierre y equilibrio' : 'Minimización de costos: isocuanta e isocosto',
+    conceptos: [
+      'La empresa minimiza w₁x₁ + w₂x₂ sujeto a f(x₁, x₂) = y: en el óptimo la TMST iguala w₁/w₂ (isocuanta tangente al isocosto).',
+      'El CMg corta al CVMe y al CMe en sus mínimos; esos mínimos son el precio de cierre y el de equilibrio (break-even).',
+      'Con un precio entre ambos la empresa pierde, pero cubre su costo variable y sigue produciendo en el corto plazo.',
+    ],
+    formulas: [
+      String.raw`c(w, y) = \min_{x}\; w_1x_1 + w_2x_2 \;\text{ s.a. }\; f(x) = y`,
+      String.raw`CMg(y) = CMe(y) \;\Rightarrow\; \min CMe`,
+    ],
+    ejemplo: {
+      parametros: corto ? cp : largo,
+      enunciado: corto
+        ? 'C(y) = 20 + 10y − 2y² + 0.5y³. Halla el precio de cierre y el de equilibrio.'
+        : 'Con f = x₁^0.5·x₂^0.5, w₁ = 4, w₂ = 1 y y = 10, halla la mezcla de costo mínimo.',
+      resultado: corto
+        ? `Cierre: ${f(k.precio_cierre(), 3)} (en y = ${f(k.q_min_cvme(), 3)}). Equilibrio: ${f(k.precio_nivelacion(), 3)} (en y = ${f(k.q_min_cme(), 3)}).`
+        : `x₁* = ${f(s.x, 3)}, x₂* = ${f(s.y, 3)}, costo mínimo = ${f(s.costo, 3)}.`,
+      prueba: corto
+        ? 'Mira los dos puntos marcados: el CMg los cruza justo en el mínimo del CVMe y del CMe.'
+        : 'Lee x* donde la isocuanta toca el isocosto; sube w₁ y verás que x₁* baja.',
+    },
+    fuente: '«Minimización de costos», «Funciones de costos» y «Oferta de la empresa». Ejercicio propio con la notación de Varian.',
+    autor: AUTOR_VARIAN,
+  };
+}
+
 export function teoria(sim: string, p: Params): Teoria | null {
   switch (sim) {
     case 'slutsky':
       return slutsky(p);
+    case 'produccion':
+      return produccionT(p);
     case 'monopolio':
       return monopolioT(p);
     case 'oligopolio':

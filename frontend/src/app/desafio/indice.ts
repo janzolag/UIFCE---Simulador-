@@ -5,6 +5,7 @@
  */
 export const MODELOS_CON_RETOS: ReadonlySet<string> = new Set([
   'micro2/slutsky',
+  'micro2/produccion',
   'micro2/monopolio',
   'micro2/oligopolio',
   'micro2/edgeworth',

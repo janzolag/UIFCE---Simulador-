@@ -36,6 +36,7 @@ const VARIANTES: Record<string, Params[]> = {
   slutsky: ['normal', 'inferior', 'giffen'].flatMap((caso) =>
     ['slutsky', 'hicks'].map((metodo) => ({ caso, metodo, ...CASOS[caso] })),
   ),
+  produccion: [{ modo: 'largo' }, { modo: 'corto' }],
   monopolio: [{ modo: 'simple' }, { modo: 'primer' }, { modo: 'tercer' }],
   oligopolio: [{ isobeneficios: 'si' }, { isobeneficios: 'no' }],
   edgeworth: [{}],
@@ -76,7 +77,7 @@ function cruzaEn(a: any, b: any, x: number, y: number): void {
 
 /* ================================================================ catálogo e interfaz */
 describe('catálogo de Micro 2', () => {
-  it('Micro 2 va después de Micro 1 con sus 4 simuladores listos y su teoría', async () => {
+  it('Micro 2 va después de Micro 1 con sus 5 simuladores listos y su teoría', async () => {
     expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'macro1', 'macro2']);
     expect(MICRO2.simuladores.map((s) => s.id)).toEqual(SIMS);
     expect(MICRO2.simuladores.every((s) => s.listo)).toBe(true);

@@ -213,13 +213,19 @@ export const MICRO2: Materia = {
   sigla: 'Mi2',
   color: '#FF7A85',
   descripcion:
-    'Efectos sustitución y renta, monopolio y discriminación de precios, oligopolio y equilibrio general de intercambio (Varian, Microeconomía intermedia).',
+    'Efectos sustitución y renta, producción y costos, monopolio y discriminación de precios, oligopolio y equilibrio general de intercambio (Varian, Microeconomía intermedia).',
   simuladores: [
     listoMicro2(
       'slutsky',
       'Ecuación de Slutsky',
       'Pivote y desplazamiento de la recta presupuestaria: bienes normales, inferiores y Giffen, con demanda ordinaria y compensada.',
       String.raw`$\Delta x_1 = \Delta x_1^{s} + \Delta x_1^{n}$`,
+    ),
+    listoMicro2(
+      'produccion',
+      'Producción y costos',
+      'Minimización de costos (isocuanta tangente al isocosto) y curvas de costo de corto plazo: CMg, CMe, CVMe, precio de cierre y de equilibrio.',
+      String.raw`$TMST = \dfrac{w_1}{w_2} \qquad CMg = CMe \text{ en el mínimo}$`,
     ),
     listoMicro2(
       'monopolio',
