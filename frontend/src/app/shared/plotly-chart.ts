@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, input, viewChild } from '@angular/core';
 import { Figura } from '../core/tipos';
+import { rotularAreas } from './rotulos';
 
 /** Solo se conserva la cámara (descargar imagen); todo lo demás se maneja con rueda, pellizco y doble clic. */
 const CONFIG = {
@@ -105,6 +106,9 @@ export class PlotlyChart implements AfterViewInit, OnDestroy {
         if (this.destruido) return;
         this.Plotly = P;
         const layout = { ...f.layout, autosize: true, height: alto };
+        // Áreas sombreadas sin leyenda (excedentes, pérdida irrecuperable…): se rotulan sobre la gráfica.
+        const rotulos = rotularAreas(f.data, f.layout);
+        if (rotulos.length) layout.annotations = [...(f.layout?.annotations ?? []), ...rotulos];
         if (f.movil && esMovil()) aplicarMovil(layout, f.movil.layout);
         // Móvil: sin arrastre (dragmode false); escritorio: arrastrar desplaza y la rueda hace zoom.
         layout.dragmode = esMovil() ? false : 'pan';

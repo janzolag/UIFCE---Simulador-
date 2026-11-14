@@ -142,7 +142,7 @@ export function equilibrioP(
   nombre: string,
   etiqueta: string,
   color: string,
-  op: { decX?: number; decY?: number; simbolo?: string; lecturas?: boolean } = {},
+  op: { decX?: number; decY?: number; simbolo?: string; lecturas?: boolean; posicion?: string } = {},
 ): void {
   const [x0] = p.rangoX;
   const [y0] = p.rangoY;
@@ -166,7 +166,7 @@ export function equilibrioP(
     mode: 'markers+text',
     name: nombre,
     text: [etiqueta],
-    textposition: 'top left',
+    textposition: op.posicion ?? 'top left',
     textfont: { color, size: 12 },
     marker: { size: 11, color, symbol: op.simbolo ?? 'circle', line: { width: 2, color: COLORES.fondo } },
     hovertemplate: `${nombre}<br>(%{x:.${op.decX ?? 2}f}, %{y:.${op.decY ?? 2}f})<extra></extra>`,

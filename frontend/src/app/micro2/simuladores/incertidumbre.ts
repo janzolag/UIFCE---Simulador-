@@ -2,7 +2,7 @@ import { Params, Simulacion, SimuladorDef } from '../../core/tipos';
 import { ErrorParametro } from '../../core/errores';
 import { fmt } from '../../core/formato';
 import { linspace } from '../../core/numerico';
-import { AZUL, DORADO, MORADO, ROJO, SUAVE, VERDE, aviso, figuraVacia, lectura, resultados, tabla, texto } from '../../core/tema';
+import { AZUL, COLORES, DORADO, MORADO, ROJO, SUAVE, VERDE, aviso, figuraVacia, lectura, resultados, tabla, texto } from '../../core/tema';
 import { Panel, curvaP, equilibrioP, figuraPaneles, flecha } from '../../macro2/simuladores/_paneles';
 import { muestras, refVarian } from './_comun';
 
@@ -101,12 +101,23 @@ function vistaRiesgo(p: P): Simulacion {
   const fig = figuraPaneles(SIM_ID + '-riesgo', [G], 560);
   const ws = linspace(0, wmax, 200);
   curvaP(fig, G, ws, muestras(ws, (w) => utilidad(p.r, w), umax), 'Función de utilidad u(w)', AZUL, 'final', 'u(w)');
-  curvaP(fig, G, [p.w1, p.w2], [utilidad(p.r, p.w1), utilidad(p.r, p.w2)], 'Cuerda: utilidad esperada de la lotería', SUAVE, 'intermedio', 'UE');
+  curvaP(fig, G, [p.w1, p.w2], [utilidad(p.r, p.w1), utilidad(p.r, p.w2)], 'Cuerda: utilidad esperada de la lotería', SUAVE, 'intermedio');
   equilibrioP(fig, G, p.w1, utilidad(p.r, p.w1), 'Resultado malo w₁', 'w₁', SUAVE, { lecturas: false });
   equilibrioP(fig, G, p.w2, utilidad(p.r, p.w2), 'Resultado bueno w₂', 'w₂', SUAVE, { lecturas: false });
-  equilibrioP(fig, G, r.VE, r.UE, 'Lotería: (valor esperado, utilidad esperada)', 'VE', MORADO, { simbolo: 'diamond' });
-  equilibrioP(fig, G, r.EC, r.UE, 'Equivalente cierto', 'EC', DORADO, { simbolo: 'square' });
+  // VE y EC comparten la altura UE: VE se rotula arriba a la derecha, EC arriba a la izquierda y la prima debajo para que no
+  // se monten, y la lectura del eje vertical (UE) se muestra una sola vez.
+  equilibrioP(fig, G, r.VE, r.UE, 'Lotería: (valor esperado, utilidad esperada)', 'VE', MORADO, { simbolo: 'diamond', posicion: 'top right' });
+  equilibrioP(fig, G, r.EC, r.UE, 'Equivalente cierto', 'EC', DORADO, { simbolo: 'square', lecturas: false, posicion: 'top left' });
+  fig.layout.annotations.push({
+    x: r.EC, y: 0, xref: 'x', yref: 'y domain', yanchor: 'bottom', text: fmt(r.EC, 2), showarrow: false,
+    font: { size: 10, color: DORADO }, bgcolor: COLORES.panel, xshift: r.EC < r.VE ? -14 : 14,
+  });
   flecha(fig, G, [r.VE, r.UE], [r.EC, r.UE], ROJO);
+  if (Math.abs(r.prima) > 1e-9)
+    fig.layout.annotations.push({
+      x: (r.VE + r.EC) / 2, y: r.UE, xref: 'x', yref: 'y', text: `prima de riesgo = ${fmt(r.prima, 2)}`, showarrow: false, yshift: -18,
+      font: { size: 11, color: ROJO }, bgcolor: 'rgba(18, 22, 29, 0.72)',
+    });
   const panel = [
     resultados([
       lectura(
