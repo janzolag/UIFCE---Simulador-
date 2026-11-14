@@ -212,7 +212,7 @@ export const MICRO2: Materia = {
   sigla: 'Mi2',
   color: '#FF7A85',
   descripcion:
-    'Equilibrio general y bienestar: dualidad del consumidor y del productor, intercambio y producción en una economía 2×2, elección social y fallas de mercado (Varian; Monsalve, 2017; Sen).',
+    'Equilibrio general y bienestar: dualidad del consumidor y del productor, incertidumbre, intercambio y producción en una economía 2×2, elección social y fallas de mercado (Varian; Monsalve, 2017; Sen).',
   simuladores: [
     ...pilar('Fundamentos de consumidor y productor', [
       listoMicro2(
@@ -220,6 +220,12 @@ export const MICRO2: Materia = {
         'Ecuación de Slutsky y dualidad del consumidor',
         'Pivote y desplazamiento de la recta presupuestaria (Slutsky y Hicks) y efecto dotación en la oferta de trabajo.',
         String.raw`$\Delta x_1 = \Delta x_1^{s} + \Delta x_1^{n}$`,
+      ),
+      listoMicro2(
+        'incertidumbre',
+        'Elección bajo incertidumbre',
+        'Utilidad esperada de von Neumann-Morgenstern: equivalente cierto, prima de riesgo y demanda de seguros.',
+        String.raw`$UE = \pi\,u(w_1) + (1-\pi)\,u(w_2)$`,
       ),
       listoMicro2(
         'produccion',

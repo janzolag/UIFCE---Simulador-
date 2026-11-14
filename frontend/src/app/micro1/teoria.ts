@@ -233,7 +233,7 @@ function eleccionDual(): Teoria {
       'Primal y dual se encuentran en la misma tangencia: h(p, v(p, M)) = x(p, M) y e(p, v(p, M)) = M.',
       'La hicksiana mantiene la utilidad constante; la marshalliana mantiene el ingreso constante.',
     ],
-    formulas: ['e(p,ar U)=\min_{x,y}\;p_1x+p_2y\quad	ext{s.a.}\quad U(x,y)\ge ar U', 'h(p,ar U)=xig(p,\,e(p,ar U)ig)'],
+    formulas: [String.raw`e(p,\bar U)=\min_{x,y}\;p_1x+p_2y\quad\text{s.a.}\quad U(x,y)\ge \bar U`, String.raw`h(p,\bar U)=x\big(p,\,e(p,\bar U)\big)`],
     ejemplo: {
       parametros,
       enunciado: 'Con U = xy, p₁ = 3, p₂ = 2 y M = 45, fija Ū igual a la utilidad del primal (k = 1).',
@@ -297,7 +297,7 @@ function slutsky(p: Params): Teoria {
         ? 'Hicks compensa para mantener la utilidad inicial: B está sobre la curva de indiferencia de A.'
         : 'Slutsky compensa para que se pueda comprar la canasta A: la recta compensada pasa por A y el consumidor queda un poco mejor.',
     ],
-    formulas: ['\Delta x=\Delta x^{S}+\Delta x^{I}', '\dfrac{\partial x}{\partial p_1}=\dfrac{\partial h_1}{\partial p_1}-x\,\dfrac{\partial x}{\partial M}'],
+    formulas: [String.raw`\Delta x=\Delta x^{S}+\Delta x^{I}`, String.raw`\dfrac{\partial x}{\partial p_1}=\dfrac{\partial h_1}{\partial p_1}-x\,\dfrac{\partial x}{\partial M}`],
     ejemplo: {
       parametros,
       enunciado: `Con p₁ = ${f(base.p1)} que sube a p₁' = ${f(base.p1n)}, p₂ = ${f(base.p2)} y M = ${f(base.M)}, compensación de ${nombre}${familia === 'cd' ? ' (el ejemplo 1 de la semana 4)' : ''}.`,
@@ -411,8 +411,8 @@ function produccionProblema(problema: string): Teoria {
       'Con Cobb-Douglas el gasto se reparte en proporción α : β entre los dos factores.',
     ],
     formulas: maxq
-      ? ['\max_{x,y}\;F(x,y)\quad	ext{s.a.}\quad w_1x+w_2y=C_0', 'TMST=\dfrac{PMg_x}{PMg_y}=\dfrac{w_1}{w_2}']
-      : ['c(w,q_0)=\min_{x,y}\;w_1x+w_2y\quad	ext{s.a.}\quad F(x,y)=q_0', 'TMST=\dfrac{w_1}{w_2}'],
+      ? [String.raw`\max_{x,y}\;F(x,y)\quad\text{s.a.}\quad w_1x+w_2y=C_0`, String.raw`TMST=\dfrac{PMg_x}{PMg_y}=\dfrac{w_1}{w_2}`]
+      : [String.raw`c(w,q_0)=\min_{x,y}\;w_1x+w_2y\quad\text{s.a.}\quad F(x,y)=q_0`, String.raw`TMST=\dfrac{w_1}{w_2}`],
     ejemplo: {
       parametros,
       enunciado: maxq

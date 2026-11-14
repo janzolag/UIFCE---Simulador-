@@ -9,6 +9,7 @@ import { fmt } from '../core/formato';
 import { Params, Teoria } from '../core/tipos';
 import { descomposicion } from '../micro1/modelos/slutsky';
 import { walras } from './modelos/mercados';
+import { SIM as SIM_INC, loteria, seguro } from './simuladores/incertidumbre';
 import { AUTOR_BIENESTAR, SIM as SIM_BIE, fpu, votacion } from './simuladores/bienestar';
 import { SIM as SIM_EDG, parametros as parEdg } from './simuladores/edgeworth';
 import { SIM as SIM_EGP, equilibrioAutarquia, produccionAPrecio } from './simuladores/equilibrio-produccion';
@@ -34,7 +35,7 @@ function slutskyDotacionT(): Teoria {
       'Un aumento de w produce efecto sustitución (menos ocio), efecto renta ordinario y efecto renta-dotación; los dos últimos van en sentidos opuestos.',
       'Si el efecto dotación domina, la oferta de trabajo se curva hacia atrás.',
     ],
-    formulas: ['C + w\,R = w\,\bar T + \bar m', '\dfrac{\Delta R}{\Delta w} = \dfrac{\Delta R^{s}}{\Delta w} + (\bar T - R)\,\dfrac{\Delta R^{m}}{\Delta m}'],
+    formulas: [String.raw`C + w\,R = w\,\bar T + \bar m`, String.raw`\dfrac{\Delta R}{\Delta w} = \dfrac{\Delta R^{s}}{\Delta w} + (\bar T - R)\,\dfrac{\Delta R^{m}}{\Delta m}`],
     ejemplo: {
       parametros,
       enunciado: 'u = R^0.5·C^0.5, T̄ = 24 h, m̄ = 40 y el salario sube de 10 a 15.',
@@ -121,7 +122,7 @@ function produccionBeneficioT(): Teoria {
       'La empresa competitiva elige x donde p·PMg(x) = w: la recta de isobeneficio más alta toca la función de producción.',
       'La función de beneficio π(p, w) es creciente en p, decreciente en w y convexa. Lema de Hotelling: sus derivadas dan la oferta y la demanda del factor.',
     ],
-    formulas: ['\pi(p, w) = \max_{x}\; p\,f(x) - w\,x', '\dfrac{\partial \pi}{\partial p} = y(p, w), \qquad \dfrac{\partial \pi}{\partial w} = -x(p, w)'],
+    formulas: [String.raw`\pi(p, w) = \max_{x}\; p\,f(x) - w\,x`, String.raw`\dfrac{\partial \pi}{\partial p} = y(p, w), \qquad \dfrac{\partial \pi}{\partial w} = -x(p, w)`],
     ejemplo: {
       parametros,
       enunciado: 'f(x) = x^0.5, p = 20 y w = 5.',
@@ -181,7 +182,7 @@ function equilibrioProduccionT(p: Params): Teoria {
         'Rybczynski: a precios dados, si aumenta la dotación de un factor crece más que proporcionalmente la producción del bien que lo usa intensivamente y cae la del otro.',
         'Stolper-Samuelson: si sube el precio relativo de un bien, el factor que usa intensivamente gana en términos reales de ambos bienes y el otro pierde.',
       ],
-      formulas: ['TMT(y_1, y_2) = \dfrac{p_1}{p_2}', '\hat w > \hat p_1 > \hat p_2 > \hat r \quad (\text{bien 1 intensivo en } L)'],
+      formulas: [String.raw`TMT(y_1, y_2) = \dfrac{p_1}{p_2}`, String.raw`\hat w > \hat p_1 > \hat p_2 > \hat r \quad (\text{bien 1 intensivo en } L)`],
       ejemplo: {
         parametros,
         enunciado: 'L = K = 100, α = 0.7 (bien 1 intensivo en trabajo), β = 0.3 y p₁/p₂ = 1. El trabajo sube a 120; luego p₁/p₂ sube a 1.3.',
@@ -203,7 +204,7 @@ function equilibrioProduccionT(p: Params): Teoria {
       'El óptimo de Pareto con producción exige TMS = TMT: la tasa a la que se desea cambiar los bienes iguala la tasa a la que se pueden transformar.',
       'En el equilibrio competitivo ambas tasas igualan el precio relativo p₁/p₂.',
     ],
-    formulas: ['TMST_1 = TMST_2 = \dfrac{w}{r}', 'TMS = TMT = \dfrac{p_1}{p_2}'],
+    formulas: [String.raw`TMST_1 = TMST_2 = \dfrac{w}{r}`, String.raw`TMS = TMT = \dfrac{p_1}{p_2}`],
     ejemplo: {
       parametros,
       enunciado: 'L = K = 100, y₁ = L₁^0.7·K₁^0.3, y₂ = L₂^0.3·K₂^0.7 y u = y₁^0.5·y₂^0.5.',
@@ -226,7 +227,7 @@ function bienestarT(p: Params): Teoria {
         'Arrow: con tres o más alternativas, ninguna regla cumple a la vez dominio universal, Pareto, independencia de alternativas irrelevantes y transitividad, salvo la dictadura.',
         'La mayoría entre pares puede ciclar (paradoja de Condorcet).',
       ],
-      formulas: ['x \succ_S y \iff \#\{i : x \succ_i y\} > n/2', 'x \succ_S y \succ_S z \succ_S x \;\; \text{(ciclo)}'],
+      formulas: [String.raw`x \succ_S y \iff \#\{i : x \succ_i y\} > n/2`, String.raw`x \succ_S y \succ_S z \succ_S x \;\; \text{(ciclo)}`],
       ejemplo: {
         parametros,
         enunciado: 'Votante 1: x ≻ y ≻ z; votante 2: y ≻ z ≻ x; votante 3: z ≻ x ≻ y. Vota por mayoría cada par.',
@@ -245,7 +246,7 @@ function bienestarT(p: Params): Teoria {
       'La frontera de posibilidades de utilidad (FPU) reúne las utilidades de las asignaciones eficientes: todas son óptimos de Pareto.',
       'Una función de bienestar social elige entre ellas: Bentham suma utilidades, Rawls maximiza la del peor, Nash maximiza el producto.',
     ],
-    formulas: ['W_B = u_A + u_B \qquad W_R = \min\{u_A, u_B\} \qquad W_N = u_A\,u_B', '\left(\dfrac{u_A}{a}\right)^2 + \left(\dfrac{u_B}{b}\right)^2 = W'],
+    formulas: [String.raw`W_B = u_A + u_B \qquad W_R = \min\{u_A, u_B\} \qquad W_N = u_A\,u_B`, String.raw`\left(\dfrac{u_A}{a}\right)^2 + \left(\dfrac{u_B}{b}\right)^2 = W`],
     ejemplo: {
       parametros,
       enunciado: 'W = 100 unidades; u_A = 2·√x_A y u_B = √x_B.',
@@ -269,7 +270,7 @@ function externalidadesT(p: Params): Teoria {
         'Un bien público es no rival y no excluible: todos consumen la misma cantidad G.',
         'Eficiencia (Samuelson): la suma de las TMS entre el bien público y el privado iguala el costo marginal. La provisión privada se queda corta por el polizón.',
       ],
-      formulas: ['\sum_i TMS_i(G^{*}) = CMg(G^{*})', 'TMS_i = a_i - b_i\,G'],
+      formulas: [String.raw`\sum_i TMS_i(G^{*}) = CMg(G^{*})`, String.raw`TMS_i = a_i - b_i\,G`],
       ejemplo: {
         parametros,
         enunciado: 'TMS₁ = 60 − G, TMS₂ = 40 − G y CMg = 40.',
@@ -300,10 +301,55 @@ function externalidadesT(p: Params): Teoria {
   };
 }
 
+function incertidumbreT(p: Params): Teoria {
+  if (p['enfoque'] === 'seguro') {
+    const parametros = con(SIM_INC, { enfoque: 'seguro', r: 0.5, W: 100, L: 50, pl: 0.2, gamma: 0.2 });
+    const s = seguro(0.5, 100, 50, 0.2, 0.2);
+    const caro = seguro(0.5, 100, 50, 0.2, 0.22);
+    return {
+      titulo: 'Incertidumbre: mercado de seguros',
+      conceptos: [
+        'Con consumo contingente, comprar K de cobertura cuesta γK en ambos estados y paga K si hay pérdida: la recta tiene pendiente −(1 − γ)/γ.',
+        'El óptimo iguala la TMS de utilidad esperada, π·u′(c_b)/((1 − π)·u′(c_g)), con el precio relativo γ/(1 − γ).',
+        'Con prima justa (γ = π), quien es averso al riesgo se asegura por completo.',
+      ],
+      formulas: [String.raw`c_b = W - L + (1-\gamma)K, \qquad c_g = W - \gamma K`, String.raw`\dfrac{\pi\,u'(c_b)}{(1-\pi)\,u'(c_g)} = \dfrac{\gamma}{1-\gamma}`],
+      ejemplo: {
+        parametros,
+        enunciado: 'u = √w, W = 100, pérdida L = 50 con probabilidad 0.2 y prima γ = 0.2 por peso asegurado.',
+        resultado: `K* = ${f(s.K)}: c_b = c_g = ${f(s.cg)} (seguro completo). Si γ sube a 0.22, K* baja a ${f(caro.K)}.`,
+        prueba: 'El rombo E queda sobre la recta de certeza; sube γ y verás que E se aleja de ella hacia la dotación ω.',
+      },
+      fuente: '«La incertidumbre»: consumo contingente y demanda de seguros. Ejercicio propio con la notación de Varian.',
+      autor: AUTOR_EG,
+    };
+  }
+  const parametros = con(SIM_INC, { enfoque: 'riesgo', r: 0.5, w1: 25, w2: 100, pi: 0.5 });
+  const l = loteria(0.5, 25, 100, 0.5);
+  return {
+    titulo: 'Incertidumbre: actitudes frente al riesgo',
+    conceptos: [
+      'Con utilidad de von Neumann-Morgenstern, una lotería se valora por su utilidad esperada UE = πu(w₁) + (1 − π)u(w₂).',
+      'Si u es cóncava (aversión al riesgo), u(VE) > UE: el equivalente cierto es menor que el valor esperado y la diferencia es la prima de riesgo.',
+    ],
+    formulas: [String.raw`UE = \pi\,u(w_1) + (1-\pi)\,u(w_2)`, String.raw`u(EC) = UE, \qquad \text{prima} = VE - EC`],
+    ejemplo: {
+      parametros,
+      enunciado: 'u = √w; la lotería da 25 o 100 con probabilidad ½ cada uno.',
+      resultado: `VE = ${f(l.VE)}, UE = ${f(l.UE)}, EC = ${f(l.EC)} y prima de riesgo = ${f(l.prima)}.`,
+      prueba: 'La flecha roja va del punto VE (sobre la cuerda) al EC (sobre la curva): su largo es la prima. Lleva r a 1 y desaparece.',
+    },
+    fuente: '«La incertidumbre»: utilidad esperada y aversión al riesgo; Monsalve (2017). Ejercicio propio.',
+    autor: AUTOR_EG,
+  };
+}
+
 export function teoria(sim: string, p: Params): Teoria | null {
   switch (sim) {
     case 'slutsky':
       return slutsky(p);
+    case 'incertidumbre':
+      return incertidumbreT(p);
     case 'produccion':
       return produccionT(p);
     case 'edgeworth':

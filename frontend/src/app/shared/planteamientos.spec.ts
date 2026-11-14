@@ -7,16 +7,17 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 import { MATERIAS, porPilar } from '../core/catalogo';
 import { CARGADORES, TEORIAS } from '../core/registro';
+import katex from 'katex';
 import { PlanteamientosAcordeon } from './planteamientos';
 
 const casos: [string, string][] = Object.entries(CARGADORES).flatMap(([m, sims]) => Object.keys(sims).map((s) => [m, s] as [string, string]));
 
 describe('pilares del menú', () => {
-  it('Micro 1 tiene 8 simuladores en 3 pilares, Micro 2 6 en 3 y Micro 3 4', () => {
+  it('Micro 1 tiene 8 simuladores en 3 pilares, Micro 2 7 en 3 y Micro 3 4', () => {
     const m = (id: string) => MATERIAS.find((x) => x.id === id)!;
     expect(m('micro1').simuladores).toHaveLength(8);
     expect(porPilar(m('micro1')).map((g) => g.pilar)).toEqual(['Problema del consumidor', 'Problema del productor', 'El mercado']);
-    expect(m('micro2').simuladores).toHaveLength(6);
+    expect(m('micro2').simuladores).toHaveLength(7);
     expect(porPilar(m('micro2'))).toHaveLength(3);
     expect(m('micro3').simuladores).toHaveLength(4);
     for (const id of ['micro1', 'micro2', 'micro3']) expect(m(id).simuladores.every((s) => s.listo), id).toBe(true);
@@ -41,6 +42,12 @@ describe.each(casos)('planteamientos %s/%s', (materia, sim) => {
       const t = teoria(sim, p);
       expect(t, `${sim} · ${o.valor}`).not.toBeNull();
       titulos.add(t!.titulo);
+      for (const fm of t!.formulas) {
+        // LaTeX bien escapado: sin caracteres de control ni comandos sin barra (p. ej. «dfrac» suelto).
+        expect(fm, `${sim} · ${o.valor}`).not.toMatch(/[\u0000-\u001f]/);
+        expect(fm, `${sim} · ${o.valor}`).not.toMatch(/(^|[^\\a-zA-Z])(dfrac|frac|text|quad|qquad|max|min|bar|Delta|partial|gamma|pi)\b/);
+        expect(() => katex.renderToString(fm, { throwOnError: true }), fm).not.toThrow();
+      }
       const r2 = d.calcular({ ...p, ...t!.ejemplo.parametros });
       expect(JSON.stringify(r2.panel).includes('"nivel":"error"'), `ejercicio ${sim} · ${o.valor}`).toBe(false);
     }

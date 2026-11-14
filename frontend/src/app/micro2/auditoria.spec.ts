@@ -17,6 +17,7 @@ import { fpu, votacion } from './simuladores/bienestar';
 import { equilibrioAutarquia, produccionAPrecio } from './simuladores/equilibrio-produccion';
 import { bienPublico, externalidad } from './simuladores/externalidades';
 import { beneficio } from './simuladores/produccion';
+import { loteria, seguro } from './simuladores/incertidumbre';
 import { CARGADORES_MICRO2 } from './registro';
 import { teoria } from './teoria';
 import { CASOS, slutskyDotacion, utilidadDe } from './simuladores/slutsky';
@@ -28,6 +29,7 @@ const VARIANTES: Record<string, Params[]> = {
     ...['normal', 'inferior', 'giffen'].flatMap((caso) => ['slutsky', 'hicks'].map((metodo) => ({ caso, metodo, ...CASOS[caso] }))),
     { enfoque: 'dotacion' },
   ],
+  incertidumbre: [{ enfoque: 'riesgo' }, { enfoque: 'riesgo', r: 1 }, { enfoque: 'riesgo', r: 1.5 }, { enfoque: 'seguro' }, { enfoque: 'seguro', gamma: 0.3 }],
   produccion: [{ enfoque: 'beneficio' }, { enfoque: 'costos', modo: 'largo' }, { enfoque: 'costos', modo: 'corto' }],
   edgeworth: [{ enfoque: 'contrato' }, { enfoque: 'walras' }],
   'equilibrio-produccion': [{ enfoque: 'fpp' }, { enfoque: 'teoremas' }],
@@ -70,9 +72,9 @@ function cruzaEn(a: any, b: any, x: number, y: number): void {
 
 /* ================================================================ catálogo e interfaz */
 describe('catálogo de Micro 2', () => {
-  it('Micro 2 va después de Micro 1 con sus 6 simuladores en 3 pilares y su teoría', async () => {
+  it('Micro 2 va después de Micro 1 con sus 7 simuladores en 3 pilares y su teoría', async () => {
     expect(MATERIAS.map((m) => m.id)).toEqual(['fundamentos', 'micro1', 'micro2', 'micro3', 'macro1', 'macro2']);
-    expect(SIMS).toHaveLength(6);
+    expect(SIMS).toHaveLength(7);
     expect(new Set(MICRO2.simuladores.map((s) => s.pilar)).size).toBe(3);
     expect(MICRO2.simuladores.map((s) => s.id)).toEqual(SIMS);
     expect(MICRO2.simuladores.every((s) => s.listo)).toBe(true);
@@ -302,5 +304,27 @@ describe('Pasada 2 · externalidades y bienes públicos', () => {
     expect(r.G).toBeCloseTo(30, 8);
     expect(r.sumaTMS).toBeCloseTo(40, 6);
     expect(r.Gprivado).toBe(20);
+  });
+});
+
+describe('Pasada 2 · incertidumbre', () => {
+  it('lotería √w con 25 o 100: VE = 62.5, EC = 56.25, prima 6.25; neutral sin prima', () => {
+    const l = loteria(0.5, 25, 100, 0.5);
+    expect(l.VE).toBeCloseTo(62.5, 12);
+    expect(l.EC).toBeCloseTo(56.25, 10);
+    expect(l.prima).toBeCloseTo(6.25, 10);
+    expect(loteria(1, 25, 100, 0.5).prima).toBeCloseTo(0, 12);
+    expect(loteria(1.5, 25, 100, 0.5).prima).toBeLessThan(0);
+  });
+  it('seguro justo ⇒ cobertura completa; prima cara ⇒ cobertura parcial con la condición de tangencia', () => {
+    const s = seguro(0.5, 100, 50, 0.2, 0.2);
+    expect(s.K).toBeCloseTo(50, 3);
+    expect(s.cb).toBeCloseTo(s.cg, 3);
+    const c = seguro(0.5, 100, 50, 0.2, 0.22);
+    expect(c.K).toBeGreaterThan(0);
+    expect(c.K).toBeLessThan(50);
+    const tms = (0.2 * 0.5 * c.cb ** -0.5) / (0.8 * 0.5 * c.cg ** -0.5);
+    expect(tms).toBeCloseTo(0.22 / 0.78, 4);
+    expect(seguro(0.5, 100, 50, 0.2, 0.3).K).toBeCloseTo(0, 9); // prima muy cara: no se asegura
   });
 });
