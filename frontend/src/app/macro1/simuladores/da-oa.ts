@@ -230,7 +230,7 @@ export function calcular(p: P): Simulacion {
       lectura(
         'Lectura',
         ...lecturas,
-        ref('modelo OA–DA («Todos los mercados juntos»): efectos de corto y mediano plazo.'),
+        ref('cap. 9 (modelo IS-LM-PC, presentado aquí en su forma gráfica OA–DA): efectos de corto y medio plazo.'),
       ),
     ]),
   ];

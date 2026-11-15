@@ -1,5 +1,5 @@
 /**
- * Simulador 3 — Demanda y oferta agregadas (Blanchard, modelo OA–DA).
+ * Simulador 3 — Demanda y oferta agregadas (Blanchard, 2017, 7.ª ed., cap. 9: IS-LM-PC en forma OA–DA).
  *   DA: el producto de equilibrio IS–LM (modo «oferta») con saldos reales M/P; baja cuando P sube.
  *   OA de corto plazo: P = Pᵉ·[1 + λ·(Y − Ȳₙ)/Ȳₙ]  (una brecha de producto de 1 % sube P un λ % sobre Pᵉ).
  *   Mediano plazo: Pᵉ = P ⇒ Y = Ȳₙ.

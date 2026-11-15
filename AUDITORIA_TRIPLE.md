@@ -78,7 +78,7 @@ Se distingue lo que viene del libro y lo que es notación estándar. Ningún lib
 | Micro 1 | Monsalve (2017), por semanas | Notación x, y, p₁, p₂, M; Hicks y Slutsky con signos correctos (ES ≤ 0 ante una subida de p₁). |
 | Micro 2 | Varian, *Microeconomía intermedia*, y Monsalve | Notación de Varian (x₁, x₂, p₁, m, Δx₁ˢ, Δx₁ⁿ, TMS). Las fórmulas de la oferta de trabajo con dotación (renta plena m̄ + w·T̄) son las de Varian, cap. «La ecuación de Slutsky». |
 | Micro 3 | Lozano y Salamanca (2024), Monsalve (2025), Varian | Sin libros adjuntos: se citan autor y tema. |
-| Macro 1 | Blanchard | Caps. 3 (mercado de bienes), 4–5 (IS-LM), 19–20 (economía abierta) e IS-LM-PC en la 7.ª ed. (cap. 9). Notación de Blanchard: i, c₀, c₁, b₀, b₁, b₂, Yn. |
+| Macro 1 | Blanchard (2017), *Macroeconomía*, 7.ª ed. (única edición citada) | Caps. 3 (mercado de bienes), 4–5 (IS-LM), 9 (IS-LM-PC, presentado en forma OA-DA) y 19–20 (economía abierta y regímenes cambiarios). Notación de Blanchard: i, c₀, c₁, b₀, b₁, b₂, Yn. |
 | Macro 2 | Krugman y Obstfeld (DD-AA, paridad) y notación estándar (IS-LM con r, DA-OA, Phillips π = πᵉ − β(u − u*) + v, Solow con n + g + δ) | Las fichas ya marcan cuáles modelos **no** están en Krugman y Obstfeld (IS-LM cerrado, DA-OA, Phillips, Solow). La forma de Phillips y de IS-LM lineal corresponde a la notación de Mankiw, *Macroeconomía*. |
 
 - **Corrección 3, Solow (estrella de la regla de oro en el panel B).** La marca «k de la regla de oro» estaba en s·f(k oro), con el s actual (0.3 → 1.0), un punto sin significado económico. En la regla de oro el estado estacionario cumple s_oro·f(k) = (n + g + δ)·k, así que la estrella va sobre la recta de reposición: (11.1111, 1.6667). Es el corte de la curva de inversión con s = α, como en el diagrama de Mankiw.
@@ -142,7 +142,7 @@ Se inyectaron 9 mutaciones, una a la vez, y se corrió toda la suite:
 
 ## Lo que queda por decidir
 
-1. **Edición de Blanchard.** Macro 1 cita los caps. 19–20 (5.ª ed. en español) y el cap. 9 de la 7.ª ed. Conviene fijar una sola edición en todas las fichas, la que use el programa del curso.
+1. **Edición de Blanchard: resuelto.** Por decisión del usuario, Macro 1 cita solo la 7.ª ed. (2017). Se quitó la referencia a «Todos los mercados juntos» (título de la 5.ª ed.) y el DA-OA ahora cita el cap. 9 (IS-LM-PC). Los caps. 3, 4–5 y 19–20 tienen la misma numeración en la 7.ª ed.
 2. **Libros no adjuntos.** Varian, Monsalve (2017 y 2025), Lozano y Salamanca (2024), Krugman y Obstfeld y Blanchard no estaban disponibles. Las citas son de capítulo o tema y la notación se verificó contra la convención conocida de cada autor. Si se suben los PDF, se pueden agregar páginas.
 3. **Leyenda oculta en Micro 2, Micro 3 y Macro 2.** Es una decisión de diseño previa (rótulos sobre las curvas). Con muchas curvas, los rótulos pueden montarse entre sí en móvil. No se cambió para no alterar el estilo.
 4. **Archivos no versionados.** `frontend/src/app/macro2/_tmp/probe.spec.ts` y `propuestas-diseno/` siguen sin versionar, como se pidió. La sonda `_tmp` corre con `ng test` en local, pero no en CI.

@@ -259,7 +259,7 @@ function daoa(): Teoria {
         'Pon λ en 3: el ajuste se acelera y la trayectoria dorada llega a E₂ en menos períodos.',
     },
     fuente:
-      'modelo OA-DA («Todos los mercados juntos»); en la 7.ª ed. el ajuste se estudia con IS-LM-PC (cap. 9).',
+      'cap. 9, «Del corto al medio plazo: el modelo IS-LM-PC» (la 7.ª ed. estudia el ajuste al medio plazo con IS-LM-PC; aquí se presenta en su forma gráfica OA-DA, notación estándar).',
     autor: AUTOR,
   };
 }
