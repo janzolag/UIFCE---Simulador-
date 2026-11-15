@@ -1,4 +1,4 @@
-import { Bloque, Params, Simulacion, SimuladorDef } from '../../core/tipos';
+import { Bloque, Params, Simulacion, SimuladorDef, Figura } from '../../core/tipos';
 import { ErrorParametro } from '../../core/errores';
 import { fmt } from '../../core/formato';
 import { linspace } from '../../core/numerico';
@@ -7,6 +7,7 @@ import {
 } from '../../core/tema';
 import { CostoCubico } from '../modelos/costos';
 import { equilibrioNEmpresasCubicas, nLibreEntrada, ofertaEmpresaCubica } from '../modelos/competencia';
+import { MOVIL_DOBLE } from './_comun';
 
 const SIM_ID = 'competencia-perfecta';
 const DEF = { CF: 20, a: 10, b: 2, c: 0.5, n: 20, Ad: 400, Bd: 10, vista: 'firma' as string };
@@ -40,7 +41,7 @@ export function calcular({ CF, a, b, c, n, Ad, Bd, vista }: P): Simulacion {
   const ytop = Math.max(k.CMe(k.q_min_cme()) * 2.2, p * 1.4);
 
   const data: any[] = [];
-  const fig = { data, layout: {} as any };
+  const fig: Figura = { data, layout: {} as any };
   const curvas: [string, (v: number) => number, string, string][] = [
     ['CMg', k.CMg, ROJO, 'solid'], ['CMe', k.CMe, AZUL, 'solid'], ['CVMe', k.CVMe, VERDE, 'dash'],
   ];
@@ -81,8 +82,8 @@ export function calcular({ CF, a, b, c, n, Ad, Bd, vista }: P): Simulacion {
     xaxis2: { ...layoutBase().xaxis, ...eje('Q (mercado)'), domain: [0.56, 1], anchor: 'y2' },
     yaxis2: { ...layoutBase().yaxis, range: [0, (Ad / Bd) * 1.02], domain: [0, 1], anchor: 'x2' },
     annotations: [
-      { text: 'Una empresa', x: 0.22, y: 1, xref: 'paper', yref: 'paper', xanchor: 'center', yanchor: 'bottom', showarrow: false, font: { size: 16 } },
-      { text: `Mercado (${n} empresas)`, x: 0.78, y: 1, xref: 'paper', yref: 'paper', xanchor: 'center', yanchor: 'bottom', showarrow: false, font: { size: 16 } },
+      { text: 'Una empresa', x: 0.5, y: 1, xref: 'x domain', yref: 'y domain', xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false, font: { size: 16 } },
+      { text: `Mercado (${n} empresas)`, x: 0.5, y: 1, xref: 'x2 domain', yref: 'y2 domain', xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false, font: { size: 16 } },
     ],
   });
 
@@ -154,6 +155,7 @@ export function calcular({ CF, a, b, c, n, Ad, Bd, vista }: P): Simulacion {
       ),
     ]),
   ];
+  fig.movil = structuredClone(MOVIL_DOBLE);
   return { fig, panel };
 }
 

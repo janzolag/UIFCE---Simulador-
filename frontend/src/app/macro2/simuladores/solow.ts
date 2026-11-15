@@ -134,7 +134,9 @@ export function calcular(p: P): Simulacion {
       hovertemplate: `c oro = ${fmt(r1.cOro, 3)}<extra></extra>`,
     });
     equilibrioP(fig, ARR, r1.kOro, r1.yOro, 'Regla de oro: f′(k) = n + g + δ', 'k oro', NARANJA, { simbolo: 'star', decX: 3, decY: 3, lecturas: false });
-    equilibrioP(fig, ABA, r1.kOro, n.s * produccion(n, r1.kOro), 'k de la regla de oro', 'k oro', NARANJA, {
+    // En k oro el estado estacionario exige s_oro·f(k) = (n + g + δ)·k: la estrella va sobre la recta de
+    // reposición (donde la cortaría la curva de inversión con s = α), no sobre s·f(k) con el s actual.
+    equilibrioP(fig, ABA, r1.kOro, reposicion(n) * r1.kOro, 'k de la regla de oro: s_oro·f(k) = (n + g + δ)·k', 'k oro', NARANJA, {
       simbolo: 'star',
       decX: 3,
       decY: 3,

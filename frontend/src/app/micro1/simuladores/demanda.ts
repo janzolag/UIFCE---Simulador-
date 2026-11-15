@@ -1,4 +1,4 @@
-import { Params, Simulacion, SimuladorDef } from '../../core/tipos';
+import { Params, Simulacion, SimuladorDef, Figura } from '../../core/tipos';
 import { ErrorParametro } from '../../core/errores';
 import { fmt } from '../../core/formato';
 import { linspace } from '../../core/numerico';
@@ -7,7 +7,7 @@ import {
 } from '../../core/tema';
 import { Utilidad } from '../modelos/consumidor';
 import { agregacionEngel, clasificarElasticidad, elasticidades, variaciones } from '../modelos/demanda';
-import { FAMILIAS, crearUtilidad } from './_comun';
+import { FAMILIAS, crearUtilidad, MOVIL_DOBLE } from './_comun';
 
 const SIM_ID = 'demanda';
 const DEF = { familia: 'cd', a: 1, b: 1, p2: 2, M: 45, p1: 3, p1n: 4 };
@@ -50,7 +50,7 @@ export function calcular({ familia, a, b, p2, M, p1, p1n }: P): Simulacion {
     throw e;
   }
   const data: any[] = [];
-  const fig = { data, layout: {} as any };
+  const fig: Figura = { data, layout: {} as any };
   const pmax = Math.max(p1, p1n) * 2.2;
   const ps = linspace(Math.max(pmax / 400, 0.05), pmax, 300);
   const xs = ps.map((p) => xDe(u, p, p2, M));
@@ -82,8 +82,8 @@ export function calcular({ familia, a, b, p2, M, p1, p1n }: P): Simulacion {
     xaxis2: { ...base.xaxis, ...eje('Cantidad de x'), domain: [0.56, 1], anchor: 'y2' },
     yaxis2: { ...base.yaxis, ...eje('Ingreso M'), domain: [0, 1], anchor: 'x2' },
     annotations: [
-      { text: 'Curva de demanda de x', x: 0.22, y: 1, xref: 'paper', yref: 'paper', xanchor: 'center', yanchor: 'bottom', showarrow: false, font: { size: 16 } },
-      { text: 'Curva de Engel de x', x: 0.78, y: 1, xref: 'paper', yref: 'paper', xanchor: 'center', yanchor: 'bottom', showarrow: false, font: { size: 16 } },
+      { text: 'Curva de demanda de x', x: 0.5, y: 1, xref: 'x domain', yref: 'y domain', xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false, font: { size: 16 } },
+      { text: 'Curva de Engel de x', x: 0.5, y: 1, xref: 'x2 domain', yref: 'y2 domain', xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false, font: { size: 16 } },
     ],
   });
 
@@ -108,6 +108,7 @@ export function calcular({ familia, a, b, p2, M, p1, p1n }: P): Simulacion {
       ),
     ]),
   ];
+  fig.movil = structuredClone(MOVIL_DOBLE);
   return { fig, panel };
 }
 

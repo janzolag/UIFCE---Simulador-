@@ -143,30 +143,32 @@ export function figuraDoble(
   });
   fig.layout.xaxis2 = ejeSub(ejes[1][0], dom2, 'y2', [...rx2]);
   fig.layout.yaxis2 = ejeSub(ejes[1][1], [0, 1], 'x2', ry2 ? [...ry2] : null);
-  fig.layout.annotations = [
-    {
-      text: titulos[0],
-      x: (dom1[0] + dom1[1]) / 2,
-      y: 1,
-      xref: 'paper',
-      yref: 'paper',
-      xanchor: 'center',
-      yanchor: 'bottom',
-      showarrow: false,
-      font: { size: 15 },
+  // Títulos anclados al dominio de cada panel: siguen a su panel cuando en móvil se apilan.
+  fig.layout.annotations = titulos.map((text, i) => ({
+    text,
+    x: 0.5,
+    y: 1,
+    xref: `x${i ? '2' : ''} domain`,
+    yref: `y${i ? '2' : ''} domain`,
+    xanchor: 'center',
+    yanchor: 'bottom',
+    yshift: 4,
+    showarrow: false,
+    font: { size: 15 },
+  }));
+  // Pantallas angostas: lado a lado no caben (rótulos y títulos de eje se montaban sobre el otro
+  // panel); se apilan, cada uno a todo el ancho.
+  fig.movil = {
+    alto: 980,
+    layout: {
+      xaxis: { domain: [0, 1] },
+      yaxis: { domain: [0.6, 1] },
+      xaxis2: { domain: [0, 1] },
+      yaxis2: { domain: [0, 0.4] },
+      legend: { y: -0.12 },
+      margin: { t: 50, b: 170 },
     },
-    {
-      text: titulos[1],
-      x: (dom2[0] + dom2[1]) / 2,
-      y: 1,
-      xref: 'paper',
-      yref: 'paper',
-      xanchor: 'center',
-      yanchor: 'bottom',
-      showarrow: false,
-      font: { size: 15 },
-    },
-  ];
+  };
   return fig;
 }
 

@@ -42,12 +42,23 @@ const normalizar = (s: string) => s.replace(/[-−]?\d+(\.\d+)?(e[+-]\d+)?/gi, '
 const REDIBUJADAS = new Set(['Curva de indiferencia óptima', 'U inicial', 'U final']);
 const TOPE_ORIGINAL = 12 - 1e-9;
 
+/**
+ * Casos donde el original tenía un defecto que la auditoría triple (2026-11) corrigió a propósito; su
+ * comportamiento nuevo se prueba en auditoria-triple.spec.ts:
+ *  - Slutsky con M = 0: el original dibujaba ejes de rango [0, 0]; ahora es un aviso de error.
+ *  - Costo cúbico con CF = 0 y b = 0: el original daba CMe(0) = ∞ (punto de nivelación sin dibujar y
+ *    eje y infinito); ahora CMe(0) = CVMe(0) = a.
+ */
+const CORREGIDO = (simId: string, p: Record<string, number | string>): boolean =>
+  (simId === 'slutsky' && Number(p['M']) === 0) ||
+  ((simId === 'costos' || simId === 'competencia-perfecta') && Number(p['CF']) === 0 && Number(p['b']) === 0);
+
 const vigentes = Object.entries(fixtures as unknown as Record<string, Caso[]>).filter(([id]) => id in CARGADORES_MICRO1);
 
 for (const [simId, casos] of vigentes) {
   describe(`paridad ${simId}`, () => {
     casos.forEach((caso, i) => {
-      it(`caso ${i}: ${JSON.stringify(caso.params)}`, async () => {
+      it.skipIf(CORREGIDO(simId, caso.params))(`caso ${i}: ${JSON.stringify(caso.params)}`, async () => {
         const def = await CARGADORES_MICRO1[simId]();
         const r = def.calcular(caso.params);
         const esError = caso.trazas.length === 0;

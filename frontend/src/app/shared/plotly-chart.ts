@@ -70,6 +70,62 @@ function aplicarMovil(layout: any, extra: any): void {
   }
 }
 
+/**
+ * Pantallas angostas: los títulos de panel (anotaciones sin flecha ancladas arriba de un panel) son de
+ * una sola línea y en 325 px se salían del lienzo (p. ej. «Caja de Edgeworth (origen de A…»). Aquí se
+ * parten en líneas y, si hace falta, se reduce la letra hasta que quepan en el espacio disponible desde
+ * su anclaje. No cambia colores ni posición; solo actúa cuando el texto estimado no cabe.
+ */
+export function ajustarTitulosAngostos(layout: any, ancho: number): void {
+  const anns: any[] | undefined = layout?.annotations;
+  if (!anns?.length || !(ancho > 0)) return;
+  const m = { l: 80, r: 80, ...(layout.margin ?? {}) };
+  const anchoPapel = Math.max(1, ancho - m.l - m.r);
+  const baseT: number = layout.margin?.t ?? 80;
+  const aPapel = (a: any): number | null => {
+    const ref = String(a.xref ?? 'x');
+    if (ref === 'paper') return a.x;
+    const dom = /^(x\d*) domain$/.exec(ref);
+    if (!dom) return null; // anotaciones en coordenadas de datos (rótulos de curvas): no se tocan
+    const eje = layout[`xaxis${dom[1].slice(1)}`];
+    const [d0, d1] = eje?.domain ?? [0, 1];
+    return d0 + a.x * (d1 - d0);
+  };
+  layout.annotations = anns.map((a) => {
+    if (a?.showarrow !== false || typeof a.text !== 'string' || a.yanchor !== 'bottom') return a;
+    const px = aPapel(a);
+    if (px === null || !Number.isFinite(px)) return a;
+    const pos = m.l + px * anchoPapel;
+    const ancla = a.xanchor ?? 'center';
+    const libre = ancla === 'left' ? ancho - pos - 4 : ancla === 'right' ? pos - 4 : 2 * Math.min(pos, ancho - pos) - 8;
+    const negrita = /^<b>[\s\S]*<\/b>$/.test(a.text);
+    const plano = a.text.replace(/<\/?b>/g, '');
+    if (/<br>/i.test(plano)) return a;
+    let fuente: number = a.font?.size ?? 12;
+    const cabe = (f: number) => Math.max(8, Math.floor(libre / (0.58 * f)));
+    if (plano.length <= cabe(fuente)) return a;
+    fuente = Math.max(10, Math.min(fuente, 11));
+    const max = cabe(fuente);
+    const lineas: string[] = [];
+    for (const palabra of plano.split(' ')) {
+      const ult = lineas.length - 1;
+      if (ult >= 0 && (lineas[ult] + ' ' + palabra).length <= max) lineas[ult] += ' ' + palabra;
+      else lineas.push(palabra);
+    }
+    const texto = lineas.join('<br>');
+    // Título del panel superior: las líneas extra crecen hacia arriba; se agranda el margen para que
+    // no se monten sobre el área de la gráfica.
+    const yref = String(a.yref ?? 'y');
+    const dy = /^(y\d*) domain$/.exec(yref);
+    const tope = yref === 'paper' ? a.y : dy ? (layout[`yaxis${dy[1].slice(1)}`]?.domain ?? [0, 1])[1] : 0;
+    if (lineas.length > 1 && tope >= 0.97) {
+      const extra = Math.ceil((lineas.length - 1) * fuente * 1.3);
+      layout.margin = { ...(layout.margin ?? {}), t: Math.max(layout.margin?.t ?? baseT, baseT + extra) };
+    }
+    return { ...a, text: negrita ? `<b>${texto}</b>` : texto, font: { ...(a.font ?? {}), size: fuente } };
+  });
+}
+
 /** Gráfica Plotly. Carga plotly.js bajo demanda, redibuja con Plotly.react y sigue el tamaño de su contenedor. */
 @Component({
   selector: 'app-plotly-chart',
@@ -110,6 +166,7 @@ export class PlotlyChart implements AfterViewInit, OnDestroy {
         const rotulos = rotularAreas(f.data, f.layout);
         if (rotulos.length) layout.annotations = [...(f.layout?.annotations ?? []), ...rotulos];
         if (f.movil && esMovil()) aplicarMovil(layout, f.movil.layout);
+        if (esMovil()) ajustarTitulosAngostos(layout, el.clientWidth);
         // Móvil: sin arrastre (dragmode false); escritorio: arrastrar desplaza y la rueda hace zoom.
         layout.dragmode = esMovil() ? false : 'pan';
         limitarEjes(layout, f.data);

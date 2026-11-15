@@ -28,6 +28,7 @@ export function calcular({ familia, metodo, a, b, p1, p2, M, p1n }: P): Simulaci
   let u: Utilidad;
   let d;
   try {
+    if (!(M > 0)) throw new ErrorParametro('El ingreso M debe ser positivo: con M = 0 no hay recta presupuestal que descomponer.');
     u = utilidad(familia, a, b);
     d = descomposicion(u, p1, p2, M, p1n, metodo as Metodo);
   } catch (e) {
@@ -112,7 +113,7 @@ export const SIM: SimuladorDef = {
         { id: 'p1', etiqueta: 'p1 inicial', tipo: 'slider', min: 0.5, max: 10, paso: 0.1 },
         { id: 'p1n', etiqueta: "p1 nuevo (p1')", tipo: 'slider', min: 0.5, max: 10, paso: 0.1 },
         { id: 'p2', etiqueta: 'p2', tipo: 'slider', min: 0.5, max: 10, paso: 0.1 },
-        { id: 'M', etiqueta: 'Ingreso (M)', tipo: 'slider', min: 0, max: 100, paso: 0.5 },
+        { id: 'M', etiqueta: 'Ingreso (M)', tipo: 'slider', min: 0.5, max: 100, paso: 0.5 },
       ],
     },
   ],

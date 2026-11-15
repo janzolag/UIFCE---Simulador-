@@ -169,7 +169,8 @@ export class CostoCubico {
   CT = (q: number): number => this.CF + this.CV(q);
   CMg = (q: number): number => this.a - 2 * this.b * q + 3 * this.c * q ** 2;
   CVMe = (q: number): number => this.a - this.b * q + this.c * q ** 2;
-  CMe = (q: number): number => this.CVMe(q) + (q > 0 ? this.CF / q : Number.POSITIVE_INFINITY);
+  // Con CF = 0 el costo medio en q = 0 es el límite CVMe(0) = a (no hay costo fijo que repartir).
+  CMe = (q: number): number => this.CVMe(q) + (q > 0 ? this.CF / q : this.CF === 0 ? 0 : Number.POSITIVE_INFINITY);
 
   q_min_cvme(): number {
     return this.b / (2 * this.c);

@@ -49,3 +49,18 @@ export function curva(u: Utilidad, U0: number, xs: number[], lims?: { x: number;
   });
   return [xs, ys];
 }
+
+/**
+ * Figuras de dos paneles lado a lado (demanda/Engel, empresa/mercado): en pantallas angostas se
+ * apilan a todo el ancho; los títulos van anclados al dominio de cada panel y lo siguen.
+ */
+export const MOVIL_DOBLE = {
+  alto: 900,
+  layout: {
+    xaxis: { domain: [0, 1] },
+    yaxis: { domain: [0.58, 1] },
+    xaxis2: { domain: [0, 1] },
+    yaxis2: { domain: [0, 0.4] },
+    legend: { y: -0.1 },
+  },
+};
