@@ -1,0 +1,708 @@
+<title>Simulador UIFCE modo claro</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Maqueta fiel al simulador actual: barra superior fija, menú lateral desplegable, escenario parámetros + gráfica.
+   Los tokens son los del simulador (styles.scss). Oscuro = valores actuales, sin cambios. Claro = propuesta. */
+:root {
+  --fondo:#0e1116; --fondo-lateral:#0a0d12; --panel:#171b22; --panel-hover:#1e232c; --borde:#262c36;
+  --texto:#eef1f6; --texto-suave:#8b94a5; --acento:#3dd6b5; --sobre-acento:#07142b; --acento-2:#ff7a85;
+  --listo:#3dd6b5; --pendiente:#6c7686;
+  --barra-fondo:rgba(14,17,22,.88); --velo:rgba(0,0,0,.55); --sutil:rgba(255,255,255,.06); --pista:#2b3340;
+  --acento-suave:rgba(61,214,181,.14); --acento-borde:rgba(61,214,181,.35); --dorado:#f5c451;
+  --info-fondo:rgba(91,155,255,.1); --info-borde:rgba(91,155,255,.35);
+  --sombra-flotante:0 24px 80px rgba(0,0,0,.6); --sombra-menu:12px 0 40px rgba(0,0,0,.5);
+  --m-fund:#3DD6B5; --m-micro1:#FFA45B; --m-macro1:#5B9BFF; --m-micro2:#FF7A85;
+  --radio:16px; --alto-barra:56px;
+  --fuente:'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --fondo:#F4F6F9; --fondo-lateral:#FFFFFF; --panel:#FFFFFF; --panel-hover:#EEF2F6; --borde:#DDE2EA;
+  --texto:#141A23; --texto-suave:#5A6577; --acento:#0A7D66; --sobre-acento:#FFFFFF; --acento-2:#C2384A;
+  --listo:#0A7D66; --pendiente:#8A94A6;
+  --barra-fondo:rgba(255,255,255,.86); --velo:rgba(20,26,35,.32); --sutil:rgba(20,26,35,.05); --pista:#D5DBE4;
+  --acento-suave:rgba(10,125,102,.10); --acento-borde:rgba(10,125,102,.35); --dorado:#8F6200;
+  --info-fondo:rgba(37,99,217,.07); --info-borde:rgba(37,99,217,.30);
+  --sombra-flotante:0 18px 50px rgba(20,26,35,.16); --sombra-menu:12px 0 40px rgba(20,26,35,.12);
+  --m-fund:#0A7D66; --m-micro1:#B35A0E; --m-macro1:#2557C7; --m-micro2:#C2384A;
+  color-scheme: light;
+} }
+:root[data-theme="light"] {
+  --fondo:#F4F6F9; --fondo-lateral:#FFFFFF; --panel:#FFFFFF; --panel-hover:#EEF2F6; --borde:#DDE2EA;
+  --texto:#141A23; --texto-suave:#5A6577; --acento:#0A7D66; --sobre-acento:#FFFFFF; --acento-2:#C2384A;
+  --listo:#0A7D66; --pendiente:#8A94A6;
+  --barra-fondo:rgba(255,255,255,.86); --velo:rgba(20,26,35,.32); --sutil:rgba(20,26,35,.05); --pista:#D5DBE4;
+  --acento-suave:rgba(10,125,102,.10); --acento-borde:rgba(10,125,102,.35); --dorado:#8F6200;
+  --info-fondo:rgba(37,99,217,.07); --info-borde:rgba(37,99,217,.30);
+  --sombra-flotante:0 18px 50px rgba(20,26,35,.16); --sombra-menu:12px 0 40px rgba(20,26,35,.12);
+  --m-fund:#0A7D66; --m-micro1:#B35A0E; --m-macro1:#2557C7; --m-micro2:#C2384A;
+  color-scheme: light;
+}
+/* Preferencia elegida dentro del simulador (gana sobre el sistema) */
+:root[data-tema="oscuro"] {
+  --fondo:#0e1116; --fondo-lateral:#0a0d12; --panel:#171b22; --panel-hover:#1e232c; --borde:#262c36;
+  --texto:#eef1f6; --texto-suave:#8b94a5; --acento:#3dd6b5; --sobre-acento:#07142b; --acento-2:#ff7a85;
+  --listo:#3dd6b5; --pendiente:#6c7686;
+  --barra-fondo:rgba(14,17,22,.88); --velo:rgba(0,0,0,.55); --sutil:rgba(255,255,255,.06); --pista:#2b3340;
+  --acento-suave:rgba(61,214,181,.14); --acento-borde:rgba(61,214,181,.35); --dorado:#f5c451;
+  --info-fondo:rgba(91,155,255,.1); --info-borde:rgba(91,155,255,.35);
+  --sombra-flotante:0 24px 80px rgba(0,0,0,.6); --sombra-menu:12px 0 40px rgba(0,0,0,.5);
+  --m-fund:#3DD6B5; --m-micro1:#FFA45B; --m-macro1:#5B9BFF; --m-micro2:#FF7A85;
+  color-scheme: dark;
+}
+:root[data-tema="claro"] {
+  --fondo:#F4F6F9; --fondo-lateral:#FFFFFF; --panel:#FFFFFF; --panel-hover:#EEF2F6; --borde:#DDE2EA;
+  --texto:#141A23; --texto-suave:#5A6577; --acento:#0A7D66; --sobre-acento:#FFFFFF; --acento-2:#C2384A;
+  --listo:#0A7D66; --pendiente:#8A94A6;
+  --barra-fondo:rgba(255,255,255,.86); --velo:rgba(20,26,35,.32); --sutil:rgba(20,26,35,.05); --pista:#D5DBE4;
+  --acento-suave:rgba(10,125,102,.10); --acento-borde:rgba(10,125,102,.35); --dorado:#8F6200;
+  --info-fondo:rgba(37,99,217,.07); --info-borde:rgba(37,99,217,.30);
+  --sombra-flotante:0 18px 50px rgba(20,26,35,.16); --sombra-menu:12px 0 40px rgba(20,26,35,.12);
+  --m-fund:#0A7D66; --m-micro1:#B35A0E; --m-macro1:#2557C7; --m-micro2:#C2384A;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body { margin:0; background:var(--fondo); color:var(--texto); font-family:var(--fuente); font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; transition: background .2s, color .2s; }
+body::before { content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:31; background:var(--fondo); }
+a { color:inherit; text-decoration:none; }
+h1,h2,h3 { margin:0 0 .4em; line-height:1.2; font-weight:650; text-wrap:balance; }
+p { margin:0 0 .6em; }
+button { font:inherit; }
+:focus-visible { outline:2px solid var(--acento); outline-offset:2px; }
+.texto-suave { color:var(--texto-suave); }
+.panel { background:var(--panel); border:1px solid var(--borde); border-radius:var(--radio); padding:18px; }
+
+/* ---------- Aviso de maqueta ---------- */
+.aviso-maqueta { display:flex; gap:10px 16px; align-items:center; flex-wrap:wrap; font-size:.84rem;
+  padding-block:8px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px));
+  background:var(--acento-suave); border-bottom:1px solid var(--acento-borde); }
+.aviso-maqueta strong { color:var(--acento); }
+.aviso-maqueta nav { display:flex; gap:6px; margin-left:auto; flex-wrap:wrap; }
+.aviso-maqueta nav a { padding:3px 10px; border-radius:999px; border:1px solid var(--borde); background:var(--panel); }
+.aviso-maqueta nav a[aria-current="page"] { border-color:var(--acento); color:var(--acento); font-weight:600; }
+
+/* ---------- Barra superior ---------- */
+.barra { position:sticky; top:env(safe-area-inset-top,0px); z-index:30; height:var(--alto-barra); display:flex; align-items:center; gap:12px;
+  padding-left:max(20px, env(safe-area-inset-left,0px)); padding-right:max(20px, env(safe-area-inset-right,0px));
+  background:var(--barra-fondo); backdrop-filter:blur(10px); border-bottom:1px solid var(--borde); }
+.boton-icono { flex:none; width:40px; height:40px; display:grid; place-items:center; background:transparent; color:var(--texto);
+  border:1px solid var(--borde); border-radius:12px; cursor:pointer; transition:background .15s, border-color .15s; }
+.boton-icono:hover { background:var(--panel-hover); border-color:var(--acento); }
+.boton-icono svg { width:20px; height:20px; }
+.boton-icono.redondo { border-radius:999px; width:36px; height:36px; }
+.boton-icono[aria-expanded="true"] { border-color:var(--acento); background:var(--panel-hover); }
+.boton-icono[aria-expanded="true"] svg { transform:rotate(60deg); }
+.boton-icono svg { transition:transform .3s; }
+.hamburguesa { display:grid; gap:4px; width:18px; }
+.hamburguesa i { display:block; height:2px; border-radius:2px; background:currentColor; }
+.marca { display:flex; align-items:center; gap:10px; font-weight:700; }
+.logo { width:32px; height:32px; border-radius:9px; display:grid; place-items:center; flex:none; font-size:.85rem; font-weight:800;
+  color:#07142b; background:linear-gradient(135deg,#5b9bff,#3dd6b5); }
+.ubicacion { margin-left:auto; min-width:0; display:flex; align-items:center; gap:8px; font-size:.88rem; color:var(--texto-suave); }
+.ubicacion .sim { color:var(--texto); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.boton-desafio-barra { flex:none; display:inline-flex; align-items:center; gap:8px; height:36px; padding:0 14px; font-size:.85rem; font-weight:600;
+  white-space:nowrap; color:var(--sobre-acento); background:var(--acento); border:1px solid var(--acento); border-radius:999px; }
+.boton-tutorial { flex:none; display:inline-flex; align-items:center; gap:8px; height:36px; padding:0 14px 0 6px; font-size:.85rem; color:var(--texto);
+  cursor:pointer; background:transparent; border:1px solid var(--borde); border-radius:999px; }
+.boton-tutorial:hover { background:var(--panel-hover); border-color:var(--acento); }
+.interrogacion { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; font-weight:800; font-size:.85rem;
+  color:var(--sobre-acento); background:var(--acento); }
+.nuevo { position:relative; }
+.nuevo::after { content:""; position:absolute; top:-3px; right:-3px; width:9px; height:9px; border-radius:50%; background:var(--acento-2); border:2px solid var(--fondo); }
+
+/* ---------- Panel de configuración ---------- */
+.config { position:fixed; z-index:60; top:calc(var(--alto-barra) + 8px + env(safe-area-inset-top,0px)); right:max(16px, env(safe-area-inset-right,0px));
+  width:320px; background:var(--panel); border:1px solid var(--borde); border-radius:18px; box-shadow:var(--sombra-flotante);
+  padding:6px; animation:aparecer .16s ease-out both; }
+@keyframes aparecer { from { opacity:0; transform:translateY(-6px) scale(.98); } to { opacity:1; transform:none; } }
+.config-cabeza { display:flex; align-items:center; justify-content:space-between; padding:10px 12px 6px; }
+.config-cabeza h2 { margin:0; font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color:var(--texto-suave); font-weight:600; }
+.config-seccion { padding:8px 12px 12px; }
+.config-seccion + .config-seccion { border-top:1px solid var(--borde); }
+.config-rotulo { font-size:.9rem; font-weight:600; margin-bottom:8px; }
+.segmentado { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; padding:4px; border-radius:12px; background:var(--sutil); border:1px solid var(--borde); }
+.segmentado button { display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 4px; border-radius:9px; border:1px solid transparent;
+  background:transparent; color:var(--texto-suave); font-size:.8rem; cursor:pointer; }
+.segmentado button svg { width:20px; height:20px; }
+.segmentado button:hover { color:var(--texto); }
+.segmentado button[aria-checked="true"] { background:var(--panel); color:var(--texto); border-color:var(--acento); font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.segmentado button[aria-checked="true"] svg { color:var(--acento); }
+.config-nota { font-size:.78rem; color:var(--texto-suave); margin:8px 2px 0; }
+.config-fila { display:flex; align-items:center; gap:12px; width:100%; padding:10px; border-radius:12px; background:transparent; border:1px solid transparent;
+  color:var(--texto); text-align:left; cursor:pointer; }
+.config-fila:hover { background:var(--panel-hover); }
+.config-fila .ico { width:34px; height:34px; border-radius:10px; display:grid; place-items:center; flex:none; background:var(--acento-suave); color:var(--acento); }
+.config-fila .ico svg { width:18px; height:18px; }
+.config-fila .txt { flex:1; min-width:0; }
+.config-fila .txt b { display:block; font-weight:600; font-size:.92rem; }
+.config-fila .txt span { font-size:.78rem; color:var(--texto-suave); }
+.config-fila .flecha { color:var(--texto-suave); font-size:1.2rem; }
+.config-pie { padding:8px 12px 10px; font-size:.74rem; color:var(--texto-suave); border-top:1px solid var(--borde); display:flex; justify-content:space-between; gap:8px; }
+.velo-config { position:fixed; inset:0; z-index:55; background:transparent; }
+
+/* ---------- Menú lateral ---------- */
+.velo { position:fixed; inset:0; z-index:40; background:var(--velo); opacity:0; pointer-events:none; transition:opacity .22s; }
+.velo.visible { opacity:1; pointer-events:auto; }
+.menu { position:fixed; top:0; bottom:0; left:0; z-index:50; width:min(320px,88vw); display:flex; flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); padding-left:env(safe-area-inset-left,0px);
+  background:var(--fondo-lateral); border-right:1px solid var(--borde); box-shadow:var(--sombra-menu);
+  transform:translateX(-102%); visibility:hidden; transition:transform .26s cubic-bezier(.2,.8,.2,1), visibility 0s linear .26s; }
+.menu.abierto { transform:none; visibility:visible; transition-delay:0s; }
+.menu-cabeza { display:flex; align-items:center; justify-content:space-between; height:var(--alto-barra); padding:0 16px 0 20px; border-bottom:1px solid var(--borde); }
+.menu-titulo { font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color:var(--texto-suave); font-weight:600; }
+.menu-nav { flex:1; overflow-y:auto; padding:14px 12px; display:flex; flex-direction:column; gap:4px; }
+.fila { display:flex; align-items:center; gap:12px; padding:10px; border-radius:12px; border:1px solid transparent; }
+.fila:hover { background:var(--panel); }
+.fila.activo { background:var(--panel); border-color:var(--borde); box-shadow:inset 3px 0 0 var(--cm); }
+.icono-m { width:34px; height:34px; border-radius:10px; flex:none; display:grid; place-items:center; font-weight:700; font-size:.85rem;
+  background:color-mix(in srgb, var(--cm) 18%, transparent); color:var(--cm); }
+.fila .texto { flex:1; font-weight:550; font-size:.95rem; }
+.contador { font-size:.72rem; color:var(--texto-suave); background:var(--sutil); padding:2px 8px; border-radius:20px; }
+.submenu { display:flex; flex-direction:column; gap:1px; margin:4px 0 10px 28px; padding-left:12px; border-left:1px solid var(--borde); }
+.sub { display:flex; align-items:center; gap:9px; padding:8px; border-radius:8px; font-size:.88rem; color:var(--texto-suave); }
+.sub.activo { background:var(--panel); color:var(--texto); font-weight:600; }
+.sub.ver-todos { color:var(--cm); font-size:.8rem; font-weight:600; }
+.punto { width:7px; height:7px; border-radius:50%; background:var(--listo); flex:none; }
+.sub.pendiente .punto { background:transparent; border:1.5px solid var(--pendiente); }
+.menu-pie { font-size:.75rem; padding:12px 20px 14px; border-top:1px solid var(--borde); display:flex; align-items:flex-end; justify-content:space-between; gap:10px; }
+.enlace-acerca { color:var(--acento); font-weight:600; white-space:nowrap; cursor:pointer; background:none; border:0; padding:0; font-size:.78rem; }
+.enlace-acerca:hover { text-decoration:underline; }
+
+/* ---------- Contenido ---------- */
+.contenido { max-width:1480px; margin:0 auto; padding-block:28px 40px; padding-left:max(28px, env(safe-area-inset-left,0px)); padding-right:max(28px, env(safe-area-inset-right,0px)); }
+.vista { display:none; } .vista.on { display:block; }
+.encabezado { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:18px; }
+.encabezado h1 { margin:0 0 2px; font-size:1.9rem; letter-spacing:-.02em; }
+.encabezado p { margin:0; }
+.ecuacion-cabeza { font-size:1.2rem; color:var(--acento); font-family:'Cambria Math','Times New Roman',serif; font-style:italic; }
+.herramientas { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.grupo-botones { display:flex; gap:8px; flex-wrap:wrap; }
+.boton-panel { display:inline-flex; align-items:center; gap:8px; font-size:.88rem; cursor:pointer; color:var(--texto); background:var(--panel);
+  border:1px solid var(--borde); border-radius:999px; padding:8px 16px; }
+.boton-panel:hover { background:var(--panel-hover); border-color:var(--acento); }
+.boton-panel svg { width:16px; height:16px; }
+.cambio { position:relative; }
+.cambio::after { content:"ícono nuevo"; position:absolute; top:-9px; right:-6px; font-size:.62rem; padding:1px 6px; border-radius:999px;
+  background:var(--acento-2); color:#fff; font-weight:700; letter-spacing:.02em; }
+.enlace-materia { font-size:.85rem; color:var(--texto-suave); }
+.escenario { display:grid; grid-template-columns:310px minmax(0,1fr); gap:16px; margin-bottom:16px; align-items:start; }
+.panel-controles h3 { margin:0 0 14px; font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color:var(--texto-suave); }
+.control { margin-bottom:22px; }
+.control-etiqueta { display:flex; justify-content:space-between; align-items:baseline; font-size:.85rem; color:var(--texto-suave); margin-bottom:8px; }
+.valor { color:var(--acento); font-variant-numeric:tabular-nums; font-weight:600; }
+.grupo-titulo { font-size:.8rem; font-weight:600; color:var(--acento); margin:4px 0 10px; padding-top:12px; border-top:1px solid var(--borde); }
+input[type=range] { -webkit-appearance:none; appearance:none; display:block; width:100%; height:28px; margin:0; background:transparent; cursor:grab;
+  --pista-r:linear-gradient(to right, var(--acento) 0 var(--p,50%), var(--pista) var(--p,50%) 100%); }
+input[type=range]::-webkit-slider-runnable-track { height:6px; border-radius:6px; background:var(--pista-r); }
+input[type=range]::-moz-range-track { height:6px; border-radius:6px; background:var(--pista); }
+input[type=range]::-moz-range-progress { height:6px; border-radius:6px; background:var(--acento); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; margin-top:-7px; border-radius:50%; background:#fff;
+  border:3px solid var(--acento); box-shadow:0 1px 4px rgba(0,0,0,.35); }
+input[type=range]::-moz-range-thumb { width:14px; height:14px; border-radius:50%; background:#fff; border:3px solid var(--acento); }
+.selector { display:flex; flex-wrap:wrap; gap:6px; }
+.opcion { cursor:pointer; border:1px solid var(--borde); border-radius:20px; padding:5px 12px; font-size:.82rem; color:var(--texto-suave); background:var(--sutil); }
+.opcion.sel { border-color:var(--acento); color:var(--texto); background:var(--acento-suave); }
+.panel-grafica { padding:10px; min-width:0; }
+#grafica { width:100%; height:480px; }
+.grafica-falla { height:480px; display:grid; place-items:center; color:var(--texto-suave); text-align:center; padding:20px; }
+.rejilla-resultados { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; }
+.rejilla-resultados h3 { font-size:.95rem; margin-bottom:10px; }
+table.res { width:100%; border-collapse:collapse; font-size:.88rem; }
+table.res td { padding:5px 6px; border-bottom:1px solid var(--borde); color:var(--texto-suave); }
+table.res td.num { text-align:right; color:var(--texto); font-variant-numeric:tabular-nums; }
+.aviso { border-radius:10px; padding:9px 12px; font-size:.88rem; background:var(--info-fondo); border:1px solid var(--info-borde); }
+.referencia { font-size:.8rem; color:var(--texto-suave); font-style:italic; margin-top:8px; }
+.referencia span { font-style:normal; color:var(--acento); }
+
+/* ---------- Acerca de ---------- */
+.acerca { max-width:980px; margin:0 auto; }
+.acerca-heroe { display:grid; grid-template-columns:auto minmax(0,1fr); gap:20px; align-items:center; margin-bottom:28px; }
+.acerca-heroe .logo { width:64px; height:64px; border-radius:18px; font-size:1.4rem; }
+.sobretitulo { font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; color:var(--acento); margin-bottom:6px; font-weight:600; }
+.acerca-heroe h1 { font-size:2.2rem; letter-spacing:-.02em; margin:0 0 4px; }
+.chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+.chip { font-size:.76rem; padding:3px 10px; border-radius:999px; border:1px solid var(--borde); background:var(--sutil); color:var(--texto-suave); }
+.chip.beta { color:var(--acento); border-color:var(--acento-borde); background:var(--acento-suave); font-weight:600; }
+.acerca-rejilla { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); gap:16px; margin-bottom:16px; }
+.autor { display:grid; grid-template-columns:auto minmax(0,1fr); gap:18px; align-items:start; }
+.avatar { width:88px; height:88px; object-fit:cover; border:1px solid var(--borde); border-radius:22px; display:grid; place-items:center; font-weight:800; font-size:1.7rem; color:#07142b;
+  background:linear-gradient(135deg,#5b9bff,#3dd6b5); }
+.rol-rotulo { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--texto-suave); font-weight:600; margin-bottom:4px; }
+.autor h2 { font-size:1.35rem; margin:0 0 2px; }
+.autor .cargo { color:var(--texto-suave); font-size:.92rem; margin-bottom:12px; }
+.enlaces { display:flex; gap:8px; flex-wrap:wrap; }
+.enlace-boton { display:inline-flex; align-items:center; gap:8px; font-size:.86rem; padding:7px 14px; border-radius:999px; border:1px solid var(--borde);
+  background:var(--panel); color:var(--texto); }
+.enlace-boton:hover { border-color:var(--acento); background:var(--panel-hover); }
+.enlace-boton.primario { background:var(--acento); color:var(--sobre-acento); border-color:var(--acento); font-weight:600; }
+.enlace-boton svg { width:16px; height:16px; }
+.panel h3.seccion { font-size:.78rem; text-transform:uppercase; letter-spacing:.12em; color:var(--texto-suave); margin:0 0 12px; font-weight:600; }
+.datos { display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px 16px; margin:0; font-size:.9rem; }
+.datos dt { color:var(--texto-suave); }
+.datos dd { margin:0; }
+.pendiente-dato { color:var(--acento-2); font-style:italic; }
+.gracias { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:12px; }
+.persona { display:flex; gap:12px; align-items:center; padding:12px; border-radius:12px; border:1px solid var(--borde); background:var(--sutil); }
+.persona .ini { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; flex:none; font-weight:700; font-size:.85rem;
+  background:color-mix(in srgb, var(--cm) 18%, transparent); color:var(--cm); }
+.persona b { display:block; font-size:.9rem; }
+.persona span { font-size:.8rem; color:var(--texto-suave); }
+.tec { display:flex; gap:8px; flex-wrap:wrap; }
+.referencias { list-style:none; margin:0; padding:0; display:grid; gap:10px; font-size:.9rem; }
+.referencias li { padding-left:2em; text-indent:-2em; line-height:1.5; }
+.legal { font-size:.8rem; color:var(--texto-suave); border-top:1px solid var(--borde); padding-top:16px; margin-top:8px; display:flex; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; }
+
+/* ---------- Paleta ---------- */
+.paleta h2 { margin:6px 0 4px; }
+.tabla-tokens-envoltura { overflow-x:auto; margin-top:14px; }
+table.tokens { border-collapse:collapse; width:100%; min-width:640px; font-size:.86rem; }
+table.tokens th { text-align:left; font-weight:600; color:var(--texto-suave); font-size:.76rem; text-transform:uppercase; letter-spacing:.06em; padding:8px; border-bottom:1px solid var(--borde); }
+table.tokens td { padding:7px 8px; border-bottom:1px solid var(--borde); vertical-align:middle; }
+table.tokens code { font-family:Consolas,'Cascadia Mono',monospace; font-size:.82rem; }
+.muestra { display:inline-flex; align-items:center; gap:8px; }
+.muestra i { width:22px; height:22px; border-radius:6px; border:1px solid rgba(128,128,128,.35); flex:none; }
+.ratio { font-variant-numeric:tabular-nums; color:var(--texto-suave); }
+
+
+/* ---------- Marca SimEc UNAL ---------- */
+.marca-titulo b { font-weight:800; letter-spacing:-.01em; }
+.marca-titulo span { font-weight:500; color:var(--texto-suave); margin-left:4px; letter-spacing:.06em; font-size:.82em; }
+.inicio-heroe { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:32px; align-items:center; margin-bottom:32px; }
+.nombre-marca { font-size:3.2rem; line-height:1; letter-spacing:-.03em; margin:0 0 6px; font-weight:800; }
+.nombre-marca span { font-weight:500; color:var(--acento); letter-spacing:.04em; font-size:.62em; margin-left:6px; vertical-align:.18em; }
+.bajada { font-size:1.15rem; font-weight:600; margin:0 0 12px; }
+.heroe-lead { font-size:1.04rem; color:var(--texto-suave); max-width:34em; }
+.escena-uifcito { display:flex; align-items:flex-end; gap:16px; }
+.mascota-ph { width:120px; height:150px; flex:none; border-radius:60px 60px 24px 24px; display:grid; place-items:center; text-align:center;
+  font-size:.72rem; font-weight:700; color:#07142b; background:linear-gradient(160deg,#5b9bff,#3dd6b5); }
+.globo { position:relative; background:#f4f6fa; color:#18202e; border-radius:20px; padding:18px 20px; box-shadow:var(--sombra-flotante); border:1px solid #dde2ea; }
+.globo h2 { margin:0 0 6px; font-size:1.15rem; color:#0e1116; }
+.globo p { margin:0 0 14px; font-size:.93rem; line-height:1.5; color:#2c3547; }
+.globo .btns { display:flex; gap:8px; flex-wrap:wrap; }
+.globo .btns span { font-size:.85rem; padding:7px 14px; border-radius:999px; }
+.globo .p { background:#17a589; color:#fff; font-weight:700; }
+.globo .s { border:1px solid #b9c1d0; color:#2c3547; }
+@media (max-width:900px) { .inicio-heroe { grid-template-columns:minmax(0,1fr); } .nombre-marca { font-size:2.5rem; } }
+@media (max-width:700px) { .escena-uifcito { flex-direction:column; align-items:flex-start; } .mascota-ph { width:84px; height:104px; } }
+
+@media (max-width:900px) {
+  .escenario, .acerca-rejilla { grid-template-columns:minmax(0,1fr); }
+}
+@media (max-width:700px) {
+  .barra { gap:8px; padding-left:max(12px, env(safe-area-inset-left,0px)); padding-right:max(12px, env(safe-area-inset-right,0px)); }
+  .marca-titulo, .ubicacion .materia, .ubicacion .sep { display:none; }
+  .ubicacion { flex:1; margin-left:0; }
+  .boton-tutorial { padding:0 6px; } .boton-tutorial .etiqueta, .boton-desafio-barra .etiqueta { display:none; }
+  .boton-desafio-barra { padding:0 10px; }
+  .contenido { padding-block:18px 32px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px)); }
+  /* Móvil: el panel de configuración sube desde abajo, como el modal de Teoría */
+  .config { top:auto; bottom:0; left:0; right:0; width:auto; border-radius:20px 20px 0 0; padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));
+    padding-left:max(6px, env(safe-area-inset-left,0px)); padding-right:max(6px, env(safe-area-inset-right,0px)); }
+  .velo-config { background:var(--velo); }
+  .acerca-heroe { grid-template-columns:minmax(0,1fr); }
+  .acerca-heroe h1 { font-size:1.7rem; }
+  .autor { grid-template-columns:minmax(0,1fr); }
+  #grafica, .grafica-falla { height:380px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+</style>
+
+<div class="aviso-maqueta">
+  <span><strong>Maqueta</strong> · propuesta de modo claro, configuración y Acerca de. No es el simulador real.</span>
+  <nav aria-label="Vistas de la maqueta">
+    <a href="#inicio" data-vista="inicio">Inicio</a>
+    <a href="#simulador" data-vista="simulador">Simulador</a>
+    <a href="#acerca-de" data-vista="acerca-de">Acerca de</a>
+    <a href="#paleta" data-vista="paleta">Paleta</a>
+  </nav>
+</div>
+
+<header class="barra">
+  <button type="button" class="boton-icono" id="abrir-menu" aria-expanded="false" aria-controls="menu-lateral" aria-label="Abrir o cerrar el menú de materias y simuladores">
+    <span class="hamburguesa" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+  <a href="#inicio" class="marca"><span class="logo">UI</span><span class="marca-titulo"><b>SimEc</b><span>UNAL</span></span></a>
+  <div class="ubicacion"><span class="materia">Fundamentos</span><span class="sep">›</span><span class="sim" id="ubicacion-sim">Oferta y demanda</span></div>
+  <a class="boton-desafio-barra" href="#simulador"><span aria-hidden="true">🎯</span><span class="etiqueta">Modo Desafío</span></a>
+  <button type="button" class="boton-tutorial"><span class="interrogacion" aria-hidden="true">?</span><span class="etiqueta">Tutorial</span></button>
+  <button type="button" class="boton-icono redondo nuevo" id="abrir-config" aria-haspopup="dialog" aria-expanded="false" aria-controls="panel-config" aria-label="Configuración" title="Configuración">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</header>
+
+<div class="velo-config" id="velo-config" hidden></div>
+<section class="config" id="panel-config" role="dialog" aria-labelledby="config-titulo" hidden>
+  <div class="config-cabeza">
+    <h2 id="config-titulo">Configuración</h2>
+    <button type="button" class="boton-icono redondo" id="cerrar-config" aria-label="Cerrar configuración" style="width:32px;height:32px;border-color:transparent">✕</button>
+  </div>
+  <div class="config-seccion">
+    <div class="config-rotulo" id="rotulo-apariencia">Apariencia</div>
+    <div class="segmentado" role="radiogroup" aria-labelledby="rotulo-apariencia">
+      <button type="button" role="radio" data-pref="claro" aria-checked="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button>
+      <button type="button" role="radio" data-pref="oscuro" aria-checked="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Oscuro</button>
+      <button type="button" role="radio" data-pref="sistema" aria-checked="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Sistema</button>
+    </div>
+    <p class="config-nota" id="nota-tema">Sigue la configuración de tu equipo. Ahora: oscuro.</p>
+  </div>
+  <div class="config-seccion" style="padding:6px">
+    <button type="button" class="config-fila" data-ir="acerca-de">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg></span>
+      <span class="txt"><b>Acerca del simulador</b><span>Autor, créditos y agradecimientos</span></span><span class="flecha" aria-hidden="true">›</span>
+    </button>
+    <button type="button" class="config-fila">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>
+      <span class="txt"><b>Repetir el tutorial</b><span>UIFCITO vuelve a mostrarte el simulador</span></span><span class="flecha" aria-hidden="true">›</span>
+    </button>
+  </div>
+  <div class="config-pie"><span>Versión 0.8.0 (beta)</span><span>UIFCE · UNAL</span></div>
+</section>
+
+<div class="velo" id="velo"></div>
+<aside id="menu-lateral" class="menu" aria-label="Materias y simuladores" inert>
+  <div class="menu-cabeza"><span class="menu-titulo">Materias y simuladores</span>
+    <button type="button" class="boton-icono redondo" id="cerrar-menu" aria-label="Cerrar menú" style="border-color:transparent">✕</button></div>
+  <nav class="menu-nav">
+    <a href="#simulador" class="fila"><span class="icono-m" style="--cm:var(--texto-suave)">⌂</span><span class="texto">Inicio</span></a>
+    <div style="--cm:var(--m-fund)">
+      <a href="#simulador" class="fila activo"><span class="icono-m">FU</span><span class="texto">Fundamentos de Economía</span><span class="contador">9/9</span></a>
+      <div class="submenu">
+        <a class="sub ver-todos" href="#simulador">Ver todos los simuladores →</a>
+        <a class="sub activo" href="#simulador"><span class="punto"></span>Oferta y demanda</a>
+        <a class="sub" href="#simulador"><span class="punto"></span>Elasticidad</a>
+        <a class="sub" href="#simulador"><span class="punto"></span>Excedentes</a>
+        <a class="sub pendiente" href="#simulador"><span class="punto"></span>Simulador planeado</a>
+      </div>
+    </div>
+    <a href="#simulador" class="fila" style="--cm:var(--m-micro1)"><span class="icono-m">M1</span><span class="texto">Microeconomía 1</span><span class="contador">9/9</span></a>
+    <a href="#simulador" class="fila" style="--cm:var(--m-macro1)"><span class="icono-m">MA1</span><span class="texto">Macroeconomía 1</span><span class="contador">4/4</span></a>
+    <a href="#simulador" class="fila" style="--cm:var(--m-micro2)"><span class="icono-m">M2</span><span class="texto">Microeconomía 2</span><span class="contador">7/7</span></a>
+  </nav>
+  <div class="menu-pie">
+    <div><div>Unidad Informática FCE</div><div class="texto-suave">Universidad Nacional de Colombia</div></div>
+    <button type="button" class="enlace-acerca" data-ir="acerca-de">Acerca de</button>
+  </div>
+</aside>
+
+<main class="contenido">
+  <!-- ================= INICIO ================= -->
+  <div class="vista" id="v-inicio">
+    <section class="inicio-heroe">
+      <div>
+        <div class="sobretitulo">Facultad de Ciencias Económicas · Universidad Nacional de Colombia</div>
+        <h1 class="nombre-marca">SimEc<span>UNAL</span></h1>
+        <p class="bajada">Simulador Económico</p>
+        <p class="heroe-lead">Modelos de Fundamentos, Microeconomía 1, 2 y 3 y Macroeconomía 1 y 2 en gráficas interactivas: mueve un parámetro y observa, en vivo, cómo se desplazan las curvas y el equilibrio.</p>
+      </div>
+      <div class="escena-uifcito">
+        <div class="mascota-ph" aria-hidden="true">UIFCITO<br>(imagen real)</div>
+        <div class="globo">
+          <h2>¡Hola, soy UIFCITO!</h2>
+          <p>Te doy la bienvenida a <b>SimEc UNAL</b>, el simulador económico de la Facultad de Ciencias Económicas, creado en la UIFCE. Aquí los modelos de Fundamentos, Microeconomía 1, 2 y 3 y Macroeconomía 1 y 2 cobran vida: mueves un parámetro y ves cómo cambian las curvas. ¿Te muestro cómo se usa? Es un recorrido de un minuto.</p>
+          <div class="btns"><span class="p">Mostrarme cómo</span><span class="s">Explorar por mi cuenta</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="panel" style="max-width:640px">
+      <h3 class="seccion">Último paso del tutorial (propuesta)</h3>
+      <p style="margin:0"><b>¡Eso es todo!</b> Ahora te toca explorar SimEc. Si necesitas repasar algo, el botón «Tutorial» me llama de nuevo, y en el engranaje ⚙ encuentras el modo claro u oscuro y la información del simulador. ¡Mucho éxito con tus modelos!</p>
+    </section>
+  </div>
+
+  <!-- ================= SIMULADOR ================= -->
+  <div class="vista" id="v-simulador">
+    <div class="encabezado">
+      <div><h1>Oferta y demanda</h1><p class="texto-suave">Mueve los parámetros y observa cómo se desplaza el equilibrio del mercado.</p></div>
+      <div class="ecuacion-cabeza">Q<sup>d</sup> = a − bP &nbsp;·&nbsp; Q<sup>s</sup> = c + dP</div>
+    </div>
+    <div class="herramientas">
+      <div class="grupo-botones">
+        <button type="button" class="boton-panel cambio" title="Antes usaba ⚙; el engranaje queda solo para la configuración general">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+          Ocultar parámetros</button>
+        <button type="button" class="boton-panel"><span aria-hidden="true">📖</span> Teoría</button>
+        <a class="boton-panel" href="#simulador" style="border-color:color-mix(in srgb, var(--acento) 55%, var(--borde))"><span aria-hidden="true">🎯</span> Modo Desafío</a>
+      </div>
+      <a class="enlace-materia" href="#simulador">← Fundamentos</a>
+    </div>
+    <div class="escenario">
+      <section class="panel panel-controles">
+        <h3>Parámetros</h3>
+        <div class="grupo-titulo" style="border-top:0;padding-top:0">Demanda</div>
+        <div class="control"><label class="control-etiqueta" for="p-a">Intercepto a <span class="valor" id="v-a">100</span></label>
+          <input type="range" id="p-a" min="60" max="140" step="1" value="100"></div>
+        <div class="control"><label class="control-etiqueta" for="p-b">Pendiente b <span class="valor" id="v-b">2.0</span></label>
+          <input type="range" id="p-b" min="0.5" max="4" step="0.1" value="2"></div>
+        <div class="grupo-titulo">Oferta</div>
+        <div class="control"><label class="control-etiqueta" for="p-c">Intercepto c <span class="valor" id="v-c">10</span></label>
+          <input type="range" id="p-c" min="0" max="40" step="1" value="10"></div>
+        <div class="control"><span class="control-etiqueta">Mostrar</span>
+          <div class="selector"><button type="button" class="opcion sel">Excedentes</button><button type="button" class="opcion">Solo curvas</button></div></div>
+      </section>
+      <section class="panel panel-grafica"><div id="grafica" role="img" aria-label="Gráfica de oferta y demanda con el equilibrio y los excedentes"></div></section>
+    </div>
+    <section class="panel">
+      <div class="rejilla-resultados">
+        <div><h3>Equilibrio</h3>
+          <table class="res"><tr><td>Precio P*</td><td class="num" id="r-p">—</td></tr><tr><td>Cantidad Q*</td><td class="num" id="r-q">—</td></tr></table></div>
+        <div><h3>Bienestar</h3>
+          <table class="res"><tr><td>Excedente del consumidor</td><td class="num" id="r-ec">—</td></tr><tr><td>Excedente del productor</td><td class="num" id="r-ep">—</td></tr></table></div>
+        <div><h3>Lectura</h3><div class="aviso">Si la demanda sube, el precio y la cantidad de equilibrio aumentan.</div>
+          <p class="referencia">Basado en <span>Mankiw, Principios de Economía</span></p></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= ACERCA DE ================= -->
+  <div class="vista" id="v-acerca-de">
+    <div class="acerca">
+      <div class="acerca-heroe">
+        <span class="logo">UI</span>
+        <div>
+          <div class="sobretitulo">Acerca del simulador</div>
+          <h1>SimEc UNAL</h1>
+          <p class="texto-suave" style="margin:0">Modelos de Fundamentos, Microeconomía y Macroeconomía en gráficas interactivas, para las clases de la Facultad de Ciencias Económicas de la Universidad Nacional de Colombia.</p>
+          <div class="chips"><span class="chip beta">Versión 0.8.0 · beta</span><span class="chip">6 materias</span><span class="chip">Hecho en Bogotá</span></div>
+        </div>
+      </div>
+
+      <div class="acerca-rejilla">
+        <section class="panel autor" aria-labelledby="autor-nombre">
+          <img class="avatar" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAGQAZADASIAAhEBAxEB/8QAHAAAAQUBAQEAAAAAAAAAAAAAAgEDBAUGAAcI/8QARhAAAQMCBAMFBAcGBAUEAwAAAQACAwQRBRIhMQZBURMiYXGRBxQygRUjQlKhsfAWM2JywdFDU5LhCBckgvEmRFRjc4OT/8QAGgEBAQEBAQEBAAAAAAAAAAAAAAECAwQFBv/EACYRAQEAAgEEAwEBAAIDAAAAAAABAhEDEhMhMQRBUSIUMmEFM3H/2gAMAwEAAhEDEQA/APc7pbobpQV63AV0t0KUKKMFEEARAqKMFECmwUQShwFKCgCVRTgKIFNgogVA4CiBQAogopwFGCmgUQKgdBSgpsFECop0FEE2CjBUUYRtKbBShyB4ORtcmA5E1ygkByIOTAcuzKaUsrk0XJXISqgXFNlGQgIVCJCVxQm6oMC6MNQMKcBUHZUuVKEVkDeWyAhPEICEDJahyp0oCgSyUJFyAgiBQAoggdaUQKbBRAoHAUQcmrpQUDwclzJsFKCppWQCIIbIgvS4FuiuhslUUV0t0CVRRgowU0EbUDgKIIAiCiiCIIAiCgcBSgoLpbqKcBRApsIgoHAUbSmgjGiinglugDtEl1FOApQU2CiBQOgomlNApxpQOXXZkF110B7pCFwShAOVIWJzRcoGCxJ2aesusqGgyyUIyENkBNRFCNEt0CFAUZQkIGyhIRkJCEDZSI8q7KgQIguDE41iBAFycyrjGgbBRBLkShtkChEEgCNoUGRsiAS5UoC77cyWS2RWS2KbAAJcqMNRhqmw0GogE5lXZU2ughKlypQ1QIEYXBqUBQKlC6yXZFElCG6IFQEEQQhEFFElCSyWyKUIghAS2UBhKHIQlAQFdEEgCKyBbpQUCUFA5dddBdddRRXXJLrkCpFy5UIlSJQiFCQhddcSikshIRXXIgcqUNRBKg4MRAWXArrqKIBLogzLsyArJLJMy66BbItghuuLtCgzCUJEq7OQgEQCEIworgFAnr/dZg2TQEqwvZUHFFO6Wlc5ji09RuEKvopWyszNN05ZZDA+JYIw2nkkbnAtrzWsglbMwOaQQVCDslslsuRSJQkJF7XRAKDlyUNRhiBsBEGpwMStyk2Cm10RoRhqJrU41iiha1FkTjWhFlQNBi4tTlrJCgbsiAXWShAoS3SXXc0HLly5AoXJF10CpUN12ZAV0l0OZIXIDzJMyDMkzIHMy7Mm7rroHLrsybzLsyB3MuzJnMuzoH8yTOms67MgdzpcyZzLsyB7OuzJnMlzIHM6R77NJ8E0XoXu7jvJBS3S5kBKS66uZ0ORhyYuiBRULEK51IQ4/DfVVmMVclXRu7E623VtiNH75A5nULF1ktbhT8tnOjJyi4vYLNRlZKSspq2SVwdobtIK3vAvET6xvYTO7zDbUWunqXDYa6h7WRrXOtdZ2lqYMJx3s9Y7nToszwPVhYjRcRZZo8Tw02TM8WcbXVnNi8TqF0zHDa+6rWzFViQirhEXAAnVXMJD2AheKftc/FOJ5YjIGxRHe/Nep4DisU8TWmQE26qS7SLtxbG25NrIGVkbnZQVQ8UYo+npyad13W0CpqXiOGOjzTvDJbXNzzRdtRjeORYVCZHuAaBumeHMcgxcGSKRrhfkdl5bxNi9fiDSHtJpt7haP2aS0tNGWCQFzjeykqbu3p4KISC9rqpxHGqeiiu94F9Am8Lnkqz2zjZp2Rra+DkYcmWHRHdFE4oCVxKAlAWZcChShAV0oSLroCSEpLpLoFJSXSJLoCukzISUN0B5khKG666BbrroSUJcgczJMybLkmZNB3MkzpovQ5lUPF6TOmsyS6Gz+ddnTF0uYpo2fzrsyZBRBA5mXZkgaSl7MopLrnn6t3kUQiKJ8R7N3kVCM+SkzLiEJ0XZzHmRNcmromlA+DcKg4mhj91lNiTlNrK8DkxV0kdW2zxdZsVj+EMSqe9TSsJaNio/F9BncJYmEO+K4C0zcNZhri+Ju6ZxV0RpHySjRo1WbPBGQwPEKN0BirZLOB2k5KuxziOpw1klNRkysO3kVkOLcVglqXtp395rraFRsCxp9jFVlxI+EnouVz86DkWC18VY+tLi0u7xstZwZjEtLiZiqql13N0BOhCrcZxbLQEwEGzQQb7+CLAMMmqqcV0zCCRy5JJr0unpUrjWP+reXAkEAH8FUYjw6+uc6SRha1rr2HJZ7D+NGUWJCnEbrvcG6jmvRIXz1NG6VzCGuFxpqtTyeHnOM4w0u+jmND3jTMDb1Vbwxiz8FxyJ00j+ycbGx2UzGKGKbGJWQWMj33Gut+aj1fCeJdo2WIEl/QXWbLvZ7eh8SyxYxQNkpZSXMsczTzWi4VFY6hjZICMotfqvMeEKfE6LFmxVccvYyd2zjoF7hhlOyKnblFtFuE81KiaWsAO6NdZLZGiHZRa7EKfDqd9RUyCONguXHYBDimK02E0z6iolZG1ov3jYH5lfOHtQ9rNfj80mH0M8UdExxH1YJbJ8zuPRB7BU+2LhunBcxtfUsG7qenLh66K3wz2hcPYmISytFOZzaL3kdmHn7oce7fwvfwXxvPU4m/6wzPcORN7JqHF6+kbI3PII5P3jWu7r/MbH5oun2zjfF+C8NwdritfDTAjuhxu5/kBqVUYP7WeEsbqY6enxIxSSuyx+8RmMOPS52+dl8lfSktdHEJ55ZWRjKwPcXGMdBfl4K4wiOnLnNlnc7tIy9rmsHdIGp13Fuhv5omn2ZfquXi3s69rJEH0biri90cbeyk+8ANfnotbJ7TMPLS2KQF22UciiN2XDqhJWFwvjeOsnLppBG21wwauI62Gq0LeJaTIHOhrwy2shpnZfVBbkpLqDh2NYdi7XmhrIZzH8bWnvM82nUKYSilzJC5CSkJVBFyEuSFCUQpckukSIhbrrpF1lQqVIlCBVwXWSgICaEbRqhATrWqKcbsiaLlC0FOMaoowwJXt+rd5I2tRPb9U7yKgyjwLpshOuCbcuzBoixXAoiFwYqhQUQKQNS2UVz2h7bFU+MUzDTSNeNC1XQCiYnCJYSwjcKUfOvFVDT0OMPMYBB10VxTcIMxLDxURX7S17q54m4VaK7tXtBY49NlbYBHFTx+7tIA5i649PlY8txWhqcPcIw1zg0i3PmtxwzWVb8MEJgIJ1N1sqrAMPdRumkYy4BJ0WAo+K44sQkpYmaxkgOTUxGowHhBtdXMqJmW72a1l6rDh0cNGIiAG2svNcK45ggLA5tnbWAWjxPiuWXDXPpWkuDdPNamvo9K5/C1L+0PbxgZibk25LbUeC07GtLmtNvBYnAq2rqPrJgRIzcDa6LEeNK3D6gUwjc4+CbI2lRBhlK8F4jB31U+jq4JmgREEeC8xwulxHiavLq6ZzYQbiNp/NekYbh0dDE0NGtkJtZhZfjnj7C+CcNklqp4zVlh7GnBu955ach4rNe0T2y4Tws2Siw+RlbiQ7rg03ZCf4iNz4BfNHE/ElfxHiM2IYhJJJLMb5jtboByHgjUW/EfHtfj9XUT1joJ3Sk2dMS8xjo3kAsvUVXavLs0YLuTb2URv1pytYXH+E2t6p+Oljvq4vPTl/co1IkCseIgx0cbratc1xBB6qI6QlxNwT0KksDYhYGNnk0H80TpIpB32tNueQJtdIsE7WusGhhO/Q/wBlOp6ruPjNw5vet+v1qoM1K14JiOo5BMCoc3Q6SsBt4+CI0tBiRhayQOs5pFvVX1XizactkgeY7m7g031PRedHECGloNhdS46uR7A+oeQBs2+p/spZsbuLjqrw9jm0U5p8xu4s1cfEuPNRavj/ABapkjfNiNTNk+zPJ2jD5MPd9VkHVZcO7E5w9Ag7XOdS5ngCCro03EntWxqKohqKYU1JNA76qamiZEQ3m12Ud4HodPBe4+zj2ivxyKlosVmL62oY6SOVuV0TwN2gizmkaaOHzXyu2MPOjw/wIsVquB+LZuEcWgqntc+AOsde8xp+INO2o3HPREsfYVl1lV8M8RYdxPhjK3Dqls0egcCLOYbXs4cj+B5K2tyITaAypMqdypQ0K7ANjXGJPAAJHKbDHZrixOELg1NoZypQ1PiO6MRq7NGGsunGxFPsiTwiU2IwjTjIrqQ2G/JOshtuptUdsKcbEpAaAlsFNqBsaSRn1bvIpxI7Y+SbGReEBbdEwlzASisuzmayJQxOWCUBNhvIlDU44IQ03QEyNLJStlbYhGwJ5oss7Vl+IsMjnpy0t5WvZZ2j4YfZs7Tc2sQvQMQpRUQuHNUdHI6mlMbvhv8AimtjzviyqxWigMMQJBuF5K2DEqStfU5HF+bvWXvvHlXFR0jpjGD3hc2WO4HZRcSYhUGWAZWyaAi11mzZ9qngusbLiUbq2PQbBw0XrLH0Mhjiia3vHVOs4Sw6B/aRwtHkNkQoIpKtuRoBB3ATHHQs/o5lPAHwtuXa6Kudw++pkkmezvO28FpqeMCNoOtlJFgNgrVZzh7CTT1D36gE7LFe1n2wQYIJcCwWovWAllRUM17Lq1vV3jyV/wC1bi8cI8Oy+6SthrasGON19WD7TgOq+XKurbU/WCwLib2Jv53UWQ1VV0lTI8xgsa4lxMjiSfNQZIxI8drI5488oHkN0xV1jInEMBJ8VGjrc0ozHu9EbWM00NLH8IA5NGpKgurZZDq8sHQFQqmoc+QuJuU2JCTqfmkhtP7YC3eOqUVb2G7XXURhzc0Lgc9uiqLAVhLc7dCNSB+YTU8/bd7Z2yjNDoyCiDHDKfGyijp2nPmtryvyVjFUxRfDlc77zlWSuc0lrT1uQkjjzaudYDmURdCuk+y8a9UQlEh78Mbv4gAD6hV0ToWjvS6+SkslY4WY8H8E0qQY22zQh0ovq23eb+uqWN1Swkss9v3HkEFMiV7XA6gjbxQSyBoD23Ad9nMNPCyg9E9l3HEnCvEFLKJTFSPPY1MMh0DCf6HUL6vhlbPEySMgteA4EdCvhSlkeS057ja19bL6Z9hPE1HUcNxYW7F2zVcRN6aZ1pIxyDQd2+WyM16tZKAUbRcJQ1VA2KQhPABIQgZLUoanchKcbFdA2xqday6IR2TrWKbAtYnWs0StYjUUlgFyWy5QIuXLkCpHbHyS2Qv7rHHoEGVDdAEuVUXB2MT41h0NTNE6MvaDZ3JaLKuznPJrKlyo0hIRSAIgwILog5QGG2TgTQciDkUrwHNIVLX0hbd7ef4FW5JCZqLPYQdQd0gweNxNxOOWCUXPNpVdwNgMdFWzEDVzifJXOKQ+61zpHmzbeqdwqamps8zXDUZkRpJWiKC19SmqCkOYynnsq+nrZcRk2Ibf8FfD6uAAclRIbZoVdxLxNQcK4TNieIyFsUegaNXPdyaB1SV2LQ4bh8tXO9rI4xclxsF82e0rjSp4yxYsfVONHCSIYBo1vj4kqVYquOePqrjvG5quRvYUzRkZEDcRs5a9TusRW15a5zItDt5J/EagUxMEdhl+IjmVRySF5s2/nzKy6enPfc3cUjXAHRJkDRc6kobnw+SqFdqVw2IXAOdyT8VJJIdGlTa62bY46+KcvmIJO3NS24XNbVjh4pPc3tdlLbH81OqL00rmZ4h3bEG6kOpSGtsNSf6FPUVI/wCEt0PIq7hwiYsF23ZyN1i5yOmOFvplZ6cseP5RbxSNicSdNyr+twstGosG7FVxpyzMC12m9lZnKmXHZ7Vjm946aLg7KdLNPgjmaQ61ymsrRuST4hbjnpKZUOa2zu83qnAC5ry3cDMLc+qhBrm/D6XUyklANneh5oHqd7Lgnu+B3Wk4O4om4R4ho8VbHHM2F9yyQAtc06EXOxtz5LOyxADMw93puEEMjon2AGV24J0RH3fw9jlDxHhFNiWHStkp5mhwsfhPMHxCsgF4n/w3OcykqIo6x3ZSWc6mOovtmA5HxG/MaAr3htPZTbKM1pKMRE8lJbCAUYAGwU2pmODqnBGAjSbC6BC0BJoEhJJQlA5n6JQSmwQEudA4usgD0udNAklwE2+RNGS6aD5kHJNTy/Uv8im8xTVS4inkP8JV0jMYK+kZTxspstraAK2yG11jvZXgNVBg8EtdMZJnNBJJ2W3q6mnpi2PMMxWtsz1uo5iJ5IDE7orSGISRh1t1zoB0TqXSpMbkTYip00WVhICrBiUbJezf3TfS/NNh0sIXXDdyApHde3MNlh+OeJZMLiy0zh2h0AUyymM3VxxuV1GyDmn7QTckbSDZwXjrOPMYaNSwp5ntBxUbtYfmuP8Apwej/Jyfjb8UUfbUb8uj7WXnXDclfJVvgnLskby3XmnMS43xCand3Gj5rGN4zq6Stc9rbXdmOvNax58cvTGfx8sfb3/CmxRsANvEq0leySI5DsvBh7U6qNgDInFx8VeYZ7TKlsJ7SJxJ6LV5cf1mcOd+ge2fiWWhw9uGhpDZmiQOHMh3+34rweVz+9PcuB8Nl6J7V8bmx6ajlbnYyOJwsT9onl8l5VVvcbiSa7fugLUyl8xOmzxUWtlbK6wNx+ZSRUjgA4jdAyPPINLNGllYumYGADp/RNrpUTN758EVPSvmcAAn4aV08ma25WlwnBxoS35rnnyadePjuVRcL4e7UjMLrVUfDUMTAcgPmrHC6NkFmnUq8jiaW2A05ryZctr3YcOMUbMEjAsI228k1U8MRVA+AX62WmbELDup1oaDqFjrrr25WWoeFxE/M4CwKuZ8NjEOVotborRjRvogmyhtgR80uVvtceOT0ylZh+bYKmq8Ka0EtYb7ErZzwh19yq6siblP9kmViZYSvNq+jyZiAd9FAdATfwW1xDDgQTlAJKppMOLGnMNTzXqw5PDxZ8Oqzt8ptYp+nnDD3gcqdq6QtcTbxUVjsp1XeXbzXHSzbMwjOzbmLohHFK4APLCT0UBpyHMz5jkVMp3B9r6W2PREek+yzjuXgjGYZ5me8UrgWSRtdlJvsR4hfX+GVzMToIKyMODJmB4B3Fwvgummz8u8Dt94efVfWnsDxh+KcCQMfVGc0zzDlcNYgNm35i23opWbHpS5cuUR1l3JcbrtkDT3WTTnp+RoIuochsVqIPtEnaJklJcqiQJEvaqNcpQUDpddcELQSnAw2QImat1qaT+Up7KU1Vxn3aX+UoPlvBvb9iWE0LKb6Oe4tGXNfdek+zavx3i+q+lcXaIYT+6hB2HUryA0NKD+5K2GBcd12A04ip42ED73Jcsc/wBby4fvb6RjysjDQRoELyDzC8HHthxdo70UfqUrfbJiR/wGX/mK11ROmvc32y8lnsap2ZRINC03uvMh7XsSe23u7f8AUoFb7T6+qYWOhaL76p1w6LXr9PWNOHmztQF5JxXO6qxSXMbhhsAq6n4+rYQ5lyQ7W19lUVWNSVEzpXm7nHVceb+sdR3+PrDLeSU5q4NVe3Esxsbp0VhK8fZyfQ/0YpFQGtiJdtZYPEZmGte1i2FRUGVmQndVjcHp+07QgEnwXXiwuPtw5+SZ60rsEYJ6gte1awULGBuUWVdBTQ0z8zAAfJT21Z0N1M8MrfDfHyYyaqq4zwv3jDWygfuWuefHwXk9XGWPIDT59V7ViU4rKGWBxtnaRe2y8gxSMw1UsQ3Y4t9F6fj7k1Xl+R03LeKuJ7Jjh9ojdcHEm3gAhIOY2ujgjdNKAwE3Ngu1covsGojLlcRcLZUNGI2t0Cr8Bw0wwtLhyutHBDqNLWXh5M919Hhw1BU7AzTkrCG52CaiiN9LKXHC4C19VyejQm5hrlv4pwgFuyVsJt+aIwvAuDcdCqAyC1wLIHC/L1TvZuI1bfXqgdE+yKiPb3rb+KhTsDiRaytXxHrchRpGEi5FyoKKelEjiNDbVVtRQ3DtL2Wkkgvq0AqPPTaHT0VmWmMsdsHX0PcJtZZ6dnZuI8Vv8SoQQ6w3WNxeDsZXCxsSvVxZ78PDz8evKuabbeikRSEHTnyUS+U2TrX9y/ML0vIs6eXYtPeHJfSv/CxiBqaHHIXNOj4pAbaXIII89Avl2F7tSDrf0X0j/wAMb2YL9Ly1kzY4KuOJ0TnOtcguuFKl9Poq65V7cewx21bCf+4IhjWHO2rIf9QUZTrpFEGLUJ/91F/qRtxGkdtUxH/uQSPBQ5oXiXTUFPirpztPH/qUWqxijgcGGePN0zJKC93d0S+7HojpsRpalgdHNGfmnu3j/wAxnqrtEX3c9EbaYnkpHbx/5jPVJ7xF/ms9U2aIyAN3TuUWtZNe9QD/ABWeq73uD/Nb6opSzVM1bf8AppP5SjdXU4/xG+qj1uIU4pJT2jfh6oPmRsFG7XM1JJT0ltHNXm4xGuB+ORL9KV3+Y9eHb39NazHZ4aeA9m4X8CqzBagVGr3c+qoZqmonH1md3yQxTSwG7MzfktzLU0zeO729CpmQk/ELeamOpKUi5Lb+a84GK1jNnuRHHK+1u0dZZ2vS37qSnGxHqno6GCRu49V50MdrgPjJTsfEdczZ6h0vQBhsV9/xTowxhb8X4rz39pq+986cbxViDftps6XoUeFR8yPVF9GRA/EPVefftbiFrZ0n7V4gf8RNr0PQ34ZCW6EJI8NhDdV5+3i2uH2kY4vrOv4ps6G3qKCJjHPubAErxLFnZcUqe0BBdIXdea3B4sqpAWu1BWMx1matkm+93tV24b5cuXHRmmpDXStijFydFrsK4QFO5ksnxN1tbZH7NcIEolrJGXy91t+pW+bRtLsxNh48leTLfiN8WE91R01GW2AGys4KXS5HgoeLcQ4XgoIlmZnto0G/5LOj2kQ9qSGnJyAauM4rXpvPjj4228dLayea0tsFlKPjulmILnhot1VxT49TVP7uZrr+Kl47HTDlmS2ba+4JHQoy64sq+KsiubEC+5UlkrXjQbLDqfvodNUJ201Q9qANwmX1jItbgBFPOYSCbaqM+Mkmw8impMVjjvd7Bbe5VTPxfh8QLZKiN7jyYeSsw2xlnMfa3NO4a6FMTQkXNlUjjvDwLsd4ZSN09TcYYdWENMjWkmwureKxznNjb7N1VPfcLMcQYK6eMuaLlbiQxzMzxuD/ACKhzwNe2+W4OizjbjVykyjxyphdDK5rgRbRCzdq1nGGE9i7tmNsDuso1up5r38efVNvmcuHTlpLpWXkbbQ3v+K9YwvD6qmo4WC4IYL2PzWC4Ro6aSqbNWW7OM3ynmvS28TUDBYOFhsscuerqGGG/JGx1mawc8fNOSRVkbL9o/8A1FIOKaADdqKTibD5WWztXLrrfRDQFda4ml/1FLnxMC4nmHk8oo+IaBotnb6p48RYeYyA5vqnXTtxCdWYvfu1VSP/ANhTUtXigOd88zj1LypoxzD/ALzUxUY7QuFg4LXWz24GDFcVZrHVVDCejyLqUMYx5pv9IVf/APQquGLUgIIeE+3H6O2UuCdVOifaUeJcbacpxKrv/wDkKbHFWNB+X6Qqzf8AjKrZsTpXyEhwHzSDEqZrr5gr1M9uLn9qsZa4D6Qqtf4ynRxPjhPdr6rX+MqmdidI8t7w3U6mxKjLmgvanXV6ImftHxA0611SR/MU3LxPjxBb79UEHcEp2bFKIAASNTIrqPNfO1TuVe3Fb2GH31Y1B7rh5d8LV5q7iWscdz6JRxJWDW5XLs16O9i9NFJh33GrvcsPdsxq8z/aestuiZxVWMTtU72L0oYVQHXIEhwigv8ACF54OMqwJf2xq73v+KnayXu4vR24Lh2U3Y30QfQuHE/C30Xn7eNakC39Un7ZVPX8U7WS93F6GMBw8jRo9EowDDfut9FgGccVDG2/qlbxvUXufzTt5HcxbqTAcOvoB6Jt2AYf0HosMeNKgm/9Uv7aVH6KdvJO7i3beHcPc3Zvomzw5h9/srGR8cVAFrE/NW/D+PVFfNLPM0tp6dud5J0J+y35/wBFLhZN1rHKZXpx9tCOEqINzOexptcN3NlhuKKBkFa3snNdGdgOVuRViysra7FfemyvDy6415dEPEMRqHPm2LQbha4stV0+T8fpxavgSkEHDULh8Uhc4n57ocdkrKh4hY9zYgPhabfN39lb4TB7jgNFCO65sLRbzFyqvEKgNJsNTvqtZ56rnhhuSVSS4HFVAmp79/vakKHLwhQEWDbeSk1OKvMvu9KGmUi7nPNmxjqSq2qxugpSfeMSqKh4+IQ91oWZllfTpccJ7RqrhAQXdC8jwOqq3YfWUUmeJ7gR0JCs/wBpaGXusqqqF3/2G4/FNPxN7DmfkmjP22f1C31Zz259HHfS1wnGqqOECYuc5uuo3C1VFWunja9jrX1uslQPgq7FpBPRazDIAIxYadFxyr08e4sXynITfks7i1c+LMMx8PBaKVmWO9vmstiuUvcSFnflu+mWxCStrH5GXbENgo7MBllIs8nqSrKprYoCRmB8ktNXzPN44Q1vWR1vwXeZ5fTy5ceO/IKfhQuGrzr0TruEQ34ZXac+as4K2Vwt71RNd90kopK6ogaXTwgxjeSF2YDz5qXkzJxYK2KkxTD3tdDPI5rdLON1o8PxI1TMtVkilA56ZlDiqmSgOa4OadiFZ0cbTpkaRuLrFz6vFanH0+cUPiqiE2ByyWaSzvXXmjKcl9wL66L2HFKYT4LVs1v2btF5vR4f2kjANO9v4Lvw3Uebnx3lNL7BOHJqigjlb3c/42UuThmqZsVPh4hiwOmjpmNM7gNRlBDQpM+PwOpGVrDljc7K5pPwO/sf6Ljll1Xcd5w3DHdZ9+AVTN1zeHqt2ys5eI6V+olb6pW8T0sYAEg9U1WPCu/ZmtSO4crW7K2PFUFgO0HqkZxTASbvHqnlPCm+gK8ITgVdfZXv7T0zj8Y9U43iOlJ+Nvqm6ajNPwmujBJbshOFVobnLbNWjlx2llaRnbqlOL080QhaQS4hXylkZw4bUPaMgJch+ia4H4CtnJTNpKdsxAAUF+PUzLat1S7+kmvtmvouuP2Ck+jsQadGu9Vp2Y1TO1zNRtxml11am610xlHUeIA2Ifr4pxuHYna4a/1Wl+lqV0gJLbeSlxYzSOGUFilypMYz54eohqWBR6nCaFgsGC6sKqQxuy5ksdE2duYlfW6HyupQnCKYn4UQwWlI+FaD6KZbdKMLb1TpOpQDAaQ/ZXHhujdyC0Iw1o5ovcGjmnQdbODhiiPIeiR3CtHystH7iOqUUAPNOiHWyx4VpidLJ1nCVNbWy0jqER213TraO7QbrNxjUyZN/C1KOibPC9N4LWuoWnmlbhjXc1OmNdTJDhqBjcwsp0cIpcFMMbbdpP3iBvYCy0FRhrY4CQq+CAT0s8J5HMPBeX5OP8+Ht+ByTHllocFh+uc4jSNt/mlrKJk0T7P70hDQL6kkp6H/AKbDnSHRz3WPyCiYaw1eNUZdchsod6arxS/1H1+WdUrfVENo2sFrMGUX9Fl8WhnIcImlxK2j4yWNFhsodRSsINhY9VvPzXjw9PLajhbFq4SWmETDqRzd81FxHBnx4O+hip3RTEhxN9H26lejV1LM5pEW/gs/VUuJtuPdw8HxW8eTXpm8Uy9vNo+HcXk7ghfk8Xi1vVXVXg7qMRmkDzZoa9rgcrjzPgr92HYpK79wyO3ipdLgdWSDJIXHw2W7y79s48GOPpncNpnxyRTRhzWPNi0jYr0jA4bxgvCqoMEIkDntuGa+ZWnwumMcQsBa68+V29GGOvZMQiDYLi4H5rCY4yRzSWbk2C9BxQERFttFmqrDxKCCLrH26WbjzyrpXUjhcGSUi5aBsma2gqZcMln7c9swi0TOnPzW5qcOkFhlsetlWvgrqc37LtWfw7r04ZfbzZce/DzcmdwyCMh21wDclaVrq/B2wup5Hz3aO0i+KxtqtFHPEHHtaaS53DmlTYWtmsIqY2J5NWsuWX3HLH49x8ys9hlcySUmNrosx70btAD4LXUDz3SCSpNNgNLM3v04D+tlMjwplK0EA2HLdebKze49OG9aqRFEHxTsu76xhvptcbLBUNK7sWCNpL93abar0SBmjXg6cwsNFWOpK19OxjSwXBNvErVy/nSYYbz2KehysDnfNRGUr6qnrqBpP1kedng4aj8vxV1IRNSuOmguoeGxkY1Fe4BFvUrOHuPbljLx5T/pinYZVhpJuLKM2CcvA1XpWIYbGY5MotdZSWifTz6juk3C+rccfp+YmeX2qJqY08Ye9xF1GE8X3/xVxxDFajblF1kHBzdwQuUjpclx28f+Z+KITMO0h9VSAlPsc4MNhcK9MTqq07Zo/wAU+qs+HXibF6doeTd211ky4rQcDAycS0jf4lOmFyr2biWkDOHi7burxSSU53DtTv1Xv3GUGThZ5ts3+i+bSS6d1zpcrnx4726Z5a0sxO4f4zvVKKh7nACd1z4qtrZYwA1h5JuhcXVUYud116Ix11dTOqoWZu0fr4qIcRqGa53j5q7xePsaFrwNVnYGvrpQ0MNvBTHCUyzseiVIfJL81a0sT2wg2TIp7zDzV/HREUwNl6pm8uWKr7x2CXvqyipNCcqMUeYG4VvITBU/WHYFCWS9CrunpWXIICKSkF9NlOus2aUGWQckbc45FXjMOYWF7jr0UKRjWvIHIp1VIrZ5HAi6eZISwWTdbYkWRQtu0KOmJxpJUiJqBjQE80gBRoFdpTFVWEDNO4cibKwr33gKhYLYSk9CuWU3XTC68mMRjtQTNF7xSG48CnuGoY3SRvsS697jkn5aWV9eWN1bKcjwdrJIWQ4ViccMBeYnuynMb210+S+ZPD9Fnf5bMvyjlbqmnSMzeeyjCcvI6g/oLg4Ai9yfyVtefGeCvaJDoPRI6iDtbpxrW73+SdAOa+lraJHTpiMaGFhAcdTt4rjFHEw2ZZSHyWKhzVDWnvFXZp2S7R4lWtNEGta0bKDSxmcB79GjopzJA2w1FldM7RcTZmabDZVjG3Go1CvZ2GUGwCpqs+7OuRa+4WLPLWNK2OORmV7QQm34Yx+rDccrJYZmSNuwg3U6FwLdreBSVqzaAzDtbFo+YTzKTJplAVhoW35hNm9tVds9ER7ZBsQV1swsukBvqT8ky6QtI181i1elIdYR3B2WHq8NfY1cYNrnMFrp5yILEkkDdUtY4RRvEV3NcLtYBc36K2pxeLVdQNfJDLc6BqteH8MfPUPqS0kDb8h+ChUsRpoBA799MRdv3Qt5w46ho8LAkLRK67yPy/Cy7/Hxlz/+OfzuW4cNk+/CqxPDWhjSG2uNVjMXpTFJlcNidV6ZXRe9AWGllkuIaGzC62oX0Mq+Dixde2JkIdLYgLE4pNHNUHsm6eC1vEYd7qGt3OiyYpeyl73MLnjfDpfaAbjkp1MGPjDXEBR6kDPokgbnNr2WpdJSzNa19hqtF7O2h/FVKPFUnuoPNaj2cUgbxTTuWdrfT3LjdobwrLp9g/kvl+XWVxB5lfU/G0XacMvb1bZfM+I0TaWQt53KxxT3W876inlJzKRhZBrIv5kzMy5UjCoj77F5rqxWyxpgdhzQUzwpEIwA+nJJOhsrqnpY6wxRSC4NrLXw4HT0dIwtYAeq9HxePc6nl+Vy6vSjRwXnAtzWjDGtpRqNljzi72yZsnPopbuJHGLLY+i8+no20UGTKb2Th7O1tFmGcRZWWtr0TD8flcdAg05ja03BXAjLqVn2Y8Qzvbp2PiBnMLcrlljVuQS06lQ5oCAbKM7iGLoED8ajeLaK7SY1FrWFrgihvlCZrcRieBYAoGYgwNGidTfSnl1guEir5MRFtBqmI8ScH6tNk3DVWFc76kpjBRme5MVNc2RmUAp3BagU7nXbdc8r/TeM8L6ukMWTs7NJaC4nxVYxzHSAyHM4G9/mn6urjqIgTdtxl8iqyeeKkpi0PJd947r5nJNZV+g4p1ccs/GgbPa4+SIVA0ykAqvmkLdU32/jdYtTGLltZp8Q00Re9Ej4tFTe8iw8EvvQuAHEdFNtrWSs03uoUANZWd9+WNozOPgoud7naOGXz1TFa6Wnge6MnvCxstSlaA47TQs7CPlzPNI3F2E72Xk0tVjtPVmWGqZUMJuWSgWt5q+gxoyxg6tcNHNPIrd3rbljretN5LjsTG6vsR1TX0jT4gLOI815vjGJV9QeyonxxnnI4ZreQTWEz4nR1AM+Ivmvuw218lNXW2pZvWm4LnUdY9jXXaNRZWlNXXaM2/mqaFrnRdpLq9w26JGzGNwF1jenSNN74D57aJHVJI3VLHUkjUp1tQAdyeam10sHS33OqYfJqSo0lQPi2QOnzG3gm0p2olvE4jcDqolBHNSSCeY3J3HQdEU8zBHd7srSQ35ko+xlJBe67LpUwOz0TO1kq2kWdYn+FV1HijayrJa4jXQXUrH52U2BVgZ8T48gHiSAsZQVU1PlytIPNe7408Wvm/8AkcrbMfx6xQYiTIxkg0so3ErWOge5tisjQcSvjlaycbjQqRimPlzDGDcOXpvp86e2S4idkhuB1WTlkdM661HEhc6mGUXusk+KduuU+ixi6U3LC4HW2qOjiHaG+qF4mdu13ojo2Sh5OV3orUWADGbrUezqNp4lgI6LNwUpl+K4K1fs8pjFxJCQDYBYSvZ+NXmLht7m8m3XzDiFW6rqySNiV9Mccu/9MS/yn8l8w5S6pcSDuVnjy9uvJPRiSO5UnCm5ayLzTErSHc1JwtpNZFpzXWVzr0zAYe2qWNtyC29VH2dK1vgsVgFUyjqmOkOjgAtrWVDJqdpaRsvd8X/1vB8rfcZn3OO2pQS0EYaSCEEr33vYpBI94tqvid3L9fe7WP4SLD+022UhuFNDbnddDI+MWTxneAl5sv07OP4hjDC4kXSjCPFSGzyE6Ap0SS212V72X6nZx/Fc/DLHQ6rvotwt3lLfK7NsURqSAr3sv07GP4huwsddUDqAsU/3gnUhcycPNiE72X6l4MfxWGmN7ZU4MPOTNYKxcWA/DqjbIMpu3RO/knYxUxoXP2AUuhpvdx3xdPuna090IhMCNQneyOxiCSWBwLHRgtdyQQ4VRPkbI5sjwDcNc64RPa12oGq4VBiFrJeTfmxvDC4zUt0KqJzHYKE9x+V7KS9/atz+oUWT4l5cvb3YeghzjpyT8TddSLBc0Bzbph84jLhoo1tL7ZocAnpLSRZQ7fwVB9KsbLkBF1PhqA5ty6wPNbjNqHW4bTX0ZZ5HxDQEqqfhuVxNufJXtTUU8RzPlaPNQ3VtBKcvvFjfW43W9pqo9Jh7HEZmiytqPDqeI5xG1rupUNmJ4fT3Ac5x8ApNLi1HMS0SZTewubKLqxZu7rbFQJXhslkUtU0R2z3tuQVXmsZK/K1wJXOtSrNkxDRf1RCbXdQ6Zxc4tOtlI7AG2YXscw81GtnTMC/KXa2vbwXNlsQdLBN21vola4NKgkTUL8SpXsgIEjLSMB2cQdvmkhxKpYwRSQSNkbuHNKkUEwY1xOnIKVNPFKyxF11mMsjh3rhlYyeOYhUVTm08cbnMvme7kTyA8Aq2TO21ozdbJzIpXCzG+iGXD43uvkb6L0Y8nTNSPFy8d5MrlazPZtfAHZHZlHbHUulALCWjmtiKGPJbIF3u0bG6saPkt9//AKc/8/8A2y1TTGYsY5hINkWIYHHBSGUNBPRamOnhcRcNK6opGyMy2BCuPPJNWM5fHtu5Xl0naXP/AE7reS6OSVm1O70XpbMKpw0Zo2+iM4RTHaNqx35+N/57+vN21Eg1MLh8lpvZ/Vvk4hjYWEC19VoTg1LpeNqGDD46CoE0DQx42ITvRL8e/rdccPEfDcmx7p0XzwZgJT9S7fovYKvEKivpuxnfmZ0VK7BqIEfVNUxzmK5cVrziWSMnWI+icpDGamPK22vRbypwGkkcMsY2TEXDMDZu1DBcLU5Yl4b9KyrndTxskbuFfUFfNLTMtLfS9rqU7B4Zocr2A2XDC4qeJvZ6EaLfH8jpY5PjdSd7v2htYLjTdn9m6lMYLaFAZHZrEaLxPegS00jnXGiLsHhuoU18jb20CPKC3cKCJGzS2XVOdkTyNkoBD9gpDRm6IiI+n8E2aYDUt/BSpGEOShtxqqukB8GbRrfwQspHNKs2BttAE0R39vxTaI7KYuOv5I5afKzZPl2XkV2Yv3v6p4NKx0NjfKua3XZT3NubIBEB1VmjyivaQFHcHZrFt1ZGEnXVA5jelyqaqvkBjAuN9lFe67tla10JfTFzRcs1FlTPddc8vbvx3xo+2QNYqyuLjexsVJdICCoswzu5qRus7WYPV1cmdk0jB1bpZSYcOxljOzdW3byJGq1FIyN0eUjVSAGMbZzQQusz17jl2/O2PfgeI3u6opyfFx1SOwfEoS0hkL9eT1o6uJj7uYAoGdwJvcWXScmNd8ccdeVWMIxKd2vYR+Zul+g63bt4CbX0BVvEx0thyVpSQRRkZxdS8ki5TH6ZA4LjLrtjqQxo3KKgwyro6jPLK6TxK3DhG9uUMACjVsTDGbCy53k39OPb87RqA3JcQpXaOIJe1o7xtY7jqq+nkMZsU+6fMNbXC5OsPh1z4BC6QXsFHMlhuhZeVzWC+ZxskiW6W1MQGC43TpaeWykGFkUYAsQ0WTPvDR9grs8t80gvHrZc6pOyeYRN9kpJaZmnVNpo2yd+ifd3mXdsmCwM5FPxxmQWNwmyw00sDrBPBzDa5Re5gahIaXvaqGjuSJw0dddla0fFqgLBENFwAfrdRdGZXvB0QtfcXcU65jn80Apz9rZE0jOkOY66JMznEdFINJmdoEjqN7dirKWBYdPFFFJ1KNlO7coHU9juqmivnLRYEJlzpnHS9kTqUucLFOXkjFsqi6T4XWHNC5zi7QLoaV999PNOincHbrO1R36HVc1/IEqRJSPceaH3Xsxe5Q0Hv80jXSB3+yJ0oGhuiYS/a6oHtO9Y29Ehe06FwCd7Au11Q+6tGriUQjCxo0N0Bc0vvojDGMBIKYzDMhElxaRyQOcGjQBcxjnjdG2MhuouiohJLtguL8vIKSYjuGqNN2xNgxDZTJmCFsjCbEhK2OS2rUP0fI51xdArnAnQghUGI07qOYmx7J2rfDwV8KOWM7EprEoO2oyyRltdD0U9tTxWa7UO0F7JDqAU1IHQylpN7ImPF91NOku0qFxFgnyXOFrHwTUIuR18FPhhDzYnRRuILo5HEjKbdUxLQyuFxceQWmgpohuE6WRjRtvRWXS62y8FLJGL2IHQqW0ZBfn4q7MMbt90zPQxuB5KWrpXMmPnZN1Mge21yLpyWIRX6KBNLbXl0UKYccu2lj6pO1PXdNSy5jc2TBmt4LUjnckt8wDVc8PUDqkmqk+C1o/HxVDRwOrZgCSGA6rf0gip6eJoaAGsAAC1rTnlls06j7IFwuUx2w2MX4KykqGOCZDIn3NlGTEVyPgskc0l9sqeEzGOIam5KhpfpuqHoo2P3C6SNrHaIqYs3doknfG5wDSkKJ0WZmhTF+/YqQGkM0JKZIsbv0QFIWOZYDVMtiyhO52hI5gdqHFIuwRua3QhE9waQeSVpaCBa66djXC97IODmbhN3zuygpoSgaWKAFzpLsBU0m0t8RtoU2YnFum6RsjwdTsnQ1z9QbIpg0824KJkD3jvHVSmkhtigNNI43Y7RVKGF7mbnRPNqYs3xaozEy1kLKGPNmWDR01LLJl9UzW6kOgYGjRNPpmEXsruIiOng1unaeaEjQ2SmiiOtkTaOICwFk3DyLt4h9sKPUydoO478UTqJl9ykkpWMCu4nlEDXgjM/TzUiIRD4jdcYI7AmykMpojHeybUvbwt2IRtqoDoSEDaOM7oXULCdE2JLZ4LaEKLLMXP7trIXUgboCUTaPu3ursEHC2pCRmIQtdlJC73R4bumRhoJLiFNqkmticbNsmMTLX0gsBfMlZRs5CxTVVC6OK5N7lNrPbL18NzfS6rbkHujS9vJXtYzcjVU0sZY4uabWTGt5Q9S1ABFzZThVhn9lSPeDY2s7mmZKt7Dqb2V6dpM9NU3EQ3nbRNOxUh1ydORBWYGI3FiSnG1Ycy99ehU6GpyRpBXl5Dw8fMpybFNNXA+CyzazIDqgfiDtbEm6dC91fz14fpcWVXUVOdxDeW6r/eJHkXcBfWycEoA5qzHTNz2cc420TbQXOA3XXdLsNFOoaT7RHilukk2n4XCI7aLaQxts0O10CytKwBzdgB1Wn7VzGNLW3uAs405JrSRJHGRYAJrsA0aWTZqXWuWlAKuTbKbK2WsSyH46aEG7gLozS018wAumA9ztVxedNCrC1K93hyoBSQnvWTQDyNCUAmfG7XZVlNyMY3QJiRjH7hCcQaBYtQGqDz3WlS5LMQvhGwGicEDA3UpsvJ1OiX3loGUhZ8teD0cEY1KSSGF/2lGlmL2/V6JmMSvky8+quzSX7mz5KRTxsZ3co81zI3taAULyWmym6uokfRsROYO3Uaen7F2gNkrKssNrrpqvOLHVXbOjRfZt7FDHO/7pRXcRoEbZBGLEBRR548t+0HqlZPFtnb6rxql4yqqkWExT7OKqpj7GUrXarl3I9fdNH/AJgQvmYW6PC8nfxRWZbiUpt3F1UwayFO3VuceuRva7TME6A37wXkEPGFZfuyE/NPv4zroRmc+wTtZJ3Mf16x2Y5uCZmizDQheUf8xZ72Mv4pP+Yk1/3v4p28vxe5j+vVuw7upCcYLNAFl5P/AMxJrfvPxXR+0adp/efir28juT9euAWGtkhIvyXlTvaPK4fvPxQj2iTcn/ip28vw65+vUnfEuMzRovMB7Q5773+avOH8dmxgF5OnmnRfteuNp7yC3KCjbM1rDdUzI5wQ4OKOsfJFSukubtU01tZxytJ8ExiTw+Bob1WCl48dTSOidfumyusBxqTHKaWosexY7KHdXc7fgrcbImOUtPVAve6qZ4hmNxpurio112UGQBzSdLLnK9Fipnpw43G6rZ2PZcOBI8FoXRd0jmq+ph1Oi6TJzuKlytcUTYmjbT5qTJSB+oYAeaaNPLGLjVa2zJQBjbb3XXa3kELYZJDzCcjpC031KbNADi82aNlJgpy83Kcp6XvXI08lZQwAbNuQs3JrHEzDS2AJGqsoIsu4RwxBrbnVPsYOQXK12xg42gkXFlqYCw0sVwLlqzLAQVoKBzZIWRvdl6Otey1xufL+jeGWGg2XNDCNgm543iQxRz00kg/w3P7N5+TtD6quqsTkwyTJWU01OSbNLxYO8jsfkul48p7jhOTG+lqGAOsnWsZa1gs+OJ6WxJfqPFdFxTSO3kt81lfa+jsHkBNzMaHDTdVUfEFHcu7RGOIKJ+pkGibXS2ZTMLRcBJ2TAbADZVf7R0gFhIE63G6IgHtRt1UE2djRYWQ9gwtvbmoc2M0TrWlHqubjFGW27UeqCR2TQdEeUNsRuq92MUjTpKPVOPxakytIlHqmqbWbsxZuha27bndQ48Wp5LMEouU86pawAApqrt0cYdIbo5Kdl7pltQGkuBumJcYgabPeGnoVJKWyHS4tflB0T5iBbqqsYjA92cSt9VKOIwlg+sbt1V0m3z/gsbjJpsrmanJNw03VfgAaH3cdFoBVxBxaQvdlP6eCWdKGKc9lruor6R8pvsrB84fJlYNFYU9EwRZn2us+vKyzLwzo+oOy6slMlMdFa1sUQFgNSo1Th/8A0TnAclqZpcIx8h77vNDc9SnpIrPd5pMgC7RxBr1K7XqjACQqhBfqU/ExzhumQp1JSyzDuKVYBocDa69K9nTbUtysFDhdVJJkykfJem8A4HUsibE1rpJHbALhy3c078PvbWB4AATr8LqsYp3xUUOc7F7jlY3zcdArqkwMUrG9qyGV51L3d4AdGt5+ZUipaYaGZzZZHPylrbkAN05NGgTD4v3kufyvrF5NBwlhUONvogyPHMSvmkJJFJSt6uG7z579FsamNsUMcTGsa1jbAMYGj0GgUXhejZh+ENcDnnnPaTSHd5/2Uirfcrhy8m50z09PBxdP9X2rphoeahODg4kBTpBcKM5trndeZ7DOUaqLNFe+qmeHNNPaDvuVWdKx0WU+aZeLCxF7qxfDa+6adBm3APmFdmkLswDsnI4weWt+ikCDXQD5p1sRBAsmzRuKGxudPBS4ma6bBC1oaQb6p9l/ILNrUhxjQ3Q2unBa+ibbYJxvkstHY263Ks6WUgWVY1yl0zrDVWXTNm1lV01LitN7vWRCRo1Y4GzmHq08lS0tZiHDVazDK5zcSwqrcI43TtDrE/ZeNr+KtoSTrySVNMK2WCB2uV4k15W2/Gy9HDy5dUkeXn4cem5VX4/7NGVMbq7A82xdJRk3LfFhO48PRYaXDOzuCSCDYg73XuNBI+nDcthY7X1cFE4n4Ro+ImGrpzFS13N5Byy/zW2P8XqvXycO/OLw8XPrxk+fqioqGVfZNPdvY2KuqXDZZoQ7MbkdVY13CdVheIkYlSvhzOOR+hY8dWuGhU1kcEEVmvGniuXVjj4yjdmeXnG+GCxytqsKn7MuJVcOJ6lotc+qm8XzR1FX3Teyzr2Cy7Y4Y2b053kznja1/amota59Vw4pqAPid6qjO6KIZngLXax/E7uf6uTxNUH7TvVOR8TVLnNbmdqeqqnNa07JYwC8WHNZ7eP4dzL9bLhvEJ6vFoWOkdlv1XqpiaIm630Xk/BEYOKxl/JevuEfZty9F5eXw9fDdzdR2kRja6884wqJzieSJzm3J2Xoj3NA2WA4hg7XE3SE7EgBY45vJrlusVXSiu3klc1vmoOI8RVNDN2QlcbeKnyVRY0hztAshjDnOqSXArvhx7vl5ry+PDsMkLCNVcttI24OqpKNouNbK5pCAzUhd8nAjJuyepBxKQkAHRRpIxcm49UzfXl6pIiRU1bgQ4G6GbGJPduzIsmcjn+Kj1cZZEbqyG0BxzuJ8U08FD2hBK7tCVrQQXulKS65VCq4wmodT95RsCwLEeJMSiw3C6WSqqpT3WMGw6k8gOpX0Lwd7J8J4LijrsYMOKYq2xawj6iA+A+2fE/JWYbS5aZ3hDgXE8UhZiFbE6ipTq0yN+skHUA7DxPoV6FheCxwxlsbWxUcJDnZDmfORsHO6eAACdlxB+JzhuYb7A6BT6m1PQtga3RxuTe110mEnpi2ok05ldmNzvuExO8mgFxq8kEDkhc+3k0Em3MJl8hf3LEtbp5hWkZuif2UT6f/ACnub8roJ3h2qcxGL3LEXPFxFP8Ag4JmQjkNF8fmx6crH2uDOZYSo7imnkWOqdd0TLtCuL0QxI0G4KAm+h2Tjm3TTh4oBtcaFd2Zvtoh0B00TjTZUhBHrfKuyOcSSiLjayW6iuEYF9tEbRrquaN0R8llS+SNuhTYRDfdA6NVJgOoUVneKnwMAGu3VE2lsf2TSTsNVMoojGe3laczxoN9OSjU0D53NkLbRt1B6+KsIXAB5dcuPK369P8AwvofF4df3XzPl8/V/GKdHK4OYTY3Vlh85Lw/WxBPgqY5gwF2gtc2P4fr8VbUodFE25NzrY62HRe6PAlVkENZG6GaJksbjqyRtw75FebcWezGpPa1XDz5JDqXULjc/wDYefkdfNejiUXtk1te67NqC0i/IlZyxl9rLZ6fJ+M08kFU+OZrmSNNnNcLEHoQqx9rL6p4s4BwLjeEnEYTBXAWZWwWDx/MPtjz18V8/wDG3s1x7gmQvrYO3onG0dZBd0Tulz9k+BWenTXVtjDuiiIa8EpHDVcwAmxVEl8jXm6OncHTsaOqaMYtonKJuWqiJ+8s1puODobYizkvT2MNhryXnHCYBr2EBekD4ByXi5Xt4fRyOn7bmFlMYoI21kpl2zbrUsLh8LrKgxt8UxkjLwZCLLGF6bteXHqx0wuJsgbVsEbgY82uu6z/ABTLBJUjsVvKbhqk7F75nAuPMlef8TUbKSveyN1xfqvZjlL4jwaqsa4g6FPsqns2coHaFKJCumhYGteR8SA1DzzUQPXGRNCUKuZuxQS1Msos4pgSXRZwqEyFd2aXOFruDPZpxDxuRLQ04gob2dW1F2xDrbm4+AVkqWyMk2O69D4L9iuM8SMZW4iThOGnXPMw9rKP4Gb/ADNh5r1vhL2X8O8FFkzIRimJf/KqmAiM/wADNm+ZuVuooXzP7ad7nAam66TD9YuX4p+G+F8E4EwgxYTRtgdIBnldrLL4ud/TYKDXVQqXHvXJ0sArLG61j5C3SwVGzNM8EZFpmLLCaVt8zrE35BTa4h4sSABsBumqEtjiytDfGw/V0k77OdZp67XVEGdl2ktDiQbbaKM4hgYHNF7Eg33KmljpCQWuN+WXTzVfM1zQ5rrXbpf+n6/3Uoh4jB77TPic0598w5dCs8yV8b3QTjLIw2I6+S1AbzN8w1BJ2Pkq3EaGOtbewZIy5a8b/PwXm5+Hrm57er4/P0XV9Kp5F0w8DUhG/tac5J2kcgdwfmmpSL90r5eWNl1X1sc5ZuOuCE2Wg8kgk110RX0usuhksLTcBG2xGqPfVA8hh0+ZVQtrElc1veuiBuNUVgdlBwGt0trDQItAN0Djy0U0pQeqNg11QNFtyVKp6eac/Vxm19TyHzWscbbqM5ZzGbrohbXYK1pKMyDNMC2PcNO7kdLh8dOQ+RwlkGwA0v8ANSM2drzYMG1+n6/WwXu4fja85Pnc/wAvf84HWyvDg1uzdNN9/wBfrc2sLiS9otyF+f6/XRII3SNa59srRYWG/T9foPQRGaQBhJYCc7mutr0H9V7JHgP08Lnlrjs22/23f7KdDJ2ZJLND90JhrLARgGw2AANlJiYNgxwtvYLQec8mx+IcgELnNeACzS+pG6IuEbdeXO1k0Zbg3Ljz01CgeiLWuNiST1OymhkdVTPgmZHNDK3LJFI0OY8dCCq5kp+EhxA6qVDIRdrDptYhVHk3H3sEhqhJiPCThDNq5+Gyu7rj/wDU47fyn5FeI1NDU4dWSUtZTy088RyvilaWuaehBX2bnAAzA2HMKk4r4EwPjqlDMThyVLBaKrjsJY/n9oeB/BZsalfJpKcpbGpjzaC+q1XHPszxvgaZz6qL3igJsysiByG+wd90+BWRzWPiudjcr0ThED31mXZejkjIL6LzXgIF80fMr1B8bMgzLw83ivfw+YjgG2iw+MvjhxV5klym50ut/EIxuV457R5yzGiI3kb7Kcc6rpeXxjtZV2LtjGSOVtli8fkEtWXB2bVQzVSn/EcmZHl5u43Xqw4pjdvHlntYjBxa6H6JCunjwQZfBZ7ldO3FP9EhD9GBXJanaWgqK+pjpqWCSeeVwayONt3OPQBWZ1LhIz5w0BTcJ4WxHHaxtHhlHNVzu+xE29vE9B4lezcL+wl0mSq4lqTG3f3OmcM3k5+w8hfzXq+C4LhuCUQpcNo4KSnbpaNts3i47uPmvRhhlf8Ak8+eeP08v4G9gGG4Y2Ov4ncyvqRZwpIz9Szwcd3nw2816VLM1kbYIGMihjGVjGjK1o6ADYJ+uqW5cjXWA02VdEM1gB3hrcrtPDkfpmvlcLG6saqUU1NbW51JTVG3MWk3dbS/JQcYrjmLRaw8URTVsoc894g7WXU9O2/x289EyXCZxcL28eak0wsLAXNuYSNVNhdlBDTcDTT+6J4cWXva/IaI47FoBIudAhmDHnLmFunMoiKGgg5mkkbX1UeqZI9udkbiW6Wt8Q6KQYR2lrN+f5rnPaw/vLjoDf8AJBTu7wuC9nIdb9D0/XzjuYch+zJe2o1P6/v0VpUU/vA7SP6t1vi2B81CeWl2SoaWuB0ub5vIqWKiyNY9hbK1r2Xtbmq+owmGSxp35A7k4XA/qrV0I7QMa4kW+E6OH6/smXljZCHZmkcuXp6+q5Z8eOXuOmHJlh/xqjkwmriN+yLx/Abpl9O9tszHDzFlojK5rMrXAuB2JFzb/wAIBPMyUgFzSeo05/2C82XxMb6r14/NynuM+IneqB8JIK0pkYAe0bGSL6lo1tdB71TOYSKWM6kaAX56rH+S/rp/tn4oI4XeFrbp1sBcbak9ArpssJf+6YLnTQab/wCyJtcG3DMgAPdyix1/8j0V/wAn7UvzfyKlmHVElskEmvUWT0eBTvNpZI4h4m/65KwFYyYi7nXcLEnl+r/ghkJkLbHUC5/Xqt4/Fwntyy+ZnfRIMLoIBd73TOHN2g9B+t1I7YvZlYNDpZot+X60KBsL/iljbsfi0G//AJ9U+Gtjb2jj2bQNXOFm/wBzf879V6McJj6jzZcmWXugjaQ07kk6i+3z/X4qTnjbFsNO6Tf4fLqUULZpmBsMLsnJ8jcrfMDcqwp8LiZaUuMkg+064y+Q5LemEJtLPU5Q5r44ANR9p39h4KwjjZGxrWscA3QNDbJ18bm2z2doSNTqkdE7KCCW/P8AqqgYyc9w1wsOtrKTEDmygkE67nX1TMDHWJuSNrXUmJ9iAT3iDpf80HStc4mxsbaqO8OiAY7QW9VIdmzWLXADW+6F8YtcO57uCCOxzr3s4Nt11CkU89xoCLHluo8l8trB9uh2S07mREHKA7npqgtWy5mAXNuWi5ri11m6HXbZNi7mk3FgL91B2gbpofC/NQWAMdXA6mqYY5Y3tyua9oLXjoQd15Xx37AKHEGy1/CpFJUjvGicfqnn+En4T4beS9IZKLfaaefMKdS1AcRZ9+RV1s9PnXhGhqsJrTS1lPJT1ERyvjkFnNPQr0HtM7RdeiYxw7hvEFnVULe3YAGTs0kb4X5jwKxeOcO1eCNz2M0F7CVo0Hn0Xg+Rw5S9U9Pf8blmum+0GMstqF4t7Ri04463ivZIqkRt1ZdeR8eMbVYw55bbdceDxm7c/nDwxZt1QnwVg+haALIPcgvd1R4emv/Z" alt="Foto de Jeferson David Anzola Grajales" width="88" height="88">
+          <div>
+            <div class="rol-rotulo">Creado por</div>
+            <h2 id="autor-nombre">Jeferson David Anzola Grajales</h2>
+            <div class="cargo">Estudiante Auxiliar Junior · Unidad de Informática, Facultad de Ciencias Económicas</div>
+            <p style="font-size:.9rem">Diseñó y programó el simulador como proyecto de estudio asignado en la Unidad de Informática de la Facultad de Ciencias Económicas.</p>
+            <div class="enlaces">
+              <a class="enlace-boton primario" href="https://www.linkedin.com/in/jeferson-david-anzola-grajales-" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21H9z"/></svg>LinkedIn</a>
+              <a class="enlace-boton" href="https://github.com/Jeferson-Anzola" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17 5 18 5.3 18 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>GitHub</a>
+            </div>
+          </div>
+        </section>
+        <section class="panel">
+          <h3 class="seccion">Origen y derechos</h3>
+          <dl class="datos">
+            <dt>Proyecto</dt><dd>Proyecto de estudio de la Unidad de Informática FCE</dd>
+            <dt>Institución</dt><dd>Facultad de Ciencias Económicas, Universidad Nacional de Colombia</dd>
+            <dt>Autoría</dt><dd>Jeferson David Anzola Grajales</dd>
+            <dt>Titular</dt><dd>Henry Sarmiento</dd>
+          </dl>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-bottom:16px">
+        <h3 class="seccion">Agradecimientos especiales</h3>
+        <div class="gracias">
+          <div class="persona" style="--cm:var(--m-fund)"><span class="ini">UI</span><div><b>Unidad de Informática FCE</b><span>Por acoger y apoyar el proyecto</span></div></div>
+          <div class="persona" style="--cm:var(--m-macro1)"><span class="ini">JL</span><div><b>Juan Esteban Laguna</b><span>Compañero que apoyó el proyecto</span></div></div>
+          <div class="persona" style="--cm:var(--m-macro1)"><span class="ini">DL</span><div><b>Diego Fernando López Abril</b><span>Compañero que apoyó el proyecto</span></div></div>
+          <div class="persona" style="--cm:var(--m-micro1)"><span class="ini">MM</span><div><b>Prof. Mónica Yolanda Mogollón Plazas</b><span>Microeconomía · de las primeras en usarlo en clase</span></div></div>
+          <div class="persona" style="--cm:var(--m-micro1)"><span class="ini">AB</span><div><b>Prof. Andrea Catalina Blanco Moreno</b><span>Microeconomía · lo usa en sus clases</span></div></div>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-bottom:16px">
+        <h3 class="seccion">Referencias bibliográficas</h3>
+        <p class="texto-suave" style="font-size:.85rem;margin:0 0 12px">Textos en los que se basan los modelos, la notación y las fichas de teoría del simulador.</p>
+        <ul class="referencias">
+          <li>Blanchard, O. (2017). <i>Macroeconomía</i> (7.ª ed.). Pearson.</li>
+          <li>Krugman, P. R., &amp; Obstfeld, M. (2006). <i>Economía internacional: Teoría y política</i> (7.ª ed.). Pearson Educación.</li>
+          <li>Lozano, <span class="pendiente-dato">[inicial]</span>, &amp; Salamanca, <span class="pendiente-dato">[inicial]</span> (2024). <i>Interacciones estratégicas</i>. <span class="pendiente-dato">[editorial por confirmar]</span>.</li>
+          <li>Mankiw, N. G. (2012). <i>Principios de economía</i> (6.ª ed.). Cengage Learning.</li>
+          <li>Monsalve, S. (2017). <i>Competencia bajo equilibrio parcial</i> (2.ª ed., Vol. 1). Universidad Nacional de Colombia, Facultad de Ciencias Económicas.</li>
+          <li>Monsalve, S. (2025). <i>Fallas de mercado</i>. <span class="pendiente-dato">[editorial por confirmar]</span>.</li>
+          <li>Varian, H. R. (2011). <i>Microeconomía intermedia: Un enfoque actual</i> (8.ª ed.). Antoni Bosch.</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h3 class="seccion">Hecho con</h3>
+        <div class="tec"><span class="chip">Angular</span><span class="chip">Plotly.js</span><span class="chip">KaTeX</span><span class="chip">GitHub Pages</span></div>
+        <p class="texto-suave" style="font-size:.85rem;margin:12px 0 0">Herramienta pedagógica de apoyo a las clases. Los resultados ilustran los modelos de los textos guía de cada materia.</p>
+        <div class="legal"><span>© 2026 · Creado por Jeferson David Anzola Grajales</span><span>Unidad de Informática FCE · Universidad Nacional de Colombia</span></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ================= PALETA ================= -->
+  <div class="vista paleta" id="v-paleta">
+    <h2>Paleta token por token</h2>
+    <p class="texto-suave" style="max-width:62ch">El oscuro conserva exactamente los valores de hoy. El claro usa los mismos nombres de variable; los textos cumplen contraste 4.5:1 sobre el panel blanco y las líneas de las gráficas al menos 3:1.</p>
+    <div class="tabla-tokens-envoltura"><table class="tokens" id="tabla-tokens"><thead><tr><th>Token</th><th>Oscuro (actual)</th><th>Claro (propuesta)</th><th>Uso</th></tr></thead><tbody></tbody></table></div>
+    <h2 style="margin-top:28px">Series de las gráficas</h2>
+    <div class="tabla-tokens-envoltura"><table class="tokens" id="tabla-series"><thead><tr><th>Constante</th><th>Oscuro (actual)</th><th>Claro (propuesta)</th><th>Contraste sobre el área de trazado clara</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script>
+(function () {
+  const raiz = document.documentElement;
+
+  /* ---------- Tokens para la tabla ---------- */
+  const TOKENS = [
+    ['--fondo','#0e1116','#F4F6F9','Fondo de la página'],
+    ['--fondo-lateral','#0a0d12','#FFFFFF','Menú lateral'],
+    ['--panel','#171b22','#FFFFFF','Tarjetas y paneles'],
+    ['--panel-hover','#1e232c','#EEF2F6','Hover de filas y botones'],
+    ['--borde','#262c36','#DDE2EA','Bordes y divisores'],
+    ['--texto','#eef1f6','#141A23','Texto principal (17.5:1)'],
+    ['--texto-suave','#8b94a5','#5A6577','Texto secundario (5.9:1)'],
+    ['--acento','#3dd6b5','#0A7D66','Acento, deslizadores, valores (5.1:1)'],
+    ['--sobre-acento (nuevo)','#07142b','#FFFFFF','Texto sobre botones de acento'],
+    ['--acento-2','#ff7a85','#C2384A','Error, nivel Avanzado'],
+    ['--listo','#3dd6b5','#0A7D66','Punto de simulador listo'],
+    ['--pendiente','#6c7686','#8A94A6','Punto de simulador planeado'],
+    ['--barra-fondo (nuevo)','rgba(14,17,22,.88)','rgba(255,255,255,.86)','Barra superior translúcida'],
+    ['--velo (nuevo)','rgba(0,0,0,.55)','rgba(20,26,35,.32)','Fondo tras menú y modales'],
+    ['--sutil (nuevo)','rgba(255,255,255,.06)','rgba(20,26,35,.05)','Contadores, chips, code'],
+    ['--pista (nuevo)','#2b3340','#D5DBE4','Pista vacía del deslizador'],
+    ['--acento-suave (nuevo)','rgba(61,214,181,.14)','rgba(10,125,102,.10)','Opción elegida, ejercicio, éxito'],
+    ['--dorado (nuevo)','#f5c451','#8F6200','Texto dorado (nivel Intermedio)'],
+  ];
+  const SERIES = [
+    ['AZUL','#5B9BFF','#2563D9'],['DORADO / ACENTO','#F5C451','#B07A00'],['VERDE','#3DD6B5','#0B8A70'],
+    ['ROJO','#FF7A85','#D23A4B'],['MORADO','#B79CFF','#7448D4'],['NARANJA','#FFA45B','#D0650F'],
+  ];
+  function lum(h){ h=h.replace('#',''); const c=[0,2,4].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; }
+  function contraste(a,b){ const x=lum(a),y=lum(b); return ((Math.max(x,y)+.05)/(Math.min(x,y)+.05)).toFixed(2); }
+  const m = (v) => `<span class="muestra"><i style="background:${v}"></i><code>${v}</code></span>`;
+  document.querySelector('#tabla-tokens tbody').innerHTML = TOKENS.map(t=>`<tr><td><code>${t[0]}</code></td><td>${m(t[1])}</td><td>${m(t[2])}</td><td class="texto-suave">${t[3]}</td></tr>`).join('');
+  document.querySelector('#tabla-series tbody').innerHTML = SERIES.map(t=>`<tr><td><code>${t[0]}</code></td><td>${m(t[1])}</td><td>${m(t[2])}</td><td class="ratio">${contraste(t[2],'#FBFCFE')} : 1</td></tr>`).join('');
+
+  /* ---------- Tema: misma lógica propuesta para el servicio Apariencia ---------- */
+  const CLAVE = 'uifce-tema';
+  const consulta = matchMedia('(prefers-color-scheme: dark)');
+  let preferencia = 'sistema';
+  try { preferencia = localStorage.getItem(CLAVE) || 'sistema'; } catch (e) {}
+  function efectivo() {
+    if (preferencia !== 'sistema') return preferencia;
+    const host = raiz.getAttribute('data-theme');
+    if (host === 'light') return 'claro';
+    if (host === 'dark') return 'oscuro';
+    return consulta.matches ? 'oscuro' : 'claro';
+  }
+  function aplicarTema() {
+    if (preferencia === 'sistema') raiz.removeAttribute('data-tema'); else raiz.setAttribute('data-tema', preferencia);
+    document.querySelectorAll('.segmentado button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.pref === preferencia)));
+    const e = efectivo();
+    document.getElementById('nota-tema').textContent = preferencia === 'sistema'
+      ? `Sigue la configuración de tu equipo. Ahora: ${e}.` : `Se guarda en este navegador.`;
+    dibujar();
+  }
+  document.querySelectorAll('.segmentado button').forEach(b => b.addEventListener('click', () => {
+    preferencia = b.dataset.pref;
+    try { localStorage.setItem(CLAVE, preferencia); } catch (e) {}
+    aplicarTema();
+  }));
+  consulta.addEventListener('change', () => { if (preferencia === 'sistema') aplicarTema(); });
+  new MutationObserver(() => { if (preferencia === 'sistema') aplicarTema(); }).observe(raiz, { attributes: true, attributeFilter: ['data-theme'] });
+
+  /* ---------- Paneles ---------- */
+  const panelConfig = document.getElementById('panel-config'), veloConfig = document.getElementById('velo-config'), btnConfig = document.getElementById('abrir-config');
+  function config(abrir) {
+    panelConfig.hidden = !abrir; veloConfig.hidden = !abrir; btnConfig.setAttribute('aria-expanded', String(abrir));
+    btnConfig.classList.remove('nuevo');
+    if (abrir) panelConfig.querySelector('[aria-checked="true"]').focus(); else btnConfig.focus();
+  }
+  btnConfig.addEventListener('click', () => config(panelConfig.hidden));
+  document.getElementById('cerrar-config').addEventListener('click', () => config(false));
+  veloConfig.addEventListener('click', () => config(false));
+  const menu = document.getElementById('menu-lateral'), velo = document.getElementById('velo'), btnMenu = document.getElementById('abrir-menu');
+  function menuLateral(abrir) {
+    menu.classList.toggle('abierto', abrir); velo.classList.toggle('visible', abrir); btnMenu.setAttribute('aria-expanded', String(abrir));
+    if (abrir) menu.removeAttribute('inert'); else menu.setAttribute('inert', '');
+  }
+  btnMenu.addEventListener('click', () => menuLateral(!menu.classList.contains('abierto')));
+  document.getElementById('cerrar-menu').addEventListener('click', () => menuLateral(false));
+  velo.addEventListener('click', () => menuLateral(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (!panelConfig.hidden) config(false); menuLateral(false); } });
+  document.querySelectorAll('[data-ir]').forEach(b => b.addEventListener('click', () => { location.hash = b.dataset.ir; config(false); menuLateral(false); }));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menuLateral(false)));
+
+  /* ---------- Vistas por hash ---------- */
+  function mostrarVista() {
+    const v = (location.hash || '#simulador').slice(1);
+    const id = ['inicio','simulador','acerca-de','paleta'].includes(v) ? v : 'simulador';
+    document.querySelectorAll('.vista').forEach(el => el.classList.toggle('on', el.id === 'v-' + id));
+    document.querySelectorAll('.aviso-maqueta a').forEach(a => { if (a.dataset.vista === id) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+    document.getElementById('ubicacion-sim').textContent = id === 'acerca-de' ? 'Acerca de' : id === 'paleta' ? 'Paleta' : id === 'inicio' ? 'Inicio' : 'Oferta y demanda';
+    if (id === 'simulador') dibujar();
+  }
+  addEventListener('hashchange', mostrarVista);
+
+  /* ---------- Gráfica: se arma con los colores oscuros de tema.ts y se traduce al claro ---------- */
+  const COLORES = { fondo:'#171b22', fondoLateral:'#0a0d12', panel:'#12161d', borde:'#262c36', rejilla:'#222834', texto:'#eef1f6', textoSuave:'#8b94a5', acento:'#F5C451' };
+  const AZUL='#5B9BFF', NARANJA='#FFA45B', VERDE='#3DD6B5';
+  // Mapa oscuro → claro (lo que propone `MAPA_CLARO` en tema.ts). Las rgba conservan su transparencia.
+  const MAPA_CLARO = {
+    '#171b22':'#FFFFFF', '#0a0d12':'#FFFFFF', '#12161d':'#FBFCFE', '#262c36':'#C9D0DB', '#222834':'#E9EDF2',
+    '#eef1f6':'#141A23', '#8b94a5':'#5A6577',
+    '#5b9bff':'#2563D9', '#f5c451':'#B07A00', '#3dd6b5':'#0B8A70', '#ff7a85':'#D23A4B', '#b79cff':'#7448D4', '#ffa45b':'#D0650F',
+  };
+  const RGB = {}; for (const [o, c] of Object.entries(MAPA_CLARO)) { const n = [1,3,5].map(i => parseInt(o.substr(i,2),16)).join(','); const k = [1,3,5].map(i => parseInt(c.substr(i,2),16)).join(','); RGB[n] = k; }
+  function traducirColor(v) {
+    if (typeof v !== 'string') return v;
+    const s = v.trim().toLowerCase();
+    if (MAPA_CLARO[s]) return MAPA_CLARO[s];
+    const r = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\)$/.exec(s);
+    if (r) { const k = RGB[`${r[1]},${r[2]},${r[3]}`]; if (k) return r[4] !== undefined ? `rgba(${k},${r[4]})` : `rgb(${k})`; }
+    return v;
+  }
+  function traducir(obj) {
+    if (Array.isArray(obj)) return obj.map(traducir);
+    if (obj && typeof obj === 'object') { const o = {}; for (const k in obj) o[k] = traducir(obj[k]); return o; }
+    return traducirColor(obj);
+  }
+  const eje = (t) => ({ title:{ text:t, font:{ color:COLORES.textoSuave } }, gridcolor:COLORES.rejilla, zerolinecolor:COLORES.borde, linecolor:COLORES.borde, tickcolor:COLORES.borde, showline:true, rangemode:'nonnegative' });
+  function figura() {
+    const a = +document.getElementById('p-a').value, b = +document.getElementById('p-b').value, c = +document.getElementById('p-c').value, d = 1.5;
+    const P = (a - c) / (b + d), Q = c + d * P, Pmax = a / b, Pmin = -c / d;
+    const ec = 0.5 * Q * (Pmax - P);
+    document.getElementById('r-p').textContent = P.toFixed(2); document.getElementById('r-q').textContent = Q.toFixed(2);
+    document.getElementById('r-ec').textContent = ec.toFixed(2); document.getElementById('r-ep').textContent = (0.5 * (c + Q) * P).toFixed(2);
+    const pD = q => (a - q) / b, pS = q => (q - c) / d;
+    const data = [
+      { type:'scatter', x:[0, Q, Q, 0], y:[Pmax, P, P, P], fill:'toself', mode:'none', fillcolor:'rgba(91,155,255,0.28)', name:'Excedente del consumidor', hoverinfo:'skip' },
+      { type:'scatter', x:[0, Q, c, 0, 0], y:[P, P, 0, 0, P], fill:'toself', mode:'none', fillcolor:'rgba(255,164,91,0.28)', name:'Excedente del productor', hoverinfo:'skip' },
+      { type:'scatter', x:[0, a], y:[pD(0), 0], mode:'lines', name:'Demanda', line:{ color:AZUL, width:3 } },
+      { type:'scatter', x:[c, 160], y:[0, pS(160)], mode:'lines', name:'Oferta', line:{ color:NARANJA, width:3 } },
+      { type:'scatter', x:[Q, Q, null, Q, 0], y:[0, P, null, P, P], mode:'lines', line:{ color:COLORES.acento, width:1.2, dash:'dot' }, showlegend:false, hoverinfo:'skip' },
+      { type:'scatter', x:[Q], y:[P], mode:'markers+text', text:['E*'], textposition:'top right', textfont:{ color:COLORES.acento }, name:'Equilibrio',
+        marker:{ size:12, color:COLORES.acento, line:{ width:2, color:COLORES.fondo } }, hovertemplate:'Equilibrio<br>%{x:.2f}, %{y:.2f}<extra></extra>' },
+    ];
+    const layout = { paper_bgcolor:COLORES.fondo, plot_bgcolor:COLORES.panel, font:{ family:'Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif', color:COLORES.texto, size:13 },
+      xaxis:{ ...eje('Cantidad (Q)'), range:[0, 150] }, yaxis:{ ...eje('Precio (P)'), range:[0, 75] },
+      legend:{ orientation:'h', y:1.1, x:0, bgcolor:'rgba(0,0,0,0)', font:{ color:COLORES.textoSuave } },
+      hoverlabel:{ bgcolor:COLORES.fondoLateral, bordercolor:COLORES.borde, font:{ color:COLORES.texto } },
+      margin:{ l:56, r:24, t:56, b:48 }, autosize:true, dragmode:'pan', uirevision:'od',
+      annotations:[
+        { x:Q, y:0, xref:'x', yref:'paper', yanchor:'bottom', text:Q.toFixed(1), showarrow:false, font:{ size:11, color:COLORES.acento }, bgcolor:COLORES.panel },
+        { x:0, y:P, xref:'paper', yref:'y', xanchor:'left', text:P.toFixed(1), showarrow:false, font:{ size:11, color:COLORES.acento }, bgcolor:COLORES.panel },
+      ] };
+    return { data, layout };
+  }
+  function dibujar() {
+    const el = document.getElementById('grafica');
+    if (!document.getElementById('v-simulador').classList.contains('on')) return;
+    if (!window.Plotly) { el.innerHTML = '<div class="grafica-falla">La gráfica usa Plotly.js desde un CDN y no cargó. Abre la maqueta con conexión a internet.</div>'; return; }
+    let f = figura();
+    if (efectivo() === 'claro') f = { data: traducir(f.data), layout: traducir(f.layout) };
+    Plotly.react(el, f.data, f.layout, { displaylogo:false, responsive:true, modeBarButtons:[['toImage']] });
+  }
+  ['p-a','p-b','p-c'].forEach(id => {
+    const inp = document.getElementById(id);
+    const pinta = () => { inp.style.setProperty('--p', ((inp.value - inp.min) / (inp.max - inp.min) * 100) + '%'); document.getElementById('v-' + id.slice(2)).textContent = id === 'p-b' ? (+inp.value).toFixed(1) : inp.value; };
+    pinta(); inp.addEventListener('input', () => { pinta(); dibujar(); });
+  });
+
+  aplicarTema();
+  mostrarVista();
+})();
+</script>
