@@ -1,9 +1,10 @@
 <section class="heroe">
   <div class="heroe-texto">
-    <div class="sobretitulo">UIFCE · Universidad Nacional de Colombia</div>
-    <h1>{{ titulo }}</h1>
+    <div class="sobretitulo">Facultad de Ciencias Económicas · Universidad Nacional de Colombia</div>
+    <h1 class="nombre-marca" [attr.aria-label]="titulo">SimEc<span>UNAL</span></h1>
+    <p class="bajada">Simulador Económico</p>
     <p class="heroe-lead">
-      Modelos de Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 en gráficas interactivas: mueve un parámetro y observa,
+      Modelos de Fundamentos, Microeconomía 1, 2 y 3 y Macroeconomía 1 y 2 en gráficas interactivas: mueve un parámetro y observa,
       en vivo, cómo se desplazan las curvas y el equilibrio.
     </p>
   </div>
@@ -20,7 +21,7 @@
 <h2 class="titulo-seccion">Elige una materia</h2>
 <div class="rejilla-materias">
   @for (m of materias; track m.id) {
-    <a [routerLink]="['/', m.id]" class="tarjeta-materia" [style.--color-materia]="m.color">
+    <a [routerLink]="['/', m.id]" class="tarjeta-materia" [style.--color-materia]="ap.colorMateria(m)">
       <div class="tarjeta-sigla">{{ m.sigla }}</div>
       <h3>{{ m.nombre }}</h3>
       <p class="texto-suave">{{ m.descripcion }}</p>
@@ -34,5 +35,8 @@
 
 <footer class="pie-pagina">
   <span>{{ creador }}</span>
-  <span class="texto-suave">Versión {{ version }}</span>
+  <span class="pie-derecha">
+    <span class="texto-suave">Versión {{ version }}</span>
+    <a routerLink="/acerca-de" class="enlace-acerca">Acerca de</a>
+  </span>
 </footer>

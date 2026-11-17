@@ -6,12 +6,13 @@ import { TITULO_APP, buscarMateria, buscarSimulador } from './core/catalogo';
 import { Menu } from './core/menu';
 import { hayDesafio } from './desafio/indice';
 import { Tutorial } from './core/tutorial';
+import { BotonConfiguracion, PanelConfiguracion } from './layout/configuracion';
 import { Sidebar } from './layout/sidebar';
 import { TutorialUifcito } from './shared/tutorial-uifcito';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, Sidebar, TutorialUifcito],
+  imports: [RouterOutlet, RouterLink, Sidebar, TutorialUifcito, BotonConfiguracion, PanelConfiguracion],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -33,6 +34,7 @@ export class App {
   /** "Microeconomía 1 › Monopolio" para la barra superior. */
   protected readonly ubicacion = computed(() => {
     const [m, s, extra] = this.segmentos();
+    if (m === 'acerca-de') return { materia: '', sim: 'Acerca de', desafio: false };
     const materia = m ? buscarMateria(m) : undefined;
     if (!materia) return null;
     const sim = s ? buscarSimulador(materia, s) : undefined;

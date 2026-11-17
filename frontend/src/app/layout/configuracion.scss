@@ -1,0 +1,77 @@
+.velo-config { position: fixed; inset: 0; z-index: 55; background: transparent; }
+
+.config {
+  position: fixed; z-index: 60; top: calc(var(--alto-barra) + 8px); right: 16px; width: 320px;
+  max-height: calc(100vh - var(--alto-barra) - 24px); overflow-y: auto;
+  background: var(--panel); color: var(--texto); border: 1px solid var(--borde); border-radius: 18px;
+  box-shadow: var(--sombra-flotante); padding: 6px; animation: aparecer 0.16s ease-out both;
+}
+@keyframes aparecer { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+.config-cabeza {
+  display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 6px;
+  h2 { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); font-weight: 600; }
+}
+.cerrar {
+  width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center; padding: 0;
+  background: transparent; color: var(--texto-suave); border: 1px solid transparent; font: inherit; font-size: 0.95rem; cursor: pointer;
+  &:hover { background: var(--panel-hover); color: var(--texto); }
+  &:focus-visible { outline: 2px solid var(--acento); }
+}
+
+.config-seccion { padding: 8px 12px 12px; }
+.config-seccion + .config-seccion { border-top: 1px solid var(--borde); }
+.config-seccion.filas { padding: 6px; }
+.config-rotulo { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+
+.segmentado {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; border-radius: 12px;
+  background: var(--sutil); border: 1px solid var(--borde);
+  button {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border-radius: 9px;
+    border: 1px solid transparent; background: transparent; color: var(--texto-suave); font: inherit; font-size: 0.8rem; cursor: pointer;
+    svg { width: 20px; height: 20px; }
+    &:hover { color: var(--texto); }
+    &:focus-visible { outline: 2px solid var(--acento); outline-offset: 1px; }
+    &[aria-checked='true'] {
+      background: var(--panel); color: var(--texto); border-color: var(--acento); font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      svg { color: var(--acento); }
+    }
+  }
+}
+.config-nota { font-size: 0.78rem; color: var(--texto-suave); margin: 8px 2px 0; }
+
+.config-fila {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; border-radius: 12px;
+  background: transparent; border: 1px solid transparent; color: var(--texto); font: inherit; text-align: left; cursor: pointer;
+  &:hover { background: var(--panel-hover); }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+  .ico {
+    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none;
+    background: var(--acento-suave); color: var(--acento);
+    svg { width: 18px; height: 18px; }
+  }
+  .txt { flex: 1; min-width: 0; b { display: block; font-weight: 600; font-size: 0.92rem; } span { font-size: 0.78rem; color: var(--texto-suave); } }
+  .flecha { color: var(--texto-suave); font-size: 1.2rem; }
+}
+
+.config-pie {
+  display: flex; justify-content: space-between; gap: 8px; padding: 8px 12px 10px;
+  font-size: 0.74rem; color: var(--texto-suave); border-top: 1px solid var(--borde);
+}
+
+/* Móvil: el panel sube desde abajo como hoja, igual que el modal de Teoría. */
+@media (max-width: 699.98px) {
+  .velo-config { background: var(--velo); }
+  .config {
+    top: auto; bottom: 0; left: 0; right: 0; width: auto; max-height: 90vh; border-radius: 20px 20px 0 0;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+    animation-name: subir;
+  }
+}
+@keyframes subir { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .config { animation: none; }
+}

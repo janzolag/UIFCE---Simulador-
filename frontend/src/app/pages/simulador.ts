@@ -15,6 +15,7 @@ import { ResultRenderer } from '../shared/result-renderer';
 import { TeoriaModal } from '../shared/teoria-modal';
 import { NoEncontrada } from './no-encontrada';
 import { hayDesafio } from '../desafio/indice';
+import { Apariencia } from '../core/apariencia';
 
 /** Página genérica de simulador: se arma a partir de la definición registrada. */
 @Component({
@@ -24,6 +25,8 @@ import { hayDesafio } from '../desafio/indice';
   styleUrl: './simulador.scss',
 })
 export class SimuladorPage {
+  /** Colores de materia según el modo claro u oscuro. */
+  protected readonly ap = inject(Apariencia);
   private readonly ruta = inject(ActivatedRoute);
   private readonly ids = toSignal(
     combineLatest([this.ruta.paramMap]).pipe(map(([p]) => ({ materia: p.get('materia') ?? '', sim: p.get('sim') ?? '' }))),

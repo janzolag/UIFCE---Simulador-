@@ -28,8 +28,8 @@ export const PASOS: Paso[] = [
     pose: 'saludo', centro: true, ruta: '/', menu: 'cerrar',
     titulo: '¡Hola, soy UIFCITO!',
     texto:
-      'Te doy la bienvenida al Simulador Económico de la Unidad Informática de la Facultad de Ciencias Económicas. ' +
-      'Aquí los modelos de Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 cobran vida: mueves un parámetro y ves ' +
+      'Te doy la bienvenida a SimEc UNAL, el simulador económico de la Facultad de Ciencias Económicas, creado en la UIFCE. ' +
+      'Aquí los modelos de Fundamentos, Microeconomía 1, 2 y 3 y Macroeconomía 1 y 2 cobran vida: mueves un parámetro y ves ' +
       'cómo cambian las curvas. ¿Te muestro cómo se usa? Es un recorrido de un minuto.',
     siguiente: 'Mostrarme cómo', saltar: 'Explorar por mi cuenta',
   },
@@ -75,8 +75,8 @@ export const PASOS: Paso[] = [
     pose: 'cierre', centro: true, menu: 'cerrar',
     titulo: '¡Eso es todo!',
     texto:
-      'Ahora te toca explorar. Si necesitas repasar algo, el botón «Tutorial» de la barra superior me llama de nuevo. ' +
-      '¡Mucho éxito con tus modelos!',
+      'Ahora te toca explorar SimEc. Si necesitas repasar algo, el botón «Tutorial» me llama de nuevo, y en el engranaje ' +
+      'encuentras el modo claro u oscuro y la información del simulador. ¡Mucho éxito con tus modelos!',
     siguiente: 'Empezar a explorar',
   },
 ];

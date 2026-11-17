@@ -13,6 +13,7 @@
   transition: background 0.15s, border-color 0.15s;
   &:hover { background: var(--panel-hover); border-color: var(--acento); }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  .icono-parametros { width: 16px; height: 16px; flex: none; }
 }
 .boton-desafio { border-color: color-mix(in srgb, var(--acento) 55%, var(--borde)); }
 .enlace-materia { font-size: 0.85rem; color: var(--texto-suave); &:hover { color: var(--texto); } }
@@ -30,12 +31,12 @@
 .panel-grafica { padding: 10px; min-width: 0; }
 .grafica-vacia { display: grid; place-items: center; color: var(--texto-suave); }
 .aviso-construccion {
-  background: rgba(61, 214, 181, 0.08); border: 1px solid rgba(61, 214, 181, 0.35);
+  background: rgba(var(--acento-rgb), 0.08); border: 1px solid rgba(var(--acento-rgb), 0.35);
   border-radius: 12px; padding: 10px 14px; margin-bottom: 20px; font-size: 0.9rem;
 }
 .control-fantasma {
   height: 44px; border-radius: 10px; margin-bottom: 14px;
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 12px, transparent 12px 24px);
+  background: repeating-linear-gradient(90deg, rgba(var(--sutil-rgb), 0.04) 0 12px, transparent 12px 24px);
   border: 1px dashed var(--borde);
 }
 

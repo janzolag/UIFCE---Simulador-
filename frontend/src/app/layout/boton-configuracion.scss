@@ -1,0 +1,20 @@
+:host { flex: none; display: flex; }
+
+.boton-config {
+  position: relative; flex: none; width: 36px; height: 36px; display: grid; place-items: center; padding: 0;
+  background: transparent; color: var(--texto); border: 1px solid var(--borde); border-radius: 999px; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  svg { width: 20px; height: 20px; transition: transform 0.3s; }
+  &:hover { background: var(--panel-hover); border-color: var(--acento); }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+  &[aria-expanded='true'] { background: var(--panel-hover); border-color: var(--acento); svg { transform: rotate(60deg); } }
+  /* Punto de novedad: desaparece la primera vez que se abre el panel. */
+  &.nuevo::after {
+    content: ''; position: absolute; top: -3px; right: -3px; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--acento-2); border: 2px solid var(--fondo);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boton-config svg { transition: none; }
+}

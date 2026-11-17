@@ -1,10 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CREADOR, MATERIAS, TITULO_APP, VERSION } from '../core/catalogo';
 import { Figura } from '../core/tipos';
 import { ACENTO, COLORES, layoutBase } from '../core/tema';
 import { linspace } from '../core/numerico';
 import { PlotlyChart } from '../shared/plotly-chart';
+import { Apariencia } from '../core/apariencia';
 
 /** Gráfica de muestra: oferta y demanda con equilibrio (equivale a figura_portada). */
 export function figuraPortada(desplazamiento = 0): Figura {
@@ -37,6 +38,8 @@ export function figuraPortada(desplazamiento = 0): Figura {
   styleUrl: './inicio.scss',
 })
 export class Inicio {
+  /** Colores de materia según el modo claro u oscuro. */
+  protected readonly ap = inject(Apariencia);
   protected readonly titulo = TITULO_APP;
   protected readonly creador = CREADOR;
   protected readonly version = VERSION;

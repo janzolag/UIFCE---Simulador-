@@ -1,10 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Frontend</title>
+  <title>SimEc UNAL · Simulador Económico</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0e1116">
+  <script>
+    /* Sin destello: aplica el tema guardado antes de que Angular arranque (la lógica completa está en core/apariencia.ts). */
+    (function () {
+      var p = 'oscuro';
+      try { p = localStorage.getItem('uifce-tema') || 'oscuro'; } catch (e) {}
+      if (p === 'sistema') p = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+      if (p !== 'claro') p = 'oscuro';
+      document.documentElement.setAttribute('data-tema', p);
+      if (p === 'claro') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f4f6f9');
+    })();
+  </script>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>

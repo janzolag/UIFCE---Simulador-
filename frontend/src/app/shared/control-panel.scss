@@ -12,25 +12,25 @@
 input[type='range'] {
   -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 28px; margin: 0;
   background: transparent; cursor: grab; touch-action: pan-y;
-  --pista: linear-gradient(to right, var(--acento) 0 var(--p, 0%), #2b3340 var(--p, 0%) 100%);
+  --pista-relleno: linear-gradient(to right, var(--acento) 0 var(--p, 0%), var(--pista) var(--p, 0%) 100%);
   &:active { cursor: grabbing; }
-  &::-webkit-slider-runnable-track { height: 6px; border-radius: 6px; background: var(--pista); }
-  &::-moz-range-track { height: 6px; border-radius: 6px; background: #2b3340; }
+  &::-webkit-slider-runnable-track { height: 6px; border-radius: 6px; background: var(--pista-relleno); }
+  &::-moz-range-track { height: 6px; border-radius: 6px; background: var(--pista); }
   &::-moz-range-progress { height: 6px; border-radius: 6px; background: var(--acento); }
   &::-webkit-slider-thumb {
     -webkit-appearance: none; width: 20px; height: 20px; margin-top: -7px; border-radius: 50%;
-    background: #fff; border: 3px solid var(--acento); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    background: #fff; border: 3px solid var(--acento); box-shadow: var(--sombra-pulgar);
     transition: transform 0.12s, box-shadow 0.12s;
   }
   &::-moz-range-thumb {
     width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid var(--acento);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--sombra-pulgar);
   }
   &:hover::-webkit-slider-thumb { transform: scale(1.12); }
-  &:active::-webkit-slider-thumb { transform: scale(1.2); box-shadow: 0 0 0 7px rgba(61, 214, 181, 0.18); }
+  &:active::-webkit-slider-thumb { transform: scale(1.2); box-shadow: 0 0 0 7px rgba(var(--acento-rgb), 0.18); }
   &:focus-visible { outline: none; }
-  &:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(61, 214, 181, 0.35); }
-  &:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(61, 214, 181, 0.35); }
+  &:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(var(--acento-rgb), 0.35); }
+  &:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 5px rgba(var(--acento-rgb), 0.35); }
 }
 
 /* Selector tipo "pastillas" */
@@ -38,8 +38,8 @@ input[type='range'] {
 .opcion {
   font: inherit; cursor: pointer;
   border: 1px solid var(--borde); border-radius: 20px; padding: 5px 12px;
-  font-size: 0.82rem; color: var(--texto-suave); background: rgba(255, 255, 255, 0.02);
+  font-size: 0.82rem; color: var(--texto-suave); background: rgba(var(--sutil-rgb), 0.02);
   &:hover { background: var(--panel-hover); color: var(--texto); }
-  &.selected { border-color: var(--acento); color: var(--texto); background: rgba(61, 214, 181, 0.14); }
+  &.selected { border-color: var(--acento); color: var(--texto); background: var(--acento-suave); }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 }

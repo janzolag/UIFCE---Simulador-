@@ -134,6 +134,8 @@ export interface Materia {
   nombre: string;
   sigla: string;
   color: string;
+  /** Color de la materia en modo claro (más oscuro, para leerse sobre blanco). */
+  colorClaro: string;
   descripcion: string;
   simuladores: SimuladorMeta[];
 }

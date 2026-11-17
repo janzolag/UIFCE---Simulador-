@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 import { CREADOR, MATERIAS, listos, porPilar } from '../core/catalogo';
+import { Apariencia } from '../core/apariencia';
 
 /** Menú lateral desplegable (cajón): materias en acordeón y, dentro de cada una, sus simuladores. */
 @Component({
@@ -12,6 +13,8 @@ import { CREADOR, MATERIAS, listos, porPilar } from '../core/catalogo';
   styleUrl: './sidebar.scss',
 })
 export class Sidebar {
+  /** Colores de materia según el modo claro u oscuro. */
+  protected readonly ap = inject(Apariencia);
   private readonly router = inject(Router);
 
   readonly abierta = input(false);

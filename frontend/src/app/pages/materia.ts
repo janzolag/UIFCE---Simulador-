@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { buscarMateria, listos, porPilar } from '../core/catalogo';
 import { MathEquation } from '../shared/math-equation';
 import { NoEncontrada } from './no-encontrada';
+import { Apariencia } from '../core/apariencia';
 
 @Component({
   selector: 'app-materia',
@@ -13,6 +14,8 @@ import { NoEncontrada } from './no-encontrada';
   styleUrl: './materia.scss',
 })
 export class MateriaPage {
+  /** Colores de materia según el modo claro u oscuro. */
+  protected readonly ap = inject(Apariencia);
   private readonly ruta = inject(ActivatedRoute);
   private readonly id = toSignal(this.ruta.paramMap.pipe(map((p) => p.get('materia') ?? '')), { initialValue: '' });
 

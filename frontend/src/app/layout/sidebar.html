@@ -13,7 +13,7 @@
     </a>
 
     @for (m of materias; track m.id) {
-      <div class="grupo" [style.--color-materia]="m.color">
+      <div class="grupo" [style.--color-materia]="ap.colorMateria(m)">
         <button
           type="button"
           class="fila materia"
@@ -64,7 +64,10 @@
   </nav>
 
   <div class="menu-pie">
-    <div>Unidad Informática FCE</div>
-    <div class="texto-suave">Universidad Nacional de Colombia</div>
+    <div>
+      <div>Unidad Informática FCE</div>
+      <div class="texto-suave">Universidad Nacional de Colombia</div>
+    </div>
+    <a routerLink="/acerca-de" class="enlace-acerca" (click)="cerrar.emit()">Acerca de</a>
   </div>
 </aside>

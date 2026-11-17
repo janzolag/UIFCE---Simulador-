@@ -1,0 +1,93 @@
+<div class="acerca">
+  <header class="acerca-heroe">
+    <span class="logo" aria-hidden="true">UI</span>
+    <div>
+      <div class="sobretitulo">Acerca del simulador</div>
+      <h1>{{ titulo }}</h1>
+      <p class="texto-suave proposito">
+        Modelos de Fundamentos, Microeconomía y Macroeconomía en gráficas interactivas, para las clases de la Facultad de
+        Ciencias Económicas de la Universidad Nacional de Colombia.
+      </p>
+      <div class="chips">
+        <span class="chip beta">Versión {{ version }} · beta</span>
+        <span class="chip">{{ nMaterias }} materias</span>
+        <span class="chip">Hecho en Bogotá</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="acerca-rejilla">
+    <section class="panel autor" aria-labelledby="autor-nombre">
+      <img class="avatar" src="assets/autor.jpg" width="88" height="88" [alt]="'Foto de ' + autor.nombre" />
+      <div>
+        <div class="rol-rotulo">Creado por</div>
+        <h2 id="autor-nombre">{{ autor.nombre }}</h2>
+        <div class="cargo">{{ autor.cargo }}</div>
+        <p class="origen">
+          Diseñó y programó el simulador como proyecto de estudio asignado en la Unidad de Informática de la Facultad de
+          Ciencias Económicas.
+        </p>
+        <div class="enlaces">
+          <a class="enlace-boton primario" [href]="autor.linkedin" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21H9z" />
+            </svg>
+            LinkedIn<span class="solo-lector"> (se abre en una pestaña nueva)</span>
+          </a>
+          <a class="enlace-boton" [href]="autor.github" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z" />
+            </svg>
+            GitHub<span class="solo-lector"> (se abre en una pestaña nueva)</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="origen-titulo">
+      <h3 class="seccion" id="origen-titulo">Origen y derechos</h3>
+      <dl class="datos">
+        <dt>Proyecto</dt>
+        <dd>Proyecto de estudio de la Unidad de Informática FCE</dd>
+        <dt>Institución</dt>
+        <dd>Facultad de Ciencias Económicas, Universidad Nacional de Colombia</dd>
+        <dt>Autoría</dt>
+        <dd>{{ autor.nombre }}</dd>
+        <dt>Titular</dt>
+        <dd>Henry Sarmiento</dd>
+      </dl>
+    </section>
+  </div>
+
+  <section class="panel bloque" aria-labelledby="gracias-titulo">
+    <h3 class="seccion" id="gracias-titulo">Agradecimientos especiales</h3>
+    <div class="gracias">
+      @for (g of gracias; track g.nombre) {
+        <div class="persona" [style.--color-materia]="ap.colorMateria(g.materia)">
+          <span class="ini" aria-hidden="true">{{ g.iniciales }}</span>
+          <div>
+            <b>{{ g.nombre }}</b>
+            <span>{{ g.aporte }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="hecho-titulo">
+    <h3 class="seccion" id="hecho-titulo">Hecho con</h3>
+    <div class="tec">
+      <span class="chip">Angular</span>
+      <span class="chip">Plotly.js</span>
+      <span class="chip">KaTeX</span>
+      <span class="chip">GitHub Pages</span>
+    </div>
+    <p class="texto-suave descargo">
+      Herramienta pedagógica de apoyo a las clases. Los resultados ilustran los modelos de los textos guía de cada materia.
+    </p>
+    <div class="legal">
+      <span>© {{ anio }} · Creado por {{ autor.nombre }}</span>
+      <span>Unidad de Informática FCE · Universidad Nacional de Colombia</span>
+    </div>
+  </section>
+</div>

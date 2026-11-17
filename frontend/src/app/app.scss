@@ -3,7 +3,7 @@
   height: var(--alto-barra);
   display: flex; align-items: center; gap: 14px;
   padding: 0 20px;
-  background: rgba(14, 17, 22, 0.88);
+  background: var(--barra-fondo);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--borde);
 }
@@ -21,6 +21,11 @@
 }
 
 .marca { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.marca-titulo {
+  white-space: nowrap;
+  b { font-weight: 800; letter-spacing: -0.01em; }
+  span { font-weight: 500; color: var(--texto-suave); margin-left: 4px; letter-spacing: 0.06em; font-size: 0.82em; }
+}
 .logo {
   width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; flex: none;
   font-size: 0.85rem; font-weight: 800; color: #07142b;
@@ -36,14 +41,14 @@
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
   .interrogacion {
     width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center;
-    font-weight: 800; font-size: 0.85rem; color: #07142b; background: var(--acento);
+    font-weight: 800; font-size: 0.85rem; color: var(--sobre-acento); background: var(--acento);
   }
 }
 
 .ubicacion ~ .boton-tutorial, .ubicacion ~ .boton-desafio-barra, .boton-desafio-barra ~ .boton-tutorial { margin-left: 0; }
 .boton-desafio-barra {
   flex: none; margin-left: auto; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px;
-  font-size: 0.85rem; font-weight: 600; white-space: nowrap; color: #07142b; background: var(--acento);
+  font-size: 0.85rem; font-weight: 600; white-space: nowrap; color: var(--sobre-acento); background: var(--acento);
   border: 1px solid var(--acento); border-radius: 999px; transition: filter 0.15s, background 0.15s;
   &:hover { filter: brightness(1.08); }
   &:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }

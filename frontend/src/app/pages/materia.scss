@@ -10,8 +10,8 @@
 }
 .tarjeta-simulador-cabeza { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; h3 { margin: 0; } }
 .estado { font-size: 0.7rem; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
-.estado-listo { background: rgba(61, 214, 181, 0.15); color: var(--listo); }
-.estado-pendiente { background: rgba(255, 255, 255, 0.06); color: var(--texto-suave); }
+.estado-listo { background: rgba(var(--acento-rgb), 0.15); color: var(--listo); }
+.estado-pendiente { background: var(--sutil); color: var(--texto-suave); }
 .titulo-pilar {
   margin: 22px 0 12px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-materia);
   &:first-of-type { margin-top: 0; }

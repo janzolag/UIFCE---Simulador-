@@ -11,13 +11,17 @@
   </button>
   <a routerLink="/" class="marca">
     <span class="logo">UI</span>
-    <span class="marca-titulo">{{ titulo }}</span>
+    <span class="marca-titulo" [attr.aria-label]="titulo"><b>SimEc</b><span>UNAL</span></span>
   </a>
   @if (ubicacion(); as u) {
     <div class="ubicacion">
-      <span class="materia">{{ u.materia }}</span>
-      @if (u.sim) {
+      @if (u.materia) {
+        <span class="materia">{{ u.materia }}</span>
+      }
+      @if (u.materia && u.sim) {
         <span class="sep">›</span>
+      }
+      @if (u.sim) {
         <span class="sim">{{ u.sim }}</span>
       }
       @if (u.desafio) {
@@ -36,7 +40,10 @@
     <span class="interrogacion" aria-hidden="true">?</span>
     <span class="etiqueta">Tutorial</span>
   </button>
+  <app-boton-configuracion />
 </header>
+
+<app-panel-configuracion />
 
 <app-sidebar [abierta]="menu.abierto()" (cerrar)="menu.abierto.set(false)" />
 

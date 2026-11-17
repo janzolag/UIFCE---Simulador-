@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Apariencia } from '../core/apariencia';
+import { traducirAClaro } from '../core/tema';
 import { Figura } from '../core/tipos';
 import { rotularAreas } from './rotulos';
 
@@ -16,7 +18,7 @@ const CONFIG = {
   ],
   // Lista blanca: garantiza que, aunque Plotly agregue botones nuevos, solo quede la cámara.
   modeBarButtons: [['toImage']],
-  toImageButtonOptions: { format: 'png', filename: 'simulador_uifce', scale: 2 },
+  toImageButtonOptions: { format: 'png', filename: 'simec_unal', scale: 2 },
 };
 
 let plotlyPromise: Promise<any> | null = null;
@@ -152,11 +154,14 @@ export class PlotlyChart implements AfterViewInit, OnDestroy {
   private observador?: ResizeObserver;
   private cuadro = 0;
   private quitarGestos?: () => void;
+  private readonly apariencia = inject(Apariencia);
 
   constructor() {
     effect(() => {
       const f = this.fig();
       const alto = this.altoEfectivo();
+      // El tema forma parte del efecto: al cambiar de modo se redibujan todas las gráficas abiertas.
+      const claro = this.apariencia.claro();
       const el = this.cont().nativeElement;
       cargarPlotly().then((P) => {
         if (this.destruido) return;
@@ -170,7 +175,9 @@ export class PlotlyChart implements AfterViewInit, OnDestroy {
         // Móvil: sin arrastre (dragmode false); escritorio: arrastrar desplaza y la rueda hace zoom.
         layout.dragmode = esMovil() ? false : 'pan';
         limitarEjes(layout, f.data);
-        P.react(el, f.data, layout, CONFIG);
+        // Modo claro: los simuladores usan los colores oscuros de tema.ts; aquí se traducen (con su alfa).
+        if (claro) P.react(el, traducirAClaro(f.data), traducirAClaro(layout), CONFIG);
+        else P.react(el, f.data, layout, CONFIG);
       });
     });
   }

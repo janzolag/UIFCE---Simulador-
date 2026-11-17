@@ -25,6 +25,7 @@ import {
 import { ControlPanel } from '../shared/control-panel';
 import { PlotlyChart } from '../shared/plotly-chart';
 import { NoEncontrada } from './no-encontrada';
+import { Apariencia } from '../core/apariencia';
 
 /**
  * Modo Desafío: vista aparte del simulador. Carga la misma definición del modelo, muestra solo los
@@ -38,6 +39,8 @@ import { NoEncontrada } from './no-encontrada';
   styleUrl: './desafio.scss',
 })
 export class DesafioPage {
+  /** Colores de materia según el modo claro u oscuro. */
+  protected readonly ap = inject(Apariencia);
   private readonly ruta = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly ids = toSignal(

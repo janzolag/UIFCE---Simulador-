@@ -18,6 +18,62 @@
   --alto-barra: 56px;
   --ancho-menu: 320px;
   --fuente: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Tokens que antes eran colores escritos a mano: en oscuro conservan exactamente el valor de siempre. */
+  --sobre-acento: #07142b;
+  --sobre-acento-teoria: #07201a;
+  --barra-fondo: rgba(14, 17, 22, 0.88);
+  --velo: rgba(0, 0, 0, 0.55);
+  --velo-modal: rgba(5, 8, 12, 0.7);
+  --sutil: rgba(255, 255, 255, 0.06);
+  --pista: #2b3340;
+  --acento-suave: rgba(61, 214, 181, 0.14);
+  --dorado: #f5c451;
+  --sombra-flotante: 0 24px 80px rgba(0, 0, 0, 0.6);
+  --sombra-menu: 12px 0 40px rgba(0, 0, 0, 0.5);
+  --sombra-pulgar: 0 1px 4px rgba(0, 0, 0, 0.5);
+  --sombra-globo: 0 14px 40px rgba(0, 0, 0, 0.5);
+  /* Canales RGB para transparencias: rgba(var(--x-rgb), alfa) conserva el alfa original. */
+  --sutil-rgb: 255, 255, 255;
+  --acento-rgb: 61, 214, 181;
+  --info-rgb: 91, 155, 255;
+  --error-rgb: 255, 122, 133;
+  --dorado-rgb: 245, 196, 81;
+  color-scheme: dark;
+}
+
+/* Modo claro: se activa con data-tema="claro" en <html>. Sin atributo se ve el oscuro de siempre. */
+:root[data-tema='claro'] {
+  --fondo: #f4f6f9;
+  --fondo-lateral: #ffffff;
+  --panel: #ffffff;
+  --panel-hover: #eef2f6;
+  --borde: #dde2ea;
+  --texto: #141a23;
+  --texto-suave: #5a6577;
+  --acento: #0a7d66;
+  --acento-2: #c2384a;
+  --listo: #0a7d66;
+  --pendiente: #8a94a6;
+  --sobre-acento: #ffffff;
+  --sobre-acento-teoria: #ffffff;
+  --barra-fondo: rgba(255, 255, 255, 0.86);
+  --velo: rgba(20, 26, 35, 0.32);
+  --velo-modal: rgba(20, 26, 35, 0.32);
+  --sutil: rgba(20, 26, 35, 0.05);
+  --pista: #d5dbe4;
+  --acento-suave: rgba(10, 125, 102, 0.1);
+  --dorado: #8f6200;
+  --sombra-flotante: 0 18px 50px rgba(20, 26, 35, 0.16);
+  --sombra-menu: 12px 0 40px rgba(20, 26, 35, 0.12);
+  --sombra-pulgar: 0 1px 4px rgba(20, 26, 35, 0.3);
+  --sombra-globo: 0 14px 40px rgba(20, 26, 35, 0.18);
+  --sutil-rgb: 20, 26, 35;
+  --acento-rgb: 10, 125, 102;
+  --info-rgb: 37, 99, 217;
+  --error-rgb: 194, 56, 74;
+  --dorado-rgb: 143, 98, 0;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -36,7 +92,7 @@ h1 { font-size: 2rem; letter-spacing: -0.01em; }
 h2 { font-size: 1.35rem; }
 h3 { font-size: 1.05rem; }
 p { margin: 0 0 0.6em; }
-code { background: rgba(255, 255, 255, 0.07); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; }
+code { background: rgba(var(--sutil-rgb), 0.07); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; }
 
 .texto-suave { color: var(--texto-suave); }
 .pequeno { font-size: 0.85rem; }

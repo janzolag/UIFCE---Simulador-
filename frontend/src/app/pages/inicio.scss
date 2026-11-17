@@ -1,6 +1,10 @@
 .heroe { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: center; margin-bottom: 40px; }
 .sobretitulo { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--acento); margin-bottom: 10px; }
-.heroe h1 { font-size: 2.6rem; }
+.heroe h1.nombre-marca {
+  font-size: 3.2rem; line-height: 1; letter-spacing: -0.03em; margin: 0 0 6px; font-weight: 800;
+  span { font-weight: 500; color: var(--acento); letter-spacing: 0.04em; font-size: 0.62em; margin-left: 6px; vertical-align: 0.18em; }
+}
+.bajada { font-size: 1.15rem; font-weight: 600; margin: 0 0 12px; }
 .heroe-lead { font-size: 1.06rem; color: var(--texto-suave); max-width: 34em; }
 .heroe-grafica { padding: 12px 16px 4px; }
 .control-portada { margin: 4px 8px 10px; }
@@ -29,11 +33,17 @@ input[type='range'] {
 
 
 .pie-pagina { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 0.8rem; padding-top: 18px; border-top: 1px solid var(--borde); }
+.pie-derecha { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; }
+.enlace-acerca {
+  color: var(--acento); font-weight: 600;
+  &:hover { text-decoration: underline; }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
+}
 
 @media (max-width: 1100px) {
   .heroe { grid-template-columns: 1fr; }
   .rejilla-materias { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
-  .heroe h1 { font-size: 2rem; }
+  .heroe h1.nombre-marca { font-size: 2.5rem; }
   }

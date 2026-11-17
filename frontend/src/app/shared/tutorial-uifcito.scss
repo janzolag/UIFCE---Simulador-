@@ -45,7 +45,7 @@
 .globo {
   position: relative; flex: 1 1 auto; min-width: 0;
   background: #f4f6fa; color: #18202e; border-radius: 20px; padding: 16px 18px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--sombra-globo);
   animation: entrar 0.3s ease-out both;
   /* colita que apunta a UIFCITO */
   &::before {

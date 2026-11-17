@@ -17,7 +17,7 @@
 .chip {
   font-size: 0.78rem; font-weight: 650; padding: 4px 12px; border-radius: 999px;
   background: color-mix(in srgb, var(--acento) 18%, transparent); color: var(--acento);
-  &[data-dificultad='Intermedio'] { background: rgba(245, 196, 81, 0.16); color: #f5c451; }
+  &[data-dificultad='Intermedio'] { background: rgba(var(--dorado-rgb), 0.16); color: var(--dorado); }
   &[data-dificultad='Avanzado'] { background: color-mix(in srgb, var(--acento-2) 18%, transparent); color: var(--acento-2); }
 }
 .progreso { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
@@ -41,7 +41,7 @@
   }
   &:hover { border-color: var(--acento); color: var(--texto); }
   &.activa { color: var(--texto); border-color: var(--acento); background: var(--panel);
-    .num { background: var(--acento); color: #07142b; } }
+    .num { background: var(--acento); color: var(--sobre-acento); } }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
 }
 
@@ -57,7 +57,7 @@
 .acciones { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
 .boton-verificar {
   flex: 1; font: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; padding: 10px 16px; border-radius: 10px;
-  border: none; background: var(--acento); color: #07142b;
+  border: none; background: var(--acento); color: var(--sobre-acento);
   &:hover:not(:disabled) { filter: brightness(1.08); }
   &:disabled { opacity: 0.5; cursor: default; }
   &:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }
@@ -66,8 +66,8 @@
   border-radius: 12px; padding: 12px 14px; font-size: 0.92rem;
   p { margin: 6px 0 0; }
   .boton-secundario { margin-top: 10px; }
-  &.exito { background: rgba(61, 214, 181, 0.1); border: 1px solid rgba(61, 214, 181, 0.45); strong { color: var(--acento); } }
-  &.fallo { background: rgba(255, 122, 133, 0.08); border: 1px solid rgba(255, 122, 133, 0.4); strong { color: var(--acento-2); } }
+  &.exito { background: rgba(var(--acento-rgb), 0.1); border: 1px solid rgba(var(--acento-rgb), 0.45); strong { color: var(--acento); } }
+  &.fallo { background: rgba(var(--error-rgb), 0.08); border: 1px solid rgba(var(--error-rgb), 0.4); strong { color: var(--acento-2); } }
 }
 
 .panel-grafica { padding: 10px; min-width: 0; }
@@ -75,7 +75,7 @@
 .muestra {
   display: inline-block; width: 22px; height: 10px; border-radius: 3px;
   &.fantasma { border-top: 2px dotted rgba(160, 170, 190, 0.8); height: 0; }
-  &.zona { background: rgba(245, 196, 81, 0.3); border: 1px dashed #f5c451; margin-left: 10px; }
+  &.zona { background: rgba(var(--dorado-rgb), 0.3); border: 1px dashed var(--dorado); margin-left: 10px; }
 }
 .grafica-vacia { display: grid; place-items: center; color: var(--texto-suave); }
 

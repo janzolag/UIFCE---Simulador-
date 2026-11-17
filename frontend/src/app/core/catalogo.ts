@@ -6,10 +6,11 @@ import { CARGADORES_MICRO2 } from '../micro2/registro';
 import { CARGADORES_MICRO3 } from '../micro3/registro';
 import { Materia, SimuladorMeta } from './tipos';
 
-export const TITULO_APP = 'Simulador Económico';
-export const SUBTITULO_APP = 'Facultad de Ciencias Económicas';
+export const TITULO_APP = 'SimEc UNAL';
+export const SUBTITULO_APP = 'Simulador Económico · Facultad de Ciencias Económicas';
 export const CREADOR = 'Unidad Informática FCE · Universidad Nacional de Colombia';
-export const VERSION = '0.8.0 — Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 (beta)';
+export const VERSION_NUMERO = '0.8.0';
+export const VERSION = VERSION_NUMERO + ' — Fundamentos, Microeconomía 1, 2 y 3, Macroeconomía 1 y 2 (beta)';
 
 /** Un simulador está "listo" cuando tiene su módulo registrado en <materia>/registro.ts. */
 const listoEn =
@@ -37,6 +38,7 @@ export const FUNDAMENTOS: Materia = {
   nombre: 'Fundamentos de Economía',
   sigla: 'Fu',
   color: '#3DD6B5',
+  colorClaro: '#0A7D66',
   descripcion:
     'Mercados, elasticidades, excedentes e intervención del Estado: las herramientas básicas del análisis económico (Mankiw, cap. 2–10).',
   simuladores: [
@@ -109,6 +111,7 @@ export const MICRO1: Materia = {
   nombre: 'Microeconomía 1',
   sigla: 'Mi',
   color: '#FFA45B',
+  colorClaro: '#B35A0E',
   descripcion:
     'Problema del consumidor, problema del productor y el mercado competitivo: restricción presupuestal, preferencias, elección óptima, costos y competencia perfecta.',
   simuladores: [
@@ -174,6 +177,7 @@ export const MACRO1: Materia = {
   nombre: 'Macroeconomía 1',
   sigla: 'Ma',
   color: '#5B9BFF',
+  colorClaro: '#2557C7',
   descripcion:
     'El corto plazo y el principio de la demanda efectiva: del modelo Keynesiano al modelo Mundell-Fleming.',
   simuladores: [
@@ -211,6 +215,7 @@ export const MICRO2: Materia = {
   nombre: 'Microeconomía 2',
   sigla: 'Mi2',
   color: '#FF7A85',
+  colorClaro: '#C2384A',
   descripcion:
     'Equilibrio general y bienestar: dualidad del consumidor y del productor, incertidumbre, intercambio y producción en una economía 2×2, elección social y fallas de mercado (Varian; Monsalve, 2017; Sen).',
   simuladores: [
@@ -270,6 +275,7 @@ export const MICRO3: Materia = {
   nombre: 'Microeconomía 3',
   sigla: 'Mi3',
   color: '#F06FB0',
+  colorClaro: '#B8357A',
   descripcion:
     'Teoría de juegos y fallas de mercado: interacción estratégica, monopolio, oligopolio e información asimétrica (Lozano y Salamanca, 2024; Monsalve, 2025).',
   simuladores: [
@@ -305,6 +311,7 @@ export const MACRO2: Materia = {
   nombre: 'Macroeconomía 2',
   sigla: 'M2',
   color: '#B79CFF',
+  colorClaro: '#6D4BC4',
   descripcion:
     'Economía abierta, ciclo y crecimiento: IS–LM, Mundell–Fleming (sistema de cinco paneles y DD–AA de Krugman y Obstfeld), DA–OA, curva de Phillips y Solow.',
   simuladores: [

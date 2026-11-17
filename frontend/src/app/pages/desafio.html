@@ -1,7 +1,7 @@
 @if (materia(); as m) {
   @if (sim(); as s) {
     @if (reto(); as r) {
-      <div class="pagina-desafio" [style.--color-materia]="m.color">
+      <div class="pagina-desafio" [style.--color-materia]="ap.colorMateria(m)">
         <header class="cabecera">
           <div class="cabecera-titulos">
             <h1><span aria-hidden="true">🎯</span> Modo Desafío</h1>

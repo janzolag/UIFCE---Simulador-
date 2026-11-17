@@ -1,5 +1,5 @@
 @if (materia(); as m) {
-  <div class="pagina-materia" [style.--color-materia]="m.color">
+  <div class="pagina-materia" [style.--color-materia]="ap.colorMateria(m)">
     <div class="encabezado-materia">
       <div class="tarjeta-sigla grande">{{ m.sigla }}</div>
       <div>

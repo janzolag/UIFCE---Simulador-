@@ -1,5 +1,5 @@
 .velo {
-  position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, 0.55);
+  position: fixed; inset: 0; z-index: 40; background: var(--velo);
   opacity: 0; pointer-events: none; transition: opacity 0.22s;
   &.visible { opacity: 1; pointer-events: auto; }
 }
@@ -9,7 +9,7 @@
   width: min(var(--ancho-menu), 88vw);
   display: flex; flex-direction: column;
   background: var(--fondo-lateral); border-right: 1px solid var(--borde);
-  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--sombra-menu);
   transform: translateX(-102%); visibility: hidden;
   transition: transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.26s;
   &.abierto { transform: none; visibility: visible; transition-delay: 0s; }
@@ -41,12 +41,12 @@
 .icono {
   width: 34px; height: 34px; border-radius: 10px; flex: none; display: grid; place-items: center;
   font-weight: 700; font-size: 0.85rem;
-  background: color-mix(in srgb, var(--color-materia, #8b94a5) 22%, transparent);
+  background: color-mix(in srgb, var(--color-materia, var(--texto-suave)) 22%, transparent);
   color: var(--color-materia, var(--texto));
 }
 .icono-inicio { font-size: 1.05rem; }
 .texto { flex: 1; font-weight: 550; font-size: 0.95rem; }
-.contador { font-size: 0.72rem; color: var(--texto-suave); background: rgba(255, 255, 255, 0.06); padding: 2px 8px; border-radius: 20px; }
+.contador { font-size: 0.72rem; color: var(--texto-suave); background: var(--sutil); padding: 2px 8px; border-radius: 20px; }
 .flecha { color: var(--texto-suave); font-size: 1.2rem; transition: transform 0.18s; &.girada { transform: rotate(90deg); } }
 
 .submenu {
@@ -73,7 +73,15 @@
 .punto { width: 7px; height: 7px; border-radius: 50%; background: var(--listo); flex: none; }
 .sub.pendiente .punto { background: transparent; border: 1.5px solid var(--pendiente); }
 
-.menu-pie { flex: none; font-size: 0.75rem; padding: 14px 20px; border-top: 1px solid var(--borde); }
+.menu-pie {
+  flex: none; font-size: 0.75rem; padding: 14px 20px; border-top: 1px solid var(--borde);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;
+}
+.enlace-acerca {
+  color: var(--acento); font-weight: 600; font-size: 0.78rem; white-space: nowrap;
+  &:hover { text-decoration: underline; }
+  &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .menu, .velo, .submenu, .flecha { transition: none; animation: none; }

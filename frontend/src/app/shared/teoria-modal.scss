@@ -1,8 +1,8 @@
 dialog.teoria {
   padding: 0; border: 1px solid var(--borde); border-radius: 20px; background: var(--panel); color: var(--texto);
   width: min(640px, calc(100vw - 24px)); max-height: min(86vh, 760px); overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
-  &::backdrop { background: rgba(5, 8, 12, 0.7); backdrop-filter: blur(3px); }
+  box-shadow: var(--sombra-flotante);
+  &::backdrop { background: var(--velo-modal, rgba(5, 8, 12, 0.7)); backdrop-filter: blur(3px); }
   &[open] { display: flex; animation: aparecer 0.2s ease-out both; }
 }
 @keyframes aparecer { from { opacity: 0; transform: translateY(10px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -28,7 +28,7 @@ h3 { margin: 0 0 8px; font-size: 0.76rem; text-transform: uppercase; letter-spac
 ul { margin: 0; padding-left: 20px; li { margin-bottom: 6px; font-size: 0.93rem; line-height: 1.5; } }
 
 .formulas {
-  display: grid; gap: 2px; padding: 4px 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--borde);
+  display: grid; gap: 2px; padding: 4px 12px; border-radius: 12px; background: rgba(var(--sutil-rgb), 0.04); border: 1px solid var(--borde);
   overflow-x: auto;
 }
 
@@ -45,7 +45,7 @@ ul { margin: 0; padding-left: 20px; li { margin-bottom: 6px; font-size: 0.93rem;
 }
 
 .ejercicio {
-  padding: 12px 14px; border-radius: 14px; background: rgba(61, 214, 181, 0.08); border: 1px solid rgba(61, 214, 181, 0.3);
+  padding: 12px 14px; border-radius: 14px; background: rgba(var(--acento-rgb), 0.08); border: 1px solid rgba(var(--acento-rgb), 0.3);
   p { margin: 0 0 8px; font-size: 0.92rem; line-height: 1.5; &:last-child { margin-bottom: 0; } }
   .enunciado { color: var(--texto); font-weight: 600; }
   strong { color: var(--acento); }
@@ -57,9 +57,9 @@ ul { margin: 0; padding-left: 20px; li { margin-bottom: 6px; font-size: 0.93rem;
 }
 button.primario, button.secundario {
   font: inherit; font-size: 0.9rem; cursor: pointer; border-radius: 999px; padding: 9px 18px; border: 1px solid transparent;
-  &:focus-visible { outline: 3px solid rgba(61, 214, 181, 0.5); outline-offset: 2px; }
+  &:focus-visible { outline: 3px solid rgba(var(--acento-rgb), 0.5); outline-offset: 2px; }
 }
-.primario { background: var(--acento); color: #07201a; font-weight: 700; &:hover { filter: brightness(1.08); } }
+.primario { background: var(--acento); color: var(--sobre-acento-teoria); font-weight: 700; &:hover { filter: brightness(1.08); } }
 .secundario { background: transparent; color: var(--texto); border-color: var(--borde); &:hover { background: var(--panel-hover); } }
 
 /* Móvil: hoja que sube desde abajo */
