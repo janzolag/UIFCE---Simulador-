@@ -6,9 +6,9 @@ import { AZUL, DORADO, ROJO, VERDE, aviso, figura, figuraVacia, lectura, punto, 
 import { CES, CobbDouglasP, LeontiefP, LinealP, MaxBeneficio, SeparableP, Tecnologia } from '../modelos/produccion';
 
 const SIM_ID = 'produccion';
-const DEF = { tec: 'cd', A: 1, alpha: 0.5, beta: 0.25, rho: 0.5, x0: 4, y0: 4, p: 3, w1: 2, w2: 3, problema: 'maxq' as string, C0: 20, q0: 3 };
-/** `problema`, `C0` y `q0` son opcionales: sin ellos la gráfica es la original (pruebas de paridad). */
-type P = Omit<typeof DEF, 'problema' | 'C0' | 'q0'> & { problema?: string; C0?: number; q0?: number };
+const DEF = { tec: 'cd', A: 1, alpha: 0.5, beta: 0.25, rho: 0.5, x0: 4, y0: 4, p: 3, w1: 2, w2: 3, problema: 'maxq' as string, C0: 20, q0: 3, nu: 1 };
+/** `problema`, `C0`, `q0` y `nu` son opcionales: sin ellos la gráfica es la original (pruebas de paridad). */
+type P = Omit<typeof DEF, 'problema' | 'C0' | 'q0' | 'nu'> & { problema?: string; C0?: number; q0?: number; nu?: number };
 
 /** Máxima producción con el presupuesto C: recorre la recta de isocosto (malla + sección áurea). */
 export function maxProducto(t: Tecnologia, w1: number, w2: number, C: number): { x: number; y: number; q: number } {
@@ -106,12 +106,18 @@ function problemaProductor(fig: Figura, t: Tecnologia, problema: string, w1: num
 }
 const LIM = 10;
 
-export function crearTecnologia(tec: string, A: number, alpha: number, beta: number, rho: number): Tecnologia {
+/**
+ * Con `tec = 'ces'`, α y β son los pesos a y b de F = A·[a·x^ρ + b·y^ρ]^(ν/ρ) (Monsalve: a = b = ν = 1).
+ * En ρ = 0 la CES no está definida; se usa su límite de forma, Cobb-Douglas con exponentes ν·a/(a+b) y ν·b/(a+b).
+ */
+export function crearTecnologia(tec: string, A: number, alpha: number, beta: number, rho: number, nu = 1): Tecnologia {
   switch (tec) {
     case 'cd':
       return new CobbDouglasP(A, alpha, beta);
     case 'ces':
-      return Math.abs(rho) < 1e-9 ? new CobbDouglasP(A, alpha, beta) : new CES(A, rho, alpha / (alpha + beta), alpha + beta);
+      return Math.abs(rho) < 1e-9
+        ? new CobbDouglasP(A, (nu * alpha) / (alpha + beta), (nu * beta) / (alpha + beta))
+        : new CES(A, rho, alpha, beta, nu);
     case 'leontief':
       return new LeontiefP(alpha, beta);
     case 'lineal':
@@ -121,10 +127,10 @@ export function crearTecnologia(tec: string, A: number, alpha: number, beta: num
   }
 }
 
-export function calcular({ tec, A, alpha, beta, rho, x0, y0, p, w1, w2, problema, C0, q0 }: P): Simulacion {
+export function calcular({ tec, A, alpha, beta, rho, x0, y0, p, w1, w2, problema, C0, q0, nu }: P): Simulacion {
   let t: Tecnologia;
   try {
-    t = crearTecnologia(tec, A, alpha, beta, rho);
+    t = crearTecnologia(tec, A, alpha, beta, rho, nu === undefined ? 1 : Number(nu));
   } catch (e) {
     if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
     throw e;
@@ -231,9 +237,16 @@ export const SIM: SimuladorDef = {
       titulo: 'Parámetros',
       controles: [
         { id: 'A', etiqueta: 'Productividad total A', tipo: 'slider', min: 0.5, max: 3, paso: 0.1 },
-        { id: 'alpha', etiqueta: 'α (o a)', tipo: 'slider', min: 0.05, max: 1.5, paso: 0.05 },
-        { id: 'beta', etiqueta: 'β (o b)', tipo: 'slider', min: 0.05, max: 1.5, paso: 0.05 },
-        { id: 'rho', etiqueta: 'ρ (sólo CES; σ = 1/(1−ρ))', tipo: 'slider', min: -3, max: 0.95, paso: 0.05 },
+        { id: 'alpha', etiqueta: 'α (o a: peso de x en la CES)', tipo: 'slider', min: 0.05, max: 1.5, paso: 0.05 },
+        { id: 'beta', etiqueta: 'β (o b: peso de y en la CES)', tipo: 'slider', min: 0.05, max: 1.5, paso: 0.05 },
+      ],
+    },
+    {
+      titulo: 'Sustitución y escala (CES)',
+      visibleSi: (p) => p['tec'] === 'ces',
+      controles: [
+        { id: 'rho', etiqueta: 'ρ (σ = 1/(1−ρ))', tipo: 'slider', min: -3, max: 0.95, paso: 0.05 },
+        { id: 'nu', etiqueta: 'ν (grado de homogeneidad)', tipo: 'slider', min: 0.2, max: 2, paso: 0.05 },
       ],
     },
     {
@@ -270,4 +283,11 @@ export const SIM: SimuladorDef = {
     ],
   },
   calcular: (p: Params) => calcular(p as unknown as P),
+  /** Al elegir CES se carga la forma de Monsalve (a = b = ν = 1); al salir de ella vuelven α y β por defecto. */
+  alCambiar: (anterior: Params, nuevo: Params) => {
+    if (anterior['tec'] === nuevo['tec']) return null;
+    if (nuevo['tec'] === 'ces') return { ...nuevo, alpha: 1, beta: 1, nu: 1 };
+    if (anterior['tec'] === 'ces') return { ...nuevo, alpha: DEF.alpha, beta: DEF.beta };
+    return null;
+  },
 };

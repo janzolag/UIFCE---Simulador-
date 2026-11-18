@@ -19,7 +19,7 @@
   display: flex; align-items: center; justify-content: space-between;
   height: var(--alto-barra); padding: 0 16px 0 20px; border-bottom: 1px solid var(--borde); flex: none;
 }
-.menu-titulo { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); font-weight: 600; }
+.menu-titulo { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); font-weight: 600; }
 .cerrar {
   width: 36px; height: 36px; border-radius: 10px; background: transparent; color: var(--texto-suave);
   border: 1px solid transparent; font-size: 1rem; cursor: pointer;
@@ -46,7 +46,7 @@
 }
 .icono-inicio { font-size: 1.05rem; }
 .texto { flex: 1; font-weight: 550; font-size: 0.95rem; }
-.contador { font-size: 0.72rem; color: var(--texto-suave); background: var(--sutil); padding: 2px 8px; border-radius: 20px; }
+.contador { font-size: 0.8rem; color: var(--texto-suave); background: var(--sutil); padding: 2px 8px; border-radius: 20px; }
 .flecha { color: var(--texto-suave); font-size: 1.2rem; transition: transform 0.18s; &.girada { transform: rotate(90deg); } }
 
 .submenu {
@@ -63,7 +63,7 @@
 .pilar {
   display: flex; align-items: center; gap: 6px; width: 100%; margin-top: 6px; padding: 6px 8px; border-radius: 8px;
   background: transparent; border: 0; font: inherit; text-align: left; cursor: pointer;
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-materia);
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-materia);
   &:hover { background: var(--panel); }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
 }
@@ -74,11 +74,11 @@
 .sub.pendiente .punto { background: transparent; border: 1.5px solid var(--pendiente); }
 
 .menu-pie {
-  flex: none; font-size: 0.75rem; padding: 14px 20px; border-top: 1px solid var(--borde);
+  flex: none; font-size: 0.82rem; padding: 14px 20px; border-top: 1px solid var(--borde);
   display: flex; align-items: flex-end; justify-content: space-between; gap: 10px;
 }
 .enlace-acerca {
-  color: var(--acento); font-weight: 600; font-size: 0.78rem; white-space: nowrap;
+  color: var(--acento); font-weight: 600; font-size: 0.82rem; white-space: nowrap;
   &:hover { text-decoration: underline; }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
 }

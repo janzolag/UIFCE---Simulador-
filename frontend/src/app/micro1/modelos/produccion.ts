@@ -156,30 +156,37 @@ export class SeparableP extends Tecnologia {
   }
 }
 
-/** F = A·[δ·x^ρ + (1−δ)·y^ρ]^(ν/ρ), ρ < 1, ρ ≠ 0. σ = 1/(1 − ρ). */
+/**
+ * CES (Arrow, Chenery, Minhas y Solow, 1961): F = A·[a·x^ρ + b·y^ρ]^(ν/ρ), ρ < 1, ρ ≠ 0.
+ * Con A = a = b = ν = 1 es la forma de Monsalve (2017, semana 5): F = [x^ρ + y^ρ]^(1/ρ), con
+ * rendimientos constantes. σ = 1/(1 − ρ); ν es el grado de homogeneidad.
+ */
 export class CES extends Tecnologia {
   readonly nombre = 'CES';
-  constructor(public A = 1, public rho = 0.5, public delta = 0.5, public nu = 1) {
+  constructor(public A = 1, public rho = 0.5, public a = 1, public b = 1, public nu = 1) {
     super();
-    positivo('A', A); positivo('ν', nu);
-    if (!(delta > 0 && delta < 1)) throw new ErrorParametro('δ debe estar en (0, 1).');
-    if (rho >= 1 || rho === 0) throw new ErrorParametro('ρ debe ser < 1 y distinto de 0 (ρ→0 es Cobb-Douglas).');
+    positivo('A', A); positivo('a', a); positivo('b', b); positivo('ν', nu);
+    if (!Number.isFinite(rho) || rho >= 1 || rho === 0) throw new ErrorParametro('ρ debe ser < 1 y distinto de 0 (ρ→0 es Cobb-Douglas).');
+  }
+  /** a·x^ρ + b·y^ρ (con ρ < 0 un insumo nulo anula la producción). */
+  private suma(x: number, y: number): number {
+    return this.a * x ** this.rho + this.b * y ** this.rho;
   }
   F(x: number, y: number): number {
     if ((x <= 0 || y <= 0) && this.rho < 0) return 0;
     x = Math.max(x, 0);
     y = Math.max(y, 0);
-    const s = this.delta * x ** this.rho + (1 - this.delta) * y ** this.rho;
-    return this.A * s ** (this.nu / this.rho);
+    const s = this.suma(x, y);
+    return s > 0 ? this.A * s ** (this.nu / this.rho) : 0;
   }
   pmg(x: number, y: number): [number, number] {
     const q = this.F(x, y);
-    const s = this.delta * x ** this.rho + (1 - this.delta) * y ** this.rho;
+    const s = this.suma(x, y);
     const c = (this.nu * q) / s;
-    return [c * this.delta * x ** (this.rho - 1), c * (1 - this.delta) * y ** (this.rho - 1)];
+    return [c * this.a * x ** (this.rho - 1), c * this.b * y ** (this.rho - 1)];
   }
   isocuanta(q0: number, x: number): number {
-    const r = ((q0 / this.A) ** (this.rho / this.nu) - this.delta * x ** this.rho) / (1 - this.delta);
+    const r = ((q0 / this.A) ** (this.rho / this.nu) - this.a * x ** this.rho) / this.b;
     return r > 0 ? r ** (1 / this.rho) : Number.NaN;
   }
   get gradoHomogeneidad(): number {
@@ -187,6 +194,35 @@ export class CES extends Tecnologia {
   }
   elasticidadSustitucion(): number {
     return 1 / (1 - this.rho);
+  }
+  /**
+   * Costo unitario de G = [a·x^ρ + b·y^ρ]^(1/ρ): c₁(w) = [a^σ·w₁^(1−σ) + b^σ·w₂^(1−σ)]^(1/(1−σ)).
+   * El costo de producir q es C(q) = c₁(w)·(q/A)^(1/ν) (semana 6, ejercicio 11).
+   */
+  costoUnitario(w1: number, w2: number): number {
+    const s = this.elasticidadSustitucion();
+    return (this.a ** s * w1 ** (1 - s) + this.b ** s * w2 ** (1 - s)) ** (1 / (1 - s));
+  }
+  /** Demandas condicionadas de factores (Shephard): x = G·(a·c₁/w₁)^σ, y = G·(b·c₁/w₂)^σ, G = (q/A)^(1/ν). */
+  demandasCondicionadas(w1: number, w2: number, q: number): { x: number; y: number; C: number } {
+    positivo('w1', w1); positivo('w2', w2); positivo('q', q);
+    const s = this.elasticidadSustitucion();
+    const c1 = this.costoUnitario(w1, w2);
+    const G = (q / this.A) ** (1 / this.nu);
+    return { x: G * ((this.a * c1) / w1) ** s, y: G * ((this.b * c1) / w2) ** s, C: c1 * G };
+  }
+  /** Con ν < 1 (rendimientos decrecientes) p = CMg(z) da la oferta z* = (pν/K)^(ν/(1−ν)), K = c₁·A^(−1/ν). */
+  override maxBeneficio(p: number, w1: number, w2: number): MaxBeneficio {
+    positivo('p', p); positivo('w1', w1); positivo('w2', w2);
+    if (this.nu >= 1)
+      return {
+        existe: false,
+        motivo: 'Con rendimientos constantes o crecientes a escala (ν ≥ 1) el beneficio no tiene máximo interior (se hace cero o infinito).',
+      };
+    const K = this.costoUnitario(w1, w2) * this.A ** (-1 / this.nu);
+    const z = ((p * this.nu) / K) ** (this.nu / (1 - this.nu));
+    const { x, y, C } = this.demandasCondicionadas(w1, w2, z);
+    return { existe: true, x, y, z, beneficio: p * z - C };
   }
 }
 

@@ -9,7 +9,7 @@
   p { font-size: 0.87rem; margin: 0; }
 }
 .tarjeta-simulador-cabeza { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; h3 { margin: 0; } }
-.estado { font-size: 0.7rem; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.estado { font-size: 0.8rem; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
 .estado-listo { background: rgba(var(--acento-rgb), 0.15); color: var(--listo); }
 .estado-pendiente { background: var(--sutil); color: var(--texto-suave); }
 .titulo-pilar {

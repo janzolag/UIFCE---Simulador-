@@ -6,10 +6,23 @@
     @for (c of g.controles; track c.id) {
       <div class="control">
         @if (c.tipo === 'slider') {
-          <label class="control-etiqueta" [for]="'ctl-' + c.id">
-            <span>{{ c.etiqueta }}</span>
-            <output class="valor">{{ texto(c) }}</output>
-          </label>
+          <div class="control-etiqueta">
+            <label [for]="'ctl-' + c.id">{{ c.etiqueta }}</label>
+            <input
+              type="text"
+              inputmode="decimal"
+              class="valor-num"
+              autocomplete="off"
+              spellcheck="false"
+              [id]="'num-' + c.id"
+              [value]="textoNum(c)"
+              [attr.aria-label]="c.etiqueta + ' (escribir valor entre ' + c.min + ' y ' + c.max + ')'"
+              [attr.title]="'Escribe un valor entre ' + c.min + ' y ' + c.max"
+              (change)="alEscribir(c, $event)"
+              (keydown.enter)="alEscribir(c, $event)"
+              (keydown.escape)="restaurar(c, $event)"
+            />
+          </div>
           <input
             type="range"
             [id]="'ctl-' + c.id"

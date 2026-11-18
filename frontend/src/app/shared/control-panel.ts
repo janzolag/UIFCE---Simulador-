@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { Control, GrupoControles, Params } from '../core/tipos';
-import { fmt } from '../core/formato';
+import { acotar, parsearNumero, textoEntrada } from './entrada-numerica';
 
 /** Panel de parámetros: sliders y selectores en grupos (según la definición del simulador). */
 @Component({
@@ -19,8 +19,8 @@ export class ControlPanel {
     return this.params()[c.id];
   }
 
-  protected texto(c: Control): string {
-    return fmt(this.params()[c.id] as number, 3);
+  protected textoNum(c: Control): string {
+    return textoEntrada(this.params()[c.id]);
   }
 
   /** Posición del valor dentro del rango, para rellenar la pista del deslizador. */
@@ -34,6 +34,24 @@ export class ControlPanel {
   protected alSlider(c: Control, ev: Event): void {
     const v = Number((ev.target as HTMLInputElement).value);
     if (Number.isFinite(v)) this.cambio.emit({ id: c.id, valor: v });
+  }
+
+  /** Casilla numérica: acota al rango del deslizador; si no es un número, vuelve al valor actual. */
+  protected alEscribir(c: Control, ev: Event): void {
+    const el = ev.target as HTMLInputElement;
+    const leido = parsearNumero(el.value);
+    if (leido === null) {
+      el.value = this.textoNum(c);
+      return;
+    }
+    const v = acotar(leido, c.min, c.max);
+    // El valor puede no cambiar (p. ej. al acotar): se reescribe la casilla para que muestre el valor real.
+    el.value = textoEntrada(v);
+    if (v !== Number(this.params()[c.id])) this.cambio.emit({ id: c.id, valor: v });
+  }
+
+  protected restaurar(c: Control, ev: Event): void {
+    (ev.target as HTMLInputElement).value = this.textoNum(c);
   }
 
   protected alElegir(c: Control, valor: string): void {

@@ -1,12 +1,21 @@
 .control { margin-bottom: 22px; }
 .control-etiqueta {
   display: flex; justify-content: space-between; align-items: baseline;
-  font-size: 0.85rem; color: var(--texto-suave); margin-bottom: 8px;
+  gap: 10px; font-size: 0.95rem; color: var(--texto-suave); margin-bottom: 8px;
+  label { flex: 1; min-width: 0; }
 }
-.valor { color: var(--acento); font-variant-numeric: tabular-nums; font-weight: 600; }
+/* Casilla numérica: muestra el valor y deja escribirlo (acotado al rango del deslizador). */
+.valor-num {
+  flex: none; width: 5.6em; padding: 3px 8px; text-align: right;
+  font: inherit; font-size: 0.95rem; font-weight: 650; font-variant-numeric: tabular-nums;
+  color: var(--acento); background: rgba(var(--sutil-rgb), 0.04);
+  border: 1px solid var(--borde); border-radius: 8px;
+  &:hover { border-color: rgba(var(--acento-rgb), 0.6); }
+  &:focus { outline: none; border-color: var(--acento); box-shadow: 0 0 0 3px rgba(var(--acento-rgb), 0.25); color: var(--texto); }
+}
 
 .grupo-controles { border-top: 1px solid var(--borde); padding-top: 12px; margin-top: 4px; }
-.grupo-titulo { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; color: var(--acento); margin-bottom: 10px; }
+.grupo-titulo { font-size: 0.88rem; font-weight: 600; letter-spacing: 0.02em; color: var(--acento); margin-bottom: 10px; }
 
 /* Deslizador: pista rellena hasta el valor (--p, en %), pulgar grande y fácil de agarrar */
 input[type='range'] {
@@ -38,7 +47,7 @@ input[type='range'] {
 .opcion {
   font: inherit; cursor: pointer;
   border: 1px solid var(--borde); border-radius: 20px; padding: 5px 12px;
-  font-size: 0.82rem; color: var(--texto-suave); background: rgba(var(--sutil-rgb), 0.02);
+  font-size: 0.88rem; color: var(--texto-suave); background: rgba(var(--sutil-rgb), 0.02);
   &:hover { background: var(--panel-hover); color: var(--texto); }
   &.selected { border-color: var(--acento); color: var(--texto); background: var(--acento-suave); }
   &:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }

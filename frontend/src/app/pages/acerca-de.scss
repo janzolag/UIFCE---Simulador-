@@ -5,14 +5,14 @@
   width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; flex: none;
   font-size: 1.4rem; font-weight: 800; color: #07142b; background: linear-gradient(135deg, #5b9bff, #3dd6b5);
 }
-.sobretitulo { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--acento); margin-bottom: 6px; font-weight: 600; }
+.sobretitulo { font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--acento); margin-bottom: 6px; font-weight: 600; }
 .acerca-heroe h1 { font-size: 2.2rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 .proposito { margin: 0; }
 
 .chips, .tec { display: flex; gap: 8px; flex-wrap: wrap; }
 .chips { margin-top: 8px; }
 .chip {
-  font-size: 0.76rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--borde);
+  font-size: 0.82rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--borde);
   background: var(--sutil); color: var(--texto-suave);
   &.beta { color: var(--acento); border-color: rgba(var(--acento-rgb), 0.35); background: var(--acento-suave); font-weight: 600; }
 }
@@ -22,7 +22,7 @@
 
 .autor { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; }
 .avatar { width: 88px; height: 88px; object-fit: cover; border: 1px solid var(--borde); border-radius: 22px; display: block; }
-.rol-rotulo { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-suave); font-weight: 600; margin-bottom: 4px; }
+.rol-rotulo { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--texto-suave); font-weight: 600; margin-bottom: 4px; }
 .autor h2 { font-size: 1.35rem; margin: 0 0 2px; }
 .cargo { color: var(--texto-suave); font-size: 0.92rem; margin-bottom: 12px; }
 .origen { font-size: 0.9rem; }
@@ -41,7 +41,7 @@
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
-h3.seccion { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); margin: 0 0 12px; font-weight: 600; }
+h3.seccion { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); margin: 0 0 12px; font-weight: 600; }
 .datos {
   display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 16px; margin: 0; font-size: 0.9rem;
   dt { color: var(--texto-suave); }

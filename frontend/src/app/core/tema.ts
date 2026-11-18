@@ -5,10 +5,10 @@ export const COLORES = {
   fondo: '#171b22', // fondo del papel de Plotly = color de la tarjeta
   fondoLateral: '#0a0d12',
   panel: '#12161d', // área de trazado
-  borde: '#262c36',
-  rejilla: '#222834',
-  texto: '#eef1f6',
-  textoSuave: '#8b94a5',
+  borde: '#3a4250',
+  rejilla: '#262d39',
+  texto: '#f3f5f9',
+  textoSuave: '#b0b8c6',
   acento: '#F5C451', // resalta puntos de equilibrio en las gráficas
 };
 
@@ -27,15 +27,15 @@ export const COLORES_CLARO: typeof COLORES = {
   fondo: '#FFFFFF',
   fondoLateral: '#FFFFFF',
   panel: '#FBFCFE',
-  borde: '#C9D0DB',
-  rejilla: '#E9EDF2',
-  texto: '#141A23',
-  textoSuave: '#5A6577',
-  acento: '#B07A00',
+  borde: '#9AA4B3',
+  rejilla: '#E3E8EE',
+  texto: '#0F141C',
+  textoSuave: '#3F4A5B',
+  acento: '#8F6200',
 };
 
 /** Series en modo claro: mismo orden y significado que SERIE (la demanda sigue azul y la oferta naranja). */
-export const SERIE_CLARA = ['#2563D9', '#B07A00', '#0B8A70', '#D23A4B', '#7448D4', '#D0650F'];
+export const SERIE_CLARA = ['#1F56C4', '#8F6200', '#087560', '#BF2E41', '#6638C4', '#B04F06'];
 
 /** Diccionario «color oscuro → color claro», con las claves en minúsculas. */
 export const MAPA_CLARO: Readonly<Record<string, string>> = (() => {
@@ -94,6 +94,7 @@ const eje = () => ({
   zerolinecolor: COLORES.borde,
   linecolor: COLORES.borde,
   tickcolor: COLORES.borde,
+  tickfont: { size: 13, color: COLORES.textoSuave },
   showline: true,
   mirror: false,
 });
@@ -113,11 +114,11 @@ export function layoutBase(extra: any = {}): any {
   const base = {
     paper_bgcolor: COLORES.fondo,
     plot_bgcolor: COLORES.panel,
-    font: { family: 'Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif', color: COLORES.texto, size: 13 },
+    font: { family: 'Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif', color: COLORES.texto, size: 14 },
     colorway: SERIE,
     xaxis: eje(),
     yaxis: eje(),
-    legend: { bgcolor: 'rgba(0,0,0,0)', font: { color: COLORES.textoSuave } },
+    legend: { bgcolor: 'rgba(0,0,0,0)', font: { color: COLORES.texto, size: 13 } },
     hoverlabel: { bgcolor: COLORES.fondoLateral, bordercolor: COLORES.borde, font: { color: COLORES.texto } },
     margin: { l: 56, r: 24, t: 48, b: 48 },
   };

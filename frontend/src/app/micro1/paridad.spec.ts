@@ -48,10 +48,13 @@ const TOPE_ORIGINAL = 12 - 1e-9;
  *  - Slutsky con M = 0: el original dibujaba ejes de rango [0, 0]; ahora es un aviso de error.
  *  - Costo cúbico con CF = 0 y b = 0: el original daba CMe(0) = ∞ (punto de nivelación sin dibujar y
  *    eje y infinito); ahora CMe(0) = CVMe(0) = a.
+ *  - Producción CES: el original normalizaba los pesos (δ = α/(α+β), ν = α+β), que no es la CES de
+ *    Monsalve; ahora α y β son los pesos a y b de A·[a·x^ρ + b·y^ρ]^(ν/ρ) (ver produccion-ces.spec.ts).
  */
 const CORREGIDO = (simId: string, p: Record<string, number | string>): boolean =>
   (simId === 'slutsky' && Number(p['M']) === 0) ||
-  ((simId === 'costos' || simId === 'competencia-perfecta') && Number(p['CF']) === 0 && Number(p['b']) === 0);
+  ((simId === 'costos' || simId === 'competencia-perfecta') && Number(p['CF']) === 0 && Number(p['b']) === 0) ||
+  (simId === 'produccion' && p['tec'] === 'ces');
 
 const vigentes = Object.entries(fixtures as unknown as Record<string, Caso[]>).filter(([id]) => id in CARGADORES_MICRO1);
 

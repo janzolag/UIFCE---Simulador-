@@ -3,7 +3,7 @@
  * Monsalve (2017), semana 6 y semana 7.
  */
 import { ErrorParametro, noNegativo, positivo } from '../../core/errores';
-import { CobbDouglasP, LeontiefP, LinealP, SeparableP, Tecnologia } from './produccion';
+import { CES, CobbDouglasP, LeontiefP, LinealP, SeparableP, Tecnologia } from './produccion';
 
 // ================================================================ LARGO PLAZO
 export interface Condicionadas {
@@ -25,6 +25,9 @@ export function demandasCondicionadas(tec: Tecnologia, w1: number, w2: number, z
     const zz = z / A; // ej. 11: z → z/A
     x = ((a * w2) / (b * w1)) ** (b / s) * zz ** (1 / s);
     y = ((b * w1) / (a * w2)) ** (a / s) * zz ** (1 / s);
+    tipo = 'interior';
+  } else if (tec instanceof CES) {
+    if (z === 0) { x = 0; y = 0; } else ({ x, y } = tec.demandasCondicionadas(w1, w2, z));
     tipo = 'interior';
   } else if (tec instanceof SeparableP) {
     x = ((w2 * z) / (w1 + w2)) ** 2;

@@ -36,8 +36,19 @@ describe('Modo claro de las gráficas (MAPA_CLARO)', () => {
     }
   });
 
-  it('las series claras se distinguen del área de trazado (al menos 3:1)', () => {
-    for (const c of SERIE_CLARA) expect(contraste(c, COLORES_CLARO.panel), c).toBeGreaterThanOrEqual(3);
+  it('las series claras se leen como texto sobre el área de trazado (al menos 4.5:1)', () => {
+    for (const c of SERIE_CLARA) expect(contraste(c, COLORES_CLARO.panel), c).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('modo oscuro: textos de las gráficas con al menos 7:1 (texto) y 7:1 (texto suave) sobre el papel', () => {
+    for (const fondo of [COLORES.fondo, COLORES.panel]) {
+      expect(contraste(COLORES.texto, fondo)).toBeGreaterThanOrEqual(7);
+      expect(contraste(COLORES.textoSuave, fondo)).toBeGreaterThanOrEqual(7);
+    }
+  });
+
+  it('modo claro: el texto suave de las gráficas llega a 7:1', () => {
+    for (const fondo of [COLORES_CLARO.fondo, COLORES_CLARO.panel]) expect(contraste(COLORES_CLARO.textoSuave, fondo)).toBeGreaterThanOrEqual(7);
   });
 
   it('el color claro de cada materia se lee como texto sobre blanco (al menos 4.5:1)', () => {
@@ -45,11 +56,11 @@ describe('Modo claro de las gráficas (MAPA_CLARO)', () => {
   });
 
   it('traduce hexadecimales sin importar mayúsculas y conserva la transparencia de rgba', () => {
-    expect(traducirColor('#5B9BFF')).toBe('#2563D9');
-    expect(traducirColor('#5b9bff')).toBe('#2563D9');
-    expect(traducirColor('rgba(91,155,255,0.28)')).toBe('rgba(37,99,217,0.28)');
+    expect(traducirColor('#5B9BFF')).toBe('#1F56C4');
+    expect(traducirColor('#5b9bff')).toBe('#1F56C4');
+    expect(traducirColor('rgba(91,155,255,0.28)')).toBe('rgba(31,86,196,0.28)');
     expect(traducirColor('rgba(18, 22, 29, 0.72)')).toBe('rgba(251,252,254,0.72)');
-    expect(traducirColor('rgb(255, 122, 133)')).toBe('rgb(210,58,75)');
+    expect(traducirColor('rgb(255, 122, 133)')).toBe('rgb(191,46,65)');
   });
 
   it('deja igual lo que no es un color del mapa', () => {
@@ -64,11 +75,11 @@ describe('Modo claro de las gráficas (MAPA_CLARO)', () => {
     const layout = { paper_bgcolor: COLORES.fondo, font: { color: COLORES.texto }, colorway: SERIE };
     const d = traducirAClaro(data);
     const l = traducirAClaro(layout);
-    expect(d[0].line.color).toBe('#2563D9');
-    expect(d[0].fillcolor).toBe('rgba(208,101,15,0.28)');
+    expect(d[0].line.color).toBe('#1F56C4');
+    expect(d[0].fillcolor).toBe('rgba(176,79,6,0.28)');
     expect(d[0].y).toBe(data[0].y); // arreglos tipados intactos
     expect(l.paper_bgcolor).toBe('#FFFFFF');
-    expect(l.font.color).toBe('#141A23');
+    expect(l.font.color).toBe('#0F141C');
     expect(l.colorway).toEqual(SERIE_CLARA);
     expect(data[0].line.color).toBe('#5B9BFF');
     expect(layout.paper_bgcolor).toBe(COLORES.fondo);

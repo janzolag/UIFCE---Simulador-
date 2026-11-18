@@ -10,7 +10,7 @@
 
 .config-cabeza {
   display: flex; align-items: center; justify-content: space-between; padding: 10px 12px 6px;
-  h2 { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); font-weight: 600; }
+  h2 { margin: 0; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); font-weight: 600; }
 }
 .cerrar {
   width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center; padding: 0;
@@ -40,7 +40,7 @@
     }
   }
 }
-.config-nota { font-size: 0.78rem; color: var(--texto-suave); margin: 8px 2px 0; }
+.config-nota { font-size: 0.82rem; color: var(--texto-suave); margin: 8px 2px 0; }
 
 .config-fila {
   display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; border-radius: 12px;
@@ -52,13 +52,13 @@
     background: var(--acento-suave); color: var(--acento);
     svg { width: 18px; height: 18px; }
   }
-  .txt { flex: 1; min-width: 0; b { display: block; font-weight: 600; font-size: 0.92rem; } span { font-size: 0.78rem; color: var(--texto-suave); } }
+  .txt { flex: 1; min-width: 0; b { display: block; font-weight: 600; font-size: 0.92rem; } span { font-size: 0.82rem; color: var(--texto-suave); } }
   .flecha { color: var(--texto-suave); font-size: 1.2rem; }
 }
 
 .config-pie {
   display: flex; justify-content: space-between; gap: 8px; padding: 8px 12px 10px;
-  font-size: 0.74rem; color: var(--texto-suave); border-top: 1px solid var(--borde);
+  font-size: 0.82rem; color: var(--texto-suave); border-top: 1px solid var(--borde);
 }
 
 /* Móvil: el panel sube desde abajo como hoja, igual que el modal de Teoría. */

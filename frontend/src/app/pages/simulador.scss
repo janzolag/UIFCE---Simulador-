@@ -25,7 +25,7 @@
 }
 .panel-controles {
   max-height: 640px; overflow-y: auto; position: sticky; top: calc(var(--alto-barra) + 12px);
-  h3 { margin: 0 0 14px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); }
+  h3 { margin: 0 0 14px; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--texto-suave); }
   scrollbar-width: thin;
 }
 .panel-grafica { padding: 10px; min-width: 0; }

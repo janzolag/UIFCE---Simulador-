@@ -366,9 +366,9 @@ const PROD_FAM: Record<string, { nombre: string; nota: string; formulas: string[
   },
   ces: {
     nombre: 'CES',
-    nota: 'σ = 1/(1−ρ): con ρ → 0 se acerca a Cobb-Douglas, con ρ → 1 a sustitutos perfectos y con ρ → −∞ a Leontief.',
-    formulas: ['F(x,y)=A\\left[\\delta x^{\\rho}+(1-\\delta)y^{\\rho}\\right]^{\\nu/\\rho}', '\\sigma=\\dfrac{1}{1-\\rho}'],
-    prueba: () => `Baja ρ a −1: la elasticidad de sustitución σ pasa de ${f(1 / (1 - 0.5))} a ${f(1 / (1 + 1))} y las isocuantas se curvan más.`,
+    nota: 'Forma de Monsalve: F = [x^ρ + y^ρ]^(1/ρ) con rendimientos constantes (a = b = ν = 1). σ = 1/(1−ρ): con ρ → 0 la elasticidad es la de Cobb-Douglas, con ρ → 1 la de sustitutos perfectos y con ρ → −∞ la de Leontief. ν < 1 da rendimientos decrecientes y un máximo de beneficio.',
+    formulas: ['F(x,y)=A\\left[a\\,x^{\\rho}+b\\,y^{\\rho}\\right]^{\\nu/\\rho}', '\\sigma=\\dfrac{1}{1-\\rho}\\qquad TMST=\\dfrac{a}{b}\\left(\\dfrac{y}{x}\\right)^{1-\\rho}'],
+    prueba: () => `Baja ρ a −1: la elasticidad de sustitución σ pasa de ${f(1 / (1 - 0.5))} a ${f(1 / (1 + 1))} y las isocuantas se curvan más. Baja ν a 0.8 y aparece el óptimo de beneficio.`,
   },
   leontief: {
     nombre: 'Leontief',
@@ -434,11 +434,14 @@ function produccion(p: Params): Teoria {
   if ((p['problema'] === 'maxq' || p['problema'] === 'minc') && (p['tec'] ?? 'cd') === 'cd') return produccionProblema(String(p['problema']));
   const tec = String(p['tec']);
   const c = PROD_FAM[tec] ?? PROD_FAM['cd'];
-  const parametros: Params = { tec, A: 1, alpha: 0.5, beta: 0.25, rho: 0.5, x0: 4, y0: 4, p: 3, w1: 2, w2: 3 };
-  const t = crearTecnologia(tec, 1, 0.5, 0.25, 0.5);
+  const ces = tec === 'ces';
+  // La CES se ilustra con la forma de Monsalve, F = [x^ρ + y^ρ]^(1/ρ) (semana 6, ejercicio 4 con ρ = ½).
+  const [al, be] = ces ? [1, 1] : [0.5, 0.25];
+  const parametros: Params = { tec, A: 1, alpha: al, beta: be, rho: 0.5, nu: 1, x0: 4, y0: 4, p: 3, w1: 2, w2: 3 };
+  const t = crearTecnologia(tec, 1, al, be, 0.5, 1);
   const rend = t.rendimientos(1.3, 2.1);
   const tmst = t.tmst(4, 4);
-  const usa = tec === 'leontief' || tec === 'lineal' ? 'a = 0.5, b = 0.25' : tec === 'separable' ? 'sin parámetros propios' : tec === 'ces' ? 'α = 0.5, β = 0.25, ρ = 0.5' : 'A = 1, α = 0.5, β = 0.25';
+  const usa = tec === 'leontief' || tec === 'lineal' ? 'a = 0.5, b = 0.25' : tec === 'separable' ? 'sin parámetros propios' : ces ? 'F = (√x + √y)² (a = b = ν = 1, ρ = ½)' : 'A = 1, α = 0.5, β = 0.25';
   return {
     titulo: `Tecnología · ${c.nombre}`,
     conceptos: ['Las isocuantas reúnen las combinaciones de insumos que producen lo mismo; su pendiente es −TMST.', c.nota],

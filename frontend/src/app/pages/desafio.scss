@@ -15,7 +15,7 @@
 .contador { font-size: 0.85rem; font-weight: 650; }
 .cabecera-datos { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .chip {
-  font-size: 0.78rem; font-weight: 650; padding: 4px 12px; border-radius: 999px;
+  font-size: 0.82rem; font-weight: 650; padding: 4px 12px; border-radius: 999px;
   background: color-mix(in srgb, var(--acento) 18%, transparent); color: var(--acento);
   &[data-dificultad='Intermedio'] { background: rgba(var(--dorado-rgb), 0.16); color: var(--dorado); }
   &[data-dificultad='Avanzado'] { background: color-mix(in srgb, var(--acento-2) 18%, transparent); color: var(--acento-2); }
@@ -36,7 +36,7 @@
   display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 0.86rem; cursor: pointer;
   color: var(--texto-suave); background: transparent; border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px 6px 6px;
   .num {
-    width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.78rem; font-weight: 700;
+    width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.82rem; font-weight: 700;
     background: var(--borde); color: var(--texto);
   }
   &:hover { border-color: var(--acento); color: var(--texto); }

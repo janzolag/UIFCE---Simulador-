@@ -1,20 +1,35 @@
-import { Params, Simulacion, SimuladorDef } from '../../core/tipos';
+import { Bloque, Params, Simulacion, SimuladorDef } from '../../core/tipos';
 import { ErrorParametro } from '../../core/errores';
 import { fmt } from '../../core/formato';
 import { linspace } from '../../core/numerico';
 import {
-  AZUL, DORADO, MORADO, ROJO, VERDE, aviso, figura, figuraVacia, lectura, punto, referencia, resultados, tabla, texto,
+  AZUL, COLORES, DORADO, MORADO, ROJO, VERDE, aviso, figura, figuraVacia, lectura, punto, referencia, resultados, tabla, texto,
 } from '../../core/tema';
 import { CostoCubico, constanteBCd, costoCpCobbDouglas, costoLp, curvasLp, demandasCondicionadas } from '../modelos/costos';
 import { CobbDouglasP } from '../modelos/produccion';
 
 const SIM_ID = 'costos';
-const DEF = { modo: 'corto', CF: 20, a: 10, b: 2, c: 0.5, alpha: 0.3, beta: 0.4, w1: 2, w2: 3 };
-type P = typeof DEF;
+const DEF = { modo: 'corto', CF: 20, a: 10, b: 2, c: 0.5, alpha: 0.3, beta: 0.4, w1: 2, w2: 3, q: 4 };
+/** `q` es opcional: sin ella la gráfica es la original (pruebas de paridad). */
+type P = Omit<typeof DEF, 'q'> & { q?: number };
 
-function corto(CF: number, a: number, b: number, c: number): Simulacion {
+/** Nivel de producción elegido por el usuario (slider o casilla numérica); null si no aplica. */
+const nivel = (q: unknown): number | null => {
+  const v = Number(q);
+  return q === undefined || q === null || q === '' || !Number.isFinite(v) || v <= 0 ? null : v;
+};
+
+/** Línea vertical punteada en q (forma del layout, no traza). */
+function marcarQ(fig: Simulacion['fig'], q: number): void {
+  fig.layout.shapes = [
+    ...(fig.layout.shapes ?? []),
+    { type: 'line', xref: 'x', yref: 'paper', x0: q, x1: q, y0: 0, y1: 1, line: { color: DORADO, width: 1.5, dash: 'dot' } },
+  ];
+}
+
+function corto(CF: number, a: number, b: number, c: number, qSel: number | null): Simulacion {
   const k = new CostoCubico(CF, a, b, c);
-  const qmax = Math.max(3 * k.q_min_cme(), 3 * k.q_min_cvme(), 5);
+  const qmax = Math.max(3 * k.q_min_cme(), 3 * k.q_min_cvme(), 5, qSel ? qSel * 1.15 : 0);
   const q = linspace(qmax / 300, qmax, 300);
   const fig = figura('Cantidad q', 'Pesos por unidad', SIM_ID + '-corto');
   const curvas: [string, (v: number) => number, string, string][] = [
@@ -30,8 +45,26 @@ function corto(CF: number, a: number, b: number, c: number): Simulacion {
   fig.layout.yaxis.range = [0, k.CMe(k.q_min_cme()) * 2.2];
   punto(fig, k.q_min_cvme(), k.precio_cierre(), 'Punto de cierre (mín CVMe)', VERDE, undefined, 'cierre');
   punto(fig, k.q_min_cme(), k.precio_nivelacion(), 'Punto de nivelación (mín CMe)', undefined, undefined, 'nivelación');
+  const enQ: Bloque[] = [];
+  if (qSel !== null) {
+    const ys = [k.CMg(qSel), k.CMe(qSel), k.CVMe(qSel)];
+    marcarQ(fig, qSel);
+    fig.data.push({
+      type: 'scatter', x: [qSel, qSel, qSel], y: ys, mode: 'markers', name: `En q = ${fmt(qSel)}`,
+      marker: { size: 11, color: DORADO, symbol: 'diamond', line: { width: 1.5, color: COLORES.fondo } },
+      text: ['CMg', 'CMe', 'CVMe'], hovertemplate: '%{text}(q = %{x:.3f}) = %{y:.3f}<extra></extra>',
+    });
+    const tope = Math.max(...ys.filter(Number.isFinite)) * 1.12;
+    if (tope > fig.layout.yaxis.range[1]) fig.layout.yaxis.range = [0, tope];
+    enQ.push(lectura(`Costos en q = ${fmt(qSel)}`, tabla([
+      ['Costo total CT(q)', k.CT(qSel)], ['Costo fijo CF', k.CF], ['Costo variable CV(q)', k.CV(qSel)],
+      ['Costo marginal CMg(q)', k.CMg(qSel)], ['Costo medio CMe(q)', k.CMe(qSel)],
+      ['Costo variable medio CVMe(q)', k.CVMe(qSel)], ['Costo fijo medio CFMe(q)', k.CF / qSel],
+    ])));
+  }
   const panel = [
     resultados([
+      ...enQ,
       lectura('Puntos clave', tabla([
         ['Mínimo del CMg en q', k.q_min_cmg()],
         ['Mínimo del CVMe en q', k.q_min_cvme()], ['Precio de cierre', k.precio_cierre()],
@@ -51,9 +84,10 @@ function corto(CF: number, a: number, b: number, c: number): Simulacion {
   return { fig, panel };
 }
 
-function largo(alpha: number, beta: number, w1: number, w2: number): Simulacion {
+function largo(alpha: number, beta: number, w1: number, w2: number, qSel: number | null): Simulacion {
   const tec = new CobbDouglasP(1, alpha, beta);
-  const z = linspace(0.05, 10, 300);
+  const zTope = Math.max(10, qSel ? qSel * 1.15 : 0);
+  const z = linspace(0.05, zTope, 300);
   const cme = z.map((v) => costoLp(tec, w1, w2, v) / v);
   const cmg = z.map((v) => curvasLp(tec, w1, w2, v).CMg);
   const fig = figura('Producción z', 'Pesos por unidad', SIM_ID + '-largo');
@@ -70,6 +104,18 @@ function largo(alpha: number, beta: number, w1: number, w2: number): Simulacion 
     punto(fig, zk, costoLp(tec, w1, w2, zk) / zk, `Tangencia z = ${zk}`, DORADO, undefined, undefined, { showlegend: false });
   });
   fig.layout.yaxis.range = [0, (2.5 * costoLp(tec, w1, w2, 5)) / 5];
+  const zRef = qSel ?? 5;
+  const enZ = curvasLp(tec, w1, w2, zRef);
+  if (qSel !== null) {
+    marcarQ(fig, qSel);
+    fig.data.push({
+      type: 'scatter', x: [qSel, qSel], y: [enZ.CMe, enZ.CMg], mode: 'markers', name: `En z = ${fmt(qSel)}`,
+      marker: { size: 11, color: VERDE, symbol: 'diamond', line: { width: 1.5, color: COLORES.fondo } },
+      text: ['CMe', 'CMg'], hovertemplate: '%{text}(z = %{x:.3f}) = %{y:.3f}<extra></extra>',
+    });
+    const tope = Math.max(enZ.CMe, enZ.CMg) * 1.12;
+    if (Number.isFinite(tope) && tope > fig.layout.yaxis.range[1]) fig.layout.yaxis.range = [0, tope];
+  }
   const s = alpha + beta;
   const tipo = s < 1 ? 'decrecientes' : Math.abs(s - 1) < 1e-9 ? 'constantes' : 'crecientes';
   const forma = {
@@ -82,7 +128,8 @@ function largo(alpha: number, beta: number, w1: number, w2: number): Simulacion 
     resultados([
       lectura('Función de costo', tabla([
         ['α + β', s], ['Rendimientos a escala', tipo], ['B en C(z) = B·z^{1/(α+β)}', B],
-        ['Costo de producir z = 5', costoLp(tec, w1, w2, 5)],
+        [`Costo de producir z = ${fmt(zRef)}`, enZ.CT],
+        ...(qSel !== null ? [['CMe de largo plazo en z', enZ.CMe], ['CMg de largo plazo en z', enZ.CMg]] : []),
       ])),
       lectura(
         'Lectura económica',
@@ -98,9 +145,10 @@ function largo(alpha: number, beta: number, w1: number, w2: number): Simulacion 
   return { fig, panel };
 }
 
-export function calcular({ modo, CF, a, b, c, alpha, beta, w1, w2 }: P): Simulacion {
+export function calcular({ modo, CF, a, b, c, alpha, beta, w1, w2, q }: P): Simulacion {
+  const qSel = nivel(q);
   try {
-    return modo === 'corto' ? corto(CF, a, b, c) : largo(alpha, beta, w1, w2);
+    return modo === 'corto' ? corto(CF, a, b, c, qSel) : largo(alpha, beta, w1, w2, qSel);
   } catch (e) {
     if (e instanceof ErrorParametro) return { fig: figuraVacia(e.message), panel: [aviso(e.message, 'error')] };
     throw e;
@@ -111,6 +159,12 @@ export const SIM: SimuladorDef = {
   defecto: { ...DEF },
   alto: 540,
   grupos: [
+    {
+      titulo: 'Nivel de producción',
+      controles: [
+        { id: 'q', etiqueta: 'Cantidad q (z en largo plazo)', tipo: 'slider', min: 0.1, max: 30, paso: 0.1 },
+      ],
+    },
     {
       titulo: 'C(q) = CF + aq − bq² + cq³',
       visibleSi: (p) => p['modo'] !== 'largo',

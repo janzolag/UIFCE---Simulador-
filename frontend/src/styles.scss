@@ -7,13 +7,13 @@
   --fondo-lateral: #0a0d12;
   --panel: #171b22;
   --panel-hover: #1e232c;
-  --borde: #262c36;
-  --texto: #eef1f6;
-  --texto-suave: #8b94a5;
+  --borde: #313946;
+  --texto: #f3f5f9;
+  --texto-suave: #aab3c2;
   --acento: #3dd6b5;
   --acento-2: #ff7a85;
   --listo: #3dd6b5;
-  --pendiente: #6c7686;
+  --pendiente: #8a94a5;
   --radio: 16px;
   --alto-barra: 56px;
   --ancho-menu: 320px;
@@ -26,7 +26,7 @@
   --velo: rgba(0, 0, 0, 0.55);
   --velo-modal: rgba(5, 8, 12, 0.7);
   --sutil: rgba(255, 255, 255, 0.06);
-  --pista: #2b3340;
+  --pista: #3a4454;
   --acento-suave: rgba(61, 214, 181, 0.14);
   --dorado: #f5c451;
   --sombra-flotante: 0 24px 80px rgba(0, 0, 0, 0.6);
@@ -48,31 +48,31 @@
   --fondo-lateral: #ffffff;
   --panel: #ffffff;
   --panel-hover: #eef2f6;
-  --borde: #dde2ea;
-  --texto: #141a23;
-  --texto-suave: #5a6577;
-  --acento: #0a7d66;
+  --borde: #c6cdd8;
+  --texto: #0f141c;
+  --texto-suave: #434e5f;
+  --acento: #076a56;
   --acento-2: #c2384a;
   --listo: #0a7d66;
-  --pendiente: #8a94a6;
+  --pendiente: #687286;
   --sobre-acento: #ffffff;
   --sobre-acento-teoria: #ffffff;
   --barra-fondo: rgba(255, 255, 255, 0.86);
   --velo: rgba(20, 26, 35, 0.32);
   --velo-modal: rgba(20, 26, 35, 0.32);
   --sutil: rgba(20, 26, 35, 0.05);
-  --pista: #d5dbe4;
+  --pista: #c3cbd6;
   --acento-suave: rgba(10, 125, 102, 0.1);
-  --dorado: #8f6200;
+  --dorado: #7d5600;
   --sombra-flotante: 0 18px 50px rgba(20, 26, 35, 0.16);
   --sombra-menu: 12px 0 40px rgba(20, 26, 35, 0.12);
   --sombra-pulgar: 0 1px 4px rgba(20, 26, 35, 0.3);
   --sombra-globo: 0 14px 40px rgba(20, 26, 35, 0.18);
   --sutil-rgb: 20, 26, 35;
-  --acento-rgb: 10, 125, 102;
+  --acento-rgb: 7, 106, 86;
   --info-rgb: 37, 99, 217;
   --error-rgb: 194, 56, 74;
-  --dorado-rgb: 143, 98, 0;
+  --dorado-rgb: 125, 86, 0;
   color-scheme: light;
 }
 
@@ -82,8 +82,8 @@ body {
   background: var(--fondo);
   color: var(--texto);
   font-family: var(--fuente);
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
@@ -95,7 +95,7 @@ p { margin: 0 0 0.6em; }
 code { background: rgba(var(--sutil-rgb), 0.07); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; }
 
 .texto-suave { color: var(--texto-suave); }
-.pequeno { font-size: 0.85rem; }
+.pequeno { font-size: 0.9rem; }
 .destacado { color: var(--texto); font-weight: 550; }
 
 .panel { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 18px; }
